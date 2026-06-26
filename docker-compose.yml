@@ -1,21 +1,21 @@
 services:
   mysql:
     image: mysql:8.4
-    container_name: hackathon-mysql
+    container_name: congraduation-mysql
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: hackathon
-      MYSQL_USER: hackathon_user
-      MYSQL_PASSWORD: hackathon_password
+      MYSQL_DATABASE: congraduation
+      MYSQL_USER: congraduation_user
+      MYSQL_PASSWORD: congraduation_password
       MYSQL_ROOT_PASSWORD: root_password
       TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - hackathon-mysql-data:/var/lib/mysql
+      - congraduation-mysql-data:/var/lib/mysql
     restart: unless-stopped
 
 volumes:
-  hackathon-mysql-data:
+  congraduation-mysql-data:

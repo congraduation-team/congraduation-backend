@@ -14,6 +14,12 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponse("TRANSCRIPT_NOT_FOUND", e.getMessage()));
     }
 
+    @ExceptionHandler(DepartmentPolicyNotConfiguredException.class)
+    public ResponseEntity<ApiErrorResponse> handleDepartmentPolicyNotConfigured(DepartmentPolicyNotConfiguredException e) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new ApiErrorResponse("DEPARTMENT_POLICY_NOT_CONFIGURED", e.getMessage()));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
         return ResponseEntity.badRequest()

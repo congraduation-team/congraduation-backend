@@ -1,14 +1,20 @@
 package com.example.hackathon.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -45,6 +51,9 @@ public class Student {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<StudentMajorTrack> majorTracks = new ArrayList<>();
 
     protected Student() {
     }
@@ -108,9 +117,21 @@ public class Student {
         this.status = status;
     }
 
-    public void updateMajorTrack(MajorType majorType, String secondaryMajor) {
+    public void updateMajorTrackSummary(MajorType majorType, String secondaryMajor) {
         this.majorType = majorType;
         this.secondaryMajor = secondaryMajor;
+    }
+
+    public void replaceMajorTracks(List<StudentMajorTrack> tracks) {
+        this.majorTracks.clear();
+        for (StudentMajorTrack track : tracks) {
+            addMajorTrack(track);
+        }
+    }
+
+    public void addMajorTrack(StudentMajorTrack track) {
+        track.assignStudent(this);
+        this.majorTracks.add(track);
     }
 
     public Long getId() {
@@ -151,5 +172,9 @@ public class Student {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<StudentMajorTrack> getMajorTracks() {
+        return Collections.unmodifiableList(majorTracks);
     }
 }

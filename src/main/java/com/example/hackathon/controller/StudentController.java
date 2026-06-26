@@ -4,6 +4,7 @@ import com.example.hackathon.domain.Student;
 import com.example.hackathon.dto.auth.StudentLoginResponseDto;
 import com.example.hackathon.dto.student.MajorOptionDto;
 import com.example.hackathon.dto.student.StudentMajorTrackUpdateRequestDto;
+import com.example.hackathon.dto.student.StudentMajorTracksResponseDto;
 import com.example.hackathon.service.student.MajorCatalogService;
 import com.example.hackathon.service.student.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +35,12 @@ public class StudentController {
     @Operation(summary = "복수전공 선택지 조회", description = "프론트에서 복수전공 학과 선택지로 사용할 학과 목록을 반환합니다.")
     public ResponseEntity<List<MajorOptionDto>> getMajorOptions() {
         return ResponseEntity.ok(majorCatalogService.getMajorOptions());
+    }
+
+    @GetMapping("/{studentId}/major-tracks")
+    @Operation(summary = "학생 전공 트랙 조회", description = "주전공과 복수전공 등 추가 전공 트랙 목록을 조회합니다.")
+    public ResponseEntity<StudentMajorTracksResponseDto> getMajorTracks(@PathVariable Long studentId) {
+        return ResponseEntity.ok(StudentMajorTracksResponseDto.from(studentService.getStudent(studentId)));
     }
 
     @PatchMapping("/{studentId}/major-track")

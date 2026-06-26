@@ -16,6 +16,10 @@ public record GraduationProgressResponseDto(
         MajorType majorType,
         @Schema(description = "복수전공 학과", example = "소프트웨어학과")
         String secondaryMajor,
+        @Schema(description = "추가 전공 트랙 진행도")
+        List<MajorTrackProgressDto> majorTracks,
+        @Schema(description = "단일전공 졸업작품 진행도")
+        GraduationWorkProgressDto graduationWork,
         @Schema(description = "총 이수학점 진행도")
         CreditProgressDto totalCredits,
         @Schema(description = "공통교양 진행도")

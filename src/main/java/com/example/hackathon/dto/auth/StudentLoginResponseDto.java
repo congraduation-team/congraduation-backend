@@ -2,6 +2,8 @@ package com.example.hackathon.dto.auth;
 
 import com.example.hackathon.domain.MajorType;
 import com.example.hackathon.domain.Student;
+import com.example.hackathon.dto.student.StudentMajorTrackResponseDto;
+import java.util.List;
 
 public class StudentLoginResponseDto {
 
@@ -11,6 +13,7 @@ public class StudentLoginResponseDto {
     private String major;
     private MajorType majorType;
     private String secondaryMajor;
+    private List<StudentMajorTrackResponseDto> tracks;
     private Integer gradeLevel;
     private Integer admissionYear;
     private String status;
@@ -22,6 +25,7 @@ public class StudentLoginResponseDto {
             String major,
             MajorType majorType,
             String secondaryMajor,
+            List<StudentMajorTrackResponseDto> tracks,
             Integer gradeLevel,
             Integer admissionYear,
             String status
@@ -32,6 +36,7 @@ public class StudentLoginResponseDto {
         this.major = major;
         this.majorType = majorType;
         this.secondaryMajor = secondaryMajor;
+        this.tracks = tracks;
         this.gradeLevel = gradeLevel;
         this.admissionYear = admissionYear;
         this.status = status;
@@ -45,6 +50,9 @@ public class StudentLoginResponseDto {
                 student.getMajor(),
                 student.getMajorType(),
                 student.getSecondaryMajor(),
+                student.getMajorTracks().stream()
+                        .map(StudentMajorTrackResponseDto::from)
+                        .toList(),
                 student.getGradeLevel(),
                 student.getAdmissionYear(),
                 student.getStatus()
@@ -73,6 +81,10 @@ public class StudentLoginResponseDto {
 
     public String getSecondaryMajor() {
         return secondaryMajor;
+    }
+
+    public List<StudentMajorTrackResponseDto> getTracks() {
+        return tracks;
     }
 
     public Integer getGradeLevel() {
