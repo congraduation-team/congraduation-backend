@@ -1,0 +1,1619 @@
+{
+  "departmentCode": "ENV",
+  "departmentName": "환경융합공학",
+  "year": 2025,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_10.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 18.0,
+    "majorMinCredits": 45.0,
+    "designMinCredits": 9.0,
+    "totalMinCredits": 77.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "<인증필수> 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 <인증선택 필수> 역사와 사상: 세계사, 동서양의사상과윤리 경제와 사회: 경영학, 경제학 문화와 예술: 컴퓨터게임과메타버스, 융합예술의이해 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 (※인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수)"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 18.0,
+        "designCredits": 0.0,
+        "note": "미적분학1, 공업수학1, 일반물리학1, 일반화학1, SW 기초코딩, 고급프로그래밍활용"
+      },
+      {
+        "category": "전공",
+        "minCredits": 45.0,
+        "designCredits": 9.0,
+        "note": "- 전공: 45학점 이상 이수(설계교과목 9학점 포함) * 반드시 [기초설계 -> 요소설계 -> 종합설계] 순서로 이수 * 기초설계+요소설계, 또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능(병수수강 허용) * 지정 설계교과목은 반드시 모두 이수해야 함 - 기초설계 : 기초창의설계(설계 3) - 요소설계 : 환경통계학(설계 1), 상수처리및수질분석실험(설계 1), 환경영향평가(설계 1) - 종합설계 : 종합설계(설계 3) ★ 단, 2025-2학기까지는 기존의 요소설계 교과목을 수강하여도 설계학점으로 인정함 (이전 인증요건 참조, 해당년도에 개설되지 않는 교과목도 있으니 참고하여 수강할 것)"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 77.0,
+        "designCredits": 0.0,
+        "note": "환경에너지공간융합학과의 학과 졸업이수학점 : 130학점"
+      }
+    ],
+    "rawNotes": [
+      "<인증필수> 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 <인증선택 필수> 역사와 사상: 세계사, 동서양의사상과윤리 경제와 사회: 경영학, 경제학 문화와 예술: 컴퓨터게임과메타버스, 융합예술의이해 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 (※인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수)",
+      "미적분학1, 공업수학1, 일반물리학1, 일반화학1, SW 기초코딩, 고급프로그래밍활용",
+      "- 전공: 45학점 이상 이수(설계교과목 9학점 포함) * 반드시 [기초설계 -> 요소설계 -> 종합설계] 순서로 이수 * 기초설계+요소설계, 또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능(병수수강 허용) * 지정 설계교과목은 반드시 모두 이수해야 함 - 기초설계 : 기초창의설계(설계 3) - 요소설계 : 환경통계학(설계 1), 상수처리및수질분석실험(설계 1), 환경영향평가(설계 1) - 종합설계 : 종합설계(설계 3) ★ 단, 2025-2학기까지는 기존의 요소설계 교과목을 수강하여도 설계학점으로 인정함 (이전 인증요건 참조, 해당년도에 개설되지 않는 교과목도 있으니 참고하여 수강할 것)",
+      "환경에너지공간융합학과의 학과 졸업이수학점 : 130학점"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "> 요소설계 -> 종합설계] 순서로 이수 * 기초설계+요소설계",
+          "designCredits": 0.0,
+          "raw": "> 요소설계 -> 종합설계] 순서로 이수 * 기초설계+요소설계"
+        },
+        {
+          "name": "또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능",
+          "designCredits": 3.0,
+          "raw": "또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능(병수수강 허용) * 지정 설계교과목은 반드시 모두 이수해야 함 - 기초설계 : 기초창의설계(설계 3)"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "> 종합설계] 순서로 이수 * 기초설계+요소설계",
+          "designCredits": 0.0,
+          "raw": "> 종합설계] 순서로 이수 * 기초설계+요소설계"
+        },
+        {
+          "name": "또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능",
+          "designCredits": 3.0,
+          "raw": "또는 요소설계+종합설계를 한 학기에 동시 수강하는 것은 가능(병수수강 허용) * 지정 설계교과목은 반드시 모두 이수해야 함 - 기초설계 : 기초창의설계(설계 3) - 요소설계 : 환경통계학(설계 1)"
+        },
+        {
+          "name": "상수처리및수질분석실험",
+          "designCredits": 1.0,
+          "raw": "상수처리및수질분석실험(설계 1)"
+        },
+        {
+          "name": "환경영향평가",
+          "designCredits": 1.0,
+          "raw": "환경영향평가(설계 1)"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "종합설계",
+          "designCredits": 3.0,
+          "raw": "종합설계(설계 3) ★ 단"
+        },
+        {
+          "name": "2025-2학기까지는 기존의 요소설계 교과목을 수강하여도 설계학점으로 인정함",
+          "designCredits": 0.0,
+          "raw": "2025-2학기까지는 기존의 요소설계 교과목을 수강하여도 설계학점으로 인정함 (이전 인증요건 참조, 해당년도에 개설되지 않는 교과목도 있으니 참고하여 수강할 것) 환경에너지공간융합학과의 학과 졸업이수학점 : 130학점"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 6,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "SW기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍활용",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초창의설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경공학개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수질관리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대기환경및기후변화",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신재생에너지",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기상대기과학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경정보공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경통계학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경데이터처리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "폐기물관리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "연료및연소공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경유체역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대기오염방지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경바이오공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경해양학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "상수처리및수질분석실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경원격탐사",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경생물기초",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경생태학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "온실가스관리및분석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업논문연구",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "토양지하수환경학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경에너지전문가과정연습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경영향평가",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경에너지세미나",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경기기분석및실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "하폐수처리및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20250206_0252_0810001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20250206_0252_0810001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "2025년 이수체계도",
+        "confidence": 0.989,
+        "x": 1935.0,
+        "y": 194.0,
+        "xRatio": 0.8273,
+        "yRatio": 0.1174,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "문제해결음위한",
+        "confidence": 0.47,
+        "x": 232.0,
+        "y": 328.0,
+        "xRatio": 0.0992,
+        "yRatio": 0.1984,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "지정 균형교양 영역 중 2과목 필수 수강(인중선택과목)",
+        "confidence": 0.685,
+        "x": 2027.0,
+        "y": 323.0,
+        "xRatio": 0.8666,
+        "yRatio": 0.1954,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "글쓰기와발표",
+        "confidence": 0.617,
+        "x": 232.0,
+        "y": 351.0,
+        "xRatio": 0.0992,
+        "yRatio": 0.2123,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "대학영어",
+        "confidence": 0.999,
+        "x": 510.0,
+        "y": 340.0,
+        "xRatio": 0.218,
+        "yRatio": 0.2057,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "1) 역사와사상",
+        "confidence": 0.649,
+        "x": 1835.0,
+        "y": 345.0,
+        "xRatio": 0.7845,
+        "yRatio": 0.2087,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "세계사 동서양의사상과운리",
+        "confidence": 0.998,
+        "x": 2036.0,
+        "y": 345.0,
+        "xRatio": 0.8705,
+        "yRatio": 0.2087,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "2) 경제와사회",
+        "confidence": 0.756,
+        "x": 1833.0,
+        "y": 370.0,
+        "xRatio": 0.7837,
+        "yRatio": 0.2238,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "경영학 경제학",
+        "confidence": 0.639,
+        "x": 1979.0,
+        "y": 369.0,
+        "xRatio": 0.8461,
+        "yRatio": 0.2232,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "서양철학",
+        "confidence": 0.999,
+        "x": 509.5,
+        "y": 394.0,
+        "xRatio": 0.2178,
+        "yRatio": 0.2384,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "3) 문화와예술",
+        "confidence": 0.92,
+        "x": 1834.0,
+        "y": 393.0,
+        "xRatio": 0.7841,
+        "yRatio": 0.2377,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "컴퓨터게임과메타버스 움합예술의이해",
+        "confidence": 0.656,
+        "x": 2087.0,
+        "y": 393.0,
+        "xRatio": 0.8923,
+        "yRatio": 0.2377,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "쟁점과토론",
+        "confidence": 0.925,
+        "x": 511.0,
+        "y": 419.0,
+        "xRatio": 0.2185,
+        "yRatio": 0.2535,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "각각 다른 영역으로 2개 수강올 권장함.",
+        "confidence": 0.926,
+        "x": 1935.0,
+        "y": 423.0,
+        "xRatio": 0.8273,
+        "yRatio": 0.2559,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "미적분학1",
+        "confidence": 0.971,
+        "x": 231.0,
+        "y": 509.0,
+        "xRatio": 0.0988,
+        "yRatio": 0.3079,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업수학1",
+        "confidence": 0.542,
+        "x": 791.0,
+        "y": 510.0,
+        "xRatio": 0.3382,
+        "yRatio": 0.3085,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "*이수체계도 상의 MSC 교과목(6과목) 모두 이수(필수)",
+        "confidence": 0.854,
+        "x": 2024.0,
+        "y": 505.0,
+        "xRatio": 0.8653,
+        "yRatio": 0.3055,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "일반물리학1",
+        "confidence": 0.991,
+        "x": 232.0,
+        "y": 583.0,
+        "xRatio": 0.0992,
+        "yRatio": 0.3527,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "일반화학1",
+        "confidence": 0.972,
+        "x": 510.0,
+        "y": 583.0,
+        "xRatio": 0.218,
+        "yRatio": 0.3527,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "SW기초코딩",
+        "confidence": 0.877,
+        "x": 230.0,
+        "y": 657.0,
+        "xRatio": 0.0983,
+        "yRatio": 0.3975,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "고급프로그래망활용",
+        "confidence": 0.887,
+        "x": 510.0,
+        "y": 659.0,
+        "xRatio": 0.218,
+        "yRatio": 0.3987,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "*기초설계",
+        "confidence": 0.983,
+        "x": 191.0,
+        "y": 760.0,
+        "xRatio": 0.0817,
+        "yRatio": 0.4598,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "요소설계",
+        "confidence": 1.0,
+        "x": 308.0,
+        "y": 761.0,
+        "xRatio": 0.1317,
+        "yRatio": 0.4604,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "종합설계의 순서",
+        "confidence": 0.999,
+        "x": 450.0,
+        "y": 761.0,
+        "xRatio": 0.1924,
+        "yRatio": 0.4604,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "기초창의설계",
+        "confidence": 0.996,
+        "x": 789.0,
+        "y": 755.0,
+        "xRatio": 0.3373,
+        "yRatio": 0.4567,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "환경통계학",
+        "confidence": 0.999,
+        "x": 1068.0,
+        "y": 755.0,
+        "xRatio": 0.4566,
+        "yRatio": 0.4567,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "환경화학",
+        "confidence": 0.804,
+        "x": 1352.0,
+        "y": 754.0,
+        "xRatio": 0.578,
+        "yRatio": 0.4561,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "토양지하수환 경학",
+        "confidence": 0.645,
+        "x": 1915.0,
+        "y": 755.0,
+        "xRatio": 0.8187,
+        "yRatio": 0.4567,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "종합설계",
+        "confidence": 1.0,
+        "x": 2182.0,
+        "y": 755.0,
+        "xRatio": 0.9329,
+        "yRatio": 0.4567,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "틀 반드시 준수하여 이수",
+        "confidence": 0.924,
+        "x": 258.0,
+        "y": 785.0,
+        "xRatio": 0.1103,
+        "yRatio": 0.4749,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "*기초설계 + 요소설계,",
+        "confidence": 0.644,
+        "x": 238.0,
+        "y": 831.0,
+        "xRatio": 0.1018,
+        "yRatio": 0.5027,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "또는 요소설계 + 종합",
+        "confidence": 0.701,
+        "x": 427.5,
+        "y": 831.0,
+        "xRatio": 0.1828,
+        "yRatio": 0.5027,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "설계틀 같은 학기에 동시 수강하는 것은 인",
+        "confidence": 0.477,
+        "x": 335.0,
+        "y": 855.0,
+        "xRatio": 0.1432,
+        "yRatio": 0.5172,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "수질관리",
+        "confidence": 0.999,
+        "x": 788.0,
+        "y": 867.0,
+        "xRatio": 0.3369,
+        "yRatio": 0.5245,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "*대기오염방지공학",
+        "confidence": 0.958,
+        "x": 1351.0,
+        "y": 866.0,
+        "xRatio": 0.5776,
+        "yRatio": 0.5239,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "온실가스관리및분석",
+        "confidence": 0.738,
+        "x": 1634.0,
+        "y": 866.0,
+        "xRatio": 0.6986,
+        "yRatio": 0.5239,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "환경에너지전문가",
+        "confidence": 1.0,
+        "x": 1913.0,
+        "y": 854.0,
+        "xRatio": 0.8179,
+        "yRatio": 0.5166,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "환경영향평가",
+        "confidence": 0.935,
+        "x": 2183.0,
+        "y": 867.0,
+        "xRatio": 0.9333,
+        "yRatio": 0.5245,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "정(병수수강 허용)",
+        "confidence": 0.997,
+        "x": 227.5,
+        "y": 879.0,
+        "xRatio": 0.0973,
+        "yRatio": 0.5318,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "과정연습",
+        "confidence": 0.999,
+        "x": 1913.0,
+        "y": 880.0,
+        "xRatio": 0.8179,
+        "yRatio": 0.5324,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "프로그램 인종 최소의수학점",
+        "confidence": 0.521,
+        "x": 276.5,
+        "y": 958.0,
+        "xRatio": 0.1182,
+        "yRatio": 0.5796,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "*대기환경및기후",
+        "confidence": 0.448,
+        "x": 786.0,
+        "y": 967.0,
+        "xRatio": 0.336,
+        "yRatio": 0.585,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "변화",
+        "confidence": 1.0,
+        "x": 788.0,
+        "y": 990.0,
+        "xRatio": 0.3369,
+        "yRatio": 0.5989,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "환경유체역학",
+        "confidence": 0.893,
+        "x": 1068.0,
+        "y": 979.0,
+        "xRatio": 0.4566,
+        "yRatio": 0.5923,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "환경바이오공학",
+        "confidence": 0.998,
+        "x": 1352.0,
+        "y": 979.0,
+        "xRatio": 0.578,
+        "yRatio": 0.5923,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "환경원격담사",
+        "confidence": 0.495,
+        "x": 1636.0,
+        "y": 979.0,
+        "xRatio": 0.6994,
+        "yRatio": 0.5923,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업논문연구",
+        "confidence": 0.994,
+        "x": 1914.0,
+        "y": 979.0,
+        "xRatio": 0.8183,
+        "yRatio": 0.5923,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "환경에너지세미나",
+        "confidence": 0.999,
+        "x": 2183.0,
+        "y": 979.0,
+        "xRatio": 0.9333,
+        "yRatio": 0.5923,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "1. 전문교양",
+        "confidence": 0.915,
+        "x": 206.0,
+        "y": 1006.0,
+        "xRatio": 0.0881,
+        "yRatio": 0.6086,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "14학점 이상",
+        "confidence": 1.0,
+        "x": 326.0,
+        "y": 1004.0,
+        "xRatio": 0.1394,
+        "yRatio": 0.6074,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "2. MSC : 18학점 이상",
+        "confidence": 0.947,
+        "x": 248.0,
+        "y": 1027.0,
+        "xRatio": 0.106,
+        "yRatio": 0.6213,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "3. 전공",
+        "confidence": 0.762,
+        "x": 185.0,
+        "y": 1052.0,
+        "xRatio": 0.0791,
+        "yRatio": 0.6364,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "45학점 이상(설계 9 포함)",
+        "confidence": 0.72,
+        "x": 345.0,
+        "y": 1052.0,
+        "xRatio": 0.1475,
+        "yRatio": 0.6364,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "4. 설계 : 9학점(지정설계 교과목 필수 이수)",
+        "confidence": 0.762,
+        "x": 340.0,
+        "y": 1076.0,
+        "xRatio": 0.1454,
+        "yRatio": 0.6509,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "환경공학개론",
+        "confidence": 0.677,
+        "x": 789.0,
+        "y": 1091.0,
+        "xRatio": 0.3373,
+        "yRatio": 0.66,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "환경데이터처리",
+        "confidence": 1.0,
+        "x": 1068.0,
+        "y": 1090.0,
+        "xRatio": 0.4566,
+        "yRatio": 0.6594,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "환경해양학",
+        "confidence": 0.999,
+        "x": 1353.0,
+        "y": 1091.0,
+        "xRatio": 0.5785,
+        "yRatio": 0.66,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "환경생태학",
+        "confidence": 0.999,
+        "x": 1636.0,
+        "y": 1091.0,
+        "xRatio": 0.6994,
+        "yRatio": 0.66,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업연구딪진로1",
+        "confidence": 0.453,
+        "x": 1914.0,
+        "y": 1090.0,
+        "xRatio": 0.8183,
+        "yRatio": 0.6594,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "환경기기분석및실험",
+        "confidence": 0.86,
+        "x": 2181.0,
+        "y": 1090.0,
+        "xRatio": 0.9324,
+        "yRatio": 0.6594,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "추가 조건들은 인종기준 참고",
+        "confidence": 0.73,
+        "x": 281.0,
+        "y": 1122.0,
+        "xRatio": 0.1201,
+        "yRatio": 0.6788,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "필수선후수",
+        "confidence": 0.963,
+        "x": 340.0,
+        "y": 1194.0,
+        "xRatio": 0.1454,
+        "yRatio": 0.7223,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "신재생에너지",
+        "confidence": 0.66,
+        "x": 788.0,
+        "y": 1200.0,
+        "xRatio": 0.3369,
+        "yRatio": 0.726,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "환경생물기초",
+        "confidence": 0.906,
+        "x": 1639.0,
+        "y": 1201.0,
+        "xRatio": 0.7007,
+        "yRatio": 0.7266,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "하페수처리및실습",
+        "confidence": 0.62,
+        "x": 2182.0,
+        "y": 1201.0,
+        "xRatio": 0.9329,
+        "yRatio": 0.7266,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "권장선후수",
+        "confidence": 0.975,
+        "x": 340.0,
+        "y": 1236.0,
+        "xRatio": 0.1454,
+        "yRatio": 0.7477,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "전문교양필수",
+        "confidence": 1.0,
+        "x": 214.0,
+        "y": 1307.0,
+        "xRatio": 0.0915,
+        "yRatio": 0.7907,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "설계교과목",
+        "confidence": 0.999,
+        "x": 408.0,
+        "y": 1307.0,
+        "xRatio": 0.1744,
+        "yRatio": 0.7907,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "기상대기과학",
+        "confidence": 1.0,
+        "x": 788.0,
+        "y": 1309.0,
+        "xRatio": 0.3369,
+        "yRatio": 0.7919,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "폐기물관리",
+        "confidence": 0.984,
+        "x": 1068.0,
+        "y": 1309.0,
+        "xRatio": 0.4566,
+        "yRatio": 0.7919,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "MSC필수",
+        "confidence": 0.999,
+        "x": 215.0,
+        "y": 1369.0,
+        "xRatio": 0.0919,
+        "yRatio": 0.8282,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "전공필수",
+        "confidence": 1.0,
+        "x": 408.0,
+        "y": 1370.0,
+        "xRatio": 0.1744,
+        "yRatio": 0.8288,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "환경정보공학",
+        "confidence": 1.0,
+        "x": 788.0,
+        "y": 1420.0,
+        "xRatio": 0.3369,
+        "yRatio": 0.859,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "* '대기환경및기후변화' 과목은 '대기오염방지공학' 과목으로 대체 인정(선수과목으로도 인정)",
+        "confidence": 0.36,
+        "x": 1899.0,
+        "y": 1447.0,
+        "xRatio": 0.8119,
+        "yRatio": 0.8754,
+        "estimatedTerm": "4-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "글쓰기와발표",
+        "to": "서양철학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "서양철학",
+        "to": "대학영어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "2) 경제와사회",
+        "to": "3) 문화와예술",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3) 문화와예술",
+        "to": "1) 역사와사상",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "1) 역사와사상",
+        "to": "경영학 경제학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "경영학 경제학",
+        "to": "세계사 동서양의사상과운리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "세계사 동서양의사상과운리",
+        "to": "컴퓨터게임과메타버스 움합예술의이해",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학1",
+        "to": "공업수학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "SW기초코딩",
+        "to": "일반물리학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반물리학1",
+        "to": "일반화학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반화학1",
+        "to": "고급프로그래망활용",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "*기초설계",
+        "to": "틀 반드시 준수하여 이수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "틀 반드시 준수하여 이수",
+        "to": "요소설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "요소설계",
+        "to": "종합설계의 순서",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "종합설계의 순서",
+        "to": "기초창의설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초창의설계",
+        "to": "환경통계학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경통계학",
+        "to": "환경화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경화학",
+        "to": "토양지하수환 경학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "토양지하수환 경학",
+        "to": "종합설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "정(병수수강 허용)",
+        "to": "*기초설계 + 요소설계,",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "*기초설계 + 요소설계,",
+        "to": "설계틀 같은 학기에 동시 수강하는 것은 인",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "설계틀 같은 학기에 동시 수강하는 것은 인",
+        "to": "또는 요소설계 + 종합",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "또는 요소설계 + 종합",
+        "to": "수질관리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "수질관리",
+        "to": "*대기오염방지공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "*대기오염방지공학",
+        "to": "온실가스관리및분석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "온실가스관리및분석",
+        "to": "환경에너지전문가",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경에너지전문가",
+        "to": "과정연습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "과정연습",
+        "to": "환경영향평가",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "프로그램 인종 최소의수학점",
+        "to": "*대기환경및기후",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "*대기환경및기후",
+        "to": "환경유체역학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경유체역학",
+        "to": "환경바이오공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경바이오공학",
+        "to": "환경원격담사",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경원격담사",
+        "to": "졸업논문연구",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "졸업논문연구",
+        "to": "환경에너지세미나",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3. 전공",
+        "to": "1. 전문교양",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "1. 전문교양",
+        "to": "2. MSC : 18학점 이상",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "2. MSC : 18학점 이상",
+        "to": "14학점 이상",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "14학점 이상",
+        "to": "45학점 이상(설계 9 포함)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "추가 조건들은 인종기준 참고",
+        "to": "4. 설계 : 9학점(지정설계 교과목 필수 이수)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "4. 설계 : 9학점(지정설계 교과목 필수 이수)",
+        "to": "환경공학개론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경공학개론",
+        "to": "환경데이터처리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경데이터처리",
+        "to": "환경해양학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경해양학",
+        "to": "환경생태학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경생태학",
+        "to": "졸업연구딪진로1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "졸업연구딪진로1",
+        "to": "환경기기분석및실험",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "필수선후수",
+        "to": "권장선후수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "권장선후수",
+        "to": "신재생에너지",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경생물기초",
+        "to": "하페수처리및실습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전문교양필수",
+        "to": "설계교과목",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "설계교과목",
+        "to": "기상대기과학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기상대기과학",
+        "to": "폐기물관리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "MSC필수",
+        "to": "전공필수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {
+      "1-2": 0.2185,
+      "2-1": 0.3382,
+      "2-2": 0.4566,
+      "3-1": 0.5785,
+      "3-2": 0.699,
+      "4-1": 0.8183,
+      "4-2": 0.9324
+    }
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:24:55"
+}

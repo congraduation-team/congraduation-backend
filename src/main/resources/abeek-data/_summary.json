@@ -1,0 +1,1037 @@
+[
+  {
+    "departmentCode": "AERO",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 61,
+        "requirementRows": 4,
+        "ocrBoxes": 124,
+        "ocrPrereqs": 67,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_14.html"
+      },
+      {
+        "year": 2021,
+        "courses": 65,
+        "requirementRows": 4,
+        "ocrBoxes": 119,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_15.html"
+      },
+      {
+        "year": 2022,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 115,
+        "ocrPrereqs": 53,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_16.html"
+      },
+      {
+        "year": 2023,
+        "courses": 57,
+        "requirementRows": 4,
+        "ocrBoxes": 108,
+        "ocrPrereqs": 53,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_17.html"
+      },
+      {
+        "year": 2024,
+        "courses": 55,
+        "requirementRows": 4,
+        "ocrBoxes": 106,
+        "ocrPrereqs": 52,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_18.html"
+      },
+      {
+        "year": 2025,
+        "courses": 55,
+        "requirementRows": 4,
+        "ocrBoxes": 42,
+        "ocrPrereqs": 9,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_19.html"
+      },
+      {
+        "year": 2026,
+        "courses": 55,
+        "requirementRows": 4,
+        "ocrBoxes": 106,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_20.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "AI",
+    "years": [
+      {
+        "year": 2021,
+        "courses": 62,
+        "requirementRows": 3,
+        "ocrBoxes": 105,
+        "ocrPrereqs": 76,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1802_1.html"
+      },
+      {
+        "year": 2022,
+        "courses": 56,
+        "requirementRows": 3,
+        "ocrBoxes": 100,
+        "ocrPrereqs": 70,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1802_2.html"
+      },
+      {
+        "year": 2023,
+        "courses": 61,
+        "requirementRows": 3,
+        "ocrBoxes": 121,
+        "ocrPrereqs": 95,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1802_3.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "AIROBOT",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 134,
+        "requirementRows": 4,
+        "ocrBoxes": 144,
+        "ocrPrereqs": 90,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_5.html"
+      },
+      {
+        "year": 2021,
+        "courses": 64,
+        "requirementRows": 4,
+        "ocrBoxes": 97,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_6.html"
+      },
+      {
+        "year": 2022,
+        "courses": 64,
+        "requirementRows": 4,
+        "ocrBoxes": 19,
+        "ocrPrereqs": 0,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_7.html"
+      },
+      {
+        "year": 2023,
+        "courses": 51,
+        "requirementRows": 4,
+        "ocrBoxes": 120,
+        "ocrPrereqs": 61,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_8.html"
+      },
+      {
+        "year": 2024,
+        "courses": 62,
+        "requirementRows": 4,
+        "ocrBoxes": 140,
+        "ocrPrereqs": 75,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_9.html"
+      },
+      {
+        "year": 2025,
+        "courses": 62,
+        "requirementRows": 4,
+        "ocrBoxes": 140,
+        "ocrPrereqs": 66,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_10.html"
+      },
+      {
+        "year": 2026,
+        "courses": 62,
+        "requirementRows": 4,
+        "ocrBoxes": 68,
+        "ocrPrereqs": 21,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1702_11.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "ARCH",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 48,
+        "requirementRows": 3,
+        "ocrBoxes": 29,
+        "ocrPrereqs": 12,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_14.html"
+      },
+      {
+        "year": 2021,
+        "courses": 50,
+        "requirementRows": 3,
+        "ocrBoxes": 75,
+        "ocrPrereqs": 40,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_15.html"
+      },
+      {
+        "year": 2022,
+        "courses": 52,
+        "requirementRows": 4,
+        "ocrBoxes": 85,
+        "ocrPrereqs": 42,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_16.html"
+      },
+      {
+        "year": 2023,
+        "courses": 52,
+        "requirementRows": 4,
+        "ocrBoxes": 85,
+        "ocrPrereqs": 49,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_17.html"
+      },
+      {
+        "year": 2024,
+        "courses": 50,
+        "requirementRows": 4,
+        "ocrBoxes": 79,
+        "ocrPrereqs": 45,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_18.html"
+      },
+      {
+        "year": 2025,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 78,
+        "ocrPrereqs": 45,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_19.html"
+      },
+      {
+        "year": 2026,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 76,
+        "ocrPrereqs": 43,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_20.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "CIVIL",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 53,
+        "requirementRows": 3,
+        "ocrBoxes": 42,
+        "ocrPrereqs": 16,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_14.html"
+      },
+      {
+        "year": 2021,
+        "courses": 53,
+        "requirementRows": 4,
+        "ocrBoxes": 45,
+        "ocrPrereqs": 14,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_15.html"
+      },
+      {
+        "year": 2022,
+        "courses": 54,
+        "requirementRows": 4,
+        "ocrBoxes": 40,
+        "ocrPrereqs": 15,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_16.html"
+      },
+      {
+        "year": 2023,
+        "courses": 57,
+        "requirementRows": 4,
+        "ocrBoxes": 20,
+        "ocrPrereqs": 4,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_17.html"
+      },
+      {
+        "year": 2024,
+        "courses": 56,
+        "requirementRows": 4,
+        "ocrBoxes": 21,
+        "ocrPrereqs": 4,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_18.html"
+      },
+      {
+        "year": 2025,
+        "courses": 57,
+        "requirementRows": 4,
+        "ocrBoxes": 43,
+        "ocrPrereqs": 17,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_19.html"
+      },
+      {
+        "year": 2026,
+        "courses": 57,
+        "requirementRows": 4,
+        "ocrBoxes": 23,
+        "ocrPrereqs": 7,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_20.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "DS",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 96,
+        "requirementRows": 3,
+        "ocrBoxes": 97,
+        "ocrPrereqs": 69,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_4.html"
+      },
+      {
+        "year": 2021,
+        "courses": 98,
+        "requirementRows": 3,
+        "ocrBoxes": 99,
+        "ocrPrereqs": 68,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_5.html"
+      },
+      {
+        "year": 2022,
+        "courses": 50,
+        "requirementRows": 4,
+        "ocrBoxes": 99,
+        "ocrPrereqs": 67,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_6.html"
+      },
+      {
+        "year": 2023,
+        "courses": 50,
+        "requirementRows": 4,
+        "ocrBoxes": 99,
+        "ocrPrereqs": 67,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_7.html"
+      },
+      {
+        "year": 2024,
+        "courses": 95,
+        "requirementRows": 4,
+        "ocrBoxes": 98,
+        "ocrPrereqs": 64,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_8.html"
+      },
+      {
+        "year": 2025,
+        "courses": 106,
+        "requirementRows": 4,
+        "ocrBoxes": 113,
+        "ocrPrereqs": 71,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_9.html"
+      },
+      {
+        "year": 2026,
+        "courses": 106,
+        "requirementRows": 4,
+        "ocrBoxes": 113,
+        "ocrPrereqs": 71,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_10.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "EE",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 86,
+        "requirementRows": 4,
+        "ocrBoxes": 64,
+        "ocrPrereqs": 25,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0102_14.html"
+      },
+      {
+        "year": 2021,
+        "courses": 86,
+        "requirementRows": 4,
+        "ocrBoxes": 91,
+        "ocrPrereqs": 53,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0102_15.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "EICE",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 86,
+        "requirementRows": 4,
+        "ocrBoxes": 64,
+        "ocrPrereqs": 25,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_2.html"
+      },
+      {
+        "year": 2021,
+        "courses": 89,
+        "requirementRows": 4,
+        "ocrBoxes": 57,
+        "ocrPrereqs": 22,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_1.html"
+      },
+      {
+        "year": 2022,
+        "courses": 93,
+        "requirementRows": 4,
+        "ocrBoxes": 56,
+        "ocrPrereqs": 18,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_8.html"
+      },
+      {
+        "year": 2023,
+        "courses": 93,
+        "requirementRows": 4,
+        "ocrBoxes": 41,
+        "ocrPrereqs": 12,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_9.html"
+      },
+      {
+        "year": 2024,
+        "courses": 74,
+        "requirementRows": 4,
+        "ocrBoxes": 88,
+        "ocrPrereqs": 55,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_10.html"
+      },
+      {
+        "year": 2025,
+        "courses": 75,
+        "requirementRows": 4,
+        "ocrBoxes": 90,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_11.html"
+      },
+      {
+        "year": 2026,
+        "courses": 71,
+        "requirementRows": 4,
+        "ocrBoxes": 85,
+        "ocrPrereqs": 52,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1902_12.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "ENERGY",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 59,
+        "requirementRows": 4,
+        "ocrBoxes": 51,
+        "ocrPrereqs": 14,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_5.html"
+      },
+      {
+        "year": 2021,
+        "courses": 59,
+        "requirementRows": 4,
+        "ocrBoxes": 51,
+        "ocrPrereqs": 17,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_6.html"
+      },
+      {
+        "year": 2022,
+        "courses": 55,
+        "requirementRows": 4,
+        "ocrBoxes": 84,
+        "ocrPrereqs": 42,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_7.html"
+      },
+      {
+        "year": 2023,
+        "courses": 69,
+        "requirementRows": 4,
+        "ocrBoxes": 59,
+        "ocrPrereqs": 21,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_8.html"
+      },
+      {
+        "year": 2024,
+        "courses": 73,
+        "requirementRows": 4,
+        "ocrBoxes": 106,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_9.html"
+      },
+      {
+        "year": 2025,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 124,
+        "ocrPrereqs": 71,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_10.html"
+      },
+      {
+        "year": 2026,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 86,
+        "ocrPrereqs": 47,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_11.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "ENV",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 56,
+        "requirementRows": 4,
+        "ocrBoxes": 99,
+        "ocrPrereqs": 45,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_5.html"
+      },
+      {
+        "year": 2021,
+        "courses": 56,
+        "requirementRows": 4,
+        "ocrBoxes": 101,
+        "ocrPrereqs": 50,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_6.html"
+      },
+      {
+        "year": 2022,
+        "courses": 53,
+        "requirementRows": 4,
+        "ocrBoxes": 115,
+        "ocrPrereqs": 62,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_7.html"
+      },
+      {
+        "year": 2023,
+        "courses": 53,
+        "requirementRows": 4,
+        "ocrBoxes": 100,
+        "ocrPrereqs": 53,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_8.html"
+      },
+      {
+        "year": 2024,
+        "courses": 41,
+        "requirementRows": 4,
+        "ocrBoxes": 61,
+        "ocrPrereqs": 35,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_9.html"
+      },
+      {
+        "year": 2025,
+        "courses": 40,
+        "requirementRows": 4,
+        "ocrBoxes": 74,
+        "ocrPrereqs": 52,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_10.html"
+      },
+      {
+        "year": 2026,
+        "courses": 40,
+        "requirementRows": 4,
+        "ocrBoxes": 67,
+        "ocrPrereqs": 43,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1002_11.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "MECH",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 107,
+        "ocrPrereqs": 51,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_14.html"
+      },
+      {
+        "year": 2021,
+        "courses": 67,
+        "requirementRows": 4,
+        "ocrBoxes": 105,
+        "ocrPrereqs": 50,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_15.html"
+      },
+      {
+        "year": 2022,
+        "courses": 65,
+        "requirementRows": 4,
+        "ocrBoxes": 109,
+        "ocrPrereqs": 50,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_16.html"
+      },
+      {
+        "year": 2023,
+        "courses": 62,
+        "requirementRows": 4,
+        "ocrBoxes": 86,
+        "ocrPrereqs": 36,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_17.html"
+      },
+      {
+        "year": 2024,
+        "courses": 61,
+        "requirementRows": 4,
+        "ocrBoxes": 105,
+        "ocrPrereqs": 53,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_18.html"
+      },
+      {
+        "year": 2025,
+        "courses": 60,
+        "requirementRows": 4,
+        "ocrBoxes": 113,
+        "ocrPrereqs": 62,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_19.html"
+      },
+      {
+        "year": 2026,
+        "courses": 60,
+        "requirementRows": 4,
+        "ocrBoxes": 118,
+        "ocrPrereqs": 64,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1302_20.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "NANO",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 66,
+        "requirementRows": 4,
+        "ocrBoxes": 126,
+        "ocrPrereqs": 63,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_20.html"
+      },
+      {
+        "year": 2021,
+        "courses": 67,
+        "requirementRows": 4,
+        "ocrBoxes": 128,
+        "ocrPrereqs": 66,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_21.html"
+      },
+      {
+        "year": 2022,
+        "courses": 71,
+        "requirementRows": 4,
+        "ocrBoxes": 127,
+        "ocrPrereqs": 67,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_22.html"
+      },
+      {
+        "year": 2023,
+        "courses": 69,
+        "requirementRows": 4,
+        "ocrBoxes": 84,
+        "ocrPrereqs": 28,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_23.html"
+      },
+      {
+        "year": 2024,
+        "courses": 68,
+        "requirementRows": 4,
+        "ocrBoxes": 72,
+        "ocrPrereqs": 22,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_24.html"
+      },
+      {
+        "year": 2025,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 125,
+        "ocrPrereqs": 68,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_25.html"
+      },
+      {
+        "year": 2026,
+        "courses": 63,
+        "requirementRows": 4,
+        "ocrBoxes": 120,
+        "ocrPrereqs": 58,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_26.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "NUCLEAR",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 51,
+        "requirementRows": 4,
+        "ocrBoxes": 78,
+        "ocrPrereqs": 43,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_5.html"
+      },
+      {
+        "year": 2021,
+        "courses": 51,
+        "requirementRows": 4,
+        "ocrBoxes": 81,
+        "ocrPrereqs": 52,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_6.html"
+      },
+      {
+        "year": 2022,
+        "courses": 48,
+        "requirementRows": 4,
+        "ocrBoxes": 80,
+        "ocrPrereqs": 50,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_7.html"
+      },
+      {
+        "year": 2023,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 81,
+        "ocrPrereqs": 50,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_8.html"
+      },
+      {
+        "year": 2024,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 72,
+        "ocrPrereqs": 34,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_9.html"
+      },
+      {
+        "year": 2025,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 90,
+        "ocrPrereqs": 55,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_10.html"
+      },
+      {
+        "year": 2026,
+        "courses": 49,
+        "requirementRows": 4,
+        "ocrBoxes": 90,
+        "ocrPrereqs": 55,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_11.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "SEC",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 58,
+        "requirementRows": 3,
+        "ocrBoxes": 76,
+        "ocrPrereqs": 46,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_7.html"
+      },
+      {
+        "year": 2021,
+        "courses": 59,
+        "requirementRows": 3,
+        "ocrBoxes": 74,
+        "ocrPrereqs": 43,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_8.html"
+      },
+      {
+        "year": 2022,
+        "courses": 55,
+        "requirementRows": 3,
+        "ocrBoxes": 59,
+        "ocrPrereqs": 26,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_9.html"
+      },
+      {
+        "year": 2023,
+        "courses": 55,
+        "requirementRows": 3,
+        "ocrBoxes": 66,
+        "ocrPrereqs": 34,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_10.html"
+      },
+      {
+        "year": 2024,
+        "courses": 71,
+        "requirementRows": 3,
+        "ocrBoxes": 74,
+        "ocrPrereqs": 42,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_11.html"
+      },
+      {
+        "year": 2025,
+        "courses": 74,
+        "requirementRows": 3,
+        "ocrBoxes": 78,
+        "ocrPrereqs": 48,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_12.html"
+      },
+      {
+        "year": 2026,
+        "courses": 71,
+        "requirementRows": 4,
+        "ocrBoxes": 74,
+        "ocrPrereqs": 44,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_13.html"
+      }
+    ]
+  },
+  {
+    "departmentCode": "SW",
+    "years": [
+      {
+        "year": 2020,
+        "courses": 63,
+        "requirementRows": 71,
+        "ocrBoxes": 109,
+        "ocrPrereqs": 69,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_4.html"
+      },
+      {
+        "year": 2021,
+        "courses": 65,
+        "requirementRows": 73,
+        "ocrBoxes": 104,
+        "ocrPrereqs": 62,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_5.html"
+      },
+      {
+        "year": 2022,
+        "courses": 58,
+        "requirementRows": 3,
+        "ocrBoxes": 102,
+        "ocrPrereqs": 59,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_6.html"
+      },
+      {
+        "year": 2023,
+        "courses": 59,
+        "requirementRows": 3,
+        "ocrBoxes": 110,
+        "ocrPrereqs": 69,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_7.html"
+      },
+      {
+        "year": 2024,
+        "courses": 59,
+        "requirementRows": 3,
+        "ocrBoxes": 111,
+        "ocrPrereqs": 72,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_8.html"
+      },
+      {
+        "year": 2025,
+        "courses": 57,
+        "requirementRows": 3,
+        "ocrBoxes": 105,
+        "ocrPrereqs": 62,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_9.html"
+      },
+      {
+        "year": 2026,
+        "courses": 60,
+        "requirementRows": 3,
+        "ocrBoxes": 106,
+        "ocrPrereqs": 63,
+        "ocrError": null,
+        "needsReview": true,
+        "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0502_10.html"
+      }
+    ]
+  }
+]

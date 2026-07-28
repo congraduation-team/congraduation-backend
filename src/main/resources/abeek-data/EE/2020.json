@@ -1,0 +1,2037 @@
+{
+  "departmentCode": "EE",
+  "departmentName": "전자공학",
+  "year": 2020,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0102_14.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 30.0,
+    "majorMinCredits": 54.0,
+    "designMinCredits": 9.0,
+    "totalMinCredits": 98.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "- 인증조건: 인증필수 교과목을 모두 이수 [인증필수과목] English Listening Practice 1, English Reading Practice 1, 문제해결을위한글쓰기와발표, 세종사회봉사1, 서양철학:쟁점과토론, 세계사:인간과문명"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 30.0,
+        "designCredits": 0.0,
+        "note": "- 인증조건: 인증필수 교과목을 포함하여 30학점 이상 이수 [인증필수과목] 일변수미적분학, 공업수학1ㆍ2, 선형대수, 확률및랜덤변수, 일반물리학및실험1ㆍ2, 일반화학, 고급프로그래밍입문-C, 프로그래밍"
+      },
+      {
+        "category": "전공",
+        "minCredits": 54.0,
+        "designCredits": 0.0,
+        "note": "- 인증조건: 아래 추가 조건을 모두 만족하여 전공 54학점 이상 이수 (a) 설계 교과목 이수조건: 기초설계 이수 및 캡스톤디자인AㆍB 중 하나 이수를 포함하여 설계 9학점 이상 이수 [설계 교과목] ◇ 기초설계(설계 3학점): 기초설계 ◇ 요소설계(설계 2학점): 반도체소자설계, 데이터통신설계, 정보시스템설계, 전자회로설계, 통신시스템설계, 멀티미디어설계 ◇ 종합설계(설계 3학점): 캡스톤디자인A, 캡스톤디자인B (b) 실험ㆍ실습 교과목 이수조건: 실험ㆍ실습 교과목을 1과목 이상 이수. 단, 실험ㆍ실습 교과목 해당 여부는 ‘2018년도 교과과정표’ 참고 (c) 일반영역 교과과정 이수조건: 일반영역 교과과정의 교과목을 24학점 이상 이수 [일반영역 교과과정의 교과목] 전기회로, 신호및시스템, 기초설계, 물리전자공학, 전자회로1, 통신이론, 전자기1, 기초반도체, 데이터통신, 디지털신호처리, 광전자공학, 컴퓨터네트워크, 디지털통신시스템, 음성처리, 영상처리 (d) 이수체계 준수조건: 선후수 지정 교과목의 이수체계 준수 (후수 교과목을 이수하기 위해서는 미리 선수 교과목을 이수해야 함) [선후수 교과목] ◇ 설계 교과목: 기초설계→캡스톤디자인AㆍB. 기초설계→요소설계 전교과목. 요소설계 중 1과목 이상→캡스톤디자인AㆍB. 단, 기초설계 이수 전 및 캡스톤디자인AㆍB 이수 후에 이수하는 설계 교과목은 설계 학점 미인정하며, 캡스톤디자인A와 캡스톤디자인B를 모두 이수할 경우 설계 3학점만 인정. ◇ MSC와 전공 교과목: 일변수미적분학→물리전자공학, 일반물리학및실험2→전자기1 ◇ 전공 교과목: 전자회로1→전자회로2, 전자기1→전자기2, 신호및시스템→디지털신호처리, 신호및시스템→통신이론"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 98.0,
+        "designCredits": 0.0,
+        "note": "졸업최소이수학점 : 130"
+      }
+    ],
+    "rawNotes": [
+      "- 인증조건: 인증필수 교과목을 모두 이수 [인증필수과목] English Listening Practice 1, English Reading Practice 1, 문제해결을위한글쓰기와발표, 세종사회봉사1, 서양철학:쟁점과토론, 세계사:인간과문명",
+      "- 인증조건: 인증필수 교과목을 포함하여 30학점 이상 이수 [인증필수과목] 일변수미적분학, 공업수학1ㆍ2, 선형대수, 확률및랜덤변수, 일반물리학및실험1ㆍ2, 일반화학, 고급프로그래밍입문-C, 프로그래밍",
+      "- 인증조건: 아래 추가 조건을 모두 만족하여 전공 54학점 이상 이수 (a) 설계 교과목 이수조건: 기초설계 이수 및 캡스톤디자인AㆍB 중 하나 이수를 포함하여 설계 9학점 이상 이수 [설계 교과목] ◇ 기초설계(설계 3학점): 기초설계 ◇ 요소설계(설계 2학점): 반도체소자설계, 데이터통신설계, 정보시스템설계, 전자회로설계, 통신시스템설계, 멀티미디어설계 ◇ 종합설계(설계 3학점): 캡스톤디자인A, 캡스톤디자인B (b) 실험ㆍ실습 교과목 이수조건: 실험ㆍ실습 교과목을 1과목 이상 이수. 단, 실험ㆍ실습 교과목 해당 여부는 ‘2018년도 교과과정표’ 참고 (c) 일반영역 교과과정 이수조건: 일반영역 교과과정의 교과목을 24학점 이상 이수 [일반영역 교과과정의 교과목] 전기회로, 신호및시스템, 기초설계, 물리전자공학, 전자회로1, 통신이론, 전자기1, 기초반도체, 데이터통신, 디지털신호처리, 광전자공학, 컴퓨터네트워크, 디지털통신시스템, 음성처리, 영상처리 (d) 이수체계 준수조건: 선후수 지정 교과목의 이수체계 준수 (후수 교과목을 이수하기 위해서는 미리 선수 교과목을 이수해야 함) [선후수 교과목] ◇ 설계 교과목: 기초설계→캡스톤디자인AㆍB. 기초설계→요소설계 전교과목. 요소설계 중 1과목 이상→캡스톤디자인AㆍB. 단, 기초설계 이수 전 및 캡스톤디자인AㆍB 이수 후에 이수하는 설계 교과목은 설계 학점 미인정하며, 캡스톤디자인A와 캡스톤디자인B를 모두 이수할 경우 설계 3학점만 인정. ◇ MSC와 전공 교과목: 일변수미적분학→물리전자공학, 일반물리학및실험2→전자기1 ◇ 전공 교과목: 전자회로1→전자회로2, 전자기1→전자기2, 신호및시스템→디지털신호처리, 신호및시스템→통신이론",
+      "졸업최소이수학점 : 130"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "기초설계",
+          "designCredits": 0.0,
+          "raw": "기초설계"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "반도체소자설계",
+          "designCredits": 0.0,
+          "raw": "반도체소자설계"
+        },
+        {
+          "name": "데이터통신설계",
+          "designCredits": 0.0,
+          "raw": "데이터통신설계"
+        },
+        {
+          "name": "정보시스템설계",
+          "designCredits": 0.0,
+          "raw": "정보시스템설계"
+        },
+        {
+          "name": "전자회로설계",
+          "designCredits": 0.0,
+          "raw": "전자회로설계"
+        },
+        {
+          "name": "통신시스템설계",
+          "designCredits": 0.0,
+          "raw": "통신시스템설계"
+        },
+        {
+          "name": "멀티미디어설계",
+          "designCredits": 0.0,
+          "raw": "멀티미디어설계"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "캡스톤디자인A",
+          "designCredits": 0.0,
+          "raw": "캡스톤디자인A"
+        },
+        {
+          "name": "캡스톤디자인B",
+          "designCredits": 0.0,
+          "raw": "캡스톤디자인B (b) 실험ㆍ실습 교과목 이수조건: 실험ㆍ실습 교과목을 1과목 이상 이수. 단"
+        },
+        {
+          "name": "실험ㆍ실습 교과목 해당 여부는 ‘2018년도 교과과정표’ 참고",
+          "designCredits": 0.0,
+          "raw": "실험ㆍ실습 교과목 해당 여부는 ‘2018년도 교과과정표’ 참고 (c) 일반영역 교과과정 이수조건: 일반영역 교과과정의 교과목을 24학점 이상 이수 [일반영역 교과과정의 교과목] 전기회로"
+        },
+        {
+          "name": "신호및시스템",
+          "designCredits": 0.0,
+          "raw": "신호및시스템"
+        },
+        {
+          "name": "기초설계",
+          "designCredits": 0.0,
+          "raw": "기초설계"
+        },
+        {
+          "name": "물리전자공학",
+          "designCredits": 0.0,
+          "raw": "물리전자공학"
+        },
+        {
+          "name": "전자회로1",
+          "designCredits": 0.0,
+          "raw": "전자회로1"
+        },
+        {
+          "name": "통신이론",
+          "designCredits": 0.0,
+          "raw": "통신이론"
+        },
+        {
+          "name": "전자기1",
+          "designCredits": 0.0,
+          "raw": "전자기1"
+        },
+        {
+          "name": "기초반도체",
+          "designCredits": 0.0,
+          "raw": "기초반도체"
+        },
+        {
+          "name": "데이터통신",
+          "designCredits": 0.0,
+          "raw": "데이터통신"
+        },
+        {
+          "name": "디지털신호처리",
+          "designCredits": 0.0,
+          "raw": "디지털신호처리"
+        },
+        {
+          "name": "광전자공학",
+          "designCredits": 0.0,
+          "raw": "광전자공학"
+        },
+        {
+          "name": "컴퓨터네트워크",
+          "designCredits": 0.0,
+          "raw": "컴퓨터네트워크"
+        },
+        {
+          "name": "디지털통신시스템",
+          "designCredits": 0.0,
+          "raw": "디지털통신시스템"
+        },
+        {
+          "name": "음성처리",
+          "designCredits": 0.0,
+          "raw": "음성처리"
+        },
+        {
+          "name": "영상처리",
+          "designCredits": 0.0,
+          "raw": "영상처리 (d) 이수체계 준수조건: 선후수 지정 교과목의 이수체계 준수 (후수 교과목을 이수하기 위해서는 미리 선수 교과목을 이수해야 함) [선후수 교과목]"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 0,
+      "minCredits": 0,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세종사회봉사1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일변수미적분학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍입문-C",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Listening Practice 1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "선형대수",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "프로그래밍",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세계사: 인간과 문명",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "확률및랜덤변수",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기회로",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "MATLAB프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디지털논리회로",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Reading Practice 2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신호및시스템",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "물리전자공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "JAVA프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터구조론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기회로실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자회로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "통신이론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자기1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초반도체",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디지털신호처리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "하드웨어프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터구조론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "랜덤프로세스",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자동제어",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터통신",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초광학및실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광전자공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터네트워크",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디지털통신시스템",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "음성처리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "영상처리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터분석과도표작성",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자회로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디스플레이공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자기2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "네트워크프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "임베디드시스템",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보이론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체소자설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터통신설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자정보통신공학특강A",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "집적회로",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "플라즈마공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "초고주파공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "무선네트워크",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "무선통신공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시스템반도체",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광통신공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "멀티미디어통신",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인공지능",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "음향공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "태양전지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체공정실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "마이크로컴퓨터실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인턴쉽A",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자회로설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "통신시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "멀티미디어설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "캡스톤디자인A",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자정보통신공학특강B",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체에너지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용광학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기전자재료공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수치해석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "안테나공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광반도체및LED공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "유선통신공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "차세대이동통신",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광통신시스템",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "방송시스템",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디지털제어",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "패턴인식",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인턴쉽B",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "캡스톤디자인B",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/front/imgs/%EC%9D%B8%EC%A6%9D%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8_%EC%9D%B4%EC%88%98%EC%B2%B4%EA%B3%84%EB%8F%84/%EC%A0%84%EC%9E%90%EA%B3%B5%ED%95%99/2020.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/front/imgs/%EC%9D%B8%EC%A6%9D%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8_%EC%9D%B4%EC%88%98%EC%B2%B4%EA%B3%84%EB%8F%84/%EC%A0%84%EC%9E%90%EA%B3%B5%ED%95%99/2020.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "전자정보통신공학과 이수체계도 2020",
+        "confidence": 0.516,
+        "x": 568.0,
+        "y": 21.0,
+        "xRatio": 0.4974,
+        "yRatio": 0.0282,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "2학년",
+        "confidence": 0.996,
+        "x": 426.0,
+        "y": 52.0,
+        "xRatio": 0.373,
+        "yRatio": 0.0697,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "국학년",
+        "confidence": 0.68,
+        "x": 685.0,
+        "y": 52.0,
+        "xRatio": 0.5998,
+        "yRatio": 0.0697,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "4학년",
+        "confidence": 0.983,
+        "x": 943.0,
+        "y": 52.0,
+        "xRatio": 0.8257,
+        "yRatio": 0.0697,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.875,
+        "x": 104.0,
+        "y": 75.0,
+        "xRatio": 0.0911,
+        "yRatio": 0.1005,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.768,
+        "x": 362.0,
+        "y": 75.0,
+        "xRatio": 0.317,
+        "yRatio": 0.1005,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 0.709,
+        "x": 489.0,
+        "y": 75.0,
+        "xRatio": 0.4282,
+        "yRatio": 0.1005,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "학기",
+        "confidence": 0.98,
+        "x": 625.0,
+        "y": 75.0,
+        "xRatio": 0.5473,
+        "yRatio": 0.1005,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 0.873,
+        "x": 748.0,
+        "y": 75.0,
+        "xRatio": 0.655,
+        "yRatio": 0.1005,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "학기",
+        "confidence": 0.982,
+        "x": 884.0,
+        "y": 75.0,
+        "xRatio": 0.7741,
+        "yRatio": 0.1005,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 0.951,
+        "x": 1009.0,
+        "y": 74.0,
+        "xRatio": 0.8835,
+        "yRatio": 0.0992,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "Engligh Ligtening",
+        "confidence": 0.581,
+        "x": 229.0,
+        "y": 103.0,
+        "xRatio": 0.2005,
+        "yRatio": 0.1381,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "English Roading",
+        "confidence": 0.574,
+        "x": 355.0,
+        "y": 102.5,
+        "xRatio": 0.3109,
+        "yRatio": 0.1374,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "Practice",
+        "confidence": 0.879,
+        "x": 203.0,
+        "y": 115.0,
+        "xRatio": 0.1778,
+        "yRatio": 0.1542,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "Practcg",
+        "confidence": 0.85,
+        "x": 333.0,
+        "y": 115.0,
+        "xRatio": 0.2916,
+        "yRatio": 0.1542,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "_사회봉사",
+        "confidence": 0.521,
+        "x": 101.0,
+        "y": 135.0,
+        "xRatio": 0.0884,
+        "yRatio": 0.181,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "<인종조건> 전 문교양 인 증필 수 교과목들 모두 이수",
+        "confidence": 0.373,
+        "x": 785.0,
+        "y": 134.0,
+        "xRatio": 0.6874,
+        "yRatio": 0.1796,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "일변 수미적분함",
+        "confidence": 0.368,
+        "x": 101.0,
+        "y": 193.0,
+        "xRatio": 0.0884,
+        "yRatio": 0.2587,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "공업수함",
+        "confidence": 0.615,
+        "x": 233.0,
+        "y": 193.0,
+        "xRatio": 0.204,
+        "yRatio": 0.2587,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업주함2",
+        "confidence": 0.583,
+        "x": 362.0,
+        "y": 192.0,
+        "xRatio": 0.317,
+        "yRatio": 0.2574,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "일반화학",
+        "confidence": 0.776,
+        "x": 103.0,
+        "y": 215.0,
+        "xRatio": 0.0902,
+        "yRatio": 0.2882,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "<인종조건> MSC 인종필수 교과목들 포함하여 30학점 이상 이수",
+        "confidence": 0.563,
+        "x": 825.0,
+        "y": 221.0,
+        "xRatio": 0.7224,
+        "yRatio": 0.2962,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "전기런로",
+        "confidence": 0.368,
+        "x": 362.0,
+        "y": 309.0,
+        "xRatio": 0.317,
+        "yRatio": 0.4142,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "통신이론",
+        "confidence": 0.803,
+        "x": 620.0,
+        "y": 308.0,
+        "xRatio": 0.5429,
+        "yRatio": 0.4129,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "공통",
+        "confidence": 1.0,
+        "x": 1088.0,
+        "y": 317.0,
+        "xRatio": 0.9527,
+        "yRatio": 0.4249,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "Cour도",
+        "confidence": 0.985,
+        "x": 1124.5,
+        "y": 318.0,
+        "xRatio": 0.9847,
+        "yRatio": 0.4263,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "컴퓨터구조록",
+        "confidence": 0.49,
+        "x": 491.0,
+        "y": 353.0,
+        "xRatio": 0.4299,
+        "yRatio": 0.4732,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전기회로실험",
+        "confidence": 0.377,
+        "x": 490.0,
+        "y": 381.0,
+        "xRatio": 0.4291,
+        "yRatio": 0.5107,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전작회로2",
+        "confidence": 0.406,
+        "x": 750.0,
+        "y": 382.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.5121,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "집적회로",
+        "confidence": 0.806,
+        "x": 879.0,
+        "y": 381.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.5107,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기초반도권",
+        "confidence": 0.38,
+        "x": 620.0,
+        "y": 405.0,
+        "xRatio": 0.5429,
+        "yRatio": 0.5429,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "반도최공정실험",
+        "confidence": 0.369,
+        "x": 878.0,
+        "y": 403.0,
+        "xRatio": 0.7688,
+        "yRatio": 0.5402,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "전작기2",
+        "confidence": 0.657,
+        "x": 750.0,
+        "y": 425.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.5697,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "플라즈마공학",
+        "confidence": 0.594,
+        "x": 880.0,
+        "y": 425.0,
+        "xRatio": 0.7706,
+        "yRatio": 0.5697,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "전자 Track",
+        "confidence": 1.0,
+        "x": 1107.5,
+        "y": 436.0,
+        "xRatio": 0.9698,
+        "yRatio": 0.5845,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기초관학및 실월",
+        "confidence": 0.323,
+        "x": 618.0,
+        "y": 446.0,
+        "xRatio": 0.5412,
+        "yRatio": 0.5979,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "광전자공학",
+        "confidence": 0.858,
+        "x": 750.0,
+        "y": 446.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.5979,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "출고주파공학",
+        "confidence": 0.343,
+        "x": 879.0,
+        "y": 446.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.5979,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "수최회석",
+        "confidence": 0.412,
+        "x": 1009.0,
+        "y": 446.0,
+        "xRatio": 0.8835,
+        "yRatio": 0.5979,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "<인종 조건> 추가 조건들올 모두 만족하여 전 공 57학점 이상",
+        "confidence": 0.518,
+        "x": 291.0,
+        "y": 469.0,
+        "xRatio": 0.2548,
+        "yRatio": 0.6287,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "반도최공학",
+        "confidence": 0.906,
+        "x": 750.0,
+        "y": 468.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.6273,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "안티나공학",
+        "confidence": 0.962,
+        "x": 1009.0,
+        "y": 468.0,
+        "xRatio": 0.8835,
+        "yRatio": 0.6273,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "요선통신공합",
+        "confidence": 0.416,
+        "x": 1009.0,
+        "y": 519.0,
+        "xRatio": 0.8835,
+        "yRatio": 0.6957,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "무선 통신공학",
+        "confidence": 0.452,
+        "x": 879.0,
+        "y": 540.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.7239,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "차서대이동 통신",
+        "confidence": 0.474,
+        "x": 1007.0,
+        "y": 539.0,
+        "xRatio": 0.8818,
+        "yRatio": 0.7225,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "통신 Track",
+        "confidence": 0.999,
+        "x": 1108.5,
+        "y": 562.0,
+        "xRatio": 0.9707,
+        "yRatio": 0.7534,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "전문고양필수 _",
+        "confidence": 0.736,
+        "x": 102.0,
+        "y": 585.0,
+        "xRatio": 0.0893,
+        "yRatio": 0.7842,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "임버드시스템",
+        "confidence": 0.469,
+        "x": 749.0,
+        "y": 583.0,
+        "xRatio": 0.6559,
+        "yRatio": 0.7815,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "광통신 공학",
+        "confidence": 0.619,
+        "x": 879.0,
+        "y": 584.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.7828,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "MSC필수",
+        "confidence": 0.637,
+        "x": 103.0,
+        "y": 607.0,
+        "xRatio": 0.0902,
+        "yRatio": 0.8137,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "의 원리오 음용",
+        "confidence": 0.807,
+        "x": 1009.0,
+        "y": 601.0,
+        "xRatio": 0.8835,
+        "yRatio": 0.8056,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "음성최리",
+        "confidence": 0.839,
+        "x": 750.0,
+        "y": 635.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.8512,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "덜티미디어통신",
+        "confidence": 0.45,
+        "x": 879.0,
+        "y": 636.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.8525,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "전공(설계)",
+        "confidence": 0.881,
+        "x": 104.0,
+        "y": 658.0,
+        "xRatio": 0.0911,
+        "yRatio": 0.882,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "영상처리",
+        "confidence": 0.499,
+        "x": 751.0,
+        "y": 657.0,
+        "xRatio": 0.6576,
+        "yRatio": 0.8807,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "인공지등",
+        "confidence": 0.47,
+        "x": 878.0,
+        "y": 656.0,
+        "xRatio": 0.7688,
+        "yRatio": 0.8794,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "필수 선수",
+        "confidence": 1.0,
+        "x": 126.0,
+        "y": 679.0,
+        "xRatio": 0.1103,
+        "yRatio": 0.9102,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "정보이론",
+        "confidence": 0.551,
+        "x": 750.0,
+        "y": 679.0,
+        "xRatio": 0.6567,
+        "yRatio": 0.9102,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "정보",
+        "confidence": 1.0,
+        "x": 1086.0,
+        "y": 681.0,
+        "xRatio": 0.951,
+        "yRatio": 0.9129,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "Track",
+        "confidence": 1.0,
+        "x": 1123.5,
+        "y": 682.0,
+        "xRatio": 0.9838,
+        "yRatio": 0.9142,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "전공 민종필수; 기 초설계 , 캠스트디자민 4B 중 1 과목",
+        "confidence": 0.406,
+        "x": 211.0,
+        "y": 698.5,
+        "xRatio": 0.1848,
+        "yRatio": 0.9363,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "X 요소설계: 기초설계와 캠스튼디자인 4B 이외의 설계",
+        "confidence": 0.375,
+        "x": 203.0,
+        "y": 721.0,
+        "xRatio": 0.1778,
+        "yRatio": 0.9665,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "교과목",
+        "confidence": 0.923,
+        "x": 380.0,
+        "y": 722.0,
+        "xRatio": 0.3327,
+        "yRatio": 0.9678,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "멀티미디어설견",
+        "confidence": 0.482,
+        "x": 879.0,
+        "y": 723.0,
+        "xRatio": 0.7697,
+        "yRatio": 0.9692,
+        "estimatedTerm": "4-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "Engligh Ligtening",
+        "to": "English Roading",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "_사회봉사",
+        "to": "Practice",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "Practice",
+        "to": "Practcg",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일변 수미적분함",
+        "to": "일반화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반화학",
+        "to": "공업수함",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수함",
+        "to": "공업주함2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전기런로",
+        "to": "통신이론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전기회로실험",
+        "to": "기초반도권",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초반도권",
+        "to": "전작회로2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전작회로2",
+        "to": "반도최공정실험",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "반도최공정실험",
+        "to": "집적회로",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초관학및 실월",
+        "to": "전작기2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전작기2",
+        "to": "광전자공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "광전자공학",
+        "to": "출고주파공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "출고주파공학",
+        "to": "플라즈마공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "플라즈마공학",
+        "to": "수최회석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "수최회석",
+        "to": "전자 Track",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "반도최공학",
+        "to": "안티나공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "무선 통신공학",
+        "to": "차서대이동 통신",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "임버드시스템",
+        "to": "광통신 공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "광통신 공학",
+        "to": "통신 Track",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "음성최리",
+        "to": "영상처리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "영상처리",
+        "to": "인공지등",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인공지등",
+        "to": "덜티미디어통신",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "필수 선수",
+        "to": "전공 민종필수; 기 초설계 , 캠스트디자민 4B 중 1 과목",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:25:12"
+}

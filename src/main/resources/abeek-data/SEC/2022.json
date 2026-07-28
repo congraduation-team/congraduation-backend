@@ -1,0 +1,1531 @@
+{
+  "departmentCode": "SEC",
+  "departmentName": "정보보호학",
+  "year": 2022,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0602_9.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 18.0,
+    "majorMinCredits": 60.0,
+    "designMinCredits": 12.0,
+    "totalMinCredits": null,
+    "rows": [
+      {
+        "category": "교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "*인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 ※ 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 ※ 인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수"
+      },
+      {
+        "category": "BSM",
+        "minCredits": 18.0,
+        "designCredits": 0.0,
+        "note": "인증필수: 이산수학 및 프로그래밍(3), 기초미적분학(3), 일반물리학1(3), 일반생물학(3), 정수론(3) / 인증선택: 확률통계 및 프로그래밍(3), 선형대수 및 프로그래밍(3) (이 중 반드시 ‘한 과목’ 이상 이수 요망)"
+      },
+      {
+        "category": "전공",
+        "minCredits": 60.0,
+        "designCredits": 12.0,
+        "note": "*기초설계: 공학설계기초(3, 설계3) *요소설계: 알고리즘 및 실습(3, 설계1), 보안프로그래밍(3, 설계1), 데이터베이스보안(3, 설계1), 웹해킹과 보안(3, 설계1), 오픈소스SW설계(3, 설계1), 임베디드시스템보안(3, 설계1.5), 보안공학(3, 설계1.5), 네트워크 해킹과 보안(3, 설계1.5), 모바일시스템보안(3, 설계1.5) *종합설계: Capstone디자인(6, 설계6) ※ 설계교과목은 반드시 기초설계 → 요소설계 → 종합설계 순으로 이수해야함 . ※ 기초설계와 요소설계 , 요소설계와 종합설계 병수는 가능함 . ※ 기초설계 이수 전과 종합설계 이수 후의 설계과목은 설계학점으로 미인정함 ."
+      }
+    ],
+    "rawNotes": [
+      "*인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 ※ 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 ※ 인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수",
+      "인증필수: 이산수학 및 프로그래밍(3), 기초미적분학(3), 일반물리학1(3), 일반생물학(3), 정수론(3)",
+      "인증선택: 확률통계 및 프로그래밍(3), 선형대수 및 프로그래밍(3) (이 중 반드시 ‘한 과목’ 이상 이수 요망)",
+      "*기초설계: 공학설계기초(3, 설계3) *요소설계: 알고리즘 및 실습(3, 설계1), 보안프로그래밍(3, 설계1), 데이터베이스보안(3, 설계1), 웹해킹과 보안(3, 설계1), 오픈소스SW설계(3, 설계1), 임베디드시스템보안(3, 설계1.5), 보안공학(3, 설계1.5), 네트워크 해킹과 보안(3, 설계1.5), 모바일시스템보안(3, 설계1.5) *종합설계: Capstone디자인(6, 설계6) ※ 설계교과목은 반드시 기초설계 → 요소설계 → 종합설계 순으로 이수해야함 . ※ 기초설계와 요소설계 , 요소설계와 종합설계 병수는 가능함 . ※ 기초설계 이수 전과 종합설계 이수 후의 설계과목은 설계학점으로 미인정함 ."
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "공학설계기초",
+          "designCredits": 3.0,
+          "raw": "공학설계기초(3, 설계3)"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "알고리즘 및 실습",
+          "designCredits": 1.0,
+          "raw": "알고리즘 및 실습(3, 설계1)"
+        },
+        {
+          "name": "보안프로그래밍",
+          "designCredits": 1.0,
+          "raw": "보안프로그래밍(3, 설계1)"
+        },
+        {
+          "name": "데이터베이스보안",
+          "designCredits": 1.0,
+          "raw": "데이터베이스보안(3, 설계1)"
+        },
+        {
+          "name": "웹해킹과 보안",
+          "designCredits": 1.0,
+          "raw": "웹해킹과 보안(3, 설계1)"
+        },
+        {
+          "name": "오픈소스SW설계",
+          "designCredits": 1.0,
+          "raw": "오픈소스SW설계(3, 설계1)"
+        },
+        {
+          "name": "임베디드시스템보안",
+          "designCredits": 1.5,
+          "raw": "임베디드시스템보안(3, 설계1.5)"
+        },
+        {
+          "name": "보안공학",
+          "designCredits": 1.5,
+          "raw": "보안공학(3, 설계1.5)"
+        },
+        {
+          "name": "네트워크 해킹과 보안",
+          "designCredits": 1.5,
+          "raw": "네트워크 해킹과 보안(3, 설계1.5)"
+        },
+        {
+          "name": "모바일시스템보안",
+          "designCredits": 1.5,
+          "raw": "모바일시스템보안(3, 설계1.5)"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "Capstone디자인",
+          "designCredits": 6.0,
+          "raw": "Capstone디자인(6, 설계6)"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 6,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "문제해결을 위한 글쓰기와 발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신입생세미나A",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초미적분학",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학 1",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍활용",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "C 프로그래밍및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보보호와 보안의 기초",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신입생세미나B",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학 : 쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반생물학",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급 C 프로그래밍및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공학설계기초 ( 산학프로젝트입문 )",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "창의 SW 융합노마드",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터네트워크",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자료구조및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "이산수학및프로그래밍",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정수론",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "확률통계및프록래밍",
+      "roleLabel": "인선 (BSM)",
+      "role": "ELECTIVE",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "웹프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "문제해결및실습 :JAVA",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "사이버전개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "어셈블리어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "알고리즘및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "보안프로그래밍",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대칭키암호론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터구조",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급컴퓨터네트워크",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "오픈소스 SW 개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "리눅스의 기초 및 실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공개키암호론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "운영체제및보안",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "웹해킹과보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터베이스보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "임베디드 시스템 보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "보안경진대회트레이닝",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시스템해킹과 보안",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "오픈소스 SW 설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "선형대수및프로그래밍",
+      "roleLabel": "인필 (BSM)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시스템프로그래밍및보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "보안공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "사이버관제및대응",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "사이버공방종합훈련",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 6.0,
+      "designCredits": 6.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "네트워크 해킹과 보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "악성코드분석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인턴십",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "디지털포렌식",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "모바일시스템보안",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보보호특강",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보보호산업기술동향",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "보안정책과법규",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "정보보호관리체계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20220208_0653_5710001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20220208_0653_5710001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "정보보호학과 이수체계도 2022",
+        "confidence": 0.929,
+        "x": 502.0,
+        "y": 52.0,
+        "xRatio": 0.4718,
+        "yRatio": 0.0753,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "(공학교육인증)",
+        "confidence": 0.686,
+        "x": 799.0,
+        "y": 59.0,
+        "xRatio": 0.7509,
+        "yRatio": 0.0854,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "1 -",
+        "confidence": 0.509,
+        "x": 108.0,
+        "y": 103.0,
+        "xRatio": 0.1015,
+        "yRatio": 0.1491,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "더라엽어",
+        "confidence": 0.359,
+        "x": 230.0,
+        "y": 133.0,
+        "xRatio": 0.2162,
+        "yRatio": 0.1925,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "역사와",
+        "confidence": 0.993,
+        "x": 364.0,
+        "y": 143.0,
+        "xRatio": 0.3421,
+        "yRatio": 0.2069,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "<인종조건>",
+        "confidence": 0.983,
+        "x": 767.0,
+        "y": 152.0,
+        "xRatio": 0.7209,
+        "yRatio": 0.22,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "전문교양 인종필수 교과목을 포함하여 14학점 이상 이수하여야 함.",
+        "confidence": 0.456,
+        "x": 822.0,
+        "y": 174.0,
+        "xRatio": 0.7726,
+        "yRatio": 0.2518,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기초미적분화",
+        "confidence": 0.706,
+        "x": 107.0,
+        "y": 227.0,
+        "xRatio": 0.1006,
+        "yRatio": 0.3285,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "인반생물학",
+        "confidence": 0.359,
+        "x": 232.0,
+        "y": 227.0,
+        "xRatio": 0.218,
+        "yRatio": 0.3285,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "이산수학",
+        "confidence": 0.648,
+        "x": 350.0,
+        "y": 222.0,
+        "xRatio": 0.3289,
+        "yRatio": 0.3213,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "프로그래굉",
+        "confidence": 0.427,
+        "x": 356.0,
+        "y": 233.0,
+        "xRatio": 0.3346,
+        "yRatio": 0.3372,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "<인종존건>",
+        "confidence": 0.374,
+        "x": 765.0,
+        "y": 252.0,
+        "xRatio": 0.719,
+        "yRatio": 0.3647,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "인반물리학1",
+        "confidence": 0.662,
+        "x": 107.0,
+        "y": 263.0,
+        "xRatio": 0.1006,
+        "yRatio": 0.3806,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "프로그리망",
+        "confidence": 0.974,
+        "x": 354.0,
+        "y": 268.0,
+        "xRatio": 0.3327,
+        "yRatio": 0.3878,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "교과",
+        "confidence": 1.0,
+        "x": 736.0,
+        "y": 266.0,
+        "xRatio": 0.6917,
+        "yRatio": 0.3849,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "그래망' 중 한 과목 이상",
+        "confidence": 0.567,
+        "x": 927.5,
+        "y": 278.5,
+        "xRatio": 0.8717,
+        "yRatio": 0.403,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "C프로그래망",
+        "confidence": 0.545,
+        "x": 107.0,
+        "y": 342.0,
+        "xRatio": 0.1006,
+        "yRatio": 0.4949,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "고급c프로그리망",
+        "confidence": 0.487,
+        "x": 231.0,
+        "y": 342.0,
+        "xRatio": 0.2171,
+        "yRatio": 0.4949,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "자료구조 및 실습",
+        "confidence": 0.968,
+        "x": 355.0,
+        "y": 348.0,
+        "xRatio": 0.3336,
+        "yRatio": 0.5036,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "Capstone디자민",
+        "confidence": 0.785,
+        "x": 866.0,
+        "y": 344.0,
+        "xRatio": 0.8139,
+        "yRatio": 0.4978,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "및 실습",
+        "confidence": 0.971,
+        "x": 110.0,
+        "y": 354.0,
+        "xRatio": 0.1034,
+        "yRatio": 0.5123,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "및 실습",
+        "confidence": 0.998,
+        "x": 232.0,
+        "y": 354.0,
+        "xRatio": 0.218,
+        "yRatio": 0.5123,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "점보보호와",
+        "confidence": 0.868,
+        "x": 108.0,
+        "y": 381.0,
+        "xRatio": 0.1015,
+        "yRatio": 0.5514,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공학설계기초",
+        "confidence": 0.718,
+        "x": 231.0,
+        "y": 379.0,
+        "xRatio": 0.2171,
+        "yRatio": 0.5485,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "킬프로그리망",
+        "confidence": 0.381,
+        "x": 355.0,
+        "y": 384.0,
+        "xRatio": 0.3336,
+        "yRatio": 0.5557,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "안고리금 및 실습",
+        "confidence": 0.539,
+        "x": 479.0,
+        "y": 385.0,
+        "xRatio": 0.4502,
+        "yRatio": 0.5572,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "데이터러이스보안",
+        "confidence": 0.33,
+        "x": 611.0,
+        "y": 384.0,
+        "xRatio": 0.5742,
+        "yRatio": 0.5557,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "오른스스SW설계",
+        "confidence": 0.958,
+        "x": 742.0,
+        "y": 384.0,
+        "xRatio": 0.6974,
+        "yRatio": 0.5557,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "정보보호극강",
+        "confidence": 0.664,
+        "x": 989.0,
+        "y": 386.0,
+        "xRatio": 0.9295,
+        "yRatio": 0.5586,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "보안의 기초",
+        "confidence": 0.982,
+        "x": 108.0,
+        "y": 393.0,
+        "xRatio": 0.1015,
+        "yRatio": 0.5687,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "실습",
+        "confidence": 0.999,
+        "x": 382.0,
+        "y": 416.0,
+        "xRatio": 0.359,
+        "yRatio": 0.602,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "시스템",
+        "confidence": 0.816,
+        "x": 742.0,
+        "y": 416.0,
+        "xRatio": 0.6974,
+        "yRatio": 0.602,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "네트위크해림과",
+        "confidence": 0.5,
+        "x": 866.0,
+        "y": 415.0,
+        "xRatio": 0.8139,
+        "yRatio": 0.6006,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "정보보호산업",
+        "confidence": 0.969,
+        "x": 989.0,
+        "y": 418.0,
+        "xRatio": 0.9295,
+        "yRatio": 0.6049,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "보안",
+        "confidence": 0.996,
+        "x": 866.0,
+        "y": 427.0,
+        "xRatio": 0.8139,
+        "yRatio": 0.6179,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "보안프로그래망",
+        "confidence": 0.402,
+        "x": 479.0,
+        "y": 460.0,
+        "xRatio": 0.4502,
+        "yRatio": 0.6657,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "운영처제릿보안",
+        "confidence": 0.349,
+        "x": 610.0,
+        "y": 457.0,
+        "xRatio": 0.5733,
+        "yRatio": 0.6614,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "불안공하",
+        "confidence": 0.566,
+        "x": 742.0,
+        "y": 459.0,
+        "xRatio": 0.6974,
+        "yRatio": 0.6643,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "악성코드분석",
+        "confidence": 0.962,
+        "x": 865.0,
+        "y": 459.0,
+        "xRatio": 0.813,
+        "yRatio": 0.6643,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "컴퓨터니트위크",
+        "confidence": 0.936,
+        "x": 355.0,
+        "y": 499.0,
+        "xRatio": 0.3336,
+        "yRatio": 0.7221,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "인터실",
+        "confidence": 0.383,
+        "x": 865.0,
+        "y": 497.0,
+        "xRatio": 0.813,
+        "yRatio": 0.7192,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "고급컴규터",
+        "confidence": 0.529,
+        "x": 480.0,
+        "y": 530.0,
+        "xRatio": 0.4511,
+        "yRatio": 0.767,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "보안경진대회",
+        "confidence": 0.988,
+        "x": 610.0,
+        "y": 530.0,
+        "xRatio": 0.5733,
+        "yRatio": 0.767,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "네트위크",
+        "confidence": 0.618,
+        "x": 479.0,
+        "y": 542.0,
+        "xRatio": 0.4502,
+        "yRatio": 0.7844,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "트레이님",
+        "confidence": 0.965,
+        "x": 610.0,
+        "y": 542.0,
+        "xRatio": 0.5733,
+        "yRatio": 0.7844,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "BSM 필수",
+        "confidence": 0.895,
+        "x": 112.0,
+        "y": 550.0,
+        "xRatio": 0.1053,
+        "yRatio": 0.7959,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "전공 필수",
+        "confidence": 0.989,
+        "x": 113.0,
+        "y": 576.0,
+        "xRatio": 0.1062,
+        "yRatio": 0.8336,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "오른소스SW개론",
+        "confidence": 0.316,
+        "x": 479.5,
+        "y": 579.5,
+        "xRatio": 0.4507,
+        "yRatio": 0.8386,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전공 (설기 과로)",
+        "confidence": 0.508,
+        "x": 112.0,
+        "y": 602.0,
+        "xRatio": 0.1053,
+        "yRatio": 0.8712,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "리늄스의 기초",
+        "confidence": 0.387,
+        "x": 480.0,
+        "y": 611.0,
+        "xRatio": 0.4511,
+        "yRatio": 0.8842,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "권장 선 구수",
+        "confidence": 0.583,
+        "x": 130.0,
+        "y": 628.0,
+        "xRatio": 0.1222,
+        "yRatio": 0.9088,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "맛 실습",
+        "confidence": 0.376,
+        "x": 480.0,
+        "y": 621.0,
+        "xRatio": 0.4511,
+        "yRatio": 0.8987,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "* 설계교과목이수 유의사랑 *",
+        "confidence": 0.689,
+        "x": 804.0,
+        "y": 623.0,
+        "xRatio": 0.7556,
+        "yRatio": 0.9016,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "필수 선 후수",
+        "confidence": 0.446,
+        "x": 130.0,
+        "y": 647.0,
+        "xRatio": 0.1222,
+        "yRatio": 0.9363,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "반드시",
+        "confidence": 1.0,
+        "x": 591.0,
+        "y": 649.0,
+        "xRatio": 0.5555,
+        "yRatio": 0.9392,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "요소설계",
+        "confidence": 1.0,
+        "x": 725.0,
+        "y": 650.0,
+        "xRatio": 0.6814,
+        "yRatio": 0.9407,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "Capstone디자인 순으로",
+        "confidence": 0.924,
+        "x": 829.0,
+        "y": 650.0,
+        "xRatio": 0.7791,
+        "yRatio": 0.9407,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "수해야 함",
+        "confidence": 0.993,
+        "x": 934.0,
+        "y": 650.0,
+        "xRatio": 0.8778,
+        "yRatio": 0.9407,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "요소설계 & 요소설계 + Capstone디자인은 병수가 가능함 )",
+        "confidence": 0.661,
+        "x": 842.0,
+        "y": 663.0,
+        "xRatio": 0.7914,
+        "yRatio": 0.9595,
+        "estimatedTerm": "4-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "기초미적분화",
+        "to": "인반생물학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인반생물학",
+        "to": "이산수학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "이산수학",
+        "to": "프로그래굉",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인반물리학1",
+        "to": "프로그리망",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "C프로그래망",
+        "to": "고급c프로그리망",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실습",
+        "to": "공학설계기초",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공학설계기초",
+        "to": "및 실습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실습",
+        "to": "자료구조 및 실습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "점보보호와",
+        "to": "보안의 기초",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "보안의 기초",
+        "to": "킬프로그리망",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "킬프로그리망",
+        "to": "안고리금 및 실습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "안고리금 및 실습",
+        "to": "데이터러이스보안",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "데이터러이스보안",
+        "to": "오른스스SW설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "오른스스SW설계",
+        "to": "정보보호극강",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "네트위크해림과",
+        "to": "정보보호산업",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "보안프로그래망",
+        "to": "운영처제릿보안",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "운영처제릿보안",
+        "to": "불안공하",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "불안공하",
+        "to": "악성코드분석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "네트위크",
+        "to": "고급컴규터",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고급컴규터",
+        "to": "보안경진대회",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "보안경진대회",
+        "to": "트레이님",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "리늄스의 기초",
+        "to": "맛 실습",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "권장 선 구수",
+        "to": "필수 선 후수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "요소설계",
+        "to": "* 설계교과목이수 유의사랑 *",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "* 설계교과목이수 유의사랑 *",
+        "to": "Capstone디자인 순으로",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "Capstone디자인 순으로",
+        "to": "수해야 함",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {
+      "1-2": 0.218,
+      "2-1": 0.3449,
+      "2-2": 0.4511,
+      "3-1": 0.578,
+      "4-1": 0.8139,
+      "4-2": 0.9295
+    }
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:54:45"
+}
