@@ -26,8 +26,8 @@ public class SejongStudentLoginService {
 
     @Transactional
     public Student login(SejongLoginRequestDto loginRequestDto) {
-        String ssoToken = sejongAuthService.getSsoToken(loginRequestDto);
-        SejongProfileResponseDto profile = sejongProfileService.fetchUserProfile(ssoToken);
+        SejongSession session = sejongAuthService.login(loginRequestDto);
+        SejongProfileResponseDto profile = sejongProfileService.fetchUserProfile(session);
         return studentService.findOrCreate(profile);
     }
 }
