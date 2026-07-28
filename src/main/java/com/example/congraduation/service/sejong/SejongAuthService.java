@@ -8,6 +8,7 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.SocketException;
+import java.net.http.HttpTimeoutException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -20,7 +21,13 @@ public class SejongAuthService {
 
     private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(15);
-    private static final int MAX_ATTEMPTS = 2;
+    private static final int MAX_ATTEMPTS = 3;
+    private static final Duration RETRY_DELAY = Duration.ofMillis(700);
+    private static final String DEFAULT_USER_AGENT =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                    + "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
+    private static final String PORTAL_HOME_URL =
+            "https://portal.sejong.ac.kr/";
 
     private static final String PORTAL_LOGIN_URL =
             "https://portal.sejong.ac.kr/jsp/login/login_action.jsp";
@@ -39,6 +46,7 @@ public class SejongAuthService {
                 if (!isRetryable(e) || attempt == MAX_ATTEMPTS) {
                     throw e;
                 }
+                sleepBeforeRetry();
             }
         }
 
@@ -59,13 +67,20 @@ public class SejongAuthService {
                     .version(HttpClient.Version.HTTP_1_1)
                     .build();
 
+            primePortalSession(httpClient);
+
             HttpRequest loginRequest = HttpRequest.newBuilder()
                     .uri(URI.create(PORTAL_LOGIN_URL))
                     .timeout(REQUEST_TIMEOUT)
                     .header("Content-Type", "application/x-www-form-urlencoded")
-                    .header("Referer", "https://portal.sejong.ac.kr/")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                    .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                    .header("Cache-Control", "max-age=0")
+                    .header("Connection", "keep-alive")
+                    .header("Referer", PORTAL_HOME_URL)
                     .header("Origin", "https://portal.sejong.ac.kr")
-                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+                    .header("Upgrade-Insecure-Requests", "1")
+                    .header("User-Agent", DEFAULT_USER_AGENT)
                     .POST(HttpRequest.BodyPublishers.ofString(buildFormData(loginRequestDto)))
                     .build();
 
@@ -78,7 +93,12 @@ public class SejongAuthService {
             HttpRequest ssoRequest = HttpRequest.newBuilder()
                     .uri(URI.create(SSO_URL))
                     .timeout(REQUEST_TIMEOUT)
-                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                    .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                    .header("Connection", "keep-alive")
+                    .header("Referer", PORTAL_HOME_URL)
+                    .header("Upgrade-Insecure-Requests", "1")
+                    .header("User-Agent", DEFAULT_USER_AGENT)
                     .GET()
                     .build();
 
@@ -107,7 +127,31 @@ public class SejongAuthService {
 
     private boolean isRetryable(RuntimeException exception) {
         Throwable cause = exception.getCause();
-        return cause instanceof SocketException;
+        return cause instanceof SocketException || cause instanceof HttpTimeoutException;
+    }
+
+    private void primePortalSession(HttpClient httpClient) throws IOException, InterruptedException {
+        HttpRequest portalHomeRequest = HttpRequest.newBuilder()
+                .uri(URI.create(PORTAL_HOME_URL))
+                .timeout(REQUEST_TIMEOUT)
+                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                .header("Connection", "keep-alive")
+                .header("Upgrade-Insecure-Requests", "1")
+                .header("User-Agent", DEFAULT_USER_AGENT)
+                .GET()
+                .build();
+
+        httpClient.send(portalHomeRequest, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private void sleepBeforeRetry() {
+        try {
+            Thread.sleep(RETRY_DELAY.toMillis());
+        } catch (InterruptedException interruptedException) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("세종 로그인 재시도 대기 중 인터럽트가 발생했습니다.", interruptedException);
+        }
     }
 
     private String encode(String value) {
