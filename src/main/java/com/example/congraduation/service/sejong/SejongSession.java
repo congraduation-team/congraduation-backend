@@ -1,6 +1,10 @@
 package com.example.congraduation.service.sejong;
 
-import java.net.CookieManager;
+import java.nio.file.Path;
 
-public record SejongSession(CookieManager cookieManager) {
+public record SejongSession(Path cookieJarPath) {
+
+    public void cleanup() {
+        SejongCurlSupport.deleteIfExists(cookieJarPath);
+    }
 }

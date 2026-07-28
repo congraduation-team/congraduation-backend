@@ -27,7 +27,11 @@ public class SejongStudentLoginService {
     @Transactional
     public Student login(SejongLoginRequestDto loginRequestDto) {
         SejongSession session = sejongAuthService.login(loginRequestDto);
-        SejongProfileResponseDto profile = sejongProfileService.fetchUserProfile(session);
-        return studentService.findOrCreate(profile);
+        try {
+            SejongProfileResponseDto profile = sejongProfileService.fetchUserProfile(session);
+            return studentService.findOrCreate(profile);
+        } finally {
+            session.cleanup();
+        }
     }
 }
