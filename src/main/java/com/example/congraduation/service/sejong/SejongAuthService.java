@@ -20,6 +20,8 @@ public class SejongAuthService {
     private static final String PORTAL_HOME_URL = "https://portal.sejong.ac.kr/";
     private static final String SSO_URL =
             "https://classic.sejong.ac.kr/_custom/sejong/sso/sso-return.jsp?returnUrl=https://classic.sejong.ac.kr/classic/index.do";
+    private static final String CLASSIC_INDEX_URL = "https://classic.sejong.ac.kr/classic/index.do";
+    private static final int MAX_SSO_REDIRECTS = 5;
 
     public SejongSession login(SejongLoginRequestDto loginRequestDto) {
         RuntimeException lastException = null;
@@ -97,15 +99,49 @@ public class SejongAuthService {
     }
 
     private void followSso(Path cookieJarPath) {
-        List<String> command = SejongCurlSupport.baseCurlCommand(cookieJarPath);
-        command.add("--header");
-        command.add("Referer: https://portal.sejong.ac.kr/");
-        command.add("--header");
-        command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        command.add("--header");
-        command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-        command.add(SSO_URL);
-        SejongCurlSupport.execute(command, "세종 SSO 연동");
+        String currentUrl = SSO_URL;
+        String referer = PORTAL_HOME_URL;
+
+        for (int redirectCount = 0; redirectCount < MAX_SSO_REDIRECTS; redirectCount++) {
+            Path headerFilePath;
+            try {
+                headerFilePath = Files.createTempFile("sejong-sso-headers-", ".txt");
+            } catch (IOException e) {
+                throw new RuntimeException("세종 SSO 헤더 파일 생성에 실패했습니다.", e);
+            }
+
+            List<String> command = SejongCurlSupport.baseCurlCommand(cookieJarPath);
+            command.add("--header");
+            command.add("Referer: " + referer);
+            command.add("--header");
+            command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            command.add("--header");
+            command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
+            command.add(currentUrl);
+
+            SejongCurlSupport.CurlExchange exchange = SejongCurlSupport.executeWithHeaders(
+                    command,
+                    headerFilePath,
+                    "세종 SSO 연동"
+            );
+
+            String nextLocation = SejongCurlSupport.resolveRedirectUrl(currentUrl, exchange.location());
+            if (nextLocation == null || nextLocation.isBlank()) {
+                if (exchange.body() != null && exchange.body().contains("/classic/index.do")) {
+                    return;
+                }
+                return;
+            }
+
+            currentUrl = nextLocation;
+            referer = currentUrl;
+        }
+
+        List<String> fallbackCommand = SejongCurlSupport.baseCurlCommand(cookieJarPath);
+        fallbackCommand.add("--header");
+        fallbackCommand.add("Referer: " + PORTAL_HOME_URL);
+        fallbackCommand.add(CLASSIC_INDEX_URL);
+        SejongCurlSupport.execute(fallbackCommand, "세종 classic 인덱스 진입");
     }
 
     private String buildFormData(SejongLoginRequestDto loginRequestDto) {

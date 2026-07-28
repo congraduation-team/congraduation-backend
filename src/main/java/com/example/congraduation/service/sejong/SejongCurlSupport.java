@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 final class SejongCurlSupport {
@@ -25,7 +26,6 @@ final class SejongCurlSupport {
         command.add("--http1.1");
         command.add("--silent");
         command.add("--show-error");
-        command.add("--location");
         command.add("--cookie");
         command.add(cookieJarPath.toString());
         command.add("--cookie-jar");
@@ -37,6 +37,28 @@ final class SejongCurlSupport {
         command.add("--max-time");
         command.add(Long.toString(CURL_TIMEOUT.toSeconds()));
         return command;
+    }
+
+    static CurlExchange executeWithHeaders(
+            List<String> command,
+            Path headerFilePath,
+            String actionDescription
+    ) {
+        List<String> commandWithHeaders = new ArrayList<>(command);
+        commandWithHeaders.add("--dump-header");
+        commandWithHeaders.add(headerFilePath.toString());
+
+        String body = execute(commandWithHeaders, actionDescription);
+        List<String> headers;
+        try {
+            headers = Files.readAllLines(headerFilePath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(actionDescription + " 응답 헤더를 읽는 중 오류가 발생했습니다.", e);
+        } finally {
+            deleteIfExists(headerFilePath);
+        }
+
+        return new CurlExchange(body, headers, findHeader(headers, "Location"));
     }
 
     static String execute(List<String> command, String actionDescription) {
@@ -80,10 +102,40 @@ final class SejongCurlSupport {
     }
 
     static void deleteIfExists(Path filePath) {
+        if (filePath == null) {
+            return;
+        }
         try {
             Files.deleteIfExists(filePath);
         } catch (IOException ignored) {
         }
+    }
+
+    static String resolveRedirectUrl(String currentUrl, String locationHeader) {
+        if (locationHeader == null || locationHeader.isBlank()) {
+            return null;
+        }
+        if (locationHeader.startsWith("http://") || locationHeader.startsWith("https://")) {
+            return locationHeader;
+        }
+        if (locationHeader.startsWith("/")) {
+            int schemeIndex = currentUrl.indexOf("://");
+            int pathStart = currentUrl.indexOf('/', schemeIndex + 3);
+            return (pathStart >= 0 ? currentUrl.substring(0, pathStart) : currentUrl) + locationHeader;
+        }
+        int lastSlash = currentUrl.lastIndexOf('/');
+        return (lastSlash >= 0 ? currentUrl.substring(0, lastSlash + 1) : currentUrl + "/") + locationHeader;
+    }
+
+    private static String findHeader(List<String> headers, String headerName) {
+        String prefix = headerName.toLowerCase(Locale.ROOT) + ":";
+        for (String line : headers) {
+            String normalized = line.toLowerCase(Locale.ROOT);
+            if (normalized.startsWith(prefix)) {
+                return line.substring(line.indexOf(':') + 1).trim();
+            }
+        }
+        return null;
     }
 
     private static String truncate(String value) {
@@ -92,5 +144,12 @@ final class SejongCurlSupport {
             return normalized;
         }
         return normalized.substring(0, 300);
+    }
+
+    record CurlExchange(
+            String body,
+            List<String> headers,
+            String location
+    ) {
     }
 }
