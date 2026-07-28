@@ -48,7 +48,7 @@ public class AbeekStudentController {
         return evaluationService.evaluate(studentId);
     }
 
-    private Map<String, Object> toSummary(Student s) {
+    private Map<String, Object> toSummary(AbeekStudent s) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("studentId", s.getStudentId());
         map.put("name", s.getName());

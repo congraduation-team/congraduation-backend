@@ -21,7 +21,7 @@ public class AbeekStudentService {
     private final CourseMasterRepository courseMasterRepository;
 
     @Transactional
-    public Student create(CreateStudentRequest request) {
+    public AbeekStudent create(CreateStudentRequest request) {
         if (studentRepository.findByStudentId(request.getStudentId()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 학번: " + request.getStudentId());
         }
@@ -46,7 +46,7 @@ public class AbeekStudentService {
     }
 
     @Transactional
-    public Student addEnrollment(String studentId, AddEnrollmentRequest request) {
+    public AbeekStudent addEnrollment(String studentId, AddEnrollmentRequest request) {
         AbeekStudent student = studentRepository.findWithEnrollmentsByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
         student.addEnrollment(toEnrollment(
@@ -61,7 +61,7 @@ public class AbeekStudentService {
     }
 
     @Transactional(readOnly = true)
-    public Student get(String studentId) {
+    public AbeekStudent get(String studentId) {
         return studentRepository.findWithEnrollmentsByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
     }
