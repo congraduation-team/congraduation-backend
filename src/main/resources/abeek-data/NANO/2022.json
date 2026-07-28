@@ -1,0 +1,2601 @@
+{
+  "departmentCode": "NANO",
+  "departmentName": "나노신소재공학",
+  "year": 2022,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1502_22.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 30.0,
+    "majorMinCredits": 54.0,
+    "designMinCredits": 9.0,
+    "totalMinCredits": 98.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "전문교양 14학점 이상 이수 *인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: 아래 지정 6개 교과목 중 2과목 이상(총 6학점 이상) 선택 이수 [역사와사상영역]세계사, 동서양의사상과윤리 [경제와사회영역]경제학, 경영학 [문화와예술영역]컴퓨터게임과메타버스, 융합예술의이해"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 30.0,
+        "designCredits": 0.0,
+        "note": "수학, 기초과학, 전산학(교양(필)) : 30학점 이상"
+      },
+      {
+        "category": "전공",
+        "minCredits": 54.0,
+        "designCredits": 9.0,
+        "note": "설계과목은 기초설계 교과목과 종합설계 교과목(나노신소재창의연구1, 2 중 택 1)을 포함하여 설계학점을 9학점 이상 획득하여야 함 *반드시 기초설계->요소설계->종합설계 순서로 수강) 기초설계: 공학기초설계실험(3), 금속과세라믹기초설계및실험(3) 요소설계: 반도체와고분자화학기초설계및실험(3), 산학협동강좌1,2(2) 종합설계: 나노신소재창의연구1,2(종합설계)(3)"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 98.0,
+        "designCredits": 9.0,
+        "note": "나노신소재공학과의 졸업이수학점 : 130학점"
+      }
+    ],
+    "rawNotes": [
+      "전문교양 14학점 이상 이수 *인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: 아래 지정 6개 교과목 중 2과목 이상(총 6학점 이상) 선택 이수 [역사와사상영역]세계사, 동서양의사상과윤리 [경제와사회영역]경제학, 경영학 [문화와예술영역]컴퓨터게임과메타버스, 융합예술의이해",
+      "수학, 기초과학, 전산학(교양(필)) : 30학점 이상",
+      "설계과목은 기초설계 교과목과 종합설계 교과목(나노신소재창의연구1, 2 중 택 1)을 포함하여 설계학점을 9학점 이상 획득하여야 함 *반드시 기초설계->요소설계->종합설계 순서로 수강) 기초설계: 공학기초설계실험(3), 금속과세라믹기초설계및실험(3) 요소설계: 반도체와고분자화학기초설계및실험(3), 산학협동강좌1,2(2) 종합설계: 나노신소재창의연구1,2(종합설계)(3)",
+      "나노신소재공학과의 졸업이수학점 : 130학점"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": ">요소설계->종합설계 순서로 수강) 기초설계: 공학기초설계실험",
+          "designCredits": 0.0,
+          "raw": ">요소설계->종합설계 순서로 수강) 기초설계: 공학기초설계실험(3)"
+        },
+        {
+          "name": "금속과세라믹기초설계및실험",
+          "designCredits": 0.0,
+          "raw": "금속과세라믹기초설계및실험(3) 요소설계: 반도체와고분자화학기초설계및실험(3)"
+        },
+        {
+          "name": "산학협동강좌1",
+          "designCredits": 0.0,
+          "raw": "산학협동강좌1"
+        },
+        {
+          "name": "2",
+          "designCredits": 0.0,
+          "raw": "2(2) 종합설계: 나노신소재창의연구1"
+        },
+        {
+          "name": "2",
+          "designCredits": 0.0,
+          "raw": "2(종합설계)(3) 나노신소재공학과의 졸업이수학점 : 130학점"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": ">종합설계 순서로 수강) 기초설계: 공학기초설계실험",
+          "designCredits": 0.0,
+          "raw": ">종합설계 순서로 수강) 기초설계: 공학기초설계실험(3)"
+        },
+        {
+          "name": "금속과세라믹기초설계및실험",
+          "designCredits": 0.0,
+          "raw": "금속과세라믹기초설계및실험(3) 요소설계: 반도체와고분자화학기초설계및실험(3)"
+        },
+        {
+          "name": "산학협동강좌1",
+          "designCredits": 0.0,
+          "raw": "산학협동강좌1"
+        },
+        {
+          "name": "2",
+          "designCredits": 0.0,
+          "raw": "2(2) 종합설계: 나노신소재창의연구1"
+        },
+        {
+          "name": "2",
+          "designCredits": 0.0,
+          "raw": "2(종합설계)(3) 나노신소재공학과의 졸업이수학점 : 130학점"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "나노신소재창의연구1",
+          "designCredits": 0.0,
+          "raw": "나노신소재창의연구1"
+        },
+        {
+          "name": "2",
+          "designCredits": 0.0,
+          "raw": "2(종합설계)(3) 나노신소재공학과의 졸업이수학점 : 130학점"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 6,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "세계사",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "동서양의사상과윤리",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "경영학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "경제학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "컴퓨터게임과메타버스",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "융합예술의이해",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신입생세미나",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세종사회봉사1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "SW기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노신소재공학개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급인공지능활용",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "결정구조및X선회절",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재료열역학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공학기초설계실험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기전자공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "현대물리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신소재과학1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "유기화학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자기학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재료열역학2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재료의전자기적물성",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신소재과학2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고체물리",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "확산및상변태",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "금속과세라믹기초설계및실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고분자화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "바이오재료공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "에너지재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초물리화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재료의기계적성질",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체와고분자화학기초설계및실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체제조공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고분자물리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고체화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "산화물재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신금속재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "화학기기분석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노신소재창의연구1(종합설계)",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재료분석학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "초미립소재학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "박막공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자성체재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "반도체나노소자",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고분자합성",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "산학협동강좌1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 2.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노신소재인턴십1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 2.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노신소재창의연구2(종합설계)",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "금속공정학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "진공공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광전자소자와디스플레이",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "유기전자소자",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전자세라믹스재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세라믹스공정학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노재료응용",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "산학협동강좌2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 2.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "나노신소재인턴십2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 2.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20220211_0516_3910001.jpg",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20220211_0516_3910001.jpg",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "2022년도나노신소재공학과 이수체계도",
+        "confidence": 0.962,
+        "x": 255.5,
+        "y": 20.0,
+        "xRatio": 0.1901,
+        "yRatio": 0.0198,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "학년",
+        "confidence": 0.999,
+        "x": 150.0,
+        "y": 60.0,
+        "xRatio": 0.1116,
+        "yRatio": 0.0595,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "2학년",
+        "confidence": 0.626,
+        "x": 411.0,
+        "y": 61.0,
+        "xRatio": 0.3058,
+        "yRatio": 0.0605,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "3학년",
+        "confidence": 0.986,
+        "x": 672.0,
+        "y": 61.0,
+        "xRatio": 0.5,
+        "yRatio": 0.0605,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "4학년",
+        "confidence": 0.821,
+        "x": 940.0,
+        "y": 61.0,
+        "xRatio": 0.6994,
+        "yRatio": 0.0605,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.999,
+        "x": 87.0,
+        "y": 76.0,
+        "xRatio": 0.0647,
+        "yRatio": 0.0754,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "그학기",
+        "confidence": 0.356,
+        "x": 178.0,
+        "y": 75.0,
+        "xRatio": 0.1324,
+        "yRatio": 0.0744,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.554,
+        "x": 351.0,
+        "y": 75.0,
+        "xRatio": 0.2612,
+        "yRatio": 0.0744,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "그학기",
+        "confidence": 0.559,
+        "x": 445.0,
+        "y": 75.0,
+        "xRatio": 0.3311,
+        "yRatio": 0.0744,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "1학기",
+        "confidence": 1.0,
+        "x": 614.0,
+        "y": 75.0,
+        "xRatio": 0.4568,
+        "yRatio": 0.0744,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "그학기",
+        "confidence": 0.484,
+        "x": 704.0,
+        "y": 75.0,
+        "xRatio": 0.5238,
+        "yRatio": 0.0744,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "1학기",
+        "confidence": 1.0,
+        "x": 882.0,
+        "y": 75.0,
+        "xRatio": 0.6562,
+        "yRatio": 0.0744,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "그학기",
+        "confidence": 0.475,
+        "x": 973.0,
+        "y": 75.0,
+        "xRatio": 0.724,
+        "yRatio": 0.0744,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "대학영어",
+        "confidence": 0.974,
+        "x": 203.0,
+        "y": 105.0,
+        "xRatio": 0.151,
+        "yRatio": 0.1042,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "졸업연구",
+        "confidence": 0.972,
+        "x": 890.0,
+        "y": 97.0,
+        "xRatio": 0.6622,
+        "yRatio": 0.0962,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업연구",
+        "confidence": 0.975,
+        "x": 997.0,
+        "y": 98.0,
+        "xRatio": 0.7418,
+        "yRatio": 0.0972,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "및 진로1",
+        "confidence": 0.638,
+        "x": 890.0,
+        "y": 113.0,
+        "xRatio": 0.6622,
+        "yRatio": 0.1121,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "및 진로?",
+        "confidence": 0.767,
+        "x": 998.0,
+        "y": 115.0,
+        "xRatio": 0.7426,
+        "yRatio": 0.1141,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "문제히결들 위한",
+        "confidence": 0.508,
+        "x": 90.0,
+        "y": 136.0,
+        "xRatio": 0.067,
+        "yRatio": 0.1349,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "서양철학:",
+        "confidence": 0.998,
+        "x": 204.0,
+        "y": 136.0,
+        "xRatio": 0.1518,
+        "yRatio": 0.1349,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "세계사:",
+        "confidence": 0.982,
+        "x": 359.0,
+        "y": 136.0,
+        "xRatio": 0.2671,
+        "yRatio": 0.1349,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "글쓰기와발표",
+        "confidence": 0.708,
+        "x": 91.0,
+        "y": 151.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.1498,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "인간과문명",
+        "confidence": 0.882,
+        "x": 358.0,
+        "y": 151.0,
+        "xRatio": 0.2664,
+        "yRatio": 0.1498,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "취창업과진로설계",
+        "confidence": 0.997,
+        "x": 802.0,
+        "y": 145.0,
+        "xRatio": 0.5967,
+        "yRatio": 0.1438,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "대학생활과",
+        "confidence": 0.574,
+        "x": 203.0,
+        "y": 173.0,
+        "xRatio": 0.151,
+        "yRatio": 0.1716,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "필수선수",
+        "confidence": 1.0,
+        "x": 1196.0,
+        "y": 165.0,
+        "xRatio": 0.8899,
+        "yRatio": 0.1637,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "신입생세미나",
+        "confidence": 0.995,
+        "x": 89.0,
+        "y": 181.0,
+        "xRatio": 0.0662,
+        "yRatio": 0.1796,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "진로람색",
+        "confidence": 0.856,
+        "x": 201.0,
+        "y": 189.0,
+        "xRatio": 0.1496,
+        "yRatio": 0.1875,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "권장선수",
+        "confidence": 1.0,
+        "x": 1196.0,
+        "y": 196.0,
+        "xRatio": 0.8899,
+        "yRatio": 0.1944,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "세종",
+        "confidence": 0.941,
+        "x": 87.0,
+        "y": 210.0,
+        "xRatio": 0.0647,
+        "yRatio": 0.2083,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "사회봉사1",
+        "confidence": 0.95,
+        "x": 88.0,
+        "y": 225.0,
+        "xRatio": 0.0655,
+        "yRatio": 0.2232,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "창업과기업기정신1",
+        "confidence": 0.679,
+        "x": 543.0,
+        "y": 253.0,
+        "xRatio": 0.404,
+        "yRatio": 0.251,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "일변수",
+        "confidence": 0.91,
+        "x": 91.0,
+        "y": 301.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.2986,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "다변수",
+        "confidence": 0.997,
+        "x": 203.0,
+        "y": 301.0,
+        "xRatio": 0.151,
+        "yRatio": 0.2986,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "미적분학",
+        "confidence": 0.996,
+        "x": 91.0,
+        "y": 317.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.3145,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "미적분학",
+        "confidence": 0.996,
+        "x": 202.0,
+        "y": 317.0,
+        "xRatio": 0.1503,
+        "yRatio": 0.3145,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "공업수학1",
+        "confidence": 0.901,
+        "x": 354.0,
+        "y": 309.0,
+        "xRatio": 0.2634,
+        "yRatio": 0.3065,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업수학?",
+        "confidence": 0.47,
+        "x": 471.0,
+        "y": 310.0,
+        "xRatio": 0.3504,
+        "yRatio": 0.3075,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "일반물리학",
+        "confidence": 0.998,
+        "x": 92.0,
+        "y": 341.0,
+        "xRatio": 0.0685,
+        "yRatio": 0.3383,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "일반물리학",
+        "confidence": 0.999,
+        "x": 204.0,
+        "y": 341.0,
+        "xRatio": 0.1518,
+        "yRatio": 0.3383,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "재료",
+        "confidence": 0.99,
+        "x": 354.0,
+        "y": 345.0,
+        "xRatio": 0.2634,
+        "yRatio": 0.3423,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "및 실험1",
+        "confidence": 0.984,
+        "x": 91.0,
+        "y": 357.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.3542,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "및 실험?",
+        "confidence": 0.713,
+        "x": 204.0,
+        "y": 357.0,
+        "xRatio": 0.1518,
+        "yRatio": 0.3542,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "열역학1",
+        "confidence": 0.734,
+        "x": 353.0,
+        "y": 359.0,
+        "xRatio": 0.2626,
+        "yRatio": 0.3562,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "일반화학 및",
+        "confidence": 0.964,
+        "x": 91.0,
+        "y": 377.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.374,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "일반화학 및",
+        "confidence": 0.966,
+        "x": 203.0,
+        "y": 377.0,
+        "xRatio": 0.151,
+        "yRatio": 0.374,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "실험1",
+        "confidence": 0.999,
+        "x": 92.0,
+        "y": 393.0,
+        "xRatio": 0.0685,
+        "yRatio": 0.3899,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "실험?",
+        "confidence": 0.674,
+        "x": 205.0,
+        "y": 393.0,
+        "xRatio": 0.1525,
+        "yRatio": 0.3899,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "결정구조및",
+        "confidence": 0.985,
+        "x": 353.0,
+        "y": 393.0,
+        "xRatio": 0.2626,
+        "yRatio": 0.3899,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "확산및 상변태",
+        "confidence": 0.678,
+        "x": 631.0,
+        "y": 401.0,
+        "xRatio": 0.4695,
+        "yRatio": 0.3978,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "산학협동",
+        "confidence": 0.721,
+        "x": 895.0,
+        "y": 395.0,
+        "xRatio": 0.6659,
+        "yRatio": 0.3919,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "산학협동",
+        "confidence": 0.624,
+        "x": 999.0,
+        "y": 395.0,
+        "xRatio": 0.7433,
+        "yRatio": 0.3919,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "소프트웨어",
+        "confidence": 0.954,
+        "x": 93.0,
+        "y": 415.0,
+        "xRatio": 0.0692,
+        "yRatio": 0.4117,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "고급프로그래",
+        "confidence": 0.988,
+        "x": 205.0,
+        "y": 418.0,
+        "xRatio": 0.1525,
+        "yRatio": 0.4147,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "X선회절",
+        "confidence": 0.785,
+        "x": 353.0,
+        "y": 409.0,
+        "xRatio": 0.2626,
+        "yRatio": 0.4058,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "재료의",
+        "confidence": 0.994,
+        "x": 757.0,
+        "y": 415.0,
+        "xRatio": 0.5632,
+        "yRatio": 0.4117,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "강좌1",
+        "confidence": 0.983,
+        "x": 897.0,
+        "y": 412.0,
+        "xRatio": 0.6674,
+        "yRatio": 0.4087,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "강좌_",
+        "confidence": 0.345,
+        "x": 1001.0,
+        "y": 412.0,
+        "xRatio": 0.7448,
+        "yRatio": 0.4087,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기초코당",
+        "confidence": 0.665,
+        "x": 91.0,
+        "y": 431.0,
+        "xRatio": 0.0677,
+        "yRatio": 0.4276,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "망입문-C",
+        "confidence": 0.472,
+        "x": 204.0,
+        "y": 431.0,
+        "xRatio": 0.1518,
+        "yRatio": 0.4276,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "기계적 성질",
+        "confidence": 0.992,
+        "x": 756.0,
+        "y": 430.0,
+        "xRatio": 0.5625,
+        "yRatio": 0.4266,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "현대물리",
+        "confidence": 1.0,
+        "x": 353.0,
+        "y": 441.0,
+        "xRatio": 0.2626,
+        "yRatio": 0.4375,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "고체물리",
+        "confidence": 0.986,
+        "x": 632.0,
+        "y": 443.0,
+        "xRatio": 0.4702,
+        "yRatio": 0.4395,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "나노신소지",
+        "confidence": 0.85,
+        "x": 899.0,
+        "y": 439.0,
+        "xRatio": 0.6689,
+        "yRatio": 0.4355,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "나노신소지",
+        "confidence": 0.917,
+        "x": 1001.0,
+        "y": 440.0,
+        "xRatio": 0.7448,
+        "yRatio": 0.4365,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "초미럽",
+        "confidence": 0.475,
+        "x": 897.0,
+        "y": 480.0,
+        "xRatio": 0.6674,
+        "yRatio": 0.4762,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "소재학",
+        "confidence": 0.998,
+        "x": 898.0,
+        "y": 496.0,
+        "xRatio": 0.6682,
+        "yRatio": 0.4921,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "금속공정학",
+        "confidence": 0.999,
+        "x": 1001.0,
+        "y": 489.0,
+        "xRatio": 0.7448,
+        "yRatio": 0.4851,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "재료",
+        "confidence": 0.994,
+        "x": 477.0,
+        "y": 514.0,
+        "xRatio": 0.3549,
+        "yRatio": 0.5099,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "신금속재료",
+        "confidence": 0.626,
+        "x": 758.0,
+        "y": 515.0,
+        "xRatio": 0.564,
+        "yRatio": 0.5109,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "금속소재",
+        "confidence": 0.999,
+        "x": 1210.0,
+        "y": 510.0,
+        "xRatio": 0.9003,
+        "yRatio": 0.506,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "열역학?",
+        "confidence": 0.31,
+        "x": 478.0,
+        "y": 531.0,
+        "xRatio": 0.3557,
+        "yRatio": 0.5268,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "자성계재료",
+        "confidence": 0.748,
+        "x": 899.0,
+        "y": 529.0,
+        "xRatio": 0.6689,
+        "yRatio": 0.5248,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "나노재료",
+        "confidence": 0.933,
+        "x": 1002.0,
+        "y": 525.0,
+        "xRatio": 0.7455,
+        "yRatio": 0.5208,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "응용",
+        "confidence": 0.905,
+        "x": 1001.0,
+        "y": 539.0,
+        "xRatio": 0.7448,
+        "yRatio": 0.5347,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "고체화학",
+        "confidence": 0.987,
+        "x": 758.0,
+        "y": 574.0,
+        "xRatio": 0.564,
+        "yRatio": 0.5694,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "신소꽤",
+        "confidence": 0.514,
+        "x": 358.0,
+        "y": 603.0,
+        "xRatio": 0.2664,
+        "yRatio": 0.5982,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "신소재",
+        "confidence": 0.57,
+        "x": 479.0,
+        "y": 603.0,
+        "xRatio": 0.3564,
+        "yRatio": 0.5982,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "공정학",
+        "confidence": 0.998,
+        "x": 1000.0,
+        "y": 599.0,
+        "xRatio": 0.744,
+        "yRatio": 0.5942,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "과학1",
+        "confidence": 0.983,
+        "x": 358.0,
+        "y": 619.0,
+        "xRatio": 0.2664,
+        "yRatio": 0.6141,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "과학?",
+        "confidence": 0.843,
+        "x": 479.5,
+        "y": 617.0,
+        "xRatio": 0.3568,
+        "yRatio": 0.6121,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "에너지재료",
+        "confidence": 0.971,
+        "x": 639.0,
+        "y": 610.0,
+        "xRatio": 0.4754,
+        "yRatio": 0.6052,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전기화학",
+        "confidence": 1.0,
+        "x": 758.0,
+        "y": 613.0,
+        "xRatio": 0.564,
+        "yRatio": 0.6081,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "재료분석학",
+        "confidence": 0.992,
+        "x": 898.0,
+        "y": 613.0,
+        "xRatio": 0.6682,
+        "yRatio": 0.6081,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "전자",
+        "confidence": 1.0,
+        "x": 1000.0,
+        "y": 618.0,
+        "xRatio": 0.744,
+        "yRatio": 0.6131,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "세라막소재",
+        "confidence": 0.316,
+        "x": 1210.0,
+        "y": 611.0,
+        "xRatio": 0.9003,
+        "yRatio": 0.6062,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "세라막스재료",
+        "confidence": 0.338,
+        "x": 1000.0,
+        "y": 634.0,
+        "xRatio": 0.744,
+        "yRatio": 0.629,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "산화물재료",
+        "confidence": 0.708,
+        "x": 758.0,
+        "y": 655.0,
+        "xRatio": 0.564,
+        "yRatio": 0.6498,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "반도체",
+        "confidence": 0.952,
+        "x": 897.0,
+        "y": 685.0,
+        "xRatio": 0.6674,
+        "yRatio": 0.6796,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "전자기학",
+        "confidence": 0.999,
+        "x": 477.0,
+        "y": 713.0,
+        "xRatio": 0.3549,
+        "yRatio": 0.7073,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "반도체재료",
+        "confidence": 0.382,
+        "x": 636.0,
+        "y": 711.0,
+        "xRatio": 0.4732,
+        "yRatio": 0.7054,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "반도체",
+        "confidence": 0.974,
+        "x": 756.5,
+        "y": 704.0,
+        "xRatio": 0.5629,
+        "yRatio": 0.6984,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "나노소자",
+        "confidence": 0.961,
+        "x": 899.0,
+        "y": 701.0,
+        "xRatio": 0.6689,
+        "yRatio": 0.6954,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "광전자소자와",
+        "confidence": 0.994,
+        "x": 1002.0,
+        "y": 705.0,
+        "xRatio": 0.7455,
+        "yRatio": 0.6994,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "전기전자공학",
+        "confidence": 0.998,
+        "x": 357.0,
+        "y": 715.0,
+        "xRatio": 0.2656,
+        "yRatio": 0.7093,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "제조공학",
+        "confidence": 0.994,
+        "x": 756.0,
+        "y": 720.0,
+        "xRatio": 0.5625,
+        "yRatio": 0.7143,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "박악공학",
+        "confidence": 0.805,
+        "x": 896.0,
+        "y": 731.0,
+        "xRatio": 0.6667,
+        "yRatio": 0.7252,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "전자소재",
+        "confidence": 0.563,
+        "x": 1210.0,
+        "y": 731.0,
+        "xRatio": 0.9003,
+        "yRatio": 0.7252,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "재료의",
+        "confidence": 0.997,
+        "x": 478.0,
+        "y": 746.0,
+        "xRatio": 0.3557,
+        "yRatio": 0.7401,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "전자기적 물성",
+        "confidence": 0.999,
+        "x": 479.5,
+        "y": 761.0,
+        "xRatio": 0.3568,
+        "yRatio": 0.755,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "진공공학",
+        "confidence": 0.957,
+        "x": 999.0,
+        "y": 757.0,
+        "xRatio": 0.7433,
+        "yRatio": 0.751,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기초물리",
+        "confidence": 0.997,
+        "x": 633.0,
+        "y": 789.0,
+        "xRatio": 0.471,
+        "yRatio": 0.7827,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "화학",
+        "confidence": 0.998,
+        "x": 635.0,
+        "y": 805.0,
+        "xRatio": 0.4725,
+        "yRatio": 0.7986,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "고분자물리",
+        "confidence": 0.774,
+        "x": 756.0,
+        "y": 811.0,
+        "xRatio": 0.5625,
+        "yRatio": 0.8046,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "유기화학",
+        "confidence": 0.992,
+        "x": 479.0,
+        "y": 819.0,
+        "xRatio": 0.3564,
+        "yRatio": 0.8125,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "바이오",
+        "confidence": 0.99,
+        "x": 634.0,
+        "y": 828.0,
+        "xRatio": 0.4717,
+        "yRatio": 0.8214,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "재료공학",
+        "confidence": 0.999,
+        "x": 635.0,
+        "y": 845.0,
+        "xRatio": 0.4725,
+        "yRatio": 0.8383,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "화학",
+        "confidence": 1.0,
+        "x": 756.0,
+        "y": 848.0,
+        "xRatio": 0.5625,
+        "yRatio": 0.8413,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "고분자합성",
+        "confidence": 0.969,
+        "x": 895.0,
+        "y": 855.0,
+        "xRatio": 0.6659,
+        "yRatio": 0.8482,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "유기전자소자",
+        "confidence": 0.995,
+        "x": 999.0,
+        "y": 855.0,
+        "xRatio": 0.7433,
+        "yRatio": 0.8482,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "유기- 고분자소재",
+        "confidence": 0.571,
+        "x": 1207.0,
+        "y": 850.0,
+        "xRatio": 0.8981,
+        "yRatio": 0.8433,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기기분석",
+        "confidence": 0.997,
+        "x": 755.0,
+        "y": 863.0,
+        "xRatio": 0.5618,
+        "yRatio": 0.8562,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "고분자화학",
+        "confidence": 0.929,
+        "x": 636.0,
+        "y": 877.0,
+        "xRatio": 0.4732,
+        "yRatio": 0.87,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "실습 설계",
+        "confidence": 0.987,
+        "x": 77.0,
+        "y": 939.0,
+        "xRatio": 0.0573,
+        "yRatio": 0.9315,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "공학기초",
+        "confidence": 0.999,
+        "x": 356.0,
+        "y": 948.0,
+        "xRatio": 0.2649,
+        "yRatio": 0.9405,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "반도처와",
+        "confidence": 0.44,
+        "x": 760.0,
+        "y": 947.0,
+        "xRatio": 0.5655,
+        "yRatio": 0.9395,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "나노신소꽤",
+        "confidence": 0.677,
+        "x": 887.0,
+        "y": 947.0,
+        "xRatio": 0.66,
+        "yRatio": 0.9395,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "나노신소재",
+        "confidence": 0.653,
+        "x": 991.0,
+        "y": 947.0,
+        "xRatio": 0.7374,
+        "yRatio": 0.9395,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "설계실험",
+        "confidence": 0.999,
+        "x": 356.0,
+        "y": 963.0,
+        "xRatio": 0.2649,
+        "yRatio": 0.9554,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "금속과서라막",
+        "confidence": 0.739,
+        "x": 639.0,
+        "y": 957.0,
+        "xRatio": 0.4754,
+        "yRatio": 0.9494,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "고분자화학",
+        "confidence": 0.944,
+        "x": 760.0,
+        "y": 960.0,
+        "xRatio": 0.5655,
+        "yRatio": 0.9524,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "창의면구1",
+        "confidence": 0.916,
+        "x": 888.0,
+        "y": 963.0,
+        "xRatio": 0.6607,
+        "yRatio": 0.9554,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "창의연구?",
+        "confidence": 0.454,
+        "x": 993.0,
+        "y": 961.0,
+        "xRatio": 0.7388,
+        "yRatio": 0.9534,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기초설거및실험",
+        "confidence": 0.615,
+        "x": 638.0,
+        "y": 970.0,
+        "xRatio": 0.4747,
+        "yRatio": 0.9623,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "기초설겨및실험",
+        "confidence": 0.574,
+        "x": 758.0,
+        "y": 975.0,
+        "xRatio": 0.564,
+        "yRatio": 0.9673,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "(종합설계)",
+        "confidence": 0.991,
+        "x": 887.0,
+        "y": 979.0,
+        "xRatio": 0.66,
+        "yRatio": 0.9712,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "(종합설계)",
+        "confidence": 0.934,
+        "x": 992.0,
+        "y": 978.0,
+        "xRatio": 0.7381,
+        "yRatio": 0.9702,
+        "estimatedTerm": "4-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "문제히결들 위한",
+        "to": "글쓰기와발표",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "글쓰기와발표",
+        "to": "대학영어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "대학영어",
+        "to": "서양철학:",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "서양철학:",
+        "to": "인간과문명",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인간과문명",
+        "to": "세계사:",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "취창업과진로설계",
+        "to": "및 진로1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 진로1",
+        "to": "및 진로?",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "졸업연구",
+        "to": "졸업연구",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "신입생세미나",
+        "to": "진로람색",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "진로람색",
+        "to": "대학생활과",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "필수선수",
+        "to": "권장선수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학",
+        "to": "일반물리학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반물리학",
+        "to": "미적분학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학",
+        "to": "일반물리학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반물리학",
+        "to": "공업수학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수학1",
+        "to": "공업수학?",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실험1",
+        "to": "일반화학 및",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반화학 및",
+        "to": "일반화학 및",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반화학 및",
+        "to": "및 실험?",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실험?",
+        "to": "열역학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "열역학1",
+        "to": "결정구조및",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "결정구조및",
+        "to": "확산및 상변태",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "확산및 상변태",
+        "to": "산학협동",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "산학협동",
+        "to": "산학협동",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초코당",
+        "to": "소프트웨어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "소프트웨어",
+        "to": "망입문-C",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "망입문-C",
+        "to": "고급프로그래",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고급프로그래",
+        "to": "X선회절",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "X선회절",
+        "to": "현대물리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "현대물리",
+        "to": "고체물리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고체물리",
+        "to": "기계적 성질",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기계적 성질",
+        "to": "나노신소지",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "나노신소지",
+        "to": "나노신소지",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "열역학?",
+        "to": "신금속재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "신금속재료",
+        "to": "자성계재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "자성계재료",
+        "to": "나노재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "나노재료",
+        "to": "금속소재",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "에너지재료",
+        "to": "전기화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전기화학",
+        "to": "산화물재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "산화물재료",
+        "to": "재료분석학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "재료분석학",
+        "to": "세라막스재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "세라막스재료",
+        "to": "세라막소재",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전기전자공학",
+        "to": "전자기학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전자기학",
+        "to": "반도체재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "반도체재료",
+        "to": "제조공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "제조공학",
+        "to": "박악공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "박악공학",
+        "to": "전자소재",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "나노소자",
+        "to": "광전자소자와",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전자기적 물성",
+        "to": "기초물리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "유기화학",
+        "to": "재료공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "재료공학",
+        "to": "고분자물리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고분자물리",
+        "to": "고분자합성",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고분자합성",
+        "to": "유기전자소자",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "유기전자소자",
+        "to": "유기- 고분자소재",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고분자화학",
+        "to": "기기분석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "실습 설계",
+        "to": "공학기초",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공학기초",
+        "to": "금속과서라막",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "금속과서라막",
+        "to": "반도처와",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "반도처와",
+        "to": "나노신소꽤",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "나노신소꽤",
+        "to": "나노신소재",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "설계실험",
+        "to": "기초설거및실험",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초설거및실험",
+        "to": "기초설겨및실험",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초설겨및실험",
+        "to": "고분자화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고분자화학",
+        "to": "(종합설계)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "(종합설계)",
+        "to": "창의면구1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "창의면구1",
+        "to": "(종합설계)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "(종합설계)",
+        "to": "창의연구?",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:25:05"
+}

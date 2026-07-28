@@ -1,0 +1,1895 @@
+{
+  "departmentCode": "NUCLEAR",
+  "departmentName": "원자력공학",
+  "year": 2026,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1202_11.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 27.0,
+    "majorMinCredits": 45.0,
+    "designMinCredits": 9.0,
+    "totalMinCredits": 86.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "[인증필수] 비판적사고와창의적글쓰기, 서양철학:쟁점과토론, 대학영어 (비판적사고와창의적글쓰기”는 2025년도까지는 “문제해결을위한글쓰기와발표” , 2026년부터 과목명 변경) [인증필수선택] 1) 역사와사상: 세계사, 동서양의사상과윤리 2) 경제와사회: 경제학, 경영학 3) 문화와예술: 컴퓨터게임과메타버스, 융합예술의이해 위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수 ※인증필수선택과목은 2개 영역에서 각 한 과목씩 수강을 권장함"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 27.0,
+        "designCredits": 0.0,
+        "note": "SW기초코딩, 고급프로그래밍활용, 미적분학1, 미적분학2, 공업수학1, 공업수학2, 일반물리학1, 확률및통계, 수치해석"
+      },
+      {
+        "category": "전공",
+        "minCredits": 45.0,
+        "designCredits": 9.0,
+        "note": "전공: 45학점 이상 이수(설계과목 9학점 포함) ※ 기초설계 이수 및 종합설계 A, B 중 하나 이수를 필수로 포함하여 설계과목 총 9 학점 이상 이수 ※ 반드시 기초설계 → 요소설계 → 종합설계 순으로 이수 ※ 기초설계+요소설계 , 또는 요소설계+종합설계를 한 학기에 수강하는 것은 가능(병수수강 허용) ※ 일반졸업요건과 공학인증 요건은 상이하므로 일반졸업 요건은 학과 사무실 문의 - 기초설계(설계 3학점) : 기초설계 - 요소설계(각 설계 1학점) : 원자로공학, 원자력기계공학기초, 원자로열수력학, 방사선계측및실험, 확률론적안정성평가 - 종합설계(설계 3학점) : 종합설계A, 종합설계B"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 86.0,
+        "designCredits": 0.0,
+        "note": "양자원자력공학과의 학과 졸업이수학점: 130학점"
+      }
+    ],
+    "rawNotes": [
+      "[인증필수] 비판적사고와창의적글쓰기, 서양철학:쟁점과토론, 대학영어 (비판적사고와창의적글쓰기”는 2025년도까지는 “문제해결을위한글쓰기와발표” , 2026년부터 과목명 변경) [인증필수선택] 1) 역사와사상: 세계사, 동서양의사상과윤리 2) 경제와사회: 경제학, 경영학 3) 문화와예술: 컴퓨터게임과메타버스, 융합예술의이해 위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수 ※인증필수선택과목은 2개 영역에서 각 한 과목씩 수강을 권장함",
+      "SW기초코딩, 고급프로그래밍활용, 미적분학1, 미적분학2, 공업수학1, 공업수학2, 일반물리학1, 확률및통계, 수치해석",
+      "전공: 45학점 이상 이수(설계과목 9학점 포함) ※ 기초설계 이수 및 종합설계 A, B 중 하나 이수를 필수로 포함하여 설계과목 총 9 학점 이상 이수 ※ 반드시 기초설계 → 요소설계 → 종합설계 순으로 이수 ※ 기초설계+요소설계 , 또는 요소설계+종합설계를 한 학기에 수강하는 것은 가능(병수수강 허용) ※ 일반졸업요건과 공학인증 요건은 상이하므로 일반졸업 요건은 학과 사무실 문의 - 기초설계(설계 3학점) : 기초설계 - 요소설계(각 설계 1학점) : 원자로공학, 원자력기계공학기초, 원자로열수력학, 방사선계측및실험, 확률론적안정성평가 - 종합설계(설계 3학점) : 종합설계A, 종합설계B",
+      "양자원자력공학과의 학과 졸업이수학점: 130학점"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "기초설계",
+          "designCredits": 0.0,
+          "raw": "기초설계"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "원자로공학",
+          "designCredits": 0.0,
+          "raw": "원자로공학"
+        },
+        {
+          "name": "원자력기계공학기초",
+          "designCredits": 0.0,
+          "raw": "원자력기계공학기초"
+        },
+        {
+          "name": "원자로열수력학",
+          "designCredits": 0.0,
+          "raw": "원자로열수력학"
+        },
+        {
+          "name": "방사선계측및실험",
+          "designCredits": 0.0,
+          "raw": "방사선계측및실험"
+        },
+        {
+          "name": "확률론적안정성평가",
+          "designCredits": 0.0,
+          "raw": "확률론적안정성평가"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "종합설계A",
+          "designCredits": 0.0,
+          "raw": "종합설계A"
+        },
+        {
+          "name": "종합설계B 양자원자력공학과의 학과 졸업이수학점: 130학점",
+          "designCredits": 0.0,
+          "raw": "종합설계B 양자원자력공학과의 학과 졸업이수학점: 130학점"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 0,
+      "minAreas": 2
+    }
+  },
+  "courses": [
+    {
+      "name": "비판적사고와창의적글쓰기",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 4.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "SW기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍활용",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자및핵물리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력공학개론1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "양자공학개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로열역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "확률및통계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력기계공학기초",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력공학개론2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "방사선과물질의상호작용",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로열전달",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "플라즈마전자기학기초",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수치해석",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로열수력학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "방사선계측및실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력발전소구조해석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로해석실무",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "핵융합개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미래형원전재료",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자로동역학및보호계통",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "확률론적안전성평가",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "핵연료주기및폐기물관리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력안전규제및법령",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "보건물리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "가속기빔공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력고등수학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력고등전산코드",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미래형원전손상역학개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계A",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력발전및방사선실무",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력안전과물리적방호",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계B",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "몬테카를로분석및방사선차폐",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "원자력데이터사이언스",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "핵연료성능평가",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "방사선기술의응용",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "양자공학응용",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20260209_0205_0910001.jpg",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20260209_0205_0910001.jpg",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "양자원자력공학과 이수체계도 2026",
+        "confidence": 0.905,
+        "x": 1751.5,
+        "y": 306.5,
+        "xRatio": 0.4999,
+        "yRatio": 0.1236,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "4 -",
+        "confidence": 0.991,
+        "x": 2838.0,
+        "y": 373.0,
+        "xRatio": 0.8099,
+        "yRatio": 0.1505,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "비판적사고와",
+        "confidence": 0.733,
+        "x": 336.5,
+        "y": 450.0,
+        "xRatio": 0.096,
+        "yRatio": 0.1815,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "대학영어",
+        "confidence": 0.973,
+        "x": 756.5,
+        "y": 469.0,
+        "xRatio": 0.2159,
+        "yRatio": 0.1892,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "지정 균형교양 영역 중 2과목 필수 수강(인증선택과목)",
+        "confidence": 0.592,
+        "x": 2972.5,
+        "y": 451.5,
+        "xRatio": 0.8483,
+        "yRatio": 0.1821,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "창의적글쓰기",
+        "confidence": 0.953,
+        "x": 335.0,
+        "y": 485.5,
+        "xRatio": 0.0956,
+        "yRatio": 0.1958,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "1) 역사와사상",
+        "confidence": 0.959,
+        "x": 2683.5,
+        "y": 488.0,
+        "xRatio": 0.7658,
+        "yRatio": 0.1969,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "세계사, 동서양의사상과운리",
+        "confidence": 0.827,
+        "x": 2986.5,
+        "y": 488.0,
+        "xRatio": 0.8523,
+        "yRatio": 0.1969,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "서양철학",
+        "confidence": 1.0,
+        "x": 756.5,
+        "y": 554.0,
+        "xRatio": 0.2159,
+        "yRatio": 0.2235,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "움합예술의이해",
+        "confidence": 0.754,
+        "x": 3214.5,
+        "y": 556.5,
+        "xRatio": 0.9174,
+        "yRatio": 0.2245,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": ":쟁점과토론",
+        "confidence": 0.878,
+        "x": 755.0,
+        "y": 589.5,
+        "xRatio": 0.2155,
+        "yRatio": 0.2378,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "각각 다른 영역으로 2개 수강올 권장함.",
+        "confidence": 0.795,
+        "x": 2832.5,
+        "y": 601.5,
+        "xRatio": 0.8084,
+        "yRatio": 0.2426,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "SW기초코딩",
+        "confidence": 0.985,
+        "x": 333.5,
+        "y": 729.0,
+        "xRatio": 0.0952,
+        "yRatio": 0.2941,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "고급프로그래망",
+        "confidence": 0.981,
+        "x": 755.0,
+        "y": 712.5,
+        "xRatio": 0.2155,
+        "yRatio": 0.2874,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "공업수학1",
+        "confidence": 0.941,
+        "x": 1176.5,
+        "y": 730.5,
+        "xRatio": 0.3358,
+        "yRatio": 0.2947,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "공업수학2",
+        "confidence": 0.996,
+        "x": 1595.5,
+        "y": 730.5,
+        "xRatio": 0.4553,
+        "yRatio": 0.2947,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "수치해석",
+        "confidence": 0.999,
+        "x": 2016.0,
+        "y": 730.5,
+        "xRatio": 0.5753,
+        "yRatio": 0.2947,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "*이수체계도 상의 MSC 교과목(9과목) 모두 이수(필수)",
+        "confidence": 0.775,
+        "x": 2968.0,
+        "y": 726.5,
+        "xRatio": 0.847,
+        "yRatio": 0.2931,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "활용",
+        "confidence": 1.0,
+        "x": 755.0,
+        "y": 748.0,
+        "xRatio": 0.2155,
+        "yRatio": 0.3017,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "미적분학1",
+        "confidence": 0.923,
+        "x": 335.0,
+        "y": 830.5,
+        "xRatio": 0.0956,
+        "yRatio": 0.335,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "미적분학2",
+        "confidence": 0.789,
+        "x": 756.5,
+        "y": 830.5,
+        "xRatio": 0.2159,
+        "yRatio": 0.335,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "확출빗통계",
+        "confidence": 0.484,
+        "x": 1594.0,
+        "y": 832.5,
+        "xRatio": 0.4549,
+        "yRatio": 0.3358,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "일반물리학1",
+        "confidence": 0.577,
+        "x": 336.5,
+        "y": 930.5,
+        "xRatio": 0.096,
+        "yRatio": 0.3754,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "일반화학1",
+        "confidence": 0.939,
+        "x": 756.0,
+        "y": 1063.0,
+        "xRatio": 0.2158,
+        "yRatio": 0.4288,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자및핵물리",
+        "confidence": 0.333,
+        "x": 1176.5,
+        "y": 1161.5,
+        "xRatio": 0.3358,
+        "yRatio": 0.4685,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자력공학개론2",
+        "confidence": 0.499,
+        "x": 1595.5,
+        "y": 1161.5,
+        "xRatio": 0.4553,
+        "yRatio": 0.4685,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "확출론적안전성",
+        "confidence": 0.899,
+        "x": 2434.5,
+        "y": 1145.0,
+        "xRatio": 0.6948,
+        "yRatio": 0.4619,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업연구및진로1",
+        "confidence": 0.382,
+        "x": 2853.0,
+        "y": 1161.5,
+        "xRatio": 0.8142,
+        "yRatio": 0.4685,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업연구딪진로2",
+        "confidence": 0.34,
+        "x": 3278.0,
+        "y": 1164.5,
+        "xRatio": 0.9355,
+        "yRatio": 0.4697,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "평가",
+        "confidence": 0.999,
+        "x": 2437.5,
+        "y": 1182.5,
+        "xRatio": 0.6956,
+        "yRatio": 0.477,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "학문기초교양",
+        "confidence": 0.97,
+        "x": 288.5,
+        "y": 1302.5,
+        "xRatio": 0.0823,
+        "yRatio": 0.5254,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "기초설계",
+        "confidence": 0.999,
+        "x": 1176.5,
+        "y": 1306.5,
+        "xRatio": 0.3358,
+        "yRatio": 0.527,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "플라즈마전자기학",
+        "confidence": 0.979,
+        "x": 1595.5,
+        "y": 1288.5,
+        "xRatio": 0.4553,
+        "yRatio": 0.5198,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로해석실무",
+        "confidence": 0.996,
+        "x": 2017.0,
+        "y": 1306.5,
+        "xRatio": 0.5756,
+        "yRatio": 0.527,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "핵연료주기",
+        "confidence": 0.542,
+        "x": 2434.5,
+        "y": 1291.5,
+        "xRatio": 0.6948,
+        "yRatio": 0.521,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "종합설계A",
+        "confidence": 0.965,
+        "x": 2853.5,
+        "y": 1306.5,
+        "xRatio": 0.8144,
+        "yRatio": 0.527,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "기초",
+        "confidence": 1.0,
+        "x": 1593.0,
+        "y": 1321.5,
+        "xRatio": 0.4546,
+        "yRatio": 0.5331,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "및페기물관리",
+        "confidence": 0.866,
+        "x": 2435.5,
+        "y": 1326.0,
+        "xRatio": 0.6951,
+        "yRatio": 0.5349,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "및방사선차페",
+        "confidence": 0.937,
+        "x": 3279.0,
+        "y": 1328.5,
+        "xRatio": 0.9358,
+        "yRatio": 0.5359,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "전공기초",
+        "confidence": 0.999,
+        "x": 285.5,
+        "y": 1372.5,
+        "xRatio": 0.0815,
+        "yRatio": 0.5537,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전문교양(필수)",
+        "confidence": 1.0,
+        "x": 286.5,
+        "y": 1443.5,
+        "xRatio": 0.0818,
+        "yRatio": 0.5823,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자력공학개롭1",
+        "confidence": 0.488,
+        "x": 1176.5,
+        "y": 1449.0,
+        "xRatio": 0.3358,
+        "yRatio": 0.5845,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "발전소계통공학",
+        "confidence": 0.999,
+        "x": 1595.5,
+        "y": 1452.0,
+        "xRatio": 0.4553,
+        "yRatio": 0.5857,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로열수력학",
+        "confidence": 0.968,
+        "x": 2018.5,
+        "y": 1450.5,
+        "xRatio": 0.5761,
+        "yRatio": 0.5851,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "원자력안전규제",
+        "confidence": 0.866,
+        "x": 2436.0,
+        "y": 1432.5,
+        "xRatio": 0.6952,
+        "yRatio": 0.5779,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "원자력발전",
+        "confidence": 0.878,
+        "x": 2853.5,
+        "y": 1432.5,
+        "xRatio": 0.8144,
+        "yRatio": 0.5779,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "종합설계B",
+        "confidence": 0.98,
+        "x": 3277.5,
+        "y": 1452.0,
+        "xRatio": 0.9354,
+        "yRatio": 0.5857,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "및법령",
+        "confidence": 0.961,
+        "x": 2434.5,
+        "y": 1468.0,
+        "xRatio": 0.6948,
+        "yRatio": 0.5922,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "및방사선실무",
+        "confidence": 0.988,
+        "x": 2854.5,
+        "y": 1468.0,
+        "xRatio": 0.8146,
+        "yRatio": 0.5922,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "전공 필수",
+        "confidence": 0.849,
+        "x": 285.5,
+        "y": 1512.0,
+        "xRatio": 0.0815,
+        "yRatio": 0.6099,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전공(설계과목)",
+        "confidence": 0.998,
+        "x": 286.5,
+        "y": 1577.5,
+        "xRatio": 0.0818,
+        "yRatio": 0.6363,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "방사선과물질의",
+        "confidence": 1.0,
+        "x": 1594.0,
+        "y": 1575.0,
+        "xRatio": 0.4549,
+        "yRatio": 0.6353,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로동역학",
+        "confidence": 0.989,
+        "x": 2011.5,
+        "y": 1575.0,
+        "xRatio": 0.5741,
+        "yRatio": 0.6353,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "원자력안전과",
+        "confidence": 0.99,
+        "x": 2854.5,
+        "y": 1575.0,
+        "xRatio": 0.8146,
+        "yRatio": 0.6353,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "원자력데이터",
+        "confidence": 0.987,
+        "x": 3276.5,
+        "y": 1577.5,
+        "xRatio": 0.9351,
+        "yRatio": 0.6363,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "양자공학개론",
+        "confidence": 0.608,
+        "x": 1176.5,
+        "y": 1593.0,
+        "xRatio": 0.3358,
+        "yRatio": 0.6426,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "상호작용",
+        "confidence": 0.824,
+        "x": 1594.0,
+        "y": 1610.5,
+        "xRatio": 0.4549,
+        "yRatio": 0.6497,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "및보호계통",
+        "confidence": 0.988,
+        "x": 2010.5,
+        "y": 1613.0,
+        "xRatio": 0.5738,
+        "yRatio": 0.6507,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "보건물리",
+        "confidence": 1.0,
+        "x": 2434.5,
+        "y": 1594.0,
+        "xRatio": 0.6948,
+        "yRatio": 0.643,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "물리적방호",
+        "confidence": 1.0,
+        "x": 2853.5,
+        "y": 1610.5,
+        "xRatio": 0.8144,
+        "yRatio": 0.6497,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "사이언스",
+        "confidence": 1.0,
+        "x": 3276.5,
+        "y": 1611.5,
+        "xRatio": 0.9351,
+        "yRatio": 0.6501,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "필수선후수",
+        "confidence": 0.993,
+        "x": 331.0,
+        "y": 1666.5,
+        "xRatio": 0.0945,
+        "yRatio": 0.6722,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "권장선후수",
+        "confidence": 0.986,
+        "x": 331.0,
+        "y": 1728.0,
+        "xRatio": 0.0945,
+        "yRatio": 0.6971,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로열역학",
+        "confidence": 0.958,
+        "x": 1176.5,
+        "y": 1739.0,
+        "xRatio": 0.3358,
+        "yRatio": 0.7015,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로열전달",
+        "confidence": 0.978,
+        "x": 1594.0,
+        "y": 1739.0,
+        "xRatio": 0.4549,
+        "yRatio": 0.7015,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "핵응합개론",
+        "confidence": 0.405,
+        "x": 2015.5,
+        "y": 1739.0,
+        "xRatio": 0.5752,
+        "yRatio": 0.7015,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "가속기범공학",
+        "confidence": 0.651,
+        "x": 2435.5,
+        "y": 1740.5,
+        "xRatio": 0.6951,
+        "yRatio": 0.7021,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "핵연료성능평가",
+        "confidence": 0.752,
+        "x": 3278.0,
+        "y": 1741.5,
+        "xRatio": 0.9355,
+        "yRatio": 0.7025,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "인종요건 ]",
+        "confidence": 0.781,
+        "x": 250.0,
+        "y": 1838.0,
+        "xRatio": 0.0713,
+        "yRatio": 0.7414,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자로공학",
+        "confidence": 1.0,
+        "x": 1592.5,
+        "y": 1884.0,
+        "xRatio": 0.4545,
+        "yRatio": 0.76,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "미래형원전재료",
+        "confidence": 0.997,
+        "x": 2015.5,
+        "y": 1881.5,
+        "xRatio": 0.5752,
+        "yRatio": 0.759,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "원자력고등수학",
+        "confidence": 0.814,
+        "x": 2436.0,
+        "y": 1881.5,
+        "xRatio": 0.6952,
+        "yRatio": 0.759,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "방사선기술의응용",
+        "confidence": 0.875,
+        "x": 3277.5,
+        "y": 1881.5,
+        "xRatio": 0.9354,
+        "yRatio": 0.759,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "인종필수 포함 45학점 이상 이수",
+        "confidence": 0.87,
+        "x": 394.0,
+        "y": 1906.0,
+        "xRatio": 0.1124,
+        "yRatio": 0.7689,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "-기초설계 이수 및 종합설계 A, B 중 하나 이수름 필수로",
+        "confidence": 0.696,
+        "x": 527.5,
+        "y": 1942.0,
+        "xRatio": 0.1505,
+        "yRatio": 0.7834,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "포함하여 설계과목 총 9학점 이상 이수",
+        "confidence": 0.827,
+        "x": 407.5,
+        "y": 1977.5,
+        "xRatio": 0.1163,
+        "yRatio": 0.7977,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "반드시 기초설계-요소설계-종합설계 순서로 이수",
+        "confidence": 0.707,
+        "x": 503.5,
+        "y": 2011.5,
+        "xRatio": 0.1437,
+        "yRatio": 0.8114,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자력기계공학",
+        "confidence": 0.924,
+        "x": 1596.5,
+        "y": 2007.5,
+        "xRatio": 0.4556,
+        "yRatio": 0.8098,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "원자력발전소구조",
+        "confidence": 0.917,
+        "x": 2015.5,
+        "y": 2006.0,
+        "xRatio": 0.5752,
+        "yRatio": 0.8092,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "원자로고등",
+        "confidence": 1.0,
+        "x": 2434.5,
+        "y": 2008.5,
+        "xRatio": 0.6948,
+        "yRatio": 0.8102,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "(기초설계와 요소설계 , 요소설계와 종합설계름 같은 학기에",
+        "confidence": 0.582,
+        "x": 538.5,
+        "y": 2048.5,
+        "xRatio": 0.1537,
+        "yRatio": 0.8263,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "기초",
+        "confidence": 1.0,
+        "x": 1596.5,
+        "y": 2041.5,
+        "xRatio": 0.4556,
+        "yRatio": 0.8235,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "해석",
+        "confidence": 1.0,
+        "x": 2015.5,
+        "y": 2041.5,
+        "xRatio": 0.5752,
+        "yRatio": 0.8235,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "전산코드",
+        "confidence": 0.987,
+        "x": 2433.5,
+        "y": 2043.0,
+        "xRatio": 0.6945,
+        "yRatio": 0.8241,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "양자공학용용",
+        "confidence": 0.758,
+        "x": 3276.5,
+        "y": 2026.5,
+        "xRatio": 0.9351,
+        "yRatio": 0.8175,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "수강하는 것은 가능)",
+        "confidence": 0.924,
+        "x": 289.5,
+        "y": 2081.0,
+        "xRatio": 0.0826,
+        "yRatio": 0.8395,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "추가 조건들은 인종기준 참고",
+        "confidence": 0.446,
+        "x": 395.5,
+        "y": 2117.0,
+        "xRatio": 0.1129,
+        "yRatio": 0.854,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "일반졸업 요건과 공학인증 요건은 상이하므로 확인 필수",
+        "confidence": 0.492,
+        "x": 568.0,
+        "y": 2152.5,
+        "xRatio": 0.1621,
+        "yRatio": 0.8683,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "미래형원전손상",
+        "confidence": 0.997,
+        "x": 2437.5,
+        "y": 2155.0,
+        "xRatio": 0.6956,
+        "yRatio": 0.8693,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "역학개론",
+        "confidence": 0.633,
+        "x": 2435.5,
+        "y": 2191.0,
+        "xRatio": 0.6951,
+        "yRatio": 0.8838,
+        "estimatedTerm": "3-2"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "창의적글쓰기",
+        "to": "비판적사고와",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "비판적사고와",
+        "to": "대학영어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "1) 역사와사상",
+        "to": "지정 균형교양 영역 중 2과목 필수 수강(인증선택과목)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "지정 균형교양 영역 중 2과목 필수 수강(인증선택과목)",
+        "to": "세계사, 동서양의사상과운리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": ":쟁점과토론",
+        "to": "서양철학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "각각 다른 영역으로 2개 수강올 권장함.",
+        "to": "움합예술의이해",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "SW기초코딩",
+        "to": "고급프로그래망",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고급프로그래망",
+        "to": "공업수학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수학1",
+        "to": "공업수학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수학2",
+        "to": "수치해석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학1",
+        "to": "미적분학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학2",
+        "to": "확출빗통계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자및핵물리",
+        "to": "원자력공학개론2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력공학개론2",
+        "to": "확출론적안전성",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "확출론적안전성",
+        "to": "졸업연구및진로1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "졸업연구및진로1",
+        "to": "졸업연구딪진로2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초설계",
+        "to": "플라즈마전자기학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "플라즈마전자기학",
+        "to": "원자로해석실무",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로해석실무",
+        "to": "핵연료주기",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "핵연료주기",
+        "to": "및페기물관리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및페기물관리",
+        "to": "종합설계A",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "종합설계A",
+        "to": "및방사선차페",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공기초",
+        "to": "전문교양(필수)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력공학개롭1",
+        "to": "발전소계통공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "발전소계통공학",
+        "to": "원자로열수력학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로열수력학",
+        "to": "원자력안전규제",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력안전규제",
+        "to": "원자력발전",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력발전",
+        "to": "및방사선실무",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및방사선실무",
+        "to": "종합설계B",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공 필수",
+        "to": "전공(설계과목)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "양자공학개론",
+        "to": "방사선과물질의",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "방사선과물질의",
+        "to": "상호작용",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "상호작용",
+        "to": "원자로동역학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로동역학",
+        "to": "보건물리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "보건물리",
+        "to": "물리적방호",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "물리적방호",
+        "to": "원자력안전과",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력안전과",
+        "to": "원자력데이터",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "필수선후수",
+        "to": "권장선후수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로열역학",
+        "to": "원자로열전달",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로열전달",
+        "to": "핵응합개론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "핵응합개론",
+        "to": "가속기범공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "가속기범공학",
+        "to": "핵연료성능평가",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인종필수 포함 45학점 이상 이수",
+        "to": "포함하여 설계과목 총 9학점 이상 이수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "포함하여 설계과목 총 9학점 이상 이수",
+        "to": "-기초설계 이수 및 종합설계 A, B 중 하나 이수름 필수로",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로공학",
+        "to": "미래형원전재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미래형원전재료",
+        "to": "원자력고등수학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력고등수학",
+        "to": "방사선기술의응용",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "수강하는 것은 가능)",
+        "to": "반드시 기초설계-요소설계-종합설계 순서로 이수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "반드시 기초설계-요소설계-종합설계 순서로 이수",
+        "to": "(기초설계와 요소설계 , 요소설계와 종합설계름 같은 학기에",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력기계공학",
+        "to": "원자력발전소구조",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자력발전소구조",
+        "to": "전산코드",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전산코드",
+        "to": "원자로고등",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "원자로고등",
+        "to": "양자공학용용",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "추가 조건들은 인종기준 참고",
+        "to": "일반졸업 요건과 공학인증 요건은 상이하므로 확인 필수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "역학개론",
+        "to": "미래형원전손상",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {
+      "2-2": 0.4556,
+      "3-1": 0.5749,
+      "3-2": 0.6948,
+      "4-2": 0.9351
+    }
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:25:09"
+}

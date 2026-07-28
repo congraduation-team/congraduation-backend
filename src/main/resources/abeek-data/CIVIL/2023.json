@@ -1,0 +1,1113 @@
+{
+  "departmentCode": "CIVIL",
+  "departmentName": "토목공학",
+  "year": 2023,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0802_17.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 30.0,
+    "majorMinCredits": 54.0,
+    "designMinCredits": 12.0,
+    "totalMinCredits": 98.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "*인증필수: 문제해결을위한글쓰기와발표, 대학영어, 서양철학:쟁점과토론 *인증필수선택: (역사와사상영역) 동서양의사상과윤리, 세계사 (경제와사회영역) 경영학, 경제학 (문화와예술영역) 융합예술의이해, 컴퓨터게임과메타버스 (위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수) ※인증필수선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 30.0,
+        "designCredits": 0.0,
+        "note": "*인증필수: 미적분학1, 미적분학2, 공업수학1, 공업수학2, 일반물리학1, 일반화학1, SW기초코딩, 고급프로그래밍활용, 인공지능과빅데이터, 지구환경과학입문 *인증선택: 건설수치해석 (위 수학, 기초과학, 전산학 과목 중 인증필수 과목을 포함하여 30학점이상 이수)"
+      },
+      {
+        "category": "전공 (공학주제)",
+        "minCredits": 54.0,
+        "designCredits": 12.0,
+        "note": "*인증필수: 유체역학및연습, 환경공학및실험, 응용역학및연습1, 응용역학및연습2, 토질역학, 구조공학 *전공이론: 수리학, 측량학, 재해방지공학, 도시수문학, 기후변화물관리, AI활용물관리기술, 도시물순환공학 건설경영관리, 물재생자원순환, 내진설계, 건설CAD, 졸업연구및진로1, 교량공학, 스마트환경유체모델링, 졸업연구및진로2, Water-AI Open Lap, Water-AI Internship, 빅데이터분석 첨단계측공학, 건설재료시험 *기초설계: 기초창의설계 *요소설계: 콘크리트공학, 스마트수처리시스템공학, 강구조공학, 콘크리트구조설계, 기초공학, 합성구조설계, 도로공학, 도시수재해공학, 해안및항만공학 *종합설계: 스마트시티프로젝트(종합설계) (위 공학주제 과목 중 인증필수 과목을 포함하여 54학점(설계12학점 포함) 이상 이수) ※ 설계 교과목 이수 순서: 기초설계 → 요소설계 → 종합설계 순으로 12학점 이상 이수 (기초-요소 / 요소-종합 병수수강 가능)"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 98.0,
+        "designCredits": 0.0,
+        "note": "건설환경공학과 졸업이수학점: 130학점"
+      }
+    ],
+    "rawNotes": [
+      "*인증필수: 문제해결을위한글쓰기와발표, 대학영어, 서양철학:쟁점과토론 *인증필수선택: (역사와사상영역) 동서양의사상과윤리, 세계사 (경제와사회영역) 경영학, 경제학 (문화와예술영역) 융합예술의이해, 컴퓨터게임과메타버스 (위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수) ※인증필수선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수",
+      "*인증필수: 미적분학1, 미적분학2, 공업수학1, 공업수학2, 일반물리학1, 일반화학1, SW기초코딩, 고급프로그래밍활용, 인공지능과빅데이터, 지구환경과학입문 *인증선택: 건설수치해석 (위 수학, 기초과학, 전산학 과목 중 인증필수 과목을 포함하여 30학점이상 이수)",
+      "*인증필수: 유체역학및연습, 환경공학및실험, 응용역학및연습1, 응용역학및연습2, 토질역학, 구조공학 *전공이론: 수리학, 측량학, 재해방지공학, 도시수문학, 기후변화물관리, AI활용물관리기술, 도시물순환공학 건설경영관리, 물재생자원순환, 내진설계, 건설CAD, 졸업연구및진로1, 교량공학, 스마트환경유체모델링, 졸업연구및진로2, Water-AI Open Lap, Water-AI Internship, 빅데이터분석 첨단계측공학, 건설재료시험 *기초설계: 기초창의설계 *요소설계: 콘크리트공학, 스마트수처리시스템공학, 강구조공학, 콘크리트구조설계, 기초공학, 합성구조설계, 도로공학, 도시수재해공학, 해안및항만공학 *종합설계: 스마트시티프로젝트(종합설계) (위 공학주제 과목 중 인증필수 과목을 포함하여 54학점(설계12학점 포함) 이상 이수) ※ 설계 교과목 이수 순서: 기초설계 → 요소설계 → 종합설계 순으로 12학점 이상 이수 (기초-요소 / 요소-종합 병수수강 가능)",
+      "건설환경공학과 졸업이수학점: 130학점"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "기초창의설계 *요소설계: 콘크리트공학",
+          "designCredits": 0.0,
+          "raw": "기초창의설계 *요소설계: 콘크리트공학"
+        },
+        {
+          "name": "스마트수처리시스템공학",
+          "designCredits": 0.0,
+          "raw": "스마트수처리시스템공학"
+        },
+        {
+          "name": "강구조공학",
+          "designCredits": 0.0,
+          "raw": "강구조공학"
+        },
+        {
+          "name": "콘크리트구조설계",
+          "designCredits": 0.0,
+          "raw": "콘크리트구조설계"
+        },
+        {
+          "name": "기초공학",
+          "designCredits": 0.0,
+          "raw": "기초공학"
+        },
+        {
+          "name": "합성구조설계",
+          "designCredits": 0.0,
+          "raw": "합성구조설계"
+        },
+        {
+          "name": "도로공학",
+          "designCredits": 0.0,
+          "raw": "도로공학"
+        },
+        {
+          "name": "도시수재해공학",
+          "designCredits": 0.0,
+          "raw": "도시수재해공학"
+        },
+        {
+          "name": "해안및항만공학 *종합설계: 스마트시티프로젝트",
+          "designCredits": 12.0,
+          "raw": "해안및항만공학 *종합설계: 스마트시티프로젝트(종합설계) (위 공학주제 과목 중 인증필수 과목을 포함하여 54학점(설계12학점 포함) 이상 이수)"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "콘크리트공학",
+          "designCredits": 0.0,
+          "raw": "콘크리트공학"
+        },
+        {
+          "name": "스마트수처리시스템공학",
+          "designCredits": 0.0,
+          "raw": "스마트수처리시스템공학"
+        },
+        {
+          "name": "강구조공학",
+          "designCredits": 0.0,
+          "raw": "강구조공학"
+        },
+        {
+          "name": "콘크리트구조설계",
+          "designCredits": 0.0,
+          "raw": "콘크리트구조설계"
+        },
+        {
+          "name": "기초공학",
+          "designCredits": 0.0,
+          "raw": "기초공학"
+        },
+        {
+          "name": "합성구조설계",
+          "designCredits": 0.0,
+          "raw": "합성구조설계"
+        },
+        {
+          "name": "도로공학",
+          "designCredits": 0.0,
+          "raw": "도로공학"
+        },
+        {
+          "name": "도시수재해공학",
+          "designCredits": 0.0,
+          "raw": "도시수재해공학"
+        },
+        {
+          "name": "해안및항만공학 *종합설계: 스마트시티프로젝트",
+          "designCredits": 12.0,
+          "raw": "해안및항만공학 *종합설계: 스마트시티프로젝트(종합설계) (위 공학주제 과목 중 인증필수 과목을 포함하여 54학점(설계12학점 포함) 이상 이수)"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "스마트시티프로젝트",
+          "designCredits": 12.0,
+          "raw": "스마트시티프로젝트(종합설계) (위 공학주제 과목 중 인증필수 과목을 포함하여 54학점(설계12학점 포함) 이상 이수)"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 6,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "동서양의사상과윤리",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "세계사",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "경영학",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "경제학",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "융합예술의이해",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "컴퓨터게임과메타버스",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "SW기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍활용",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초창의설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인공지능과빅데이터",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경공학및실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "유체역학및연습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용역학및연습1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지구환경과학입문",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설수치해석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용역학및연습2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "토질역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수리학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기후변화물관리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "재해방지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "콘크리트공학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "구조공학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "스마트수처리시스템공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "강구조공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "측량학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "AI활용물관리기술",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설경영관리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "콘크리트구조설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "물재생자원순환",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "도시수문학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "합성구조설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "도시물순환공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "도로공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "도시수재해공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설CAD",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "내진설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "해안및항만공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "BASIC",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "Water-AI Open Lap",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "스마트시티프로젝트(종합설계)",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "교량공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "첨단계측공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설재료시험",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "스마트환경유체모델링",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "Water-AI Internship",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "빅데이터분석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20230807_0535_0910001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20230807_0535_0910001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "건설환경공학과 이수체계도 (2023학년)",
+        "confidence": 0.726,
+        "x": 578.0,
+        "y": 82.0,
+        "xRatio": 0.5147,
+        "yRatio": 0.1033,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "3학녀",
+        "confidence": 0.37,
+        "x": 690.0,
+        "y": 110.0,
+        "xRatio": 0.6144,
+        "yRatio": 0.1385,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "24기",
+        "confidence": 0.425,
+        "x": 994.0,
+        "y": 133.0,
+        "xRatio": 0.8851,
+        "yRatio": 0.1675,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "<2-4라년 시점과목>",
+        "confidence": 0.39,
+        "x": 459.0,
+        "y": 160.0,
+        "xRatio": 0.4087,
+        "yRatio": 0.2015,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "세계사",
+        "confidence": 0.39,
+        "x": 522.0,
+        "y": 173.0,
+        "xRatio": 0.4648,
+        "yRatio": 0.2179,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "분화다 예술",
+        "confidence": 0.621,
+        "x": 370.0,
+        "y": 198.0,
+        "xRatio": 0.3295,
+        "yRatio": 0.2494,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "전문고양",
+        "confidence": 0.845,
+        "x": 996.0,
+        "y": 241.0,
+        "xRatio": 0.8869,
+        "yRatio": 0.3035,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "선공과독",
+        "confidence": 0.768,
+        "x": 995.0,
+        "y": 291.0,
+        "xRatio": 0.886,
+        "yRatio": 0.3665,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "미적분학2",
+        "confidence": 0.335,
+        "x": 283.0,
+        "y": 314.0,
+        "xRatio": 0.252,
+        "yRatio": 0.3955,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업 수학2",
+        "confidence": 0.88,
+        "x": 512.0,
+        "y": 314.0,
+        "xRatio": 0.4559,
+        "yRatio": 0.3955,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "건선수치해석",
+        "confidence": 0.66,
+        "x": 513.0,
+        "y": 358.0,
+        "xRatio": 0.4568,
+        "yRatio": 0.4509,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전문섭겨",
+        "confidence": 0.366,
+        "x": 995.0,
+        "y": 358.0,
+        "xRatio": 0.886,
+        "yRatio": 0.4509,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "구조공4",
+        "confidence": 0.331,
+        "x": 628.0,
+        "y": 415.0,
+        "xRatio": 0.5592,
+        "yRatio": 0.5227,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "내진실계",
+        "confidence": 0.982,
+        "x": 869.0,
+        "y": 416.0,
+        "xRatio": 0.7738,
+        "yRatio": 0.5239,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "감구 조공",
+        "confidence": 0.402,
+        "x": 628.0,
+        "y": 438.0,
+        "xRatio": 0.5592,
+        "yRatio": 0.5516,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건스재프시철",
+        "confidence": 0.513,
+        "x": 995.0,
+        "y": 468.0,
+        "xRatio": 0.886,
+        "yRatio": 0.5894,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "스마드시티프로적트",
+        "confidence": 0.895,
+        "x": 999.0,
+        "y": 562.0,
+        "xRatio": 0.8896,
+        "yRatio": 0.7078,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기초창의선거",
+        "confidence": 0.727,
+        "x": 281.0,
+        "y": 569.0,
+        "xRatio": 0.2502,
+        "yRatio": 0.7166,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "건설CU",
+        "confidence": 0.545,
+        "x": 870.0,
+        "y": 569.0,
+        "xRatio": 0.7747,
+        "yRatio": 0.7166,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "소리학",
+        "confidence": 0.318,
+        "x": 512.0,
+        "y": 606.0,
+        "xRatio": 0.4559,
+        "yRatio": 0.7632,
+        "estimatedTerm": "2-2"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "분화다 예술",
+        "to": "<2-4라년 시점과목>",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학2",
+        "to": "공업 수학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "구조공4",
+        "to": "내진실계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건설CU",
+        "to": "스마드시티프로적트",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:24:52"
+}

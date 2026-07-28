@@ -1,0 +1,2340 @@
+{
+  "departmentCode": "AERO",
+  "departmentName": "항공우주공학",
+  "year": 2021,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1402_15.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 30.0,
+    "majorMinCredits": 54.0,
+    "designMinCredits": 1.0,
+    "totalMinCredits": 98.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "* English Listening Practice 1 English Reading Practice 1 문제해결을 위한 글쓰기와 발표, 서양철학:쟁점과 토론, 대학생활과진로탐색, 세계사:인간과문명 (위 전문교양 과목과 학교필수이수교양과목을 포함하여 14학점이상 이수)"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 30.0,
+        "designCredits": 0.0,
+        "note": "* 인증필수 : 일변수미적분학, 다변수미적분학, 공업수학1,2, 일반물리학및실험1,2, 일반화학, 소프트웨어기초코딩, 고급프로그래밍입문-C, * 인증선택 : 선형대수학, 수치해석 (위 수학, 기초과학, 전산학 과목을 포함하여 30학점이상 이수)"
+      },
+      {
+        "category": "전공",
+        "minCredits": 54.0,
+        "designCredits": 0.0,
+        "note": "* 전공 이론 및 설계(설계교과목 9설계학점이상)포함 54학점 이상 : 기초설계와 종합설계를 포함하여 인증필수과목은 반드시 이수 * 설계과목 : 설계 관련 open problem을 제시하여 각 학생이 답을 찾아가는 과정과 결과 제시로 평가하는 과목으로, 공학설계요소 (목표와 기준 설정, 합성, 분석, 제작, 시험, 평가)를 고루 교육시킬 수 있도록 구성 ※각 설계교과목 설계학점은, 하단 입학자 교과과정의 학점(설계)란 괄호 안 숫자 참고. 실험실습이 포함된 과목은 1과목이상 수강할 것 (자율비행체시스템설계1, 자율비행체시스템설계2, 항공제도 및 CAD , 메카트로닉스 종합설계(메카트로닉스 기초설계), 응용공기역학 및 설계, 전산구조해석및실습, 유도제어시스템설계) ※당해년도 개설되지 않는 과목도 있으니 참고하여 수강할 것 * 종합설계1,2 중 한과목 선택하여 반드시 이수"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 98.0,
+        "designCredits": 0.0,
+        "note": "* 항공우주공학 전공의 인증되는 이수학점 : 130학점"
+      }
+    ],
+    "rawNotes": [
+      "* English Listening Practice 1 English Reading Practice 1 문제해결을 위한 글쓰기와 발표, 서양철학:쟁점과 토론, 대학생활과진로탐색, 세계사:인간과문명 (위 전문교양 과목과 학교필수이수교양과목을 포함하여 14학점이상 이수)",
+      "* 인증필수 : 일변수미적분학, 다변수미적분학, 공업수학1,2, 일반물리학및실험1,2, 일반화학, 소프트웨어기초코딩, 고급프로그래밍입문-C, * 인증선택 : 선형대수학, 수치해석 (위 수학, 기초과학, 전산학 과목을 포함하여 30학점이상 이수)",
+      "* 전공 이론 및 설계(설계교과목 9설계학점이상)포함 54학점 이상 : 기초설계와 종합설계를 포함하여 인증필수과목은 반드시 이수 * 설계과목 : 설계 관련 open problem을 제시하여 각 학생이 답을 찾아가는 과정과 결과 제시로 평가하는 과목으로, 공학설계요소 (목표와 기준 설정, 합성, 분석, 제작, 시험, 평가)를 고루 교육시킬 수 있도록 구성 ※각 설계교과목 설계학점은, 하단 입학자 교과과정의 학점(설계)란 괄호 안 숫자 참고. 실험실습이 포함된 과목은 1과목이상 수강할 것 (자율비행체시스템설계1, 자율비행체시스템설계2, 항공제도 및 CAD , 메카트로닉스 종합설계(메카트로닉스 기초설계), 응용공기역학 및 설계, 전산구조해석및실습, 유도제어시스템설계) ※당해년도 개설되지 않는 과목도 있으니 참고하여 수강할 것 * 종합설계1,2 중 한과목 선택하여 반드시 이수",
+      "* 항공우주공학 전공의 인증되는 이수학점 : 130학점"
+    ],
+    "designCourses": {
+      "BASIC": [],
+      "ELEMENT": [],
+      "COMPREHENSIVE": []
+    },
+    "certElective": {
+      "minCourses": 0,
+      "minCredits": 0,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "문제해결을 위한 글쓰기와 발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세종사회봉사1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신입생세미나",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "창업과 기업가 정신",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "소프트웨어기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일변수미적분학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Listening Practice 1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학생활과 진로탐색",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "다변수미적분학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍입문-C",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고체역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "열역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주공학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세계사:인간과 문명",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Reading Practice 1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "동역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "이상유체역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주응용SW1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "선형대수학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "비행동역학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "우주궤도역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "진동학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공기구조역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "압축성유체역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주신소재공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "메카트로닉스응용설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "메카트로닉스종합설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공제도 및CAD",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자동제어",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공기설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "추진체공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전산구조해석및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수치해석",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공MEMS개론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공센서신호처리",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인공위성응용",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자율비행체시스템설계1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "취창업과 진로설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시뮬레이션시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "유도제어시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "로켓공학및설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "무인항공기설계1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주공학연구1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자율비행체시스템설계2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용공기역학및설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항법전자시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로 2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "헬리콥터공학및설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "무인항공기설계2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주공학세미나",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주공학연구2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "항공우주응용SW2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "자율항법시스템설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "열전달",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20230922_0543_0010001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20230922_0543_0010001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "항공우주공학심화 프로그램(2021)",
+        "confidence": 0.976,
+        "x": 511.0,
+        "y": 44.0,
+        "xRatio": 0.5069,
+        "yRatio": 0.0327,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "교과목 이수체계도",
+        "confidence": 0.958,
+        "x": 492.0,
+        "y": 124.0,
+        "xRatio": 0.4881,
+        "yRatio": 0.0923,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "1학년",
+        "confidence": 0.989,
+        "x": 159.0,
+        "y": 187.0,
+        "xRatio": 0.1577,
+        "yRatio": 0.1391,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "2학년",
+        "confidence": 0.985,
+        "x": 402.0,
+        "y": 186.0,
+        "xRatio": 0.3988,
+        "yRatio": 0.1384,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "3학년",
+        "confidence": 0.998,
+        "x": 643.0,
+        "y": 187.0,
+        "xRatio": 0.6379,
+        "yRatio": 0.1391,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "4학년",
+        "confidence": 1.0,
+        "x": 891.0,
+        "y": 187.0,
+        "xRatio": 0.8839,
+        "yRatio": 0.1391,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.97,
+        "x": 111.0,
+        "y": 212.0,
+        "xRatio": 0.1101,
+        "yRatio": 0.1577,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 209.0,
+        "y": 210.0,
+        "xRatio": 0.2073,
+        "yRatio": 0.1562,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.999,
+        "x": 357.0,
+        "y": 211.0,
+        "xRatio": 0.3542,
+        "yRatio": 0.157,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 453.0,
+        "y": 209.0,
+        "xRatio": 0.4494,
+        "yRatio": 0.1555,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.999,
+        "x": 597.0,
+        "y": 211.0,
+        "xRatio": 0.5923,
+        "yRatio": 0.157,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 693.0,
+        "y": 210.0,
+        "xRatio": 0.6875,
+        "yRatio": 0.1562,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.999,
+        "x": 844.0,
+        "y": 211.0,
+        "xRatio": 0.8373,
+        "yRatio": 0.157,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 941.0,
+        "y": 209.0,
+        "xRatio": 0.9335,
+        "yRatio": 0.1555,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "Erglish Listerirg",
+        "confidence": 0.458,
+        "x": 208.0,
+        "y": 247.0,
+        "xRatio": 0.2063,
+        "yRatio": 0.1838,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "Erglish Readitg",
+        "confidence": 0.332,
+        "x": 460.0,
+        "y": 249.0,
+        "xRatio": 0.4563,
+        "yRatio": 0.1853,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "-r= +",
+        "confidence": 0.43,
+        "x": 189.0,
+        "y": 256.0,
+        "xRatio": 0.1875,
+        "yRatio": 0.1905,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "Practicet",
+        "confidence": 0.499,
+        "x": 443.0,
+        "y": 261.0,
+        "xRatio": 0.4395,
+        "yRatio": 0.1942,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "(문제하 결을 위한",
+        "confidence": 0.871,
+        "x": 102.0,
+        "y": 285.0,
+        "xRatio": 0.1012,
+        "yRatio": 0.2121,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "서양철학:",
+        "confidence": 0.987,
+        "x": 209.0,
+        "y": 290.0,
+        "xRatio": 0.2073,
+        "yRatio": 0.2158,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "글쓰기와 발표",
+        "confidence": 0.684,
+        "x": 104.0,
+        "y": 303.0,
+        "xRatio": 0.1032,
+        "yRatio": 0.2254,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "쟁점과 토론",
+        "confidence": 0.498,
+        "x": 207.0,
+        "y": 305.0,
+        "xRatio": 0.2054,
+        "yRatio": 0.2269,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "세계사:인간",
+        "confidence": 0.994,
+        "x": 358.0,
+        "y": 307.0,
+        "xRatio": 0.3552,
+        "yRatio": 0.2284,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "과 문명",
+        "confidence": 0.991,
+        "x": 356.0,
+        "y": 323.0,
+        "xRatio": 0.3532,
+        "yRatio": 0.2403,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "다학생활과",
+        "confidence": 0.95,
+        "x": 211.0,
+        "y": 335.0,
+        "xRatio": 0.2093,
+        "yRatio": 0.2493,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "진로람쓰",
+        "confidence": 0.3,
+        "x": 211.0,
+        "y": 348.0,
+        "xRatio": 0.2093,
+        "yRatio": 0.2589,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "1-4학년 안예 필수로 이수 해야람;",
+        "confidence": 0.455,
+        "x": 405.0,
+        "y": 351.0,
+        "xRatio": 0.4018,
+        "yRatio": 0.2612,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "일변수",
+        "confidence": 0.972,
+        "x": 103.0,
+        "y": 391.0,
+        "xRatio": 0.1022,
+        "yRatio": 0.2909,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "다변수",
+        "confidence": 0.999,
+        "x": 208.0,
+        "y": 389.0,
+        "xRatio": 0.2063,
+        "yRatio": 0.2894,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업수학2",
+        "confidence": 0.928,
+        "x": 451.0,
+        "y": 397.0,
+        "xRatio": 0.4474,
+        "yRatio": 0.2954,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "미적분학",
+        "confidence": 0.478,
+        "x": 102.0,
+        "y": 407.0,
+        "xRatio": 0.1012,
+        "yRatio": 0.3028,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "디적분학",
+        "confidence": 0.483,
+        "x": 210.0,
+        "y": 405.0,
+        "xRatio": 0.2083,
+        "yRatio": 0.3013,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "스프트웨어",
+        "confidence": 0.344,
+        "x": 102.0,
+        "y": 443.0,
+        "xRatio": 0.1012,
+        "yRatio": 0.3296,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "고급프로",
+        "confidence": 0.651,
+        "x": 200.0,
+        "y": 442.0,
+        "xRatio": 0.1984,
+        "yRatio": 0.3289,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "라망입문-C",
+        "confidence": 0.54,
+        "x": 208.0,
+        "y": 458.0,
+        "xRatio": 0.2063,
+        "yRatio": 0.3408,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "일반화학",
+        "confidence": 0.975,
+        "x": 353.0,
+        "y": 449.0,
+        "xRatio": 0.3502,
+        "yRatio": 0.3341,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "선형다 수학",
+        "confidence": 0.949,
+        "x": 450.0,
+        "y": 451.0,
+        "xRatio": 0.4464,
+        "yRatio": 0.3356,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "수치하석",
+        "confidence": 0.62,
+        "x": 692.0,
+        "y": 451.0,
+        "xRatio": 0.6865,
+        "yRatio": 0.3356,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "일반물리학",
+        "confidence": 0.996,
+        "x": 101.0,
+        "y": 501.0,
+        "xRatio": 0.1002,
+        "yRatio": 0.3728,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "일반물리학",
+        "confidence": 0.971,
+        "x": 209.0,
+        "y": 501.0,
+        "xRatio": 0.2073,
+        "yRatio": 0.3728,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "및 실험]",
+        "confidence": 0.628,
+        "x": 95.0,
+        "y": 518.0,
+        "xRatio": 0.0942,
+        "yRatio": 0.3854,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "및 실험2",
+        "confidence": 0.933,
+        "x": 203.0,
+        "y": 518.0,
+        "xRatio": 0.2014,
+        "yRatio": 0.3854,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "물비행제",
+        "confidence": 0.892,
+        "x": 855.0,
+        "y": 533.0,
+        "xRatio": 0.8482,
+        "yRatio": 0.3966,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "스템설계2",
+        "confidence": 0.994,
+        "x": 857.0,
+        "y": 549.0,
+        "xRatio": 0.8502,
+        "yRatio": 0.4085,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "텍설",
+        "confidence": 0.693,
+        "x": 961.0,
+        "y": 547.0,
+        "xRatio": 0.9534,
+        "yRatio": 0.407,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "함글센서",
+        "confidence": 0.533,
+        "x": 703.0,
+        "y": 584.0,
+        "xRatio": 0.6974,
+        "yRatio": 0.4345,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "업연구",
+        "confidence": 0.923,
+        "x": 852.0,
+        "y": 580.0,
+        "xRatio": 0.8452,
+        "yRatio": 0.4315,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "공업역학",
+        "confidence": 0.971,
+        "x": 215.0,
+        "y": 591.0,
+        "xRatio": 0.2133,
+        "yRatio": 0.4397,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "열역학",
+        "confidence": 0.981,
+        "x": 339.0,
+        "y": 594.0,
+        "xRatio": 0.3363,
+        "yRatio": 0.442,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "동역학",
+        "confidence": 0.982,
+        "x": 459.0,
+        "y": 592.0,
+        "xRatio": 0.4554,
+        "yRatio": 0.4405,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "비행동역학",
+        "confidence": 0.872,
+        "x": 599.0,
+        "y": 590.0,
+        "xRatio": 0.5942,
+        "yRatio": 0.439,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "신호처",
+        "confidence": 0.793,
+        "x": 696.0,
+        "y": 599.0,
+        "xRatio": 0.6905,
+        "yRatio": 0.4457,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "진로",
+        "confidence": 0.987,
+        "x": 848.0,
+        "y": 595.0,
+        "xRatio": 0.8413,
+        "yRatio": 0.4427,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.714,
+        "x": 955.0,
+        "y": 628.0,
+        "xRatio": 0.9474,
+        "yRatio": 0.4673,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "고제역학",
+        "confidence": 0.789,
+        "x": 349.0,
+        "y": 646.0,
+        "xRatio": 0.3462,
+        "yRatio": 0.4807,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "이상유제",
+        "confidence": 0.922,
+        "x": 458.0,
+        "y": 641.0,
+        "xRatio": 0.4544,
+        "yRatio": 0.4769,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "항글MEMS",
+        "confidence": 0.461,
+        "x": 702.0,
+        "y": 640.0,
+        "xRatio": 0.6964,
+        "yRatio": 0.4762,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "공학연",
+        "confidence": 0.36,
+        "x": 945.0,
+        "y": 644.0,
+        "xRatio": 0.9375,
+        "yRatio": 0.4792,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "역학",
+        "confidence": 0.918,
+        "x": 599.0,
+        "y": 658.0,
+        "xRatio": 0.5942,
+        "yRatio": 0.4896,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "개론",
+        "confidence": 0.691,
+        "x": 701.0,
+        "y": 655.0,
+        "xRatio": 0.6954,
+        "yRatio": 0.4874,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.941,
+        "x": 941.5,
+        "y": 677.5,
+        "xRatio": 0.934,
+        "yRatio": 0.5041,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.99,
+        "x": 346.0,
+        "y": 695.0,
+        "xRatio": 0.3433,
+        "yRatio": 0.5171,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.986,
+        "x": 461.0,
+        "y": 695.0,
+        "xRatio": 0.4573,
+        "yRatio": 0.5171,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "진동학",
+        "confidence": 0.999,
+        "x": 592.0,
+        "y": 695.0,
+        "xRatio": 0.5873,
+        "yRatio": 0.5171,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "자동제어",
+        "confidence": 0.999,
+        "x": 702.0,
+        "y": 696.0,
+        "xRatio": 0.6964,
+        "yRatio": 0.5179,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "디L",
+        "confidence": 0.526,
+        "x": 958.0,
+        "y": 693.0,
+        "xRatio": 0.9504,
+        "yRatio": 0.5156,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "공학개록",
+        "confidence": 0.554,
+        "x": 347.0,
+        "y": 711.0,
+        "xRatio": 0.3442,
+        "yRatio": 0.529,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "함글제도",
+        "confidence": 0.646,
+        "x": 599.0,
+        "y": 734.0,
+        "xRatio": 0.5942,
+        "yRatio": 0.5461,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "열전달",
+        "confidence": 0.999,
+        "x": 953.0,
+        "y": 729.0,
+        "xRatio": 0.9454,
+        "yRatio": 0.5424,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "및CAD",
+        "confidence": 0.93,
+        "x": 600.0,
+        "y": 749.0,
+        "xRatio": 0.5952,
+        "yRatio": 0.5573,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "스템설계",
+        "confidence": 0.932,
+        "x": 705.0,
+        "y": 752.0,
+        "xRatio": 0.6994,
+        "yRatio": 0.5595,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.967,
+        "x": 957.0,
+        "y": 765.0,
+        "xRatio": 0.9494,
+        "yRatio": 0.5692,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "항증기",
+        "confidence": 0.305,
+        "x": 601.0,
+        "y": 781.0,
+        "xRatio": 0.5962,
+        "yRatio": 0.5811,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "추진체공학",
+        "confidence": 0.951,
+        "x": 705.0,
+        "y": 787.0,
+        "xRatio": 0.6994,
+        "yRatio": 0.5856,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "구조역학",
+        "confidence": 0.951,
+        "x": 603.0,
+        "y": 795.0,
+        "xRatio": 0.5982,
+        "yRatio": 0.5915,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "항공우주",
+        "confidence": 0.986,
+        "x": 957.0,
+        "y": 813.0,
+        "xRatio": 0.9494,
+        "yRatio": 0.6049,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "전산구조",
+        "confidence": 0.999,
+        "x": 707.0,
+        "y": 825.0,
+        "xRatio": 0.7014,
+        "yRatio": 0.6138,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "신스각 곧학",
+        "confidence": 0.571,
+        "x": 601.0,
+        "y": 847.0,
+        "xRatio": 0.5962,
+        "yRatio": 0.6302,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "요소설계",
+        "confidence": 0.999,
+        "x": 853.0,
+        "y": 839.0,
+        "xRatio": 0.8462,
+        "yRatio": 0.6243,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기초설계",
+        "confidence": 0.999,
+        "x": 120.0,
+        "y": 873.0,
+        "xRatio": 0.119,
+        "yRatio": 0.6496,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "압족설",
+        "confidence": 0.455,
+        "x": 600.0,
+        "y": 880.0,
+        "xRatio": 0.5952,
+        "yRatio": 0.6548,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "유제워학",
+        "confidence": 0.374,
+        "x": 602.0,
+        "y": 893.0,
+        "xRatio": 0.5972,
+        "yRatio": 0.6644,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "최소 3과목 이상 이수",
+        "confidence": 0.677,
+        "x": 885.0,
+        "y": 891.5,
+        "xRatio": 0.878,
+        "yRatio": 0.6633,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기초설계",
+        "confidence": 0.876,
+        "x": 111.0,
+        "y": 937.0,
+        "xRatio": 0.1101,
+        "yRatio": 0.6972,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "유도제어",
+        "confidence": 0.998,
+        "x": 852.0,
+        "y": 930.0,
+        "xRatio": 0.8452,
+        "yRatio": 0.692,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "무인항금기",
+        "confidence": 0.478,
+        "x": 941.0,
+        "y": 932.0,
+        "xRatio": 0.9335,
+        "yRatio": 0.6935,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "항공기설계",
+        "confidence": 0.987,
+        "x": 702.0,
+        "y": 941.0,
+        "xRatio": 0.6964,
+        "yRatio": 0.7001,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "시스템설계",
+        "confidence": 0.871,
+        "x": 850.0,
+        "y": 945.0,
+        "xRatio": 0.8433,
+        "yRatio": 0.7031,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "설계2",
+        "confidence": 0.997,
+        "x": 943.0,
+        "y": 947.0,
+        "xRatio": 0.9355,
+        "yRatio": 0.7046,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "종합설적",
+        "confidence": 0.436,
+        "x": 599.0,
+        "y": 990.0,
+        "xRatio": 0.5942,
+        "yRatio": 0.7366,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "및 설계",
+        "confidence": 0.98,
+        "x": 853.0,
+        "y": 984.0,
+        "xRatio": 0.8462,
+        "yRatio": 0.7321,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "곧학 및 설거",
+        "confidence": 0.722,
+        "x": 945.0,
+        "y": 984.0,
+        "xRatio": 0.9375,
+        "yRatio": 0.7321,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "및 설계",
+        "confidence": 1.0,
+        "x": 870.0,
+        "y": 1022.0,
+        "xRatio": 0.8631,
+        "yRatio": 0.7604,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "기초설계- > 요소설계",
+        "confidence": 0.703,
+        "x": 474.5,
+        "y": 1049.0,
+        "xRatio": 0.4707,
+        "yRatio": 0.7805,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "이수",
+        "confidence": 0.997,
+        "x": 646.0,
+        "y": 1050.0,
+        "xRatio": 0.6409,
+        "yRatio": 0.7812,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "다른 설계과목들 듣기 전",
+        "confidence": 0.534,
+        "x": 486.0,
+        "y": 1063.0,
+        "xRatio": 0.4821,
+        "yRatio": 0.7909,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "들어야 하",
+        "confidence": 0.965,
+        "x": 687.0,
+        "y": 1064.0,
+        "xRatio": 0.6815,
+        "yRatio": 0.7917,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "시스템설계",
+        "confidence": 0.97,
+        "x": 851.0,
+        "y": 1063.0,
+        "xRatio": 0.8442,
+        "yRatio": 0.7909,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "무인항금기",
+        "confidence": 0.523,
+        "x": 849.0,
+        "y": 1085.0,
+        "xRatio": 0.8423,
+        "yRatio": 0.8073,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "학점",
+        "confidence": 0.922,
+        "x": 430.0,
+        "y": 1093.0,
+        "xRatio": 0.4266,
+        "yRatio": 0.8132,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "최소 6설계학점",
+        "confidence": 0.996,
+        "x": 500.0,
+        "y": 1092.0,
+        "xRatio": 0.496,
+        "yRatio": 0.8125,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "상 이수하여 최종적으로 종",
+        "confidence": 0.697,
+        "x": 630.0,
+        "y": 1092.0,
+        "xRatio": 0.625,
+        "yRatio": 0.8125,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "필수선수고-목",
+        "confidence": 0.761,
+        "x": 126.0,
+        "y": 1113.0,
+        "xRatio": 0.125,
+        "yRatio": 0.8281,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "포함 9설계학점 이상들 이수하여야 함",
+        "confidence": 0.68,
+        "x": 560.0,
+        "y": 1106.0,
+        "xRatio": 0.5556,
+        "yRatio": 0.8229,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "설계1",
+        "confidence": 0.449,
+        "x": 852.0,
+        "y": 1102.0,
+        "xRatio": 0.8452,
+        "yRatio": 0.8199,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "초설계 전 종합설계 후 수강한 설계과목은 설계학점",
+        "confidence": 0.721,
+        "x": 570.0,
+        "y": 1121.0,
+        "xRatio": 0.5655,
+        "yRatio": 0.8341,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "시물레이선",
+        "confidence": 0.952,
+        "x": 851.0,
+        "y": 1128.0,
+        "xRatio": 0.8442,
+        "yRatio": 0.8393,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "으로 인정하지 않음",
+        "confidence": 0.722,
+        "x": 472.0,
+        "y": 1135.0,
+        "xRatio": 0.4683,
+        "yRatio": 0.8445,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "시스템설계",
+        "confidence": 0.997,
+        "x": 850.0,
+        "y": 1144.0,
+        "xRatio": 0.8433,
+        "yRatio": 0.8512,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "권장이수제계",
+        "confidence": 0.658,
+        "x": 125.0,
+        "y": 1169.0,
+        "xRatio": 0.124,
+        "yRatio": 0.8698,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "전문고양필스",
+        "confidence": 0.774,
+        "x": 115.0,
+        "y": 1253.0,
+        "xRatio": 0.1141,
+        "yRatio": 0.9323,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "전공필수",
+        "confidence": 0.999,
+        "x": 297.0,
+        "y": 1253.0,
+        "xRatio": 0.2946,
+        "yRatio": 0.9323,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "전공선택",
+        "confidence": 0.998,
+        "x": 387.0,
+        "y": 1253.0,
+        "xRatio": 0.3839,
+        "yRatio": 0.9323,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "설계과목",
+        "confidence": 0.996,
+        "x": 478.0,
+        "y": 1251.0,
+        "xRatio": 0.4742,
+        "yRatio": 0.9308,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "종합설계",
+        "confidence": 1.0,
+        "x": 711.0,
+        "y": 1238.0,
+        "xRatio": 0.7054,
+        "yRatio": 0.9211,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "종합설계2",
+        "confidence": 0.991,
+        "x": 961.0,
+        "y": 1247.0,
+        "xRatio": 0.9534,
+        "yRatio": 0.9278,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "(1,2 중 택기)",
+        "confidence": 0.662,
+        "x": 720.0,
+        "y": 1261.0,
+        "xRatio": 0.7143,
+        "yRatio": 0.9382,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "역학",
+        "confidence": 0.867,
+        "x": 458.2,
+        "y": 655.0,
+        "xRatio": 0.4546,
+        "yRatio": 0.4874,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "역탁",
+        "confidence": 0.564,
+        "x": 832.5,
+        "y": 1021.5,
+        "xRatio": 0.8259,
+        "yRatio": 0.76,
+        "estimatedTerm": "4-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "-r= +",
+        "to": "Erglish Listerirg",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "Erglish Listerirg",
+        "to": "Practicet",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "Practicet",
+        "to": "Erglish Readitg",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "(문제하 결을 위한",
+        "to": "글쓰기와 발표",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "글쓰기와 발표",
+        "to": "쟁점과 토론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "쟁점과 토론",
+        "to": "서양철학:",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "서양철학:",
+        "to": "다학생활과",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "다학생활과",
+        "to": "과 문명",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "과 문명",
+        "to": "세계사:인간",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "진로람쓰",
+        "to": "1-4학년 안예 필수로 이수 해야람;",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "1-4학년 안예 필수로 이수 해야람;",
+        "to": "공업수학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학",
+        "to": "스프트웨어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "스프트웨어",
+        "to": "고급프로",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고급프로",
+        "to": "라망입문-C",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "라망입문-C",
+        "to": "디적분학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "디적분학",
+        "to": "일반화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반화학",
+        "to": "선형다 수학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "선형다 수학",
+        "to": "수치하석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실험]",
+        "to": "일반물리학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반물리학",
+        "to": "및 실험2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 실험2",
+        "to": "일반물리학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "비행동역학",
+        "to": "함글센서",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "함글센서",
+        "to": "스템설계2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고제역학",
+        "to": "이상유제",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "이상유제",
+        "to": "항글MEMS",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "항공우주",
+        "to": "공학개록",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공학개록",
+        "to": "항공우주",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "항공우주",
+        "to": "함글제도",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "함글제도",
+        "to": "자동제어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "자동제어",
+        "to": "항공우주",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및CAD",
+        "to": "구조역학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "구조역학",
+        "to": "스템설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "스템설계",
+        "to": "추진체공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "신스각 곧학",
+        "to": "전산구조",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전산구조",
+        "to": "요소설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "요소설계",
+        "to": "항공우주",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "유제워학",
+        "to": "유도제어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "유도제어",
+        "to": "최소 3과목 이상 이수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "최소 3과목 이상 이수",
+        "to": "무인항금기",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "종합설적",
+        "to": "항공기설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "항공기설계",
+        "to": "시스템설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "시스템설계",
+        "to": "및 설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "및 설계",
+        "to": "곧학 및 설거",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초설계- > 요소설계",
+        "to": "다른 설계과목들 듣기 전",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "다른 설계과목들 듣기 전",
+        "to": "들어야 하",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "들어야 하",
+        "to": "시스템설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "시스템설계",
+        "to": "및 설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "으로 인정하지 않음",
+        "to": "최소 6설계학점",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "최소 6설계학점",
+        "to": "포함 9설계학점 이상들 이수하여야 함",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "포함 9설계학점 이상들 이수하여야 함",
+        "to": "초설계 전 종합설계 후 수강한 설계과목은 설계학점",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "초설계 전 종합설계 후 수강한 설계과목은 설계학점",
+        "to": "상 이수하여 최종적으로 종",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "상 이수하여 최종적으로 종",
+        "to": "무인항금기",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "무인항금기",
+        "to": "시물레이선",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전문고양필스",
+        "to": "전공필수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공필수",
+        "to": "전공선택",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공선택",
+        "to": "설계과목",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "설계과목",
+        "to": "종합설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "종합설계",
+        "to": "(1,2 중 택기)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "(1,2 중 택기)",
+        "to": "종합설계2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:25:01"
+}

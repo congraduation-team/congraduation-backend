@@ -1,0 +1,1398 @@
+{
+  "departmentCode": "ENERGY",
+  "departmentName": "에너지자원공학",
+  "year": 2021,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1102_6.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 30.0,
+    "majorMinCredits": 54.0,
+    "designMinCredits": 3.0,
+    "totalMinCredits": 98.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "전문교양 : 14학점 이상(교내 이수요건과 동일) English Listening Practice 1, English Reading Practice 1, 문제해결을위한글쓰기와발표, 세종사회봉사1, 서양철학:쟁점과토론, 세계사:인간과문명 대학생활과진로탐색"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 30.0,
+        "designCredits": 0.0,
+        "note": "수학 및 기초과학, 전산학(교양(필)): 30학점 이상 일변수미적분학, 다변수미적분학, 일반물리학및실험1,2 공업수학1,2, 일반화학1, 소프트웨어기초코딩, 고급프로그래밍입문-P, 응용지질학개론"
+      },
+      {
+        "category": "전공",
+        "minCredits": 54.0,
+        "designCredits": 0.0,
+        "note": "전공교과목 54학점 이상 이수(설계과목 포함) ※ 설계는 기초설계 3학점, 종합설계 3학점과 부분설계(각 1학점)을 포함하여 12학점 이상 획득하여야 함. 부분설계 : 석유가스공학개론, 암석역학및실험, 지구화학탐사, 물리탐사공학개론, 이산자료처리및실습, 지질공학및실습, 응용지구전자기학, 지반정보(GIS)시스템및실습, 전산지진학및실습, 물리탐사및실습, 지진및지질재해론, 에너지환경지오메카닉스및실습"
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 98.0,
+        "designCredits": 0.0,
+        "note": "에너지자원공학과 졸업 이수 요구 학점 : 130학점 이상"
+      }
+    ],
+    "rawNotes": [
+      "전문교양 : 14학점 이상(교내 이수요건과 동일) English Listening Practice 1, English Reading Practice 1, 문제해결을위한글쓰기와발표, 세종사회봉사1, 서양철학:쟁점과토론, 세계사:인간과문명 대학생활과진로탐색",
+      "수학 및 기초과학, 전산학(교양(필)): 30학점 이상 일변수미적분학, 다변수미적분학, 일반물리학및실험1,2 공업수학1,2, 일반화학1, 소프트웨어기초코딩, 고급프로그래밍입문-P, 응용지질학개론",
+      "전공교과목 54학점 이상 이수(설계과목 포함) ※ 설계는 기초설계 3학점, 종합설계 3학점과 부분설계(각 1학점)을 포함하여 12학점 이상 획득하여야 함. 부분설계 : 석유가스공학개론, 암석역학및실험, 지구화학탐사, 물리탐사공학개론, 이산자료처리및실습, 지질공학및실습, 응용지구전자기학, 지반정보(GIS)시스템및실습, 전산지진학및실습, 물리탐사및실습, 지진및지질재해론, 에너지환경지오메카닉스및실습",
+      "에너지자원공학과 졸업 이수 요구 학점 : 130학점 이상"
+    ],
+    "designCourses": {
+      "BASIC": [],
+      "ELEMENT": [],
+      "COMPREHENSIVE": []
+    },
+    "certElective": {
+      "minCourses": 0,
+      "minCredits": 0,
+      "minAreas": 0
+    }
+  },
+  "courses": [
+    {
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "신입생세미나1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세종사회봉사1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "소프트웨어기초코딩",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일변수미적분학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Listening Practice1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍입문-P",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학및실험2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "다변수미적분학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "기초설계",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세계사:인간과문명",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용지질학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "석유가스공학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전산프로그래밍및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "위성원격탐사개론및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "English Reading Practice1",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지구화학탐사",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "암석역학및실험",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "물리탐사공학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "열역학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "에너지자원경제",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "이산자료처리및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "선광제련공학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광물암석학및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지질공학및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "저류공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "탄성파탐사공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "광해방지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용지구전자기학",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지반정보(GIS)시스템및실습",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전산지진학및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지구통계학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시추공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기화학공학및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "수리지질학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "구조지질학및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "에너지환경지오메카닉스및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "전기전자탐사공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계 A",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경지구화학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "화약발파및터널굴착설계",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "환경지구물리학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "에너지경제성평가",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "물리탐사모니터링",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "응용원격탐사및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "종합설계 B",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "인공위성지구물리학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "석유가스생산공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "암반사면공학및실습",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "지진및지질재해론",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "심지층에너지공학",
+      "roleLabel": "인선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20210308_0156_4610001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20210308_0156_4610001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "1학년",
+        "confidence": 0.988,
+        "x": 144.0,
+        "y": 25.0,
+        "xRatio": 0.1303,
+        "yRatio": 0.0405,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "2학년",
+        "confidence": 0.788,
+        "x": 415.0,
+        "y": 26.0,
+        "xRatio": 0.3756,
+        "yRatio": 0.0421,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "3학년",
+        "confidence": 0.994,
+        "x": 684.5,
+        "y": 25.0,
+        "xRatio": 0.6195,
+        "yRatio": 0.0405,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "4학년",
+        "confidence": 0.999,
+        "x": 955.5,
+        "y": 25.0,
+        "xRatio": 0.8647,
+        "yRatio": 0.0405,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.919,
+        "x": 81.0,
+        "y": 61.0,
+        "xRatio": 0.0733,
+        "yRatio": 0.0989,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 210.0,
+        "y": 60.0,
+        "xRatio": 0.19,
+        "yRatio": 0.0972,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.999,
+        "x": 351.0,
+        "y": 59.0,
+        "xRatio": 0.3176,
+        "yRatio": 0.0956,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 0.851,
+        "x": 480.0,
+        "y": 60.0,
+        "xRatio": 0.4344,
+        "yRatio": 0.0972,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.986,
+        "x": 621.0,
+        "y": 59.0,
+        "xRatio": 0.562,
+        "yRatio": 0.0956,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 749.0,
+        "y": 59.0,
+        "xRatio": 0.6778,
+        "yRatio": 0.0956,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "1학기",
+        "confidence": 0.886,
+        "x": 892.0,
+        "y": 59.0,
+        "xRatio": 0.8072,
+        "yRatio": 0.0956,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "2학기",
+        "confidence": 1.0,
+        "x": 1021.0,
+        "y": 59.0,
+        "xRatio": 0.924,
+        "yRatio": 0.0956,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "English Listening",
+        "confidence": 0.716,
+        "x": 210.0,
+        "y": 95.5,
+        "xRatio": 0.19,
+        "yRatio": 0.1548,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "English Listening",
+        "confidence": 0.842,
+        "x": 483.0,
+        "y": 95.5,
+        "xRatio": 0.4371,
+        "yRatio": 0.1548,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "Practocel",
+        "confidence": 0.968,
+        "x": 209.0,
+        "y": 106.0,
+        "xRatio": 0.1891,
+        "yRatio": 0.1718,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "Practocel",
+        "confidence": 0.925,
+        "x": 484.0,
+        "y": 106.0,
+        "xRatio": 0.438,
+        "yRatio": 0.1718,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "평적과록",
+        "confidence": 0.366,
+        "x": 205.0,
+        "y": 147.0,
+        "xRatio": 0.1855,
+        "yRatio": 0.2382,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "서공사회봉사1",
+        "confidence": 0.8,
+        "x": 77.0,
+        "y": 181.0,
+        "xRatio": 0.0697,
+        "yRatio": 0.2934,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "에너지경제성평가",
+        "confidence": 0.809,
+        "x": 892.0,
+        "y": 181.0,
+        "xRatio": 0.8072,
+        "yRatio": 0.2934,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "인공위성지구루리다",
+        "confidence": 0.328,
+        "x": 1024.0,
+        "y": 181.0,
+        "xRatio": 0.9267,
+        "yRatio": 0.2934,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "소프트뒤어기초",
+        "confidence": 0.661,
+        "x": 78.0,
+        "y": 217.0,
+        "xRatio": 0.0706,
+        "yRatio": 0.3517,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "고급프로그래망",
+        "confidence": 0.846,
+        "x": 209.0,
+        "y": 218.0,
+        "xRatio": 0.1891,
+        "yRatio": 0.3533,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "환경지구물리학",
+        "confidence": 0.813,
+        "x": 893.0,
+        "y": 221.0,
+        "xRatio": 0.8081,
+        "yRatio": 0.3582,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "석유가스생산공화",
+        "confidence": 0.587,
+        "x": 1026.0,
+        "y": 223.0,
+        "xRatio": 0.9285,
+        "yRatio": 0.3614,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "코딩",
+        "confidence": 0.906,
+        "x": 78.0,
+        "y": 229.0,
+        "xRatio": 0.0706,
+        "yRatio": 0.3712,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "입문-P",
+        "confidence": 0.997,
+        "x": 210.0,
+        "y": 228.0,
+        "xRatio": 0.19,
+        "yRatio": 0.3695,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "인번수미적분화",
+        "confidence": 0.343,
+        "x": 77.0,
+        "y": 263.0,
+        "xRatio": 0.0697,
+        "yRatio": 0.4263,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "다번수미적분학",
+        "confidence": 0.694,
+        "x": 209.0,
+        "y": 263.0,
+        "xRatio": 0.1891,
+        "yRatio": 0.4263,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업수학1",
+        "confidence": 0.501,
+        "x": 345.0,
+        "y": 263.0,
+        "xRatio": 0.3122,
+        "yRatio": 0.4263,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "공업수화2",
+        "confidence": 0.531,
+        "x": 484.0,
+        "y": 263.0,
+        "xRatio": 0.438,
+        "yRatio": 0.4263,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "긍히방지공화",
+        "confidence": 0.405,
+        "x": 623.0,
+        "y": 263.0,
+        "xRatio": 0.5638,
+        "yRatio": 0.4263,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "환경지구화학",
+        "confidence": 0.463,
+        "x": 893.0,
+        "y": 263.0,
+        "xRatio": 0.8081,
+        "yRatio": 0.4263,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "지구화화담사",
+        "confidence": 0.573,
+        "x": 485.0,
+        "y": 304.0,
+        "xRatio": 0.4389,
+        "yRatio": 0.4927,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전산프로그래김",
+        "confidence": 0.593,
+        "x": 345.0,
+        "y": 340.0,
+        "xRatio": 0.3122,
+        "yRatio": 0.5511,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "지반점보(티S시스템",
+        "confidence": 0.305,
+        "x": 754.0,
+        "y": 341.0,
+        "xRatio": 0.6824,
+        "yRatio": 0.5527,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "및신습",
+        "confidence": 0.502,
+        "x": 754.0,
+        "y": 352.0,
+        "xRatio": 0.6824,
+        "yRatio": 0.5705,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "기초석계",
+        "confidence": 0.881,
+        "x": 219.0,
+        "y": 389.0,
+        "xRatio": 0.1982,
+        "yRatio": 0.6305,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "석유가스곱화기로",
+        "confidence": 0.323,
+        "x": 345.0,
+        "y": 388.0,
+        "xRatio": 0.3122,
+        "yRatio": 0.6288,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "저유공학",
+        "confidence": 0.343,
+        "x": 625.0,
+        "y": 388.0,
+        "xRatio": 0.5656,
+        "yRatio": 0.6288,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "전기전자담사공-화",
+        "confidence": 0.651,
+        "x": 755.0,
+        "y": 431.0,
+        "xRatio": 0.6833,
+        "yRatio": 0.6985,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "물리담사모니터김",
+        "confidence": 0.349,
+        "x": 892.0,
+        "y": 430.0,
+        "xRatio": 0.8072,
+        "yRatio": 0.6969,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "공업역학",
+        "confidence": 0.658,
+        "x": 347.0,
+        "y": 473.0,
+        "xRatio": 0.314,
+        "yRatio": 0.7666,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "종합설계A",
+        "confidence": 0.817,
+        "x": 893.0,
+        "y": 473.0,
+        "xRatio": 0.8081,
+        "yRatio": 0.7666,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "종합설겨B",
+        "confidence": 0.303,
+        "x": 1033.0,
+        "y": 473.0,
+        "xRatio": 0.9348,
+        "yRatio": 0.7666,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "필수선수",
+        "confidence": 0.944,
+        "x": 83.0,
+        "y": 516.0,
+        "xRatio": 0.0751,
+        "yRatio": 0.8363,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "어너지자원경제",
+        "confidence": 0.995,
+        "x": 484.0,
+        "y": 515.0,
+        "xRatio": 0.438,
+        "yRatio": 0.8347,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "단성파금사공학",
+        "confidence": 0.352,
+        "x": 625.0,
+        "y": 516.0,
+        "xRatio": 0.5656,
+        "yRatio": 0.8363,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "x설계과목 이수 순서(필수)",
+        "confidence": 0.679,
+        "x": 940.0,
+        "y": 531.0,
+        "xRatio": 0.8507,
+        "yRatio": 0.8606,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "전문교감",
+        "confidence": 0.486,
+        "x": 55.0,
+        "y": 554.0,
+        "xRatio": 0.0498,
+        "yRatio": 0.8979,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "기초설계 - 요소설계 - 종합설계",
+        "confidence": 0.589,
+        "x": 965.0,
+        "y": 551.0,
+        "xRatio": 0.8733,
+        "yRatio": 0.893,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "12021년",
+        "confidence": 0.837,
+        "x": 1049.0,
+        "y": 594.0,
+        "xRatio": 0.9493,
+        "yRatio": 0.9627,
+        "estimatedTerm": "4-2"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "Practocel",
+        "to": "English Listening",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "English Listening",
+        "to": "English Listening",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "English Listening",
+        "to": "Practocel",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "에너지경제성평가",
+        "to": "인공위성지구루리다",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "소프트뒤어기초",
+        "to": "고급프로그래망",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "고급프로그래망",
+        "to": "입문-P",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "환경지구물리학",
+        "to": "석유가스생산공화",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인번수미적분화",
+        "to": "다번수미적분학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "다번수미적분학",
+        "to": "공업수학1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수학1",
+        "to": "공업수화2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수화2",
+        "to": "긍히방지공화",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "긍히방지공화",
+        "to": "환경지구화학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "기초석계",
+        "to": "석유가스곱화기로",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전기전자담사공-화",
+        "to": "물리담사모니터김",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "종합설계A",
+        "to": "종합설겨B",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "어너지자원경제",
+        "to": "단성파금사공학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "x설계과목 이수 순서(필수)",
+        "to": "기초설계 - 요소설계 - 종합설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:24:56"
+}

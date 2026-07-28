@@ -1,0 +1,1732 @@
+{
+  "departmentCode": "ARCH",
+  "departmentName": "건축공학",
+  "year": 2025,
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program0702_19.html",
+  "requirement": {
+    "generalMinCredits": 14.0,
+    "bsmMinCredits": 24.0,
+    "majorMinCredits": 45.0,
+    "designMinCredits": 9.0,
+    "totalMinCredits": 83.0,
+    "rows": [
+      {
+        "category": "전문교양",
+        "minCredits": 14.0,
+        "designCredits": 0.0,
+        "note": "인증필수 교과목을 포함하여 전문교양 14학점 이상 *인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 (위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수) ※인증필수선택과목은 2개 영역에서 각 한 과목씩 수강을 권장함"
+      },
+      {
+        "category": "MSC",
+        "minCredits": 24.0,
+        "designCredits": 0.0,
+        "note": "수학 및 기초과학, 전산학(교양(필): 24학점 이상 SW 기초코딩, 미적분학 1, 미적분학 2, 일반물리학 1, 공업수학 1, 공업수학 2, 일반화학 1, 고급프로그래밍활용"
+      },
+      {
+        "category": "전공",
+        "minCredits": 45.0,
+        "designCredits": 9.0,
+        "note": "전공교과목 45학점 이상 이수(설계과목 포함) ※ 설계 교과목 이수조건: 기초설계 및 종합설계 교과목을 포함하여 건축기초설계 → 건축환경설계 및 요소설계 → 공학설계 A or B 순으로 9학점 이상 이수 ◇ 기초설계 : 건축기초설계(3, 설계3) ◇ 요소설계 : 건축환경설계(3, 설계 1.5), 건축구조시스템(3, 설계 1), 건축기계설비시스템(3, 설계 1), 철근콘크리트설계(3, 설계 1), 철골구조(3, 설계 1), 구조계획및설계(3, 설계 1), 건축조명(3, 설계 1) ◇ 종합설계 : 공학설계A(3, 설계 3), 공학설계B(3, 설계 3) ⇒ 기초설계 이수 전 혹은 종합설계 이수 후에 이수하는 설계 교과목은 설계학점으로 미인정하며(단, 병수는 인정), 공학설계 A, B 두 과목 중 한 과목만 설계학점으로 인정함."
+      },
+      {
+        "category": "인증최소 이수학점",
+        "minCredits": 83.0,
+        "designCredits": 0.0,
+        "note": "건축공학과 학과 졸업이수학점: 130학점 이상"
+      }
+    ],
+    "rawNotes": [
+      "인증필수 교과목을 포함하여 전문교양 14학점 이상 *인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 (위 전문교양 과목 중 인증필수 과목 및 인증필수선택 과목 중 2과목 이상을 포함하여 14학점이상 이수) ※인증필수선택과목은 2개 영역에서 각 한 과목씩 수강을 권장함",
+      "수학 및 기초과학, 전산학(교양(필): 24학점 이상 SW 기초코딩, 미적분학 1, 미적분학 2, 일반물리학 1, 공업수학 1, 공업수학 2, 일반화학 1, 고급프로그래밍활용",
+      "전공교과목 45학점 이상 이수(설계과목 포함) ※ 설계 교과목 이수조건: 기초설계 및 종합설계 교과목을 포함하여 건축기초설계 → 건축환경설계 및 요소설계 → 공학설계 A or B 순으로 9학점 이상 이수 ◇ 기초설계 : 건축기초설계(3, 설계3) ◇ 요소설계 : 건축환경설계(3, 설계 1.5), 건축구조시스템(3, 설계 1), 건축기계설비시스템(3, 설계 1), 철근콘크리트설계(3, 설계 1), 철골구조(3, 설계 1), 구조계획및설계(3, 설계 1), 건축조명(3, 설계 1) ◇ 종합설계 : 공학설계A(3, 설계 3), 공학설계B(3, 설계 3) ⇒ 기초설계 이수 전 혹은 종합설계 이수 후에 이수하는 설계 교과목은 설계학점으로 미인정하며(단, 병수는 인정), 공학설계 A, B 두 과목 중 한 과목만 설계학점으로 인정함.",
+      "건축공학과 학과 졸업이수학점: 130학점 이상"
+    ],
+    "designCourses": {
+      "BASIC": [
+        {
+          "name": "건축기초설계",
+          "designCredits": 3.0,
+          "raw": "건축기초설계(3, 설계3)"
+        }
+      ],
+      "ELEMENT": [
+        {
+          "name": "건축환경설계",
+          "designCredits": 1.5,
+          "raw": "건축환경설계(3, 설계 1.5)"
+        },
+        {
+          "name": "건축구조시스템",
+          "designCredits": 1.0,
+          "raw": "건축구조시스템(3, 설계 1)"
+        },
+        {
+          "name": "건축기계설비시스템",
+          "designCredits": 1.0,
+          "raw": "건축기계설비시스템(3, 설계 1)"
+        },
+        {
+          "name": "철근콘크리트설계",
+          "designCredits": 1.0,
+          "raw": "철근콘크리트설계(3, 설계 1)"
+        },
+        {
+          "name": "철골구조",
+          "designCredits": 1.0,
+          "raw": "철골구조(3, 설계 1)"
+        },
+        {
+          "name": "구조계획및설계",
+          "designCredits": 1.0,
+          "raw": "구조계획및설계(3, 설계 1)"
+        },
+        {
+          "name": "건축조명",
+          "designCredits": 1.0,
+          "raw": "건축조명(3, 설계 1)"
+        }
+      ],
+      "COMPREHENSIVE": [
+        {
+          "name": "공학설계A",
+          "designCredits": 3.0,
+          "raw": "공학설계A(3, 설계 3)"
+        },
+        {
+          "name": "공학설계B",
+          "designCredits": 3.0,
+          "raw": "공학설계B(3, 설계 3)"
+        }
+      ]
+    },
+    "certElective": {
+      "minCourses": 2,
+      "minCredits": 0,
+      "minAreas": 2
+    }
+  },
+  "courses": [
+    {
+      "name": "세계사",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "동서양의사상과윤리",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "경제학",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "경영학",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "컴퓨터게임과메타버스",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "융합예술의 이해",
+      "roleLabel": "인증필수선택",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "문제해결을 위한 글쓰기와 발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "SW기초코딩",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학1",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반물리학1",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 2.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학: 쟁점과 토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급프로그래밍활용",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "미적분학2",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "일반화학1",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학1",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축기초설계",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축구조시스템",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축환경개론",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공업수학2",
+      "roleLabel": "인필(MSC)",
+      "role": "BSM_REQUIRED",
+      "category": "BSM",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "구조역학1",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축디지털설계",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축설비개론",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축환경설계",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.5,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "구조역학2",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설관리및경영",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축기계설비시스템",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "철근콘크리트공학",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축일반구조",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축공학 AI",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축시공",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축법규",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축구조해석",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축조명",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축재료",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "특수구조개론",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "철근콘크리트설계",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공학설계A",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "철골구조",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "구조계획및설계",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축전기설비시스템",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축실무",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 1.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "공학설계B",
+      "roleLabel": "인필(전공)",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 3.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터구조해석",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건축환경설비해석",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "스마트구조개론",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "건설IT",
+      "roleLabel": "인선(전공)",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    }
+  ],
+  "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20251124_0603_3910001.png",
+  "flowchartOcr": {
+    "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20251124_0603_3910001.png",
+    "needsReview": true,
+    "courses": [
+      {
+        "text": "건축공학과 이수체계도 (2025학년)",
+        "confidence": 0.911,
+        "x": 1655.5,
+        "y": 303.0,
+        "xRatio": 0.4725,
+        "yRatio": 0.1222,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "학년",
+        "confidence": 1.0,
+        "x": 281.5,
+        "y": 399.0,
+        "xRatio": 0.0803,
+        "yRatio": 0.161,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "1/1",
+        "confidence": 0.93,
+        "x": 488.5,
+        "y": 417.0,
+        "xRatio": 0.1394,
+        "yRatio": 0.1682,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "1/2",
+        "confidence": 0.999,
+        "x": 814.0,
+        "y": 417.0,
+        "xRatio": 0.2323,
+        "yRatio": 0.1682,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "2/1",
+        "confidence": 0.699,
+        "x": 1135.5,
+        "y": 415.5,
+        "xRatio": 0.3241,
+        "yRatio": 0.1676,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "2/2",
+        "confidence": 1.0,
+        "x": 1461.0,
+        "y": 415.5,
+        "xRatio": 0.417,
+        "yRatio": 0.1676,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "3/1",
+        "confidence": 1.0,
+        "x": 1781.5,
+        "y": 415.5,
+        "xRatio": 0.5084,
+        "yRatio": 0.1676,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "3/2",
+        "confidence": 0.954,
+        "x": 2107.0,
+        "y": 415.5,
+        "xRatio": 0.6013,
+        "yRatio": 0.1676,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "4/1",
+        "confidence": 0.981,
+        "x": 2428.0,
+        "y": 417.0,
+        "xRatio": 0.6929,
+        "yRatio": 0.1682,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "4/2",
+        "confidence": 0.965,
+        "x": 2753.5,
+        "y": 415.5,
+        "xRatio": 0.7858,
+        "yRatio": 0.1676,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "학기",
+        "confidence": 1.0,
+        "x": 288.0,
+        "y": 430.5,
+        "xRatio": 0.0822,
+        "yRatio": 0.1737,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "문제해결을 위한",
+        "confidence": 0.723,
+        "x": 493.5,
+        "y": 499.0,
+        "xRatio": 0.1408,
+        "yRatio": 0.2013,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "서양철학: 쟁점과 토",
+        "confidence": 0.63,
+        "x": 814.0,
+        "y": 499.0,
+        "xRatio": 0.2323,
+        "yRatio": 0.2013,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "<2~4학년 지정과목>",
+        "confidence": 0.769,
+        "x": 1621.5,
+        "y": 505.0,
+        "xRatio": 0.4628,
+        "yRatio": 0.2037,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "MSC/전문교양",
+        "confidence": 0.907,
+        "x": 2755.0,
+        "y": 515.5,
+        "xRatio": 0.7862,
+        "yRatio": 0.2079,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "글쓰기와 발표",
+        "confidence": 0.965,
+        "x": 490.5,
+        "y": 530.5,
+        "xRatio": 0.14,
+        "yRatio": 0.214,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "역사와 사상: 세계사 , 동서양의사상과운리",
+        "confidence": 0.831,
+        "x": 1621.5,
+        "y": 537.0,
+        "xRatio": 0.4628,
+        "yRatio": 0.2166,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "경제와 사회: 경영학 , 경제학",
+        "confidence": 0.961,
+        "x": 1623.0,
+        "y": 570.0,
+        "xRatio": 0.4632,
+        "yRatio": 0.2299,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "대학영어",
+        "confidence": 0.992,
+        "x": 814.0,
+        "y": 604.5,
+        "xRatio": 0.2323,
+        "yRatio": 0.2438,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "문화와 예술: 컴퓨터게임과메 타버스 , 움합예술의 이해",
+        "confidence": 0.536,
+        "x": 1621.5,
+        "y": 603.0,
+        "xRatio": 0.4628,
+        "yRatio": 0.2432,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전공필수",
+        "confidence": 0.849,
+        "x": 2752.0,
+        "y": 588.0,
+        "xRatio": 0.7854,
+        "yRatio": 0.2372,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "인종필수)",
+        "confidence": 0.593,
+        "x": 2756.0,
+        "y": 622.0,
+        "xRatio": 0.7865,
+        "yRatio": 0.2509,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "6개 교과목 중 2개 교과목 필수수강",
+        "confidence": 0.659,
+        "x": 1624.0,
+        "y": 670.5,
+        "xRatio": 0.4635,
+        "yRatio": 0.2705,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "전공선택",
+        "confidence": 1.0,
+        "x": 2751.0,
+        "y": 678.5,
+        "xRatio": 0.7851,
+        "yRatio": 0.2737,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "(각각 다른 영역으로 2개 수강올 권장)",
+        "confidence": 0.545,
+        "x": 1624.5,
+        "y": 702.0,
+        "xRatio": 0.4636,
+        "yRatio": 0.2832,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "인종선택",
+        "confidence": 0.998,
+        "x": 2752.0,
+        "y": 710.0,
+        "xRatio": 0.7854,
+        "yRatio": 0.2864,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "미적분학2",
+        "confidence": 0.996,
+        "x": 814.0,
+        "y": 784.0,
+        "xRatio": 0.2323,
+        "yRatio": 0.3163,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "공업수학",
+        "confidence": 0.999,
+        "x": 1137.0,
+        "y": 784.0,
+        "xRatio": 0.3245,
+        "yRatio": 0.3163,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "공업수학2",
+        "confidence": 0.996,
+        "x": 1462.5,
+        "y": 784.0,
+        "xRatio": 0.4174,
+        "yRatio": 0.3163,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "필수선수",
+        "confidence": 1.0,
+        "x": 2971.0,
+        "y": 781.0,
+        "xRatio": 0.8479,
+        "yRatio": 0.315,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "일반물리학7",
+        "confidence": 0.532,
+        "x": 490.5,
+        "y": 874.0,
+        "xRatio": 0.14,
+        "yRatio": 0.3526,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "권장선수",
+        "confidence": 1.0,
+        "x": 2976.5,
+        "y": 871.5,
+        "xRatio": 0.8495,
+        "yRatio": 0.3516,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "SW기초코딩",
+        "confidence": 0.985,
+        "x": 489.5,
+        "y": 962.0,
+        "xRatio": 0.1397,
+        "yRatio": 0.3881,
+        "estimatedTerm": "1-1"
+      },
+      {
+        "text": "고급프로그래망활용",
+        "confidence": 0.979,
+        "x": 815.0,
+        "y": 964.0,
+        "xRatio": 0.2326,
+        "yRatio": 0.3889,
+        "estimatedTerm": "1-2"
+      },
+      {
+        "text": "건축디지털설계",
+        "confidence": 0.669,
+        "x": 1460.0,
+        "y": 1052.0,
+        "xRatio": 0.4167,
+        "yRatio": 0.4244,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "건설관리 및 경영",
+        "confidence": 0.997,
+        "x": 1783.0,
+        "y": 1052.0,
+        "xRatio": 0.5088,
+        "yRatio": 0.4244,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축시공",
+        "confidence": 1.0,
+        "x": 2106.0,
+        "y": 1052.0,
+        "xRatio": 0.601,
+        "yRatio": 0.4244,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축실무",
+        "confidence": 0.998,
+        "x": 2429.0,
+        "y": 1052.0,
+        "xRatio": 0.6932,
+        "yRatio": 0.4244,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "CM",
+        "confidence": 1.0,
+        "x": 2995.5,
+        "y": 1052.0,
+        "xRatio": 0.8549,
+        "yRatio": 0.4244,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "건축법규",
+        "confidence": 0.816,
+        "x": 2106.0,
+        "y": 1140.0,
+        "xRatio": 0.601,
+        "yRatio": 0.4599,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "공학설계 A",
+        "confidence": 0.927,
+        "x": 2436.0,
+        "y": 1278.0,
+        "xRatio": 0.6952,
+        "yRatio": 0.5155,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "공학설계 B",
+        "confidence": 0.702,
+        "x": 2755.0,
+        "y": 1278.0,
+        "xRatio": 0.7862,
+        "yRatio": 0.5155,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "건축기 초설계 3(3)",
+        "confidence": 0.813,
+        "x": 1137.0,
+        "y": 1293.0,
+        "xRatio": 0.3245,
+        "yRatio": 0.5216,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "건축공학시",
+        "confidence": 0.935,
+        "x": 1784.5,
+        "y": 1293.0,
+        "xRatio": 0.5093,
+        "yRatio": 0.5216,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "공학설계",
+        "confidence": 0.998,
+        "x": 2994.0,
+        "y": 1293.0,
+        "xRatio": 0.8545,
+        "yRatio": 0.5216,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "3(3)",
+        "confidence": 0.925,
+        "x": 2427.5,
+        "y": 1309.5,
+        "xRatio": 0.6928,
+        "yRatio": 0.5282,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "3(3)",
+        "confidence": 0.919,
+        "x": 2750.5,
+        "y": 1309.5,
+        "xRatio": 0.785,
+        "yRatio": 0.5282,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "건축환경설계",
+        "confidence": 0.827,
+        "x": 1784.5,
+        "y": 1364.0,
+        "xRatio": 0.5093,
+        "yRatio": 0.5502,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "311.5)",
+        "confidence": 0.66,
+        "x": 1781.5,
+        "y": 1398.5,
+        "xRatio": 0.5084,
+        "yRatio": 0.5641,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "특수구조개록",
+        "confidence": 0.371,
+        "x": 2106.0,
+        "y": 1449.0,
+        "xRatio": 0.601,
+        "yRatio": 0.5845,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축일반구조",
+        "confidence": 1.0,
+        "x": 1784.5,
+        "y": 1531.0,
+        "xRatio": 0.5093,
+        "yRatio": 0.6176,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축재료",
+        "confidence": 0.999,
+        "x": 2106.0,
+        "y": 1529.5,
+        "xRatio": 0.601,
+        "yRatio": 0.617,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "시공재료",
+        "confidence": 0.616,
+        "x": 2994.5,
+        "y": 1531.0,
+        "xRatio": 0.8546,
+        "yRatio": 0.6176,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "건축환경개론",
+        "confidence": 0.622,
+        "x": 1137.0,
+        "y": 1635.0,
+        "xRatio": 0.3245,
+        "yRatio": 0.6595,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "건축설비개론",
+        "confidence": 0.818,
+        "x": 1460.0,
+        "y": 1635.0,
+        "xRatio": 0.4167,
+        "yRatio": 0.6595,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "건축기계설비시스템",
+        "confidence": 0.999,
+        "x": 1781.5,
+        "y": 1619.0,
+        "xRatio": 0.5084,
+        "yRatio": 0.6531,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축조명 3(1)",
+        "confidence": 0.692,
+        "x": 2107.5,
+        "y": 1635.0,
+        "xRatio": 0.6015,
+        "yRatio": 0.6595,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축전기설비시스템",
+        "confidence": 0.992,
+        "x": 2427.5,
+        "y": 1635.0,
+        "xRatio": 0.6928,
+        "yRatio": 0.6595,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "건축환경설비해석",
+        "confidence": 0.996,
+        "x": 2752.0,
+        "y": 1635.0,
+        "xRatio": 0.7854,
+        "yRatio": 0.6595,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "환경 설비",
+        "confidence": 0.865,
+        "x": 2990.5,
+        "y": 1635.0,
+        "xRatio": 0.8535,
+        "yRatio": 0.6595,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "3(1",
+        "confidence": 0.873,
+        "x": 1780.5,
+        "y": 1651.5,
+        "xRatio": 0.5081,
+        "yRatio": 0.6662,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "구조계획 및 설계",
+        "confidence": 0.994,
+        "x": 2430.0,
+        "y": 1720.0,
+        "xRatio": 0.6935,
+        "yRatio": 0.6938,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "스마트구조개론",
+        "confidence": 0.728,
+        "x": 2753.5,
+        "y": 1738.0,
+        "xRatio": 0.7858,
+        "yRatio": 0.7011,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "3(1)",
+        "confidence": 0.409,
+        "x": 2106.0,
+        "y": 1753.0,
+        "xRatio": 0.601,
+        "yRatio": 0.7071,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "3(1)",
+        "confidence": 0.756,
+        "x": 2430.5,
+        "y": 1754.0,
+        "xRatio": 0.6936,
+        "yRatio": 0.7075,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "건축구 조시스템 3(1)",
+        "confidence": 0.577,
+        "x": 1138.0,
+        "y": 1838.0,
+        "xRatio": 0.3248,
+        "yRatio": 0.7414,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "구조역학 1",
+        "confidence": 0.94,
+        "x": 1460.0,
+        "y": 1839.0,
+        "xRatio": 0.4167,
+        "yRatio": 0.7418,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "구조역학2",
+        "confidence": 0.994,
+        "x": 1784.5,
+        "y": 1839.0,
+        "xRatio": 0.5093,
+        "yRatio": 0.7418,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "건축구조해석",
+        "confidence": 1.0,
+        "x": 2106.0,
+        "y": 1838.0,
+        "xRatio": 0.601,
+        "yRatio": 0.7414,
+        "estimatedTerm": "3-1"
+      },
+      {
+        "text": "철골구조 3(1)",
+        "confidence": 0.617,
+        "x": 2430.5,
+        "y": 1839.0,
+        "xRatio": 0.6936,
+        "yRatio": 0.7418,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "컴퓨터 구조해석",
+        "confidence": 0.846,
+        "x": 2752.0,
+        "y": 1839.0,
+        "xRatio": 0.7854,
+        "yRatio": 0.7418,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "구조",
+        "confidence": 1.0,
+        "x": 2993.0,
+        "y": 1839.0,
+        "xRatio": 0.8542,
+        "yRatio": 0.7418,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "졸업연구및진로1",
+        "confidence": 0.486,
+        "x": 2430.5,
+        "y": 1943.5,
+        "xRatio": 0.6936,
+        "yRatio": 0.784,
+        "estimatedTerm": "3-2"
+      },
+      {
+        "text": "졸업연구및진로2",
+        "confidence": 0.608,
+        "x": 2755.0,
+        "y": 1943.5,
+        "xRatio": 0.7862,
+        "yRatio": 0.784,
+        "estimatedTerm": "4-1"
+      },
+      {
+        "text": "기타",
+        "confidence": 1.0,
+        "x": 2994.5,
+        "y": 1941.5,
+        "xRatio": 0.8546,
+        "yRatio": 0.7832,
+        "estimatedTerm": "4-2"
+      },
+      {
+        "text": "<설계인종조건>",
+        "confidence": 0.694,
+        "x": 1108.0,
+        "y": 2084.0,
+        "xRatio": 0.3162,
+        "yRatio": 0.8407,
+        "estimatedTerm": "2-1"
+      },
+      {
+        "text": "~기초설계 이수 및 종합설계 A,B 중 하나 이수름 필수로 포함하여 설계과목 총 9학점 이수",
+        "confidence": 0.447,
+        "x": 1546.0,
+        "y": 2118.5,
+        "xRatio": 0.4412,
+        "yRatio": 0.8546,
+        "estimatedTerm": "2-2"
+      },
+      {
+        "text": "추가 조건들은 인증기준 참고",
+        "confidence": 0.659,
+        "x": 1198.5,
+        "y": 2183.0,
+        "xRatio": 0.342,
+        "yRatio": 0.8806,
+        "estimatedTerm": "2-1"
+      }
+    ],
+    "prerequisites": [
+      {
+        "from": "글쓰기와 발표",
+        "to": "문제해결을 위한",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "문제해결을 위한",
+        "to": "서양철학: 쟁점과 토",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "서양철학: 쟁점과 토",
+        "to": "대학영어",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "대학영어",
+        "to": "<2~4학년 지정과목>",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "<2~4학년 지정과목>",
+        "to": "역사와 사상: 세계사 , 동서양의사상과운리",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "역사와 사상: 세계사 , 동서양의사상과운리",
+        "to": "문화와 예술: 컴퓨터게임과메 타버스 , 움합예술의 이해",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "문화와 예술: 컴퓨터게임과메 타버스 , 움합예술의 이해",
+        "to": "경제와 사회: 경영학 , 경제학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공필수",
+        "to": "MSC/전문교양",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "6개 교과목 중 2개 교과목 필수수강",
+        "to": "(각각 다른 영역으로 2개 수강올 권장)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "전공선택",
+        "to": "인종선택",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "인종선택",
+        "to": "인종필수)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "미적분학2",
+        "to": "공업수학",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공업수학",
+        "to": "공업수학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "SW기초코딩",
+        "to": "일반물리학7",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "일반물리학7",
+        "to": "고급프로그래망활용",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축디지털설계",
+        "to": "건설관리 및 경영",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건설관리 및 경영",
+        "to": "건축시공",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축시공",
+        "to": "건축실무",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축기 초설계 3(3)",
+        "to": "건축공학시",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축공학시",
+        "to": "3(3)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3(3)",
+        "to": "공학설계 A",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공학설계 A",
+        "to": "3(3)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3(3)",
+        "to": "공학설계 B",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "공학설계 B",
+        "to": "공학설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "311.5)",
+        "to": "건축환경설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축환경설계",
+        "to": "특수구조개록",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축일반구조",
+        "to": "건축재료",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축환경개론",
+        "to": "건축설비개론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축설비개론",
+        "to": "3(1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3(1",
+        "to": "건축기계설비시스템",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축기계설비시스템",
+        "to": "건축조명 3(1)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축조명 3(1)",
+        "to": "건축전기설비시스템",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축전기설비시스템",
+        "to": "구조계획 및 설계",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "구조계획 및 설계",
+        "to": "건축환경설비해석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축환경설비해석",
+        "to": "환경 설비",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축구 조시스템 3(1)",
+        "to": "구조역학 1",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "구조역학 1",
+        "to": "구조역학2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "구조역학2",
+        "to": "3(1)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3(1)",
+        "to": "건축구조해석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "건축구조해석",
+        "to": "3(1)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "3(1)",
+        "to": "철골구조 3(1)",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "철골구조 3(1)",
+        "to": "컴퓨터 구조해석",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "컴퓨터 구조해석",
+        "to": "스마트구조개론",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "졸업연구및진로1",
+        "to": "졸업연구및진로2",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      },
+      {
+        "from": "추가 조건들은 인증기준 참고",
+        "to": "~기초설계 이수 및 종합설계 A,B 중 하나 이수름 필수로 포함하여 설계과목 총 9학점 이수",
+        "type": "RECOMMENDED_OCR_HEURISTIC",
+        "needsReview": true
+      }
+    ],
+    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "termLabelPositions": {}
+  },
+  "needsReview": true,
+  "scrapedAt": "2026-07-28T19:24:50"
+}
