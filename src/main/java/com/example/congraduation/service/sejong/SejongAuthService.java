@@ -7,6 +7,8 @@ import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
 import java.net.SocketException;
 import java.net.http.HttpTimeoutException;
 import java.net.http.HttpClient;
@@ -14,6 +16,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +27,7 @@ public class SejongAuthService {
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(15);
     private static final int MAX_ATTEMPTS = 3;
     private static final Duration RETRY_DELAY = Duration.ofMillis(700);
+    private static final String[] TLS_PROTOCOLS = {"TLSv1.2"};
     private static final String DEFAULT_USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                     + "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
@@ -64,6 +69,8 @@ public class SejongAuthService {
                     .cookieHandler(cookieManager)
                     .connectTimeout(CONNECT_TIMEOUT)
                     .followRedirects(HttpClient.Redirect.NEVER)
+                    .sslContext(createTls12Context())
+                    .sslParameters(createTls12Parameters())
                     .version(HttpClient.Version.HTTP_1_1)
                     .build();
 
@@ -102,7 +109,7 @@ public class SejongAuthService {
 
             httpClient.send(ssoRequest, HttpResponse.BodyHandlers.ofString());
             return new SejongSession(httpClient, cookieManager);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | GeneralSecurityException e) {
             if (e instanceof InterruptedException) {
                 Thread.currentThread().interrupt();
             }
@@ -149,6 +156,18 @@ public class SejongAuthService {
             Thread.currentThread().interrupt();
             throw new RuntimeException("세종 로그인 재시도 대기 중 인터럽트가 발생했습니다.", interruptedException);
         }
+    }
+
+    private SSLContext createTls12Context() throws GeneralSecurityException {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, null, new SecureRandom());
+        return sslContext;
+    }
+
+    private SSLParameters createTls12Parameters() {
+        SSLParameters sslParameters = new SSLParameters();
+        sslParameters.setProtocols(TLS_PROTOCOLS);
+        return sslParameters;
     }
 
     private String encode(String value) {
