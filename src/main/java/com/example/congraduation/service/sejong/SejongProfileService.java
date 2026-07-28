@@ -3,9 +3,9 @@ package com.example.congraduation.service.sejong;
 import com.example.congraduation.dto.sejong.SejongProfileResponseDto;
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -13,28 +13,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class SejongProfileService {
 
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(15);
     private static final String PROFILE_URL =
             "https://classic.sejong.ac.kr/classic/reading/status.do";
 
-    public SejongProfileResponseDto fetchUserProfile(String ssoToken) {
+    public SejongProfileResponseDto fetchUserProfile(SejongSession session) {
         try {
-            if (ssoToken == null || ssoToken.isBlank()) {
-                throw new IllegalArgumentException("SSO 토큰이 비어 있습니다.");
+            if (session == null) {
+                throw new IllegalArgumentException("세종 로그인 세션이 비어 있습니다.");
             }
-
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .followRedirects(HttpClient.Redirect.ALWAYS)
-                    .build();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(PROFILE_URL))
-                    .header("Cookie", "ssotoken=" + ssoToken + ";")
+                    .timeout(REQUEST_TIMEOUT)
                     .header("User-Agent", "Mozilla/5.0")
                     .GET()
                     .build();
 
             HttpResponse<String> response =
-                    httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                    session.httpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
             String html = response.body();
             if (html.contains("로그인") || html.contains("세종대학교 포털")) {
@@ -43,6 +40,9 @@ public class SejongProfileService {
 
             return parseProfileFromHtml(html);
         } catch (IOException | InterruptedException e) {
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
             throw new RuntimeException("사용자 프로필 조회 중 오류가 발생했습니다.", e);
         }
     }
