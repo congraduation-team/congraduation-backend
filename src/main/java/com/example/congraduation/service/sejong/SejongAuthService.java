@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -30,7 +29,6 @@ public class SejongAuthService {
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(15);
     private static final int MAX_ATTEMPTS = 3;
     private static final Duration RETRY_DELAY = Duration.ofMillis(700);
-    private static final String[] TLS_PROTOCOLS = {"TLSv1.2"};
     static final String DEFAULT_USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                     + "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
@@ -158,9 +156,6 @@ public class SejongAuthService {
         return HttpClients.custom()
                 .setDefaultCookieStore(cookieStore)
                 .setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
-                        .setDefaultTlsConfig(TlsConfig.custom()
-                                .setSupportedProtocols(TLS_PROTOCOLS)
-                                .build())
                         .build())
                 .setDefaultRequestConfig(createRequestConfig())
                 .disableAutomaticRetries()
