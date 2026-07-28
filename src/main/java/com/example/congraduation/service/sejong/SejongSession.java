@@ -1,10 +1,10 @@
 package com.example.congraduation.service.sejong;
 
-import org.apache.hc.client5.http.cookie.BasicCookieStore;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import java.net.CookieManager;
+import java.net.http.HttpClient;
 
 public record SejongSession(
-        CloseableHttpClient httpClient,
-        BasicCookieStore cookieStore
+        HttpClient httpClient,
+        CookieManager cookieManager
 ) {
 }
