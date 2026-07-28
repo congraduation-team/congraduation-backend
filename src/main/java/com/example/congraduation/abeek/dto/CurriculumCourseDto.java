@@ -1,0 +1,25 @@
+package com.example.congraduation.abeek.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.domain.enums.CourseRole;
+import com.example.congraduation.abeek.domain.enums.DesignLevel;
+import com.example.congraduation.abeek.domain.enums.ElectiveArea;
+
+@Getter
+@Builder
+public class CurriculumCourseDto {
+    private final String departmentCode;
+    private final int curriculumYear;
+    private final String courseCode;
+    private final String courseName;
+    private final CourseCategory category;
+    private final CourseRole role;
+    private final int credits;
+    private final double designCredits;
+    private final DesignLevel designLevel;
+    private final ElectiveArea electiveArea;
+    private final String recommendedTerm;
+    private final boolean newlyIntroducedRequired;
+}
