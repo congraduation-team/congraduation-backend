@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.List;
-import javax.net.ssl.SSLContext;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -20,7 +17,6 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
@@ -77,13 +73,13 @@ public class SejongAuthService {
 
             executeSso(cookieStore);
             return new SejongSession(createHttpClient(cookieStore), cookieStore);
-        } catch (IOException | GeneralSecurityException e) {
+        } catch (IOException e) {
             throw new RuntimeException("세종 로그인 처리 중 오류가 발생했습니다.", e);
         }
     }
 
     private void primePortalSession(BasicCookieStore cookieStore)
-            throws IOException, GeneralSecurityException {
+            throws IOException {
         try (CloseableHttpClient httpClient = createHttpClient(cookieStore)) {
             HttpGet portalHomeRequest = new HttpGet(PORTAL_HOME_URL);
             portalHomeRequest.setConfig(createRequestConfig());
@@ -97,7 +93,7 @@ public class SejongAuthService {
     }
 
     private void executeLogin(BasicCookieStore cookieStore, SejongLoginRequestDto loginRequestDto)
-            throws IOException, GeneralSecurityException {
+            throws IOException {
         try (CloseableHttpClient httpClient = createHttpClient(cookieStore)) {
             HttpPost loginRequest = new HttpPost(PORTAL_LOGIN_URL);
             loginRequest.setConfig(createRequestConfig());
@@ -116,7 +112,7 @@ public class SejongAuthService {
     }
 
     private void executeSso(BasicCookieStore cookieStore)
-            throws IOException, GeneralSecurityException {
+            throws IOException {
         try (CloseableHttpClient httpClient = createHttpClient(cookieStore)) {
             HttpGet ssoRequest = new HttpGet(SSO_URL);
             ssoRequest.setConfig(createRequestConfig());
@@ -158,14 +154,10 @@ public class SejongAuthService {
         }
     }
 
-    private CloseableHttpClient createHttpClient(BasicCookieStore cookieStore)
-            throws GeneralSecurityException {
-        SSLContext sslContext = createTls12Context();
-
+    private CloseableHttpClient createHttpClient(BasicCookieStore cookieStore) {
         return HttpClients.custom()
                 .setDefaultCookieStore(cookieStore)
                 .setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
-                        .setTlsSocketStrategy(new DefaultClientTlsStrategy(sslContext))
                         .setDefaultTlsConfig(TlsConfig.custom()
                                 .setSupportedProtocols(TLS_PROTOCOLS)
                                 .build())
@@ -193,11 +185,5 @@ public class SejongAuthService {
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             EntityUtils.consumeQuietly(response.getEntity());
         }
-    }
-
-    private SSLContext createTls12Context() throws GeneralSecurityException {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, null, new SecureRandom());
-        return sslContext;
     }
 }
