@@ -2,6 +2,8 @@ package com.example.congraduation.abeek.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 /**
  * 연도별 ABEEK 최소 이수학점 요건.
@@ -62,6 +64,11 @@ public class AbeekYearRequirement {
     @Builder.Default
     private int certElectiveMinAreas = 0;
 
-    @Lob
+    /**
+     * 스크랩 rawNotes 등 긴 설명 텍스트.
+     * MySQL 기존 VARCHAR(255)로는 부족하므로 TEXT로 매핑한다.
+     */
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
+    @Column(columnDefinition = "TEXT")
     private String note;
 }
