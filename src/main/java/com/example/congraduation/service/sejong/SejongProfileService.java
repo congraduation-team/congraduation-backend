@@ -3,6 +3,7 @@ package com.example.congraduation.service.sejong;
 import com.example.congraduation.dto.sejong.SejongProfileResponseDto;
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
@@ -23,15 +24,24 @@ public class SejongProfileService {
                 throw new IllegalArgumentException("세종 로그인 세션이 비어 있습니다.");
             }
 
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .cookieHandler(session.cookieManager())
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .followRedirects(HttpClient.Redirect.NEVER)
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .build();
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(PROFILE_URL))
                     .timeout(REQUEST_TIMEOUT)
+                    .header("Referer", "https://classic.sejong.ac.kr/classic/index.do")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+                    .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
                     .header("User-Agent", SejongAuthService.DEFAULT_USER_AGENT)
                     .GET()
                     .build();
 
-            HttpResponse<String> response =
-                    session.httpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             String html = response.body();
             if (html.contains("로그인") || html.contains("세종대학교 포털")) {
