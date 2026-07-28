@@ -28,7 +28,7 @@ public class SejongAuthService {
             "https://portal.sejong.ac.kr/jsp/login/login_action.jsp";
 
     private static final String SSO_URL =
-            "http://classic.sejong.ac.kr/_custom/sejong/sso/sso-return.jsp?returnUrl=https://classic.sejong.ac.kr/classic/index.do";
+            "https://classic.sejong.ac.kr/_custom/sejong/sso/sso-return.jsp?returnUrl=https://classic.sejong.ac.kr/classic/index.do";
 
     public SejongSession login(SejongLoginRequestDto loginRequestDto) {
         RuntimeException lastException = null;
