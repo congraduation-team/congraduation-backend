@@ -20,6 +20,21 @@ public record CompletedCourseUploadRowDto(
         @Schema(description = "등급", example = "A+")
         String grade,
         @Schema(description = "평점", example = "3.5")
-        String gradePoint
+        String gradePoint,
+        @Schema(description = "개설학과코드", example = "3210")
+        String openingDepartmentCode
 ) {
+    public CompletedCourseUploadRowDto(
+            String year,
+            String semester,
+            String courseCode,
+            String courseName,
+            String category,
+            String credit,
+            String evaluationMethod,
+            String grade,
+            String gradePoint
+    ) {
+        this(year, semester, courseCode, courseName, category, credit, evaluationMethod, grade, gradePoint, null);
+    }
 }

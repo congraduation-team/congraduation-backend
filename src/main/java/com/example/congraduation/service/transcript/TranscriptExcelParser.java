@@ -48,6 +48,7 @@ public class TranscriptExcelParser {
                 String evaluationMethod = readCell(row, 9, formatter);
                 String grade = readCell(row, 10, formatter);
                 String gradePoint = readCell(row, 11, formatter);
+                String openingDepartmentCode = readCell(row, 12, formatter);
 
                 if (courseCode.isBlank() && courseName.isBlank()) {
                     continue;
@@ -62,7 +63,8 @@ public class TranscriptExcelParser {
                         credit,
                         evaluationMethod,
                         grade,
-                        gradePoint
+                        gradePoint,
+                        openingDepartmentCode.isBlank() ? null : openingDepartmentCode
                 ));
             }
 
