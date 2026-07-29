@@ -24,7 +24,9 @@ public class GraduationProgressController {
     @GetMapping("/graduation-progress/{studentId}")
     @Operation(
             summary = "졸업 진행도 분석",
-            description = "DB에 저장된 최신 성적표를 기준으로 총 이수학점, 평균 평점, 이수구분별 진행도를 분석합니다."
+            description = "DB에 저장된 최신 성적표를 기준으로 분석합니다. "
+                    + "기이수성적은 POST /api/transcripts/upload/{studentDbId} 로 한 번만 올리면 되고, "
+                    + "공학인증용으로 파일을 다시 올릴 필요 없습니다. path는 Student DB PK(Long)입니다."
     )
     public ResponseEntity<GraduationProgressResponseDto> evaluate(@PathVariable Long studentId) {
         return ResponseEntity.ok(graduationProgressService.evaluate(studentId));
