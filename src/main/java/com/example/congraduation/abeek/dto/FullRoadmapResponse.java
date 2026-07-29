@@ -19,7 +19,23 @@ public class FullRoadmapResponse {
     private final String studentName;
     private final List<TermRoadmapDto> terms;
     private final List<RoadmapCourseDto> unscheduledCourses;
+    /** 선수/권장 과목 간선 (from → to) */
+    private final List<RoadmapEdgeDto> edges;
     private final RoadmapSummaryDto summary;
+
+    @Getter
+    @Builder
+    public static class RoadmapEdgeDto {
+        private final String fromCourseCode;
+        private final String fromCourseName;
+        private final String toCourseCode;
+        private final String toCourseName;
+        /** MANDATORY | RECOMMENDED */
+        private final String edgeType;
+        private final boolean needsReview;
+        private final String fromTerm;
+        private final String toTerm;
+    }
 
     @Getter
     @Builder

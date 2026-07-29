@@ -9,6 +9,7 @@ import com.example.congraduation.abeek.domain.enums.CourseCategory;
 import com.example.congraduation.abeek.domain.enums.CourseRole;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapCourseDto;
+import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapEdgeDto;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapSummaryDto;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.TermRoadmapDto;
 import com.example.congraduation.abeek.repository.AbeekStudentRepository;
@@ -58,12 +59,22 @@ public class FullRoadmapService {
         List<CurriculumCourse> courses = curriculumCourseRepository
                 .findAllWithMasterByDepartmentCodeAndYear(department.abeekCode(), curriculumYear);
 
-        Map<String, List<String>> prerequisitesByToCode = coursePrerequisiteRepository
-                .findByDepartmentCodeAndYear(department.abeekCode(), curriculumYear)
-                .stream()
+        List<CoursePrerequisite> rawPrerequisites = coursePrerequisiteRepository
+                .findByDepartmentCodeAndYear(department.abeekCode(), curriculumYear);
+
+        Map<String, CurriculumCourse> byCode = new HashMap<>();
+        Map<String, CurriculumCourse> byNormalizedName = new HashMap<>();
+        for (CurriculumCourse course : courses) {
+            CourseMaster master = course.getCourseMaster();
+            byCode.put(master.getCourseCode(), course);
+            byNormalizedName.putIfAbsent(normalizeName(master.getName()), course);
+        }
+
+        List<RoadmapEdgeDto> edges = buildEdges(rawPrerequisites, byCode, byNormalizedName);
+        Map<String, List<String>> prerequisitesByToCode = edges.stream()
                 .collect(Collectors.groupingBy(
-                        CoursePrerequisite::getToCourseCode,
-                        Collectors.mapping(CoursePrerequisite::getFromCourseCode, Collectors.toList())
+                        RoadmapEdgeDto::getToCourseCode,
+                        Collectors.mapping(RoadmapEdgeDto::getFromCourseCode, Collectors.toList())
                 ));
 
         CompletionIndex completion = buildCompletionIndex(student);
@@ -120,6 +131,7 @@ public class FullRoadmapService {
                 .studentName(student == null ? null : student.getName())
                 .terms(terms)
                 .unscheduledCourses(unscheduled)
+                .edges(edges)
                 .summary(buildSummary(all))
                 .build();
     }
@@ -161,6 +173,60 @@ public class FullRoadmapService {
                 .takenSemester(hit == null ? null : hit.takenSemester())
                 .prerequisiteCourseCodes(prerequisitesByToCode.getOrDefault(master.getCourseCode(), List.of()))
                 .build();
+    }
+
+    private List<RoadmapEdgeDto> buildEdges(
+            List<CoursePrerequisite> rawPrerequisites,
+            Map<String, CurriculumCourse> byCode,
+            Map<String, CurriculumCourse> byNormalizedName
+    ) {
+        List<RoadmapEdgeDto> edges = new ArrayList<>();
+        for (CoursePrerequisite prerequisite : rawPrerequisites) {
+            CurriculumCourse from = resolveCourse(prerequisite.getFromCourseCode(), byCode, byNormalizedName);
+            CurriculumCourse to = resolveCourse(prerequisite.getToCourseCode(), byCode, byNormalizedName);
+            if (from == null || to == null) {
+                continue;
+            }
+            String type = prerequisite.getType() == null ? "MANDATORY" : prerequisite.getType().toUpperCase(Locale.ROOT);
+            if (type.contains("RECOMMENDED")) {
+                type = "RECOMMENDED";
+            } else {
+                type = "MANDATORY";
+            }
+            edges.add(RoadmapEdgeDto.builder()
+                    .fromCourseCode(from.getCourseMaster().getCourseCode())
+                    .fromCourseName(from.getCourseMaster().getName())
+                    .toCourseCode(to.getCourseMaster().getCourseCode())
+                    .toCourseName(to.getCourseMaster().getName())
+                    .edgeType(type)
+                    .needsReview(prerequisite.isNeedsReview())
+                    .fromTerm(normalizeTerm(from.getRecommendedTerm()))
+                    .toTerm(normalizeTerm(to.getRecommendedTerm()))
+                    .build());
+        }
+
+        // 중복 간선 제거
+        Map<String, RoadmapEdgeDto> unique = new LinkedHashMap<>();
+        for (RoadmapEdgeDto edge : edges) {
+            String key = edge.getFromCourseCode() + "->" + edge.getToCourseCode() + ":" + edge.getEdgeType();
+            unique.putIfAbsent(key, edge);
+        }
+        return List.copyOf(unique.values());
+    }
+
+    private CurriculumCourse resolveCourse(
+            String raw,
+            Map<String, CurriculumCourse> byCode,
+            Map<String, CurriculumCourse> byNormalizedName
+    ) {
+        if (raw == null || raw.isBlank()) {
+            return null;
+        }
+        CurriculumCourse byExactCode = byCode.get(raw.trim());
+        if (byExactCode != null) {
+            return byExactCode;
+        }
+        return byNormalizedName.get(normalizeName(raw));
     }
 
     private RoadmapSummaryDto buildSummary(List<RoadmapCourseDto> courses) {
