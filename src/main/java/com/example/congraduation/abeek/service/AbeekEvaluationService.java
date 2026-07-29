@@ -122,16 +122,18 @@ public class AbeekEvaluationService {
                 .map(RequiredCourseStatusDto::getCourseName)
                 .toList();
         if (!waivedNames.isEmpty()) {
-            notes.add("졸업연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
+            notes.add("졸업예정 연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
         }
 
-        String appliedBasis = String.format("입학 %d / 졸업ABEEK %d 중 유리한 기준 적용",
+        String graduationAbeekBasisLabel = graduationAbeekYear + " 졸업예정 기준";
+        String appliedBasis = String.format("입학 %d / 졸업예정 %d 중 유리한 기준 적용",
                 student.getEntranceYear(), graduationAbeekYear);
 
         AbeekEvaluationResponse.RequirementSummaryDto requirementSummary =
                 AbeekEvaluationResponse.RequirementSummaryDto.builder()
                         .entranceYear(student.getEntranceYear())
                         .graduationAbeekYear(graduationAbeekYear)
+                        .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                         .appliedBasis(appliedBasis)
                         .generalMinCredits(effective.getGeneralMinCredits())
                         .bsmMinCredits(effective.getBsmMinCredits())
@@ -173,6 +175,7 @@ public class AbeekEvaluationService {
                 .studentName(student.getName())
                 .entranceYear(student.getEntranceYear())
                 .graduationAbeekYear(graduationAbeekYear)
+                .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                 .overallSatisfied(overall)
                 .general(general)
                 .bsm(bsm)
@@ -299,6 +302,7 @@ public class AbeekEvaluationService {
                 .studentName(evaluation.getStudentName())
                 .entranceYear(evaluation.getEntranceYear())
                 .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .graduationAbeekBasisLabel(evaluation.getGraduationAbeekBasisLabel())
                 .evaluation(evaluation)
                 .allCompletedCourses(allCompleted)
                 .allCompletedCourseCount(allCompleted.size())

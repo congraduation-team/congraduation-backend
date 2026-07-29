@@ -61,22 +61,22 @@ public class AdvantageousRequirementService {
 
     private static IntPick pickMin(int entranceValue, int entranceYear, int graduationValue, int graduationYear) {
         if (graduationValue < entranceValue) {
-            return new IntPick(graduationValue, graduationYear + "년도(유리)");
+            return new IntPick(graduationValue, graduationYear + " 졸업예정(유리)");
         }
         if (entranceValue < graduationValue) {
             return new IntPick(entranceValue, entranceYear + "년도(입학·유리)");
         }
-        return new IntPick(entranceValue, entranceYear + "년도(=졸업연도와 동일)");
+        return new IntPick(entranceValue, entranceYear + "년도(=졸업예정과 동일)");
     }
 
     private static DoublePick pickMin(double entranceValue, int entranceYear, double graduationValue, int graduationYear) {
         if (graduationValue < entranceValue - 1e-9) {
-            return new DoublePick(graduationValue, graduationYear + "년도(유리)");
+            return new DoublePick(graduationValue, graduationYear + " 졸업예정(유리)");
         }
         if (entranceValue < graduationValue - 1e-9) {
             return new DoublePick(entranceValue, entranceYear + "년도(입학·유리)");
         }
-        return new DoublePick(entranceValue, entranceYear + "년도(=졸업연도와 동일)");
+        return new DoublePick(entranceValue, entranceYear + "년도(=졸업예정과 동일)");
     }
 
     /**
