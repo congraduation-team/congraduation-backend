@@ -59,15 +59,47 @@ public class AbeekEvaluationService {
         DesignEvaluationResult designResult =
                 designCreditEvaluator.evaluate(student.getEnrollments(), entranceByCode);
 
-        int generalCredits = sumCredits(student, CourseCategory.GENERAL, entranceCourses, graduationCourses);
-        int bsmCredits = sumCredits(student, CourseCategory.BSM, entranceCourses, graduationCourses);
-        int majorCredits = sumCredits(student, CourseCategory.MAJOR, entranceCourses, graduationCourses);
+        Map<String, CourseCategory> categoryByCode = new HashMap<>();
+        Map<String, CourseCategory> categoryByGroup = new HashMap<>();
+        Map<String, CourseCategory> categoryByName = new HashMap<>();
+        for (CurriculumCourse course : entranceCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
+        for (CurriculumCourse course : graduationCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
 
-        CategoryProgressDto general = progress("전문교양", generalCredits, effective.getGeneralMinCredits(), effective.getGeneralSource());
-        CategoryProgressDto bsm = progress("BSM", bsmCredits, effective.getBsmMinCredits(), effective.getBsmSource());
-        CategoryProgressDto major = progress("전공", majorCredits, effective.getMajorMinCredits(), effective.getMajorSource());
+        int generalCredits = sumCredits(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
+        int bsmCredits = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+        int majorCredits = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+
+        List<CategoryProgressDto.CompletedCourseDto> generalCompleted =
+                listCompletedByCategory(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
+        List<CategoryProgressDto.CompletedCourseDto> bsmCompleted =
+                listCompletedByCategory(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+        List<CategoryProgressDto.CompletedCourseDto> majorCompleted =
+                listCompletedByCategory(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+        List<CategoryProgressDto.CompletedCourseDto> designCompleted = designResult.getCourses().stream()
+                .filter(DesignCourseResult::isRecognized)
+                .map(c -> CategoryProgressDto.CompletedCourseDto.builder()
+                        .courseCode(c.getCourseCode())
+                        .courseName(c.getCourseName())
+                        .credits((int) Math.round(c.getRecognizedDesignCredits()))
+                        .designCredits(c.getRecognizedDesignCredits())
+                        .takenYear(c.getTakenYear())
+                        .takenSemester(c.getTakenSemester())
+                        .build())
+                .toList();
+        List<CategoryProgressDto.CompletedCourseDto> allCompleted = listAllCompleted(student);
+
+        CategoryProgressDto general = progress("전문교양", generalCredits, effective.getGeneralMinCredits(),
+                effective.getGeneralSource(), generalCompleted);
+        CategoryProgressDto bsm = progress("BSM", bsmCredits, effective.getBsmMinCredits(),
+                effective.getBsmSource(), bsmCompleted);
+        CategoryProgressDto major = progress("전공", majorCredits, effective.getMajorMinCredits(),
+                effective.getMajorSource(), majorCompleted);
         CategoryProgressDto design = progress("설계", designResult.getRecognizedDesignCredits(),
-                effective.getDesignMinCredits(), effective.getDesignSource());
+                effective.getDesignMinCredits(), effective.getDesignSource(), designCompleted);
 
         List<RequiredCourseStatusDto> entranceRequired = evaluateEntranceRequired(
                 entranceCourses, completedCodes, completedGroups, completedNames);
@@ -154,6 +186,8 @@ public class AbeekEvaluationService {
                 .waivedGraduationOnlyCourses(waived)
                 .requirementSummary(requirementSummary)
                 .messages(messages)
+                .allCompletedCourseCount(allCompleted.size())
+                .allCompletedCourses(allCompleted)
                 .build();
     }
 
@@ -279,7 +313,7 @@ public class AbeekEvaluationService {
             boolean applicable
     ) {
         if (!applicable) {
-            return progress("인증선택", 0, 0, student.getEntranceYear() + "년도(해당없음)");
+            return progress("인증선택", 0, 0, student.getEntranceYear() + "년도(해당없음)", List.of());
         }
 
         Set<String> electiveCodes = entranceCourses.stream()
@@ -294,11 +328,20 @@ public class AbeekEvaluationService {
                 .mapToInt(StudentEnrollment::getCredits)
                 .sum();
 
+        List<CategoryProgressDto.CompletedCourseDto> completed = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> electiveCodes.contains(e.getCourseMaster().getCourseCode())
+                        || e.getCourseMaster().getElectiveArea() != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .sorted(enrollmentOrder())
+                .map(this::toCompletedCourseDto)
+                .toList();
+
         return progress(
                 "인증선택",
                 creditSum,
                 effective.getCertElectiveMinCredits(),
-                "입학 " + student.getEntranceYear() + "년도");
+                "입학 " + student.getEntranceYear() + "년도",
+                completed);
     }
 
     private boolean checkCertElective(
@@ -602,25 +645,57 @@ public class AbeekEvaluationService {
     private int sumCredits(
             AbeekStudent student,
             CourseCategory category,
-            List<CurriculumCourse> entranceCourses,
-            List<CurriculumCourse> graduationCourses
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName
     ) {
-        Map<String, CourseCategory> categoryByCode = new HashMap<>();
-        Map<String, CourseCategory> categoryByGroup = new HashMap<>();
-        Map<String, CourseCategory> categoryByName = new HashMap<>();
-        for (CurriculumCourse course : entranceCourses) {
-            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
-        }
-        for (CurriculumCourse course : graduationCourses) {
-            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
-        }
-
         return student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
                 .filter(e -> resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName)
                         == category)
                 .mapToInt(StudentEnrollment::getCredits)
                 .sum();
+    }
+
+    private List<CategoryProgressDto.CompletedCourseDto> listCompletedByCategory(
+            AbeekStudent student,
+            CourseCategory category,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName
+    ) {
+        return student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName)
+                        == category)
+                .sorted(enrollmentOrder())
+                .map(this::toCompletedCourseDto)
+                .toList();
+    }
+
+    private List<CategoryProgressDto.CompletedCourseDto> listAllCompleted(AbeekStudent student) {
+        return student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .sorted(enrollmentOrder())
+                .map(this::toCompletedCourseDto)
+                .toList();
+    }
+
+    private Comparator<StudentEnrollment> enrollmentOrder() {
+        return Comparator.comparingInt(StudentEnrollment::getTakenYear)
+                .thenComparingInt(StudentEnrollment::getTakenSemester)
+                .thenComparing(e -> e.getCourseMaster().getName());
+    }
+
+    private CategoryProgressDto.CompletedCourseDto toCompletedCourseDto(StudentEnrollment e) {
+        return CategoryProgressDto.CompletedCourseDto.builder()
+                .courseCode(e.getCourseMaster().getCourseCode())
+                .courseName(e.getCourseMaster().getName())
+                .credits(e.getCredits())
+                .designCredits(e.getDesignCredits())
+                .takenYear(e.getTakenYear())
+                .takenSemester(e.getTakenSemester())
+                .build();
     }
 
     private void indexCategory(
@@ -748,10 +823,18 @@ public class AbeekEvaluationService {
         };
     }
 
-    private CategoryProgressDto progress(String name, double earned, double required, String source) {
+    private CategoryProgressDto progress(
+            String name,
+            double earned,
+            double required,
+            String source,
+            List<CategoryProgressDto.CompletedCourseDto> completedCourses
+    ) {
         double progressPercent = required <= 0
                 ? 100.0
                 : Math.min(100.0, (earned / required) * 100.0);
+        List<CategoryProgressDto.CompletedCourseDto> courses =
+                completedCourses == null ? List.of() : completedCourses;
         return CategoryProgressDto.builder()
                 .category(name)
                 .earnedCredits(earned)
@@ -759,6 +842,8 @@ public class AbeekEvaluationService {
                 .progressPercent(progressPercent)
                 .satisfied(earned + 1e-9 >= required)
                 .requirementSource(source)
+                .completedCourseCount(courses.size())
+                .completedCourses(courses)
                 .build();
     }
 }
