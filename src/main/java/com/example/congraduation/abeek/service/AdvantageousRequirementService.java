@@ -80,20 +80,19 @@ public class AdvantageousRequirementService {
     }
 
     /**
-     * 인증선택 최소 과목/학점이 더 작은 쪽을 유리하다고 본다.
-     * 둘 다 0이면 입학 연도.
+     * 인증선택: 입학 연도에 요건이 없으면(2020~2021) 졸업 연도 요건을 끌어오지 않는다.
+     * 둘 다 있으면 최소 과목/학점이 더 작은 쪽을 유리하다고 본다.
      */
-    private static AbeekYearRequirement moreLenientCert(AbeekYearRequirement a, AbeekYearRequirement b) {
-        int scoreA = a.getCertElectiveMinCourses() * 100 + a.getCertElectiveMinCredits();
-        int scoreB = b.getCertElectiveMinCourses() * 100 + b.getCertElectiveMinCredits();
-        // 0(요건 없음)은 구조가 다르므로 입학 연도 유지
-        if (a.getCertElectiveMinCourses() == 0 && b.getCertElectiveMinCourses() > 0) {
-            return a;
+    private static AbeekYearRequirement moreLenientCert(AbeekYearRequirement entrance, AbeekYearRequirement graduation) {
+        if (entrance.getCertElectiveMinCourses() <= 0) {
+            return entrance;
         }
-        if (b.getCertElectiveMinCourses() == 0 && a.getCertElectiveMinCourses() > 0) {
-            return a; // 입학에 선택요건이 있으면 입학 기준 유지
+        if (graduation.getCertElectiveMinCourses() <= 0) {
+            return entrance;
         }
-        return scoreB < scoreA ? b : a;
+        int scoreEntrance = entrance.getCertElectiveMinCourses() * 100 + entrance.getCertElectiveMinCredits();
+        int scoreGraduation = graduation.getCertElectiveMinCourses() * 100 + graduation.getCertElectiveMinCredits();
+        return scoreGraduation < scoreEntrance ? graduation : entrance;
     }
 
     private record IntPick(int value, String source) {}

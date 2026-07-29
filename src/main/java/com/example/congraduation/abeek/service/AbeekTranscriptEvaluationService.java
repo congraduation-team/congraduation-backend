@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -122,7 +121,10 @@ public class AbeekTranscriptEvaluationService {
                 ? graduationAbeekYearOverride
                 : inferGraduationAbeekYear(rows);
 
-        Map<String, CourseMaster> mastersByNormalizedName = buildMasterIndex();
+        // 타 학과 OCR 마스터와 과목명이 겹치면 putIfAbsent로 잘못 매칭되므로
+        // 소속 학과 커리큘럼(및 CSE GEN/BSM/MAJ 시드)만 인덱싱한다.
+        Map<String, CourseMaster> mastersByNormalizedName = buildDepartmentMasterIndex(
+                department.abeekCode(), entranceYear, graduationAbeekYear);
         List<MatchedCourseDto> matches = new ArrayList<>();
         List<UnmatchedCourseDto> unmatched = new ArrayList<>();
         List<StudentEnrollment> enrollments = new ArrayList<>();
@@ -145,7 +147,11 @@ public class AbeekTranscriptEvaluationService {
             int credits = parseCredits(row.credit());
             boolean passed = isPassed(row.grade());
             double designCredits = resolveDesignCredits(
-                    department.abeekCode(), master.getCourseCode(), takenYear, entranceYear);
+                    department.abeekCode(),
+                    master.getCourseCode(),
+                    takenYear,
+                    entranceYear,
+                    graduationAbeekYear);
 
             enrollments.add(StudentEnrollment.builder()
                     .courseMaster(master)
@@ -423,12 +429,60 @@ public class AbeekTranscriptEvaluationService {
         return 1;
     }
 
-    private Map<String, CourseMaster> buildMasterIndex() {
-        Map<String, CourseMaster> index = new HashMap<>();
+    /**
+     * 소속 학과 커리큘럼을 우선 인덱싱하고, CSE 시드 코드(GEN_/BSM_/MAJ_)를 보조로 둔다.
+     * 전역 CourseMaster(타 학과 OCR)는 제외해 동명 과목 오매칭을 막는다.
+     */
+    private Map<String, CourseMaster> buildDepartmentMasterIndex(
+            String departmentCode,
+            int entranceYear,
+            int graduationAbeekYear
+    ) {
+        Map<String, CourseMaster> index = new LinkedHashMap<>();
+        List<Integer> years = new ArrayList<>();
+        years.add(entranceYear);
+        if (graduationAbeekYear != entranceYear) {
+            years.add(graduationAbeekYear);
+        }
+        for (int y = 2020; y <= 2026; y++) {
+            if (!years.contains(y)) {
+                years.add(y);
+            }
+        }
+
+        for (int year : years) {
+            for (CurriculumCourse cc : curriculumCourseRepository
+                    .findAllWithMasterByDepartmentCodeAndYear(departmentCode, year)) {
+                putMasterAliases(index, cc.getCourseMaster());
+            }
+        }
+
         for (CourseMaster master : courseMasterRepository.findAll()) {
-            index.putIfAbsent(normalizeCourseName(master.getName()), master);
+            if (isAbeekSeedCourseCode(master.getCourseCode())) {
+                putMasterAliases(index, master);
+            }
         }
         return index;
+    }
+
+    private boolean isAbeekSeedCourseCode(String courseCode) {
+        if (courseCode == null || courseCode.isBlank()) {
+            return false;
+        }
+        return courseCode.startsWith("GEN_")
+                || courseCode.startsWith("BSM_")
+                || courseCode.startsWith("MAJ_");
+    }
+
+    private void putMasterAliases(Map<String, CourseMaster> index, CourseMaster master) {
+        if (master == null || master.getName() == null) {
+            return;
+        }
+        index.putIfAbsent(normalizeCourseName(master.getName()), master);
+        String withoutParen = normalizeCourseName(master.getName().replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            index.putIfAbsent(withoutParen, master);
+        }
     }
 
     private Optional<CourseMaster> matchCourse(String transcriptName, Map<String, CourseMaster> index) {
@@ -436,19 +490,41 @@ public class AbeekTranscriptEvaluationService {
             return Optional.empty();
         }
         String normalized = normalizeCourseName(transcriptName);
+        if (normalized.isBlank()) {
+            return Optional.empty();
+        }
+
         CourseMaster exact = index.get(normalized);
         if (exact != null) {
             return Optional.of(exact);
         }
 
         String withoutParen = normalizeCourseName(transcriptName.replaceAll("\\([^)]*\\)", ""));
-        CourseMaster byParen = index.get(withoutParen);
-        if (byParen != null) {
-            return Optional.of(byParen);
+        if (!withoutParen.isBlank()) {
+            CourseMaster byParen = index.get(withoutParen);
+            if (byParen != null) {
+                return Optional.of(byParen);
+            }
         }
 
+        // 짧은 부분문자열(예: "프로그래밍")로 오매칭되지 않도록 길이 비율을 제한한다.
+        final int minLen = 4;
+        if (normalized.length() < minLen) {
+            return Optional.empty();
+        }
         return index.entrySet().stream()
-                .filter(entry -> entry.getKey().contains(normalized) || normalized.contains(entry.getKey()))
+                .filter(entry -> {
+                    String key = entry.getKey();
+                    if (key.length() < minLen) {
+                        return false;
+                    }
+                    if (!(key.contains(normalized) || normalized.contains(key))) {
+                        return false;
+                    }
+                    int shorter = Math.min(key.length(), normalized.length());
+                    int longer = Math.max(key.length(), normalized.length());
+                    return shorter * 10 >= longer * 6; // >= 60%
+                })
                 .min(Comparator.comparingInt(entry -> Math.abs(entry.getKey().length() - normalized.length())))
                 .map(Map.Entry::getValue);
     }
@@ -466,17 +542,27 @@ public class AbeekTranscriptEvaluationService {
             String departmentCode,
             String courseCode,
             int takenYear,
-            int entranceYear
+            int entranceYear,
+            int graduationAbeekYear
     ) {
-        Optional<CurriculumCourse> takenYearCourse = curriculumCourseRepository
-                .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(takenYear, departmentCode, courseCode);
-        if (takenYearCourse.isPresent()) {
-            return takenYearCourse.get().getDesignCredits();
+        List<Integer> years = new ArrayList<>();
+        years.add(takenYear);
+        years.add(entranceYear);
+        years.add(graduationAbeekYear);
+        for (int y = 2020; y <= 2026; y++) {
+            if (!years.contains(y)) {
+                years.add(y);
+            }
         }
-        return curriculumCourseRepository
-                .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(entranceYear, departmentCode, courseCode)
-                .map(CurriculumCourse::getDesignCredits)
-                .orElse(0.0);
+        for (int year : years) {
+            Optional<CurriculumCourse> course = curriculumCourseRepository
+                    .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(
+                            year, departmentCode, courseCode);
+            if (course.isPresent()) {
+                return course.get().getDesignCredits();
+            }
+        }
+        return 0.0;
     }
 
     private int parseSemester(String semester) {
