@@ -1,6 +1,7 @@
 package com.example.congraduation.service.sejong;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,13 +77,14 @@ final class SejongCurlSupport {
                     .redirectErrorStream(true)
                     .start();
 
+            byte[] outputBytes = readAllBytesAsync(process.getInputStream(), actionDescription);
             boolean finished = process.waitFor(CURL_TIMEOUT.toSeconds() + 2, TimeUnit.SECONDS);
             if (!finished) {
                 process.destroyForcibly();
                 throw new RuntimeException(actionDescription + " 중 curl 응답 시간이 초과되었습니다.");
             }
 
-            String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            String output = new String(outputBytes, StandardCharsets.UTF_8);
             if (process.exitValue() != 0) {
                 throw new RuntimeException(actionDescription + " 중 curl 실행이 실패했습니다. exit code="
                         + process.exitValue() + ", output=" + truncate(output));
@@ -99,6 +101,35 @@ final class SejongCurlSupport {
                 process.destroy();
             }
         }
+    }
+
+    private static byte[] readAllBytesAsync(InputStream inputStream, String actionDescription) {
+        final byte[][] outputHolder = new byte[1][];
+        final RuntimeException[] errorHolder = new RuntimeException[1];
+        Thread readerThread = new Thread(() -> {
+            try {
+                outputHolder[0] = inputStream.readAllBytes();
+            } catch (IOException e) {
+                errorHolder[0] = new RuntimeException(actionDescription + " 응답 본문을 읽는 중 오류가 발생했습니다.", e);
+            }
+        }, "sejong-curl-reader");
+        readerThread.setDaemon(true);
+        readerThread.start();
+
+        try {
+            readerThread.join(CURL_TIMEOUT.toMillis() + 2_000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(actionDescription + " 응답 본문 대기 중 인터럽트가 발생했습니다.", e);
+        }
+
+        if (readerThread.isAlive()) {
+            throw new RuntimeException(actionDescription + " 응답 본문 읽기 시간이 초과되었습니다.");
+        }
+        if (errorHolder[0] != null) {
+            throw errorHolder[0];
+        }
+        return outputHolder[0] == null ? new byte[0] : outputHolder[0];
     }
 
     static boolean cookieJarContains(Path cookieJarPath, String token) {
