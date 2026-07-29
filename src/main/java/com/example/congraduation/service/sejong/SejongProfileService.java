@@ -9,17 +9,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class SejongProfileService {
 
+    private static final String PROFILE_BOOTSTRAP_URL =
+            "https://classic.sejong.ac.kr/_custom/sejong/sso/login.jsp?auty=LOGIN&referer=%2Fclassic%2Freading%2Fstatus.do%3Fauty%3D2";
     private static final String PROFILE_URL =
-            "https://classic.sejong.ac.kr/classic/reading/status.do";
+            "https://classic.sejong.ac.kr/classic/reading/status.do?auty=2";
 
     public SejongProfileResponseDto fetchUserProfile(SejongSession session) {
         if (session == null) {
             throw new IllegalArgumentException("세종 로그인 세션이 비어 있습니다.");
         }
 
+        List<String> bootstrapCommand = SejongCurlSupport.baseCurlCommand(session.cookieJarPath());
+        bootstrapCommand.add("--location");
+        bootstrapCommand.add("--header");
+        bootstrapCommand.add("Referer: https://classic.sejong.ac.kr/classic/index.do");
+        bootstrapCommand.add("--header");
+        bootstrapCommand.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        bootstrapCommand.add("--header");
+        bootstrapCommand.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
+        bootstrapCommand.add(PROFILE_BOOTSTRAP_URL);
+        SejongCurlSupport.execute(bootstrapCommand, "세종 프로필 조회 사전 SSO 진입");
+
         List<String> command = SejongCurlSupport.baseCurlCommand(session.cookieJarPath());
         command.add("--header");
-        command.add("Referer: https://classic.sejong.ac.kr/classic/index.do");
+        command.add("Referer: " + PROFILE_BOOTSTRAP_URL);
         command.add("--header");
         command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         command.add("--header");
