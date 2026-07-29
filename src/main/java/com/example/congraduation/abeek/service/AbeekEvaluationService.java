@@ -635,7 +635,15 @@ public class AbeekEvaluationService {
         if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
             byGroup.putIfAbsent(master.getEquivalenceGroup(), category);
         }
-        byName.putIfAbsent(normalizeCourseName(master.getName()), category);
+        String normalized = normalizeCourseName(master.getName());
+        if (!normalized.isBlank()) {
+            byName.putIfAbsent(normalized, category);
+        }
+        String withoutParen = normalizeCourseName(
+                master.getName() == null ? "" : master.getName().replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            byName.putIfAbsent(withoutParen, category);
+        }
     }
 
     private CourseCategory resolveCategory(
@@ -654,9 +662,20 @@ public class AbeekEvaluationService {
                 return byEq;
             }
         }
-        CourseCategory byNormalized = byName.get(normalizeCourseName(master.getName()));
-        if (byNormalized != null) {
-            return byNormalized;
+        String normalized = normalizeCourseName(master.getName());
+        if (!normalized.isBlank()) {
+            CourseCategory byNormalized = byName.get(normalized);
+            if (byNormalized != null) {
+                return byNormalized;
+            }
+        }
+        String withoutParen = normalizeCourseName(
+                master.getName() == null ? "" : master.getName().replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            CourseCategory byParen = byName.get(withoutParen);
+            if (byParen != null) {
+                return byParen;
+            }
         }
         return master.getCategory();
     }
