@@ -81,6 +81,10 @@ public class TranscriptStorageService {
         return transcriptUploadRepository.findTopByStudentIdOrderByUploadedAtDesc(studentId).isPresent();
     }
 
+    public List<CompletedCourseUploadRowDto> parseOnly(MultipartFile file) {
+        return transcriptExcelParser.parse(file);
+    }
+
     private void deleteExistingUploads(Long studentId) {
         List<TranscriptUpload> uploads = transcriptUploadRepository.findAllByStudentId(studentId);
         if (!uploads.isEmpty()) {
