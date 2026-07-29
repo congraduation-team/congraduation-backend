@@ -22,20 +22,27 @@ public class AbeekEvaluationService {
     private final AdvantageousRequirementService advantageousRequirementService;
     private final DesignCreditEvaluator designCreditEvaluator;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
         AbeekStudent student = studentRepository.findWithEnrollmentsByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
 
+        // 기이수(수강이력) 마지막 학기 연도 = 졸업 ABEEK 연도 (1학기/2학기 모두 그 해)
+        int graduationAbeekYear = resolveGraduationAbeekYearFromEnrollments(student);
+        if (graduationAbeekYear != student.getGraduationAbeekYear()) {
+            student.setGraduationAbeekYear(graduationAbeekYear);
+            studentRepository.save(student);
+        }
+
         EffectiveAbeekRequirement effective = advantageousRequirementService.resolve(
-                student.getDepartmentCode(), student.getEntranceYear(), student.getGraduationAbeekYear());
+                student.getDepartmentCode(), student.getEntranceYear(), graduationAbeekYear);
 
         List<CurriculumCourse> entranceCourses =
                 curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
                         student.getDepartmentCode(), student.getEntranceYear());
         List<CurriculumCourse> graduationCourses =
                 curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
-                        student.getDepartmentCode(), student.getGraduationAbeekYear());
+                        student.getDepartmentCode(), graduationAbeekYear);
 
         Map<String, CurriculumCourse> entranceByCode = designCreditEvaluator.indexByCode(entranceCourses);
         Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
@@ -65,8 +72,8 @@ public class AbeekEvaluationService {
 
         List<String> messages = new ArrayList<>();
         messages.add(String.format(
-                "입학 %d년도 vs 졸업ABEEK %d년도 → 설계 최소 %.1f학점 (%s)",
-                student.getEntranceYear(), student.getGraduationAbeekYear(),
+                "입학 %d년도 vs 졸업ABEEK %d년도(기이수 마지막 학기) → 설계 최소 %.1f학점 (%s)",
+                student.getEntranceYear(), graduationAbeekYear,
                 effective.getDesignMinCredits(), effective.getDesignSource()));
         messages.add(String.format(
                 "전공 최소 %d학점 (%s), 전문교양 %d, BSM %d",
@@ -106,7 +113,7 @@ public class AbeekEvaluationService {
                 .studentNo(student.getStudentId())
                 .studentName(student.getName())
                 .entranceYear(student.getEntranceYear())
-                .graduationAbeekYear(student.getGraduationAbeekYear())
+                .graduationAbeekYear(graduationAbeekYear)
                 .overallSatisfied(overall)
                 .general(general)
                 .bsm(bsm)
@@ -229,6 +236,19 @@ public class AbeekEvaluationService {
                         .note("입학 연도 교과과정에 없는 신설 필수 → 면제")
                         .build())
                 .toList();
+    }
+
+    private int resolveGraduationAbeekYearFromEnrollments(AbeekStudent student) {
+        if (student.getEnrollments() == null || student.getEnrollments().isEmpty()) {
+            return student.getGraduationAbeekYear();
+        }
+        return student.getEnrollments().stream()
+                .map(e -> new int[]{e.getTakenYear(), e.getTakenSemester() <= 1 ? 1 : 3})
+                .max(Comparator
+                        .comparingInt((int[] t) -> t[0])
+                        .thenComparingInt(t -> t[1]))
+                .map(t -> t[0])
+                .orElse(student.getGraduationAbeekYear());
     }
 
     private boolean isCompleted(CourseMaster master, Set<String> codes, Set<String> groups) {

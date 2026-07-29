@@ -379,12 +379,48 @@ public class AbeekTranscriptEvaluationService {
     }
 
     private int inferGraduationAbeekYear(List<CompletedCourseUploadRowDto> rows) {
+        // 기이수 마지막 수강 학기(1학기/2학기/계절학기)의 연도 = 졸업 ABEEK 적용 연도
         return rows.stream()
-                .map(row -> parseInt(row.year(), Integer.MIN_VALUE))
-                .filter(year -> year != Integer.MIN_VALUE)
-                .max(Integer::compareTo)
+                .map(row -> {
+                    int year = parseInt(row.year(), Integer.MIN_VALUE);
+                    if (year == Integer.MIN_VALUE) {
+                        return null;
+                    }
+                    return new int[]{year, semesterOrder(row.semester())};
+                })
+                .filter(java.util.Objects::nonNull)
+                .max(Comparator
+                        .comparingInt((int[] t) -> t[0])
+                        .thenComparingInt(t -> t[1]))
+                .map(t -> t[0])
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "졸업 ABEEK 연도를 추론할 수 없습니다. graduationAbeekYear를 지정하세요."));
+                        "졸업 ABEEK 연도를 추론할 수 없습니다. 기이수성적의 수강 연도/학기를 확인하세요."));
+    }
+
+    /**
+     * 학기 순서: 1학기 &lt; 여름 &lt; 2학기 &lt; 겨울.
+     * 마지막 학기가 1학기든 2학기든 그 해의 졸업 ABEEK 연도로 쓴다.
+     */
+    private int semesterOrder(String semester) {
+        if (semester == null || semester.isBlank()) {
+            return 1;
+        }
+        String value = semester.replaceAll("\\s+", "");
+        if (value.contains("겨울")) {
+            return 4;
+        }
+        if (value.contains("여름")) {
+            return 2;
+        }
+        Matcher matcher = SEMESTER_PATTERN.matcher(value);
+        if (matcher.find()) {
+            int n = Integer.parseInt(matcher.group(1));
+            if (n >= 2) {
+                return 3;
+            }
+            return 1;
+        }
+        return 1;
     }
 
     private Map<String, CourseMaster> buildMasterIndex() {
