@@ -8,6 +8,7 @@
 - `GET /api/abeek/students/{studentId}`
 - `POST /api/abeek/students/{studentId}/enrollments`
 - `GET /api/abeek/students/{studentId}/abeek-evaluation`
+- `POST /api/abeek/evaluate-from-transcript` (기이수성적 엑셀 업로드 → 학과 추론 → ABEEK 판정)
 - `GET /api/curriculum/...`
 - `GET /api/departments`
 
