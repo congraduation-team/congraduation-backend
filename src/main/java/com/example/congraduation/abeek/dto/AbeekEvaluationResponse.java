@@ -22,6 +22,14 @@ public class AbeekEvaluationResponse {
     private final CategoryProgressDto major;
     private final CategoryProgressDto design;
 
+    /**
+     * 2020~2021 입학처럼 입학 연도에 인증선택 요건이 없으면 false.
+     * 프론트는 이 값이 false일 때 인증선택 섹션을 숨기거나 N/A로 표시하면 된다.
+     */
+    private final boolean certElectiveApplicable;
+    /** 인증선택 과목 수 기준 진행 (미적용이면 required=0, satisfied=true). */
+    private final CategoryProgressDto certElective;
+
     private final boolean designSequenceSatisfied;
     private final DesignEvaluationResult designDetail;
 

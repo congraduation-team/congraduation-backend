@@ -50,13 +50,18 @@ public class AbeekEvaluationService {
                 .filter(StudentEnrollment::isPassed)
                 .map(e -> e.getCourseMaster().getCourseCode())
                 .collect(Collectors.toSet());
+        Set<String> completedNames = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .map(e -> normalizeCourseName(e.getCourseMaster().getName()))
+                .filter(name -> !name.isBlank())
+                .collect(Collectors.toSet());
 
         DesignEvaluationResult designResult =
                 designCreditEvaluator.evaluate(student.getEnrollments(), entranceByCode);
 
-        int generalCredits = sumCredits(student, CourseCategory.GENERAL);
-        int bsmCredits = sumCredits(student, CourseCategory.BSM);
-        int majorCredits = sumCredits(student, CourseCategory.MAJOR);
+        int generalCredits = sumCredits(student, CourseCategory.GENERAL, entranceCourses, graduationCourses);
+        int bsmCredits = sumCredits(student, CourseCategory.BSM, entranceCourses, graduationCourses);
+        int majorCredits = sumCredits(student, CourseCategory.MAJOR, entranceCourses, graduationCourses);
 
         CategoryProgressDto general = progress("전문교양", generalCredits, effective.getGeneralMinCredits(), effective.getGeneralSource());
         CategoryProgressDto bsm = progress("BSM", bsmCredits, effective.getBsmMinCredits(), effective.getBsmSource());
@@ -65,10 +70,10 @@ public class AbeekEvaluationService {
                 effective.getDesignMinCredits(), effective.getDesignSource());
 
         List<RequiredCourseStatusDto> entranceRequired = evaluateEntranceRequired(
-                entranceCourses, completedCodes, completedGroups);
+                entranceCourses, completedCodes, completedGroups, completedNames);
 
         List<RequiredCourseStatusDto> waived = findWaivedGraduationOnlyRequired(
-                entranceCourses, graduationCourses, completedCodes, completedGroups);
+                entranceCourses, graduationCourses, completedCodes, completedGroups, completedNames);
 
         List<String> messages = new ArrayList<>();
         messages.add(String.format(
@@ -95,6 +100,9 @@ public class AbeekEvaluationService {
         }
 
         boolean certElectiveOk = checkCertElective(student, entranceCourses, effective, messages);
+        boolean certElectiveApplicable = effective.getCertElectiveMinCourses() > 0;
+        CategoryProgressDto certElective = buildCertElectiveProgress(
+                student, entranceCourses, effective, certElectiveApplicable);
 
         boolean requiredOk = entranceRequired.stream()
                 .filter(r -> !r.isWaived())
@@ -119,12 +127,43 @@ public class AbeekEvaluationService {
                 .bsm(bsm)
                 .major(major)
                 .design(design)
+                .certElectiveApplicable(certElectiveApplicable)
+                .certElective(certElective)
                 .designSequenceSatisfied(designResult.isSequenceSatisfied())
                 .designDetail(designResult)
                 .entranceRequiredCourses(entranceRequired)
                 .waivedGraduationOnlyCourses(waived)
                 .messages(messages)
                 .build();
+    }
+
+    private CategoryProgressDto buildCertElectiveProgress(
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            EffectiveAbeekRequirement effective,
+            boolean applicable
+    ) {
+        if (!applicable) {
+            return progress("인증선택", 0, 0, student.getEntranceYear() + "년도(해당없음)");
+        }
+
+        Set<String> electiveCodes = entranceCourses.stream()
+                .filter(c -> c.getRole() == CourseRole.CERT_ELECTIVE)
+                .map(c -> c.getCourseMaster().getCourseCode())
+                .collect(Collectors.toSet());
+
+        int creditSum = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> electiveCodes.contains(e.getCourseMaster().getCourseCode())
+                        || e.getCourseMaster().getElectiveArea() != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .mapToInt(StudentEnrollment::getCredits)
+                .sum();
+
+        return progress(
+                "인증선택",
+                creditSum,
+                effective.getCertElectiveMinCredits(),
+                "입학 " + student.getEntranceYear() + "년도");
     }
 
     private boolean checkCertElective(
@@ -183,12 +222,13 @@ public class AbeekEvaluationService {
     private List<RequiredCourseStatusDto> evaluateEntranceRequired(
             List<CurriculumCourse> entranceCourses,
             Set<String> completedCodes,
-            Set<String> completedGroups
+            Set<String> completedGroups,
+            Set<String> completedNames
     ) {
         return entranceCourses.stream()
                 .filter(c -> c.getRole() == CourseRole.REQUIRED || c.getRole() == CourseRole.BSM_REQUIRED)
                 .map(c -> {
-                    boolean done = isCompleted(c.getCourseMaster(), completedCodes, completedGroups);
+                    boolean done = isCompleted(c.getCourseMaster(), completedCodes, completedGroups, completedNames);
                     return RequiredCourseStatusDto.builder()
                             .courseCode(c.getCourseMaster().getCourseCode())
                             .courseName(c.getCourseMaster().getName())
@@ -207,7 +247,8 @@ public class AbeekEvaluationService {
             List<CurriculumCourse> entranceCourses,
             List<CurriculumCourse> graduationCourses,
             Set<String> completedCodes,
-            Set<String> completedGroups
+            Set<String> completedGroups,
+            Set<String> completedNames
     ) {
         Set<String> entranceRequiredGroups = entranceCourses.stream()
                 .filter(c -> c.getRole() == CourseRole.REQUIRED)
@@ -231,7 +272,7 @@ public class AbeekEvaluationService {
                 .map(c -> RequiredCourseStatusDto.builder()
                         .courseCode(c.getCourseMaster().getCourseCode())
                         .courseName(c.getCourseMaster().getName())
-                        .completed(isCompleted(c.getCourseMaster(), completedCodes, completedGroups))
+                        .completed(isCompleted(c.getCourseMaster(), completedCodes, completedGroups, completedNames))
                         .waived(true)
                         .note("입학 연도 교과과정에 없는 신설 필수 → 면제")
                         .build())
@@ -251,11 +292,19 @@ public class AbeekEvaluationService {
                 .orElse(student.getGraduationAbeekYear());
     }
 
-    private boolean isCompleted(CourseMaster master, Set<String> codes, Set<String> groups) {
+    private boolean isCompleted(
+            CourseMaster master,
+            Set<String> codes,
+            Set<String> groups,
+            Set<String> completedNames
+    ) {
         if (codes.contains(master.getCourseCode())) {
             return true;
         }
-        return master.getEquivalenceGroup() != null && groups.contains(master.getEquivalenceGroup());
+        if (master.getEquivalenceGroup() != null && groups.contains(master.getEquivalenceGroup())) {
+            return true;
+        }
+        return completedNames.contains(normalizeCourseName(master.getName()));
     }
 
     private Set<String> completedEquivalenceGroups(List<StudentEnrollment> enrollments) {
@@ -266,12 +315,78 @@ public class AbeekEvaluationService {
                 .collect(Collectors.toSet());
     }
 
-    private int sumCredits(AbeekStudent student, CourseCategory category) {
+    private int sumCredits(
+            AbeekStudent student,
+            CourseCategory category,
+            List<CurriculumCourse> entranceCourses,
+            List<CurriculumCourse> graduationCourses
+    ) {
+        Map<String, CourseCategory> categoryByCode = new HashMap<>();
+        Map<String, CourseCategory> categoryByGroup = new HashMap<>();
+        Map<String, CourseCategory> categoryByName = new HashMap<>();
+        for (CurriculumCourse course : entranceCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
+        for (CurriculumCourse course : graduationCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
+
         return student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
-                .filter(e -> e.getCourseMaster().getCategory() == category)
+                .filter(e -> resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName)
+                        == category)
                 .mapToInt(StudentEnrollment::getCredits)
                 .sum();
+    }
+
+    private void indexCategory(
+            CurriculumCourse course,
+            Map<String, CourseCategory> byCode,
+            Map<String, CourseCategory> byGroup,
+            Map<String, CourseCategory> byName
+    ) {
+        CourseMaster master = course.getCourseMaster();
+        CourseCategory category = master.getCategory();
+        byCode.putIfAbsent(master.getCourseCode(), category);
+        if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+            byGroup.putIfAbsent(master.getEquivalenceGroup(), category);
+        }
+        byName.putIfAbsent(normalizeCourseName(master.getName()), category);
+    }
+
+    private CourseCategory resolveCategory(
+            CourseMaster master,
+            Map<String, CourseCategory> byCode,
+            Map<String, CourseCategory> byGroup,
+            Map<String, CourseCategory> byName
+    ) {
+        CourseCategory byExact = byCode.get(master.getCourseCode());
+        if (byExact != null) {
+            return byExact;
+        }
+        if (master.getEquivalenceGroup() != null) {
+            CourseCategory byEq = byGroup.get(master.getEquivalenceGroup());
+            if (byEq != null) {
+                return byEq;
+            }
+        }
+        CourseCategory byNormalized = byName.get(normalizeCourseName(master.getName()));
+        if (byNormalized != null) {
+            return byNormalized;
+        }
+        return master.getCategory();
+    }
+
+    private String normalizeCourseName(String name) {
+        if (name == null) {
+            return "";
+        }
+        return name.replaceAll("\\s+", "")
+                .replace('：', ':')
+                .replace('（', '(')
+                .replace('）', ')')
+                .replace("-", "")
+                .toLowerCase(Locale.ROOT);
     }
 
     private CategoryProgressDto progress(String name, double earned, double required, String source) {
