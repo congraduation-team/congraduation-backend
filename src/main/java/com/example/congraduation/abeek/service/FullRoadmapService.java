@@ -67,7 +67,7 @@ public class FullRoadmapService {
         for (CurriculumCourse course : courses) {
             CourseMaster master = course.getCourseMaster();
             byCode.put(master.getCourseCode(), course);
-            byNormalizedName.putIfAbsent(normalizeName(master.getName()), course);
+            putNameAliases(byNormalizedName, master.getName(), course);
         }
 
         List<RoadmapEdgeDto> edges = buildEdges(rawPrerequisites, byCode, byNormalizedName);
@@ -330,13 +330,35 @@ public class FullRoadmapService {
             if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
                 byEquivalence.putIfAbsent(master.getEquivalenceGroup(), hit);
             }
-            byNormalizedName.putIfAbsent(normalizeName(master.getName()), hit);
+            putNameAliases(byNormalizedName, master.getName(), hit);
         }
         return new CompletionIndex(byCode, byEquivalence, byNormalizedName);
     }
 
+    private <T> void putNameAliases(Map<String, T> index, String rawName, T value) {
+        String normalized = normalizeName(rawName);
+        if (!normalized.isBlank()) {
+            index.putIfAbsent(normalized, value);
+        }
+        if (rawName == null) {
+            return;
+        }
+        String withoutParen = normalizeName(rawName.replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            index.putIfAbsent(withoutParen, value);
+        }
+    }
+
     private String normalizeName(String name) {
-        return name == null ? "" : name.replaceAll("\\s+", "").toLowerCase(Locale.ROOT);
+        if (name == null) {
+            return "";
+        }
+        return name.replaceAll("\\s+", "")
+                .replace('：', ':')
+                .replace('（', '(')
+                .replace('）', ')')
+                .replace("-", "")
+                .toLowerCase(Locale.ROOT);
     }
 
     private record CompletionHit(int takenYear, int takenSemester) {

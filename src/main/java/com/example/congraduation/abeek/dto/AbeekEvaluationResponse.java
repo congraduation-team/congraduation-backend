@@ -36,5 +36,31 @@ public class AbeekEvaluationResponse {
     private final List<RequiredCourseStatusDto> entranceRequiredCourses;
     private final List<RequiredCourseStatusDto> waivedGraduationOnlyCourses;
 
+    private final RequirementSummaryDto requirementSummary;
     private final List<String> messages;
+
+    /** ABEEK에 매칭된 전체 이수 과목 (카테고리 무관, 일부 생략 없음) */
+    private final int allCompletedCourseCount;
+    private final List<CategoryProgressDto.CompletedCourseDto> allCompletedCourses;
+
+    @Getter
+    @Builder
+    public static class RequirementSummaryDto {
+        private final int entranceYear;
+        private final int graduationAbeekYear;
+        private final String appliedBasis;
+        private final int generalMinCredits;
+        private final int bsmMinCredits;
+        private final int majorMinCredits;
+        private final double designMinCredits;
+        private final boolean certElectiveApplicable;
+        private final int certElectiveMinCourses;
+        private final int certElectiveMinCredits;
+        private final boolean designSequenceSatisfied;
+        private final boolean hasBasicDesign;
+        private final boolean hasElementDesign;
+        private final boolean hasComprehensiveDesign;
+        private final List<String> waivedCourses;
+        private final List<String> notes;
+    }
 }

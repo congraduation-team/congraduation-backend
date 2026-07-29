@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.example.congraduation.abeek.domain.AbeekStudent;
 import com.example.congraduation.abeek.dto.AbeekEvaluationResponse;
+import com.example.congraduation.abeek.dto.AbeekEvaluationDetailResponse;
 import com.example.congraduation.abeek.dto.AddEnrollmentRequest;
 import com.example.congraduation.abeek.dto.CreateStudentRequest;
 import com.example.congraduation.abeek.service.AbeekEvaluationService;
@@ -68,6 +69,18 @@ public class AbeekStudentController {
             @PathVariable String studentId
     ) {
         return evaluationService.evaluate(studentId);
+    }
+
+    @GetMapping("/{studentId}/abeek-evaluation/detail")
+    @Operation(
+            summary = "공학인증 판정 상세",
+            description = "카테고리별 진행도와 실제 이수 과목/남은 과목 목록을 함께 반환합니다."
+    )
+    public AbeekEvaluationDetailResponse evaluateDetail(
+            @Parameter(description = "학번(studentNo). DB PK 아님", example = "21012345")
+            @PathVariable String studentId
+    ) {
+        return evaluationService.evaluateDetail(studentId);
     }
 
     private Map<String, Object> toSummary(AbeekStudent s) {
