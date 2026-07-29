@@ -12,6 +12,8 @@
 - `GET /api/abeek/timetable-terms` (적재된 강의시간표 학기)
 - `GET /api/abeek/offered-courses` (이수체계도 ∩ 강의시간표, 공통교양 제외)
 - `GET /api/abeek/offered-courses/by-student`
+- `GET /api/abeek/full-roadmap` (1~8학기 전체로드맵: 전문교양/BSM/전공, 설계학점, 이수여부)
+- `GET /api/abeek/full-roadmap/by-student`
 - `GET /api/curriculum/...`
 - `GET /api/departments`
 
