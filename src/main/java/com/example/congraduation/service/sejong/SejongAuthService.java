@@ -8,13 +8,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SejongAuthService {
 
-    private static final int MAX_ATTEMPTS = 3;
-    private static final Duration RETRY_DELAY = Duration.ofMillis(700);
+    private static final Logger log = LoggerFactory.getLogger(SejongAuthService.class);
+    private static final int MAX_ATTEMPTS = 1;
+    private static final Duration RETRY_DELAY = Duration.ofMillis(300);
     private static final String PORTAL_LOGIN_URL =
             "https://portal.sejong.ac.kr/jsp/login/login_action.jsp";
     private static final String PORTAL_HOME_URL = "https://portal.sejong.ac.kr/";
@@ -28,9 +31,11 @@ public class SejongAuthService {
 
         for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
             try {
+                log.info("Starting Sejong login attempt {}", attempt);
                 return authenticate(loginRequestDto);
             } catch (RuntimeException e) {
                 lastException = e;
+                log.warn("Sejong login attempt {} failed: {}", attempt, e.getMessage());
                 if (!isRetryable(e) || attempt == MAX_ATTEMPTS) {
                     throw e;
                 }
@@ -47,6 +52,7 @@ public class SejongAuthService {
         Path cookieJarPath = null;
         try {
             cookieJarPath = Files.createTempFile("sejong-cookies-", ".txt");
+            log.info("Created Sejong cookie jar at {}", cookieJarPath);
 
             sendPortalWarmup(cookieJarPath);
 
@@ -57,6 +63,7 @@ public class SejongAuthService {
             }
 
             followSso(cookieJarPath);
+            log.info("Completed Sejong SSO flow");
 
             return new SejongSession(cookieJarPath);
         } catch (IOException e) {
@@ -69,6 +76,7 @@ public class SejongAuthService {
     }
 
     private void sendPortalWarmup(Path cookieJarPath) {
+        log.info("Running Sejong portal warmup");
         List<String> command = SejongCurlSupport.baseCurlCommand(cookieJarPath);
         command.add("--header");
         command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -79,6 +87,7 @@ public class SejongAuthService {
     }
 
     private String submitPortalLogin(Path cookieJarPath, SejongLoginRequestDto loginRequestDto) {
+        log.info("Submitting Sejong portal login request");
         List<String> command = SejongCurlSupport.baseCurlCommand(cookieJarPath);
         command.add("--request");
         command.add("POST");
@@ -119,6 +128,8 @@ public class SejongAuthService {
             command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
             command.add(currentUrl);
 
+            log.info("Sejong SSO step {} requesting {}", redirectCount + 1, currentUrl);
+
             SejongCurlSupport.CurlExchange exchange = SejongCurlSupport.executeWithHeaders(
                     command,
                     headerFilePath,
@@ -126,17 +137,26 @@ public class SejongAuthService {
             );
 
             String nextLocation = SejongCurlSupport.resolveRedirectUrl(currentUrl, exchange.location());
+            log.info(
+                    "Sejong SSO step {} location header: {}, resolved next: {}",
+                    redirectCount + 1,
+                    exchange.location(),
+                    nextLocation
+            );
             if (nextLocation == null || nextLocation.isBlank()) {
                 if (exchange.body() != null && exchange.body().contains("/classic/index.do")) {
+                    log.info("Sejong SSO step {} finished with classic index marker in body", redirectCount + 1);
                     return;
                 }
+                log.info("Sejong SSO step {} finished without redirect", redirectCount + 1);
                 return;
             }
 
-            currentUrl = nextLocation;
             referer = currentUrl;
+            currentUrl = nextLocation;
         }
 
+        log.warn("Sejong SSO exceeded redirect limit, trying classic index fallback");
         List<String> fallbackCommand = SejongCurlSupport.baseCurlCommand(cookieJarPath);
         fallbackCommand.add("--header");
         fallbackCommand.add("Referer: " + PORTAL_HOME_URL);

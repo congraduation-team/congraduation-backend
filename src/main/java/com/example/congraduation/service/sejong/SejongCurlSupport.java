@@ -15,7 +15,7 @@ final class SejongCurlSupport {
     static final String DEFAULT_USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                     + "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36";
-    private static final Duration CURL_TIMEOUT = Duration.ofSeconds(20);
+    private static final Duration CURL_TIMEOUT = Duration.ofSeconds(8);
 
     private SejongCurlSupport() {
     }
@@ -68,7 +68,7 @@ final class SejongCurlSupport {
                     .redirectErrorStream(true)
                     .start();
 
-            boolean finished = process.waitFor(CURL_TIMEOUT.toSeconds() + 5, TimeUnit.SECONDS);
+            boolean finished = process.waitFor(CURL_TIMEOUT.toSeconds() + 2, TimeUnit.SECONDS);
             if (!finished) {
                 process.destroyForcibly();
                 throw new RuntimeException(actionDescription + " 중 curl 응답 시간이 초과되었습니다.");
