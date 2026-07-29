@@ -39,7 +39,7 @@ public class AbeekTranscriptController {
             @RequestParam(required = false) String name,
             @Parameter(description = "입학 연도 강제 지정 (미입력 시 학번/최소 수강연도 추론)")
             @RequestParam(required = false) Integer entranceYear,
-            @Parameter(description = "졸업 ABEEK 연도 강제 지정 (미입력 시 최근 수강연도 사용)")
+            @Parameter(description = "졸업 ABEEK 연도 강제 지정 (미입력 시 기이수 마지막 수강 학기의 연도. 1학기/2학기 모두 해당 연도)")
             @RequestParam(required = false) Integer graduationAbeekYear,
             @Parameter(description = "ABEEK 학과코드 강제 지정 (예: CSE). 미입력 시 개설학과코드로 추론")
             @RequestParam(required = false) String departmentCode
@@ -59,6 +59,7 @@ public class AbeekTranscriptController {
             summary = "저장된 기이수성적으로 ABEEK 판정",
             description = "이미 POST /api/transcripts/upload/{studentDbId} 로 저장된 성적으로 파일을 다시 올리지 않고 "
                     + "ABEEK 학생/enrollment를 갱신한 뒤 공학인증을 판정합니다. "
+                    + "졸업 ABEEK 연도는 기이수 마지막 수강 학기(1학기 또는 2학기)의 연도를 사용합니다. "
                     + "studentDbId(DB PK) 또는 studentNo(학번) 중 하나를 반드시 전달하세요."
     )
     public AbeekTranscriptEvaluationResponse evaluateFromStoredTranscript(
