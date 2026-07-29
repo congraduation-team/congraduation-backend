@@ -1,5 +1,8 @@
 package com.example.congraduation.controller;
 
+import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse;
+import com.example.congraduation.abeek.service.AbeekTranscriptEvaluationService;
+import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.MajorCreditSummaryDto;
 import com.example.congraduation.dto.transcript.TranscriptStatusResponseDto;
@@ -29,49 +32,90 @@ public class TranscriptController {
     private final TranscriptStorageService transcriptStorageService;
     private final TranscriptSummaryCalculator transcriptSummaryCalculator;
     private final MajorCreditSummaryService majorCreditSummaryService;
+    private final AbeekTranscriptEvaluationService abeekTranscriptEvaluationService;
 
     public TranscriptController(
             TranscriptStorageService transcriptStorageService,
             TranscriptSummaryCalculator transcriptSummaryCalculator,
-            MajorCreditSummaryService majorCreditSummaryService
+            MajorCreditSummaryService majorCreditSummaryService,
+            AbeekTranscriptEvaluationService abeekTranscriptEvaluationService
     ) {
         this.transcriptStorageService = transcriptStorageService;
         this.transcriptSummaryCalculator = transcriptSummaryCalculator;
         this.majorCreditSummaryService = majorCreditSummaryService;
+        this.abeekTranscriptEvaluationService = abeekTranscriptEvaluationService;
     }
 
-    @GetMapping("/status/{studentId}")
-    @Operation(summary = "성적표 업로드 상태 조회", description = "학생의 최신 성적표 업로드 존재 여부를 반환합니다.")
-    public ResponseEntity<TranscriptStatusResponseDto> getStatus(@PathVariable Long studentId) {
+    @GetMapping("/status/{studentDbId}")
+    @Operation(
+            summary = "성적표 업로드 상태 조회",
+            description = "path의 studentDbId는 앱 Student 테이블 PK(Long)입니다. 학번(studentNo)이 아닙니다."
+    )
+    public ResponseEntity<TranscriptStatusResponseDto> getStatus(
+            @Parameter(description = "앱 Student DB PK (Long). 학번 아님", example = "1")
+            @PathVariable Long studentDbId
+    ) {
         return ResponseEntity.ok(new TranscriptStatusResponseDto(
-                studentId,
-                transcriptStorageService.hasTranscript(studentId)
+                studentDbId,
+                transcriptStorageService.hasTranscript(studentDbId)
         ));
     }
 
-    @PostMapping(value = "/upload/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "성적 엑셀 업로드", description = "기이수성적 엑셀 파일을 업로드하면 기존 데이터를 교체하고 DB에 저장한 뒤 요약을 반환합니다.")
+    @PostMapping(value = "/upload/{studentDbId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(
+            summary = "성적 엑셀 업로드 (+ ABEEK 동기화)",
+            description = "기이수성적 엑셀을 저장한 뒤, 같은 데이터로 ABEEK 학생/enrollment를 학번(studentNo) 기준으로 upsert하고 공학인증 판정도 수행합니다. "
+                    + "path의 studentDbId는 앱 Student DB PK(Long)입니다. "
+                    + "ABEEK 실패 시에도 성적 저장은 유지되며 abeekError에 원인이 담깁니다. "
+                    + "이후 공학인증 조회는 GET /api/abeek/students/{학번}/abeek-evaluation 을 사용하세요."
+    )
     public ResponseEntity<TranscriptUploadResponseDto> upload(
-            @PathVariable Long studentId,
+            @Parameter(description = "앱 Student DB PK (Long). 학번 아님", example = "1")
+            @PathVariable Long studentDbId,
             @Parameter(description = "세종대학교 기이수성적 엑셀 파일(.xlsx)", required = true)
             @RequestPart("file") MultipartFile file
     ) {
-        List<CompletedCourseUploadRowDto> courses = transcriptStorageService.replaceTranscript(studentId, file);
+        Student student = transcriptStorageService.getStudentOrThrow(studentDbId);
+        List<CompletedCourseUploadRowDto> courses = transcriptStorageService.replaceTranscript(studentDbId, file);
+
+        AbeekTranscriptEvaluationResponse abeek = null;
+        String abeekError = null;
+        try {
+            abeek = abeekTranscriptEvaluationService.evaluateFromRows(
+                    courses,
+                    student.getStudentNo(),
+                    student.getName(),
+                    student.getAdmissionYear(),
+                    null,
+                    null,
+                    student.getMajor()
+            );
+        } catch (IllegalArgumentException ex) {
+            abeekError = ex.getMessage();
+        }
+
         return ResponseEntity.ok(
                 TranscriptUploadResponseDto.from(
+                        student.getId(),
+                        student.getStudentNo(),
                         courses,
-                        transcriptSummaryCalculator.summarize(courses)
+                        transcriptSummaryCalculator.summarize(courses),
+                        abeek,
+                        abeekError
                 )
         );
     }
 
-    @GetMapping("/{studentId}/major-credits")
+    @GetMapping("/{studentDbId}/major-credits")
     @Operation(
             summary = "전필/전선 이수 학점 합계",
-            description = "업로드된 기이수성적에서 전필(전공필수)·전선(전공선택) 학점을 숫자로 합산해 반환합니다. F/NP 등은 제외합니다."
+            description = "업로드된 기이수성적에서 전필·전선 학점을 합산합니다. path는 Student DB PK(Long)입니다."
     )
-    public ResponseEntity<MajorCreditSummaryDto> majorCredits(@PathVariable Long studentId) {
-        List<CompletedCourseUploadRowDto> courses = transcriptStorageService.getLatestTranscriptRows(studentId);
+    public ResponseEntity<MajorCreditSummaryDto> majorCredits(
+            @Parameter(description = "앱 Student DB PK (Long). 학번 아님", example = "1")
+            @PathVariable Long studentDbId
+    ) {
+        List<CompletedCourseUploadRowDto> courses = transcriptStorageService.getLatestTranscriptRows(studentDbId);
         return ResponseEntity.ok(majorCreditSummaryService.summarize(courses));
     }
 

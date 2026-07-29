@@ -8,7 +8,10 @@ import java.util.List;
 @Getter
 @Builder
 public class AbeekTranscriptEvaluationResponse {
+    /** ABEEK 학생 식별자 = 학번(studentNo). DB PK가 아님. */
     private final String studentId;
+    /** 학번. studentId와 동일 값. */
+    private final String studentNo;
     private final String studentName;
     private final String inferredSejongDepartmentCode;
     private final String departmentCode;

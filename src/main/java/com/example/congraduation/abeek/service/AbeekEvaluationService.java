@@ -103,6 +103,7 @@ public class AbeekEvaluationService {
 
         return AbeekEvaluationResponse.builder()
                 .studentId(student.getStudentId())
+                .studentNo(student.getStudentId())
                 .studentName(student.getName())
                 .entranceYear(student.getEntranceYear())
                 .graduationAbeekYear(student.getGraduationAbeekYear())
