@@ -44,20 +44,20 @@ public class TranscriptStorageService {
         TranscriptUpload transcriptUpload = TranscriptUpload.create(student, originalFilename(file));
         for (CompletedCourseUploadRowDto row : rows) {
             transcriptUpload.addCompletedCourse(CompletedCourse.create(
-                    row.year(),
-                    row.semester(),
-                    row.courseCode(),
-                    row.courseName(),
+                    blankToEmpty(row.year()),
+                    blankToEmpty(row.semester()),
+                    blankToEmpty(row.courseCode()),
+                    blankToEmpty(row.courseName()),
                     row.category(),
-                    row.credit(),
+                    blankToEmpty(row.credit()),
                     row.evaluationMethod(),
                     row.grade(),
-                    row.gradePoint(),
+                    blankToEmpty(row.gradePoint()),
                     row.openingDepartmentCode()
             ));
         }
 
-        transcriptUploadRepository.save(transcriptUpload);
+        transcriptUploadRepository.saveAndFlush(transcriptUpload);
         return rows;
     }
 
@@ -113,10 +113,15 @@ public class TranscriptStorageService {
         List<TranscriptUpload> uploads = transcriptUploadRepository.findAllByStudentId(studentId);
         if (!uploads.isEmpty()) {
             transcriptUploadRepository.deleteAll(uploads);
+            transcriptUploadRepository.flush();
         }
     }
 
     private String originalFilename(MultipartFile file) {
         return file.getOriginalFilename() == null ? "transcript.xlsx" : file.getOriginalFilename();
+    }
+
+    private static String blankToEmpty(String value) {
+        return value == null ? "" : value;
     }
 }

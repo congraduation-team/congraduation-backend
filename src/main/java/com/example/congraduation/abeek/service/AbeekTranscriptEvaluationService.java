@@ -10,6 +10,7 @@ import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse.Unm
 import com.example.congraduation.abeek.repository.AbeekStudentRepository;
 import com.example.congraduation.abeek.repository.CourseMasterRepository;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
+import com.example.congraduation.abeek.repository.StudentEnrollmentRepository;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.service.transcript.TranscriptExcelParser;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,6 +44,7 @@ public class AbeekTranscriptEvaluationService {
     private final CourseMasterRepository courseMasterRepository;
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final AbeekStudentRepository abeekStudentRepository;
+    private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final AbeekEvaluationService abeekEvaluationService;
 
     @Transactional
@@ -188,6 +191,8 @@ public class AbeekTranscriptEvaluationService {
                 : studentId.trim();
         String resolvedName = (studentName == null || studentName.isBlank()) ? resolvedStudentId : studentName.trim();
 
+        List<StudentEnrollment> uniqueEnrollments = dedupeEnrollments(enrollments);
+
         AbeekStudent student = upsertStudent(
                 resolvedStudentId,
                 resolvedName,
@@ -195,7 +200,7 @@ public class AbeekTranscriptEvaluationService {
                 graduationAbeekYear,
                 department.name(),
                 department.abeekCode(),
-                enrollments
+                uniqueEnrollments
         );
 
         return AbeekTranscriptEvaluationResponse.builder()
@@ -214,6 +219,56 @@ public class AbeekTranscriptEvaluationService {
                 .unmatched(unmatched)
                 .evaluation(abeekEvaluationService.evaluate(student.getStudentId()))
                 .build();
+    }
+
+    /** 같은 과목·연도·학기 중복은 유니크 제약 위반을 막기 위해 마지막 것만 남긴다. */
+    private List<StudentEnrollment> dedupeEnrollments(List<StudentEnrollment> enrollments) {
+        Map<String, StudentEnrollment> unique = new LinkedHashMap<>();
+        for (StudentEnrollment enrollment : enrollments) {
+            String key = enrollment.getCourseMaster().getCourseCode()
+                    + "|" + enrollment.getTakenYear()
+                    + "|" + enrollment.getTakenSemester();
+            unique.put(key, enrollment);
+        }
+        return new ArrayList<>(unique.values());
+    }
+
+    private AbeekStudent upsertStudent(
+            String studentId,
+            String name,
+            int entranceYear,
+            int graduationAbeekYear,
+            String departmentName,
+            String departmentCode,
+            List<StudentEnrollment> enrollments
+    ) {
+        AbeekStudent student = abeekStudentRepository.findWithEnrollmentsByStudentId(studentId)
+                .orElseGet(() -> AbeekStudent.builder().studentId(studentId).build());
+
+        student.setStudentId(studentId);
+        student.setName(name);
+        student.setEntranceYear(entranceYear);
+        student.setGraduationAbeekYear(graduationAbeekYear);
+        student.setDepartment(departmentName);
+        student.setDepartmentCode(departmentCode);
+        if (student.getEnrollments() == null) {
+            student.setEnrollments(new ArrayList<>());
+        }
+
+        // clear()+즉시 insert 는 유니크 제약(student, course, year, semester)에서
+        // DELETE 전에 INSERT 되어 재업로드 시 500이 난다. 먼저 DB에서 지우고 flush.
+        student.getEnrollments().clear();
+        AbeekStudent saved = abeekStudentRepository.saveAndFlush(student);
+        if (saved.getId() != null) {
+            studentEnrollmentRepository.deleteByStudent_Id(saved.getId());
+            studentEnrollmentRepository.flush();
+            saved.getEnrollments().clear();
+        }
+
+        for (StudentEnrollment enrollment : enrollments) {
+            saved.addEnrollment(enrollment);
+        }
+        return abeekStudentRepository.saveAndFlush(saved);
     }
 
     private List<CompletedCourseUploadRowDto> parseTranscriptFile(MultipartFile file) {
@@ -244,34 +299,6 @@ public class AbeekTranscriptEvaluationService {
         }
         throw new IllegalArgumentException(
                 "학생 식별자가 없습니다. studentDbId(DB PK) 또는 studentNo(학번) 중 하나를 전달하세요.");
-    }
-
-    private AbeekStudent upsertStudent(
-            String studentId,
-            String name,
-            int entranceYear,
-            int graduationAbeekYear,
-            String departmentName,
-            String departmentCode,
-            List<StudentEnrollment> enrollments
-    ) {
-        AbeekStudent student = abeekStudentRepository.findWithEnrollmentsByStudentId(studentId)
-                .orElseGet(() -> AbeekStudent.builder().studentId(studentId).build());
-
-        student.setStudentId(studentId);
-        student.setName(name);
-        student.setEntranceYear(entranceYear);
-        student.setGraduationAbeekYear(graduationAbeekYear);
-        student.setDepartment(departmentName);
-        student.setDepartmentCode(departmentCode);
-        if (student.getEnrollments() == null) {
-            student.setEnrollments(new ArrayList<>());
-        }
-        student.getEnrollments().clear();
-        for (StudentEnrollment enrollment : enrollments) {
-            student.addEnrollment(enrollment);
-        }
-        return abeekStudentRepository.save(student);
     }
 
     private AbeekDepartmentCatalog.DepartmentInfo resolveDepartment(
