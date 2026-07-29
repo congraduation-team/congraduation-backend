@@ -24,6 +24,7 @@ final class SejongCurlSupport {
         List<String> command = new ArrayList<>();
         command.add("curl");
         command.add("--http1.1");
+        command.add("--compressed");
         command.add("--silent");
         command.add("--show-error");
         command.add("--cookie");
@@ -59,6 +60,13 @@ final class SejongCurlSupport {
         }
 
         return new CurlExchange(body, headers, findHeader(headers, "Location"));
+    }
+
+    static void executeDiscardBody(List<String> command, String actionDescription) {
+        List<String> discardBodyCommand = new ArrayList<>(command);
+        discardBodyCommand.add("--output");
+        discardBodyCommand.add("/dev/null");
+        execute(discardBodyCommand, actionDescription);
     }
 
     static String execute(List<String> command, String actionDescription) {

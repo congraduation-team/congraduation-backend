@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SejongProfileService {
 
-    private static final String PROFILE_BOOTSTRAP_URL =
-            "https://classic.sejong.ac.kr/_custom/sejong/sso/login.jsp?auty=LOGIN&referer=%2Fclassic%2Freading%2Fstatus.do%3Fauty%3D2";
+    private static final String CLASSIC_INDEX_URL =
+            "https://classic.sejong.ac.kr/classic/index.do";
     private static final String PROFILE_URL =
-            "https://classic.sejong.ac.kr/classic/reading/status.do?auty=2";
+            "https://classic.sejong.ac.kr/classic/reading/status.do";
 
     public SejongProfileResponseDto fetchUserProfile(SejongSession session) {
         if (session == null) {
@@ -20,21 +20,20 @@ public class SejongProfileService {
         }
 
         List<String> bootstrapCommand = SejongCurlSupport.baseCurlCommand(session.cookieJarPath());
-        bootstrapCommand.add("--location");
         bootstrapCommand.add("--header");
-        bootstrapCommand.add("Referer: https://classic.sejong.ac.kr/classic/index.do");
+        bootstrapCommand.add("Referer: https://portal.sejong.ac.kr/");
         bootstrapCommand.add("--header");
-        bootstrapCommand.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        bootstrapCommand.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
         bootstrapCommand.add("--header");
         bootstrapCommand.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-        bootstrapCommand.add(PROFILE_BOOTSTRAP_URL);
-        SejongCurlSupport.execute(bootstrapCommand, "세종 프로필 조회 사전 SSO 진입");
+        bootstrapCommand.add(CLASSIC_INDEX_URL);
+        SejongCurlSupport.executeDiscardBody(bootstrapCommand, "세종 classic 인덱스 세션 준비");
 
         List<String> command = SejongCurlSupport.baseCurlCommand(session.cookieJarPath());
         command.add("--header");
-        command.add("Referer: " + PROFILE_BOOTSTRAP_URL);
+        command.add("Referer: " + CLASSIC_INDEX_URL);
         command.add("--header");
-        command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
         command.add("--header");
         command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
         command.add(PROFILE_URL);
