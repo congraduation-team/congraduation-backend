@@ -152,6 +152,11 @@ public class SejongAuthService {
                 return;
             }
 
+            if (CLASSIC_INDEX_URL.equals(nextLocation)) {
+                log.info("Sejong SSO step {} reached classic index redirect; skipping direct index fetch", redirectCount + 1);
+                return;
+            }
+
             referer = currentUrl;
             currentUrl = nextLocation;
         }
