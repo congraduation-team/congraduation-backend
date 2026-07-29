@@ -49,6 +49,9 @@ public class CompletedCourse {
     @Column(nullable = false, length = 20)
     private String gradePoint;
 
+    @Column(length = 20)
+    private String openingDepartmentCode;
+
     protected CompletedCourse() {
     }
 
@@ -61,7 +64,8 @@ public class CompletedCourse {
             String credit,
             String evaluationMethod,
             String grade,
-            String gradePoint
+            String gradePoint,
+            String openingDepartmentCode
     ) {
         this.year = year;
         this.semester = semester;
@@ -72,6 +76,7 @@ public class CompletedCourse {
         this.evaluationMethod = evaluationMethod;
         this.grade = grade;
         this.gradePoint = gradePoint;
+        this.openingDepartmentCode = openingDepartmentCode;
     }
 
     public static CompletedCourse create(
@@ -85,7 +90,25 @@ public class CompletedCourse {
             String grade,
             String gradePoint
     ) {
-        return new CompletedCourse(year, semester, courseCode, courseName, category, credit, evaluationMethod, grade, gradePoint);
+        return create(year, semester, courseCode, courseName, category, credit, evaluationMethod, grade, gradePoint, null);
+    }
+
+    public static CompletedCourse create(
+            String year,
+            String semester,
+            String courseCode,
+            String courseName,
+            String category,
+            String credit,
+            String evaluationMethod,
+            String grade,
+            String gradePoint,
+            String openingDepartmentCode
+    ) {
+        return new CompletedCourse(
+                year, semester, courseCode, courseName, category, credit,
+                evaluationMethod, grade, gradePoint, openingDepartmentCode
+        );
     }
 
     void assignTranscriptUpload(TranscriptUpload transcriptUpload) {
@@ -126,5 +149,9 @@ public class CompletedCourse {
 
     public String getGradePoint() {
         return gradePoint;
+    }
+
+    public String getOpeningDepartmentCode() {
+        return openingDepartmentCode;
     }
 }

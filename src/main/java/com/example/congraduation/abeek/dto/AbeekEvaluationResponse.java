@@ -8,7 +8,10 @@ import java.util.List;
 @Getter
 @Builder
 public class AbeekEvaluationResponse {
+    /** 학번(studentNo). DB PK 아님. */
     private final String studentId;
+    /** 학번. studentId와 동일. */
+    private final String studentNo;
     private final String studentName;
     private final int entranceYear;
     private final int graduationAbeekYear;
