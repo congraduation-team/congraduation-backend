@@ -7,10 +7,15 @@ import java.nio.file.Path;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SejongProfileService {
+
+    private static final Logger log = LoggerFactory.getLogger(SejongProfileService.class);
+    private static final int MAX_PROFILE_ATTEMPTS = 3;
 
     private static final String CLASSIC_INDEX_URL =
             "https://classic.sejong.ac.kr/classic/index.do";
@@ -32,7 +37,7 @@ public class SejongProfileService {
         bootstrapCommand.add(CLASSIC_INDEX_URL);
         SejongCurlSupport.executeDiscardBody(bootstrapCommand, "세종 classic 인덱스 세션 준비");
 
-        String html = requestProfileHtml(session, CLASSIC_INDEX_URL);
+        String html = requestProfileHtml(session, CLASSIC_INDEX_URL, MAX_PROFILE_ATTEMPTS);
         if (html.contains("로그인") || html.contains("세종대학교 포털")) {
             throw new IllegalStateException("SSO 인증 실패: 로그인 페이지가 반환되었습니다.");
         }
@@ -40,7 +45,11 @@ public class SejongProfileService {
         return parseProfileFromHtml(html);
     }
 
-    private String requestProfileHtml(SejongSession session, String referer) {
+    private String requestProfileHtml(SejongSession session, String referer, int remainingAttempts) {
+        if (remainingAttempts <= 0) {
+            throw new IllegalStateException("세종 프로필 조회 리다이렉트 한도를 초과했습니다.");
+        }
+
         Path headerFilePath;
         try {
             headerFilePath = Files.createTempFile("sejong-profile-headers-", ".txt");
@@ -55,8 +64,18 @@ public class SejongProfileService {
                 "세종 프로필 조회"
         );
 
+        log.info(
+                "Sejong profile response status={}, location={}, remainingAttempts={}",
+                exchange.statusCode(),
+                exchange.location(),
+                remainingAttempts
+        );
+
         String redirectUrl = SejongCurlSupport.resolveRedirectUrl(PROFILE_URL, exchange.location());
         if (redirectUrl == null || redirectUrl.isBlank()) {
+            if (exchange.statusCode() >= 400) {
+                throw new IllegalStateException("세종 프로필 조회 실패: HTTP " + exchange.statusCode());
+            }
             return exchange.body();
         }
 
@@ -72,10 +91,10 @@ public class SejongProfileService {
             gatewayCommand.add(redirectUrl);
             SejongCurlSupport.executeDiscardBody(gatewayCommand, "세종 프로필 조회 SSO 게이트 통과");
 
-            return SejongCurlSupport.execute(buildProfileCommand(session, CLASSIC_INDEX_URL), "세종 프로필 재조회");
+            return requestProfileHtml(session, CLASSIC_INDEX_URL, remainingAttempts - 1);
         }
 
-        return exchange.body();
+        throw new IllegalStateException("예상하지 못한 세종 프로필 리다이렉트가 발생했습니다: " + redirectUrl);
     }
 
     private List<String> buildProfileCommand(SejongSession session, String referer) {
