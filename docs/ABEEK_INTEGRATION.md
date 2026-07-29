@@ -9,6 +9,9 @@
 - `POST /api/abeek/students/{studentId}/enrollments`
 - `GET /api/abeek/students/{studentId}/abeek-evaluation`
 - `POST /api/abeek/evaluate-from-transcript` (기이수성적 엑셀 업로드 → 학과 추론 → ABEEK 판정)
+- `GET /api/abeek/timetable-terms` (적재된 강의시간표 학기)
+- `GET /api/abeek/offered-courses` (이수체계도 ∩ 강의시간표, 공통교양 제외)
+- `GET /api/abeek/offered-courses/by-student`
 - `GET /api/curriculum/...`
 - `GET /api/departments`
 
