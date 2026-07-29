@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/abeek")
 @RequiredArgsConstructor
-@Tag(name = "ABEEK Full Roadmap", description = "1~8학기 전체로드맵 (전문교양/BSM/전공, 설계학점, 이수여부)")
+@Tag(name = "ABEEK Full Roadmap", description = "1~8학기 전체로드맵 (전문교양/BSM/전공, 설계학점, 이수여부, 선수과목 간선)")
 public class FullRoadmapController {
 
     private final FullRoadmapService fullRoadmapService;
@@ -23,7 +23,8 @@ public class FullRoadmapController {
     @Operation(
             summary = "전체로드맵 조회",
             description = "학과 이수체계도를 1-1 ~ 4-2(8학기) 전체로드맵으로 반환합니다. "
-                    + "각 과목에 전문교양/BSM/전공 구분, 설계학점, 공학인증 전공 여부, 이수 여부를 포함합니다."
+                    + "각 과목에 전문교양/BSM/전공 구분, 설계학점, 공학인증 전공 여부, 이수 여부를 포함합니다. "
+                    + "응답의 edges 배열은 선수/권장 과목 간선(from → to)이며 로드맵 화살표 렌더링에 사용합니다."
     )
     public FullRoadmapResponse fullRoadmap(
             @Parameter(description = "ABEEK 학과코드", example = "CSE")
