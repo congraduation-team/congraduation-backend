@@ -76,7 +76,17 @@ public class TranscriptController {
             @RequestPart("file") MultipartFile file
     ) {
         Student student = transcriptStorageService.getStudentOrThrow(studentDbId);
-        List<CompletedCourseUploadRowDto> courses = transcriptStorageService.replaceTranscript(studentDbId, file);
+        List<CompletedCourseUploadRowDto> courses;
+        try {
+            courses = transcriptStorageService.replaceTranscript(studentDbId, file);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("[기이수 저장] " + ex.getMessage(), ex);
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException(
+                    "[기이수 저장] 성적 저장 중 오류: " + rootMessage(ex),
+                    ex
+            );
+        }
 
         AbeekTranscriptEvaluationResponse abeek = null;
         String abeekError = null;
@@ -90,8 +100,9 @@ public class TranscriptController {
                     null,
                     student.getMajor()
             );
-        } catch (IllegalArgumentException ex) {
-            abeekError = ex.getMessage();
+        } catch (Exception ex) {
+            // 공학인증 실패해도 기이수 저장은 유지. 프론트는 abeekError로 단계 구분.
+            abeekError = "[공학인증 연동] " + rootMessage(ex);
         }
 
         return ResponseEntity.ok(
@@ -104,6 +115,18 @@ public class TranscriptController {
                         abeekError
                 )
         );
+    }
+
+    private static String rootMessage(Throwable ex) {
+        Throwable cur = ex;
+        while (cur.getCause() != null && cur.getCause() != cur) {
+            cur = cur.getCause();
+        }
+        String message = cur.getMessage();
+        if (message == null || message.isBlank()) {
+            message = ex.getClass().getSimpleName();
+        }
+        return message;
     }
 
     @GetMapping("/{studentDbId}/major-credits")
