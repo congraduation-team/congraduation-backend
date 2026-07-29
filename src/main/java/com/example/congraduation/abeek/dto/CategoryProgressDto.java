@@ -9,6 +9,7 @@ public class CategoryProgressDto {
     private final String category;
     private final double earnedCredits;
     private final double requiredCredits;
+    private final double progressPercent;
     private final boolean satisfied;
     private final String requirementSource;
 }

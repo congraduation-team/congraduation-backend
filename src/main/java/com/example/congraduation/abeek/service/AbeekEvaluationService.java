@@ -75,29 +75,48 @@ public class AbeekEvaluationService {
         List<RequiredCourseStatusDto> waived = findWaivedGraduationOnlyRequired(
                 entranceCourses, graduationCourses, completedCodes, completedGroups, completedNames);
 
-        List<String> messages = new ArrayList<>();
-        messages.add(String.format(
-                "입학 %d년도 vs 졸업ABEEK %d년도(기이수 마지막 학기) → 설계 최소 %.1f학점 (%s)",
-                student.getEntranceYear(), graduationAbeekYear,
-                effective.getDesignMinCredits(), effective.getDesignSource()));
-        messages.add(String.format(
-                "전공 최소 %d학점 (%s), 전문교양 %d, BSM %d",
-                effective.getMajorMinCredits(), effective.getMajorSource(),
-                effective.getGeneralMinCredits(), effective.getBsmMinCredits()));
-
+        List<String> notes = new ArrayList<>();
         if (!designResult.isHasBasicDesign()) {
-            messages.add("기초설계(공학설계기초) 미이수");
+            notes.add("기초설계 미이수");
         }
         if (!designResult.isHasElementDesign()) {
-            messages.add("인정되는 요소설계 미이수");
+            notes.add("요소설계 미이수");
         }
         if (!designResult.isHasComprehensiveDesign()) {
-            messages.add("종합설계(Capstone) 미이수");
+            notes.add("종합설계(Capstone) 미이수");
         }
-        if (!waived.isEmpty()) {
-            messages.add("졸업연도 신설 필수이나 입학연도에 없어 면제: "
-                    + waived.stream().map(RequiredCourseStatusDto::getCourseName).collect(Collectors.joining(", ")));
+
+        List<String> waivedNames = waived.stream()
+                .map(RequiredCourseStatusDto::getCourseName)
+                .toList();
+        if (!waivedNames.isEmpty()) {
+            notes.add("졸업연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
         }
+
+        String appliedBasis = String.format("입학 %d / 졸업ABEEK %d 중 유리한 기준 적용",
+                student.getEntranceYear(), graduationAbeekYear);
+
+        AbeekEvaluationResponse.RequirementSummaryDto requirementSummary =
+                AbeekEvaluationResponse.RequirementSummaryDto.builder()
+                        .entranceYear(student.getEntranceYear())
+                        .graduationAbeekYear(graduationAbeekYear)
+                        .appliedBasis(appliedBasis)
+                        .generalMinCredits(effective.getGeneralMinCredits())
+                        .bsmMinCredits(effective.getBsmMinCredits())
+                        .majorMinCredits(effective.getMajorMinCredits())
+                        .designMinCredits(effective.getDesignMinCredits())
+                        .certElectiveApplicable(effective.getCertElectiveMinCourses() > 0)
+                        .certElectiveMinCourses(effective.getCertElectiveMinCourses())
+                        .certElectiveMinCredits(effective.getCertElectiveMinCredits())
+                        .designSequenceSatisfied(designResult.isSequenceSatisfied())
+                        .hasBasicDesign(designResult.isHasBasicDesign())
+                        .hasElementDesign(designResult.isHasElementDesign())
+                        .hasComprehensiveDesign(designResult.isHasComprehensiveDesign())
+                        .waivedCourses(waivedNames)
+                        .notes(notes)
+                        .build();
+
+        List<String> messages = new ArrayList<>(notes);
 
         boolean certElectiveOk = checkCertElective(student, entranceCourses, effective, messages);
         boolean certElectiveApplicable = effective.getCertElectiveMinCourses() > 0;
@@ -133,7 +152,123 @@ public class AbeekEvaluationService {
                 .designDetail(designResult)
                 .entranceRequiredCourses(entranceRequired)
                 .waivedGraduationOnlyCourses(waived)
+                .requirementSummary(requirementSummary)
                 .messages(messages)
+                .build();
+    }
+
+    @Transactional
+    public AbeekEvaluationDetailResponse evaluateDetail(String studentId) {
+        AbeekEvaluationResponse evaluation = evaluate(studentId);
+        AbeekStudent student = studentRepository.findWithEnrollmentsByStudentId(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
+
+        List<CurriculumCourse> entranceCourses = curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
+                student.getDepartmentCode(), student.getEntranceYear());
+        List<CurriculumCourse> graduationCourses = curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
+                student.getDepartmentCode(), evaluation.getGraduationAbeekYear());
+
+        Map<String, CourseCategory> categoryByCode = new HashMap<>();
+        Map<String, CourseCategory> categoryByGroup = new HashMap<>();
+        Map<String, CourseCategory> categoryByName = new HashMap<>();
+        for (CurriculumCourse course : entranceCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
+        for (CurriculumCourse course : graduationCourses) {
+            indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
+        }
+
+        Set<String> completedCodes = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .map(e -> e.getCourseMaster().getCourseCode())
+                .collect(Collectors.toSet());
+        Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
+        Set<String> completedNames = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .map(e -> normalizeCourseName(e.getCourseMaster().getName()))
+                .filter(name -> !name.isBlank())
+                .collect(Collectors.toSet());
+
+        List<AbeekEvaluationDetailResponse.CategoryDetailDto> categories = List.of(
+                buildCategoryDetail(
+                        "GENERAL",
+                        "전문교양",
+                        evaluation.getGeneral(),
+                        student,
+                        entranceCourses,
+                        completedCodes,
+                        completedGroups,
+                        completedNames,
+                        categoryByCode,
+                        categoryByGroup,
+                        categoryByName
+                ),
+                buildCategoryDetail(
+                        "BSM",
+                        "BSM",
+                        evaluation.getBsm(),
+                        student,
+                        entranceCourses,
+                        completedCodes,
+                        completedGroups,
+                        completedNames,
+                        categoryByCode,
+                        categoryByGroup,
+                        categoryByName
+                ),
+                buildCategoryDetail(
+                        "MAJOR",
+                        "전공",
+                        evaluation.getMajor(),
+                        student,
+                        entranceCourses,
+                        completedCodes,
+                        completedGroups,
+                        completedNames,
+                        categoryByCode,
+                        categoryByGroup,
+                        categoryByName
+                ),
+                buildCertElectiveDetail(student, entranceCourses, evaluation.isCertElectiveApplicable(), evaluation.getCertElective())
+        );
+
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> allCompleted = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
+                        .thenComparingInt(StudentEnrollment::getTakenSemester)
+                        .thenComparing(e -> e.getCourseMaster().getName()))
+                .map(e -> {
+                    CourseCategory cat = resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName);
+                    String catLabel = categoryLabel(cat);
+                    return AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                            .courseCode(e.getCourseMaster().getCourseCode())
+                            .courseName(e.getCourseMaster().getName())
+                            .category(cat)
+                            .categoryLabel(catLabel)
+                            .role(resolveRole(e.getCourseMaster(), entranceCourses))
+                            .roleLabel(roleLabel(resolveRole(e.getCourseMaster(), entranceCourses)))
+                            .credits(e.getCredits())
+                            .designCredits(e.getDesignCredits())
+                            .designLevel(resolveDesignLevelForDetail(e, entranceCourses))
+                            .completed(true)
+                            .waived(false)
+                            .takenYear(e.getTakenYear())
+                            .takenSemester(e.getTakenSemester())
+                            .note("이수")
+                            .build();
+                })
+                .toList();
+
+        return AbeekEvaluationDetailResponse.builder()
+                .studentId(evaluation.getStudentId())
+                .studentNo(evaluation.getStudentNo())
+                .studentName(evaluation.getStudentName())
+                .entranceYear(evaluation.getEntranceYear())
+                .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .evaluation(evaluation)
+                .allCompletedCourses(allCompleted)
+                .allCompletedCourseCount(allCompleted.size())
+                .categories(categories)
                 .build();
     }
 
@@ -217,6 +352,155 @@ public class AbeekEvaluationService {
                     effective.getCertElectiveMinCourses(), effective.getCertElectiveMinCredits()));
         }
         return ok;
+    }
+
+    private AbeekEvaluationDetailResponse.CategoryDetailDto buildCategoryDetail(
+            String categoryKey,
+            String categoryLabel,
+            CategoryProgressDto progress,
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            Set<String> completedCodes,
+            Set<String> completedGroups,
+            Set<String> completedNames,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName
+    ) {
+        CourseCategory targetCategory = parseCategoryKey(categoryKey);
+
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> completedCourses = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName) == targetCategory)
+                .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
+                        .thenComparingInt(StudentEnrollment::getTakenSemester)
+                        .thenComparing(e -> e.getCourseMaster().getName()))
+                .map(e -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                        .courseCode(e.getCourseMaster().getCourseCode())
+                        .courseName(e.getCourseMaster().getName())
+                        .category(targetCategory)
+                        .categoryLabel(categoryLabel)
+                        .role(resolveRole(e.getCourseMaster(), entranceCourses))
+                        .roleLabel(roleLabel(resolveRole(e.getCourseMaster(), entranceCourses)))
+                        .credits(e.getCredits())
+                        .designCredits(e.getDesignCredits())
+                        .designLevel(resolveDesignLevelForDetail(e, entranceCourses))
+                        .completed(true)
+                        .waived(false)
+                        .takenYear(e.getTakenYear())
+                        .takenSemester(e.getTakenSemester())
+                        .note("이수")
+                        .build())
+                .toList();
+
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = entranceCourses.stream()
+                .filter(c -> c.getCourseMaster().getCategory() == targetCategory)
+                .filter(c -> !isCompleted(c.getCourseMaster(), completedCodes, completedGroups, completedNames))
+                .sorted(Comparator.comparing(CurriculumCourse::getRecommendedTerm, Comparator.nullsLast(String::compareTo))
+                        .thenComparing(c -> c.getCourseMaster().getName()))
+                .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                        .courseCode(c.getCourseMaster().getCourseCode())
+                        .courseName(c.getCourseMaster().getName())
+                        .category(targetCategory)
+                        .categoryLabel(categoryLabel)
+                        .role(c.getRole())
+                        .roleLabel(roleLabel(c.getRole()))
+                        .credits(c.getCredits())
+                        .designCredits(c.getDesignCredits())
+                        .designLevel(c.getDesignLevel())
+                        .completed(false)
+                        .waived(false)
+                        .takenYear(null)
+                        .takenSemester(null)
+                        .note(c.getRecommendedTerm())
+                        .build())
+                .toList();
+
+        return AbeekEvaluationDetailResponse.CategoryDetailDto.builder()
+                .categoryKey(categoryKey)
+                .categoryLabel(categoryLabel)
+                .progress(progress)
+                .completedCourseCount(completedCourses.size())
+                .completedCourses(completedCourses)
+                .remainingCourses(remainingCourses)
+                .build();
+    }
+
+    private AbeekEvaluationDetailResponse.CategoryDetailDto buildCertElectiveDetail(
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            boolean applicable,
+            CategoryProgressDto progress
+    ) {
+        if (!applicable) {
+            return AbeekEvaluationDetailResponse.CategoryDetailDto.builder()
+                    .categoryKey("CERT_ELECTIVE")
+                    .categoryLabel("인증선택")
+                    .progress(progress)
+                    .completedCourseCount(0)
+                    .completedCourses(List.of())
+                    .remainingCourses(List.of())
+                    .build();
+        }
+
+        Set<String> electiveCodes = entranceCourses.stream()
+                .filter(c -> c.getRole() == CourseRole.CERT_ELECTIVE)
+                .map(c -> c.getCourseMaster().getCourseCode())
+                .collect(Collectors.toSet());
+
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> completedCourses = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> electiveCodes.contains(e.getCourseMaster().getCourseCode())
+                        || e.getCourseMaster().getElectiveArea() != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
+                        .thenComparingInt(StudentEnrollment::getTakenSemester)
+                        .thenComparing(e -> e.getCourseMaster().getName()))
+                .map(e -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                        .courseCode(e.getCourseMaster().getCourseCode())
+                        .courseName(e.getCourseMaster().getName())
+                        .category(CourseCategory.GENERAL)
+                        .categoryLabel("인증선택")
+                        .role(CourseRole.CERT_ELECTIVE)
+                        .roleLabel("인증선택")
+                        .credits(e.getCredits())
+                        .designCredits(0)
+                        .designLevel(null)
+                        .completed(true)
+                        .waived(false)
+                        .takenYear(e.getTakenYear())
+                        .takenSemester(e.getTakenSemester())
+                        .note("이수")
+                        .build())
+                .toList();
+
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = entranceCourses.stream()
+                .filter(c -> c.getRole() == CourseRole.CERT_ELECTIVE)
+                .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                        .courseCode(c.getCourseMaster().getCourseCode())
+                        .courseName(c.getCourseMaster().getName())
+                        .category(CourseCategory.GENERAL)
+                        .categoryLabel("인증선택")
+                        .role(CourseRole.CERT_ELECTIVE)
+                        .roleLabel("인증선택")
+                        .credits(c.getCredits())
+                        .designCredits(0)
+                        .designLevel(null)
+                        .completed(false)
+                        .waived(false)
+                        .takenYear(null)
+                        .takenSemester(null)
+                        .note(c.getRecommendedTerm())
+                        .build())
+                .toList();
+
+        return AbeekEvaluationDetailResponse.CategoryDetailDto.builder()
+                .categoryKey("CERT_ELECTIVE")
+                .categoryLabel("인증선택")
+                .progress(progress)
+                .completedCourseCount(completedCourses.size())
+                .completedCourses(completedCourses)
+                .remainingCourses(remainingCourses)
+                .build();
     }
 
     private List<RequiredCourseStatusDto> evaluateEntranceRequired(
@@ -389,11 +673,71 @@ public class AbeekEvaluationService {
                 .toLowerCase(Locale.ROOT);
     }
 
+    private String categoryLabel(CourseCategory category) {
+        return switch (category) {
+            case GENERAL -> "전문교양";
+            case BSM -> "BSM";
+            case MAJOR -> "전공";
+        };
+    }
+
+    private CourseCategory parseCategoryKey(String categoryKey) {
+        return switch (categoryKey) {
+            case "GENERAL" -> CourseCategory.GENERAL;
+            case "BSM" -> CourseCategory.BSM;
+            case "MAJOR" -> CourseCategory.MAJOR;
+            default -> throw new IllegalArgumentException("지원하지 않는 카테고리: " + categoryKey);
+        };
+    }
+
+    private CourseRole resolveRole(CourseMaster master, List<CurriculumCourse> entranceCourses) {
+        return entranceCourses.stream()
+                .filter(c -> sameCourse(master, c.getCourseMaster()))
+                .map(CurriculumCourse::getRole)
+                .findFirst()
+                .orElse(CourseRole.ELECTIVE);
+    }
+
+    private com.example.congraduation.abeek.domain.enums.DesignLevel resolveDesignLevelForDetail(
+            StudentEnrollment enrollment,
+            List<CurriculumCourse> entranceCourses
+    ) {
+        return entranceCourses.stream()
+                .filter(c -> sameCourse(enrollment.getCourseMaster(), c.getCourseMaster()))
+                .map(CurriculumCourse::getDesignLevel)
+                .filter(level -> level != null)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean sameCourse(CourseMaster left, CourseMaster right) {
+        if (left.getCourseCode().equals(right.getCourseCode())) {
+            return true;
+        }
+        if (left.getEquivalenceGroup() != null && left.getEquivalenceGroup().equals(right.getEquivalenceGroup())) {
+            return true;
+        }
+        return normalizeCourseName(left.getName()).equals(normalizeCourseName(right.getName()));
+    }
+
+    private String roleLabel(CourseRole role) {
+        return switch (role) {
+            case REQUIRED -> "인증필수";
+            case CERT_ELECTIVE -> "인증선택";
+            case ELECTIVE -> "전공선택";
+            case BSM_REQUIRED -> "BSM필수";
+        };
+    }
+
     private CategoryProgressDto progress(String name, double earned, double required, String source) {
+        double progressPercent = required <= 0
+                ? 100.0
+                : Math.min(100.0, (earned / required) * 100.0);
         return CategoryProgressDto.builder()
                 .category(name)
                 .earnedCredits(earned)
                 .requiredCredits(required)
+                .progressPercent(progressPercent)
                 .satisfied(earned + 1e-9 >= required)
                 .requirementSource(source)
                 .build();
