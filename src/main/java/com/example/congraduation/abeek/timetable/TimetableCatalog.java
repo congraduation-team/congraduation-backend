@@ -50,4 +50,11 @@ public class TimetableCatalog {
     public Optional<TimetableTermData> latestTerm() {
         return terms.stream().findFirst();
     }
+
+    /** 해당 학기(1/2)의 가장 최근 시간표 */
+    public Optional<TimetableTermData> latestTermForSemester(int semester) {
+        return terms.stream()
+                .filter(term -> term.semester() == semester)
+                .findFirst();
+    }
 }

@@ -2,6 +2,8 @@ package com.example.congraduation.abeek.controller;
 
 import com.example.congraduation.abeek.dto.FullRoadmapResponse;
 import com.example.congraduation.abeek.service.FullRoadmapService;
+import com.example.congraduation.roadmap.dto.StudentRoadmapResponse;
+import com.example.congraduation.roadmap.service.StudentRoadmapService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,17 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/abeek")
 @RequiredArgsConstructor
-@Tag(name = "ABEEK Full Roadmap", description = "1~8학기 전체로드맵 (전문교양/BSM/전공, 설계학점, 이수여부, 선수과목 간선)")
+@Tag(
+        name = "ABEEK Full Roadmap",
+        description = "레거시: ABEEK 이수체계도 시드 기반 로드맵. "
+                + "전학생 공통 로드맵은 GET /api/roadmap/by-student 를 사용하세요 (강의시간표 + 기이수 학수번호)."
+)
 public class FullRoadmapController {
 
     private final FullRoadmapService fullRoadmapService;
+    private final StudentRoadmapService studentRoadmapService;
 
     @GetMapping("/full-roadmap")
     @Operation(
-            summary = "전체로드맵 조회",
-            description = "학과 이수체계도를 1-1 ~ 4-2(8학기) 전체로드맵으로 반환합니다. "
-                    + "각 과목에 전문교양/BSM/전공 구분, 설계학점, 공학인증 전공 여부, 이수 여부를 포함합니다. "
-                    + "응답의 edges 배열은 선수/권장 과목 간선(from → to)이며 로드맵 화살표 렌더링에 사용합니다."
+            summary = "[레거시] ABEEK 이수체계도 로드맵",
+            description = "ABEEK 커리큘럼 시드(recommendedTerm) 기반입니다. "
+                    + "일반 학생 로드맵은 /api/roadmap 를 사용하세요."
     )
     public FullRoadmapResponse fullRoadmap(
             @Parameter(description = "ABEEK 학과코드", example = "CSE")
@@ -39,12 +45,14 @@ public class FullRoadmapController {
 
     @GetMapping("/full-roadmap/by-student")
     @Operation(
-            summary = "학생 기준 전체로드맵",
-            description = "ABEEK 학생의 학과/입학연도/이수과목을 사용해 전체로드맵을 반환합니다."
+            summary = "학생 로드맵 (시간표 + 기이수) — /api/roadmap/by-student 와 동일",
+            description = "studentDbId(앱 Student PK)로 강의시간표 기반 1~8학기 로드맵을 반환합니다. "
+                    + "이수 여부는 기이수성적 학수번호 매칭. 공학인증 대상이면 categories 분할."
     )
-    public FullRoadmapResponse fullRoadmapByStudent(
-            @RequestParam String studentId
+    public StudentRoadmapResponse fullRoadmapByStudent(
+            @Parameter(description = "앱 Student DB PK (Long)", example = "1", required = true)
+            @RequestParam Long studentDbId
     ) {
-        return fullRoadmapService.getFullRoadmapByStudent(studentId);
+        return studentRoadmapService.getByStudent(studentDbId);
     }
 }
