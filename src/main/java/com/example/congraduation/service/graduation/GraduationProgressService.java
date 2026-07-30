@@ -2,6 +2,7 @@ package com.example.congraduation.service.graduation;
 
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.domain.StudentMajorTrack;
+import com.example.congraduation.dto.plan.PlannedCourseListResponseDto;
 import com.example.congraduation.dto.graduation.BalancedLiberalAreaProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
@@ -15,6 +16,7 @@ import com.example.congraduation.dto.transcript.CategorySummaryDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.TranscriptSummaryDto;
 import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.plan.PlannedCourseService;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import com.example.congraduation.service.transcript.TranscriptSummaryCalculator;
 import java.math.BigDecimal;
@@ -34,6 +36,9 @@ public class GraduationProgressService {
 
     private static final Set<String> DOUBLE_MAJOR_REQUIRED_CATEGORIES = Set.of("복필", "복수전필", "복전필");
     private static final Set<String> DOUBLE_MAJOR_ELECTIVE_CATEGORIES = Set.of("복선", "복수전선", "복전선");
+    private static final Set<String> LIBERAL_GPA_CATEGORIES = Set.of(
+            "공필", "교필", "균필", "교선", "교양", "기필", "학문기초"
+    );
     private static final Set<String> ARTS_GRADUATION_WORK_MAJORS = Set.of(
             "회화과", "패션디자인학과", "음악과", "체육학과", "무용과", "영화예술학과"
     );
@@ -47,6 +52,7 @@ public class GraduationProgressService {
     private final StudentRepository studentRepository;
     private final TranscriptStorageService transcriptStorageService;
     private final TranscriptSummaryCalculator transcriptSummaryCalculator;
+    private final PlannedCourseService plannedCourseService;
     private final DepartmentCurriculumPolicyService policyService;
     private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
     private final DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService;
@@ -55,6 +61,7 @@ public class GraduationProgressService {
             StudentRepository studentRepository,
             TranscriptStorageService transcriptStorageService,
             TranscriptSummaryCalculator transcriptSummaryCalculator,
+            PlannedCourseService plannedCourseService,
             DepartmentCurriculumPolicyService policyService,
             BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService,
             DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService
@@ -62,6 +69,7 @@ public class GraduationProgressService {
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
         this.transcriptSummaryCalculator = transcriptSummaryCalculator;
+        this.plannedCourseService = plannedCourseService;
         this.policyService = policyService;
         this.balancedLiberalCoursePolicyService = balancedLiberalCoursePolicyService;
         this.doubleMajorRequiredCoursePolicyService = doubleMajorRequiredCoursePolicyService;
@@ -73,10 +81,15 @@ public class GraduationProgressService {
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
 
         List<CompletedCourseUploadRowDto> courses = transcriptStorageService.getLatestTranscriptRows(studentId);
+        PlannedCourseListResponseDto plannedCourses = plannedCourseService.getPlannedCourses(studentId);
+        List<CompletedCourseUploadRowDto> projectedCourses = plannedCourseService.getProjectedRows(studentId);
         DepartmentCurriculumPolicy policy = policyService.resolve(student);
         List<CompletedCourseUploadRowDto> normalizedCourses = normalizeCoursesForPolicy(courses, policy);
-        TranscriptSummaryDto transcriptSummary = transcriptSummaryCalculator.summarize(normalizedCourses);
-        BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, normalizedCourses);
+        List<CompletedCourseUploadRowDto> normalizedProjectedCourses = normalizeCoursesForPolicy(projectedCourses, policy);
+        List<CompletedCourseUploadRowDto> evaluationCourses = new ArrayList<>(normalizedCourses);
+        evaluationCourses.addAll(normalizedProjectedCourses);
+        TranscriptSummaryDto transcriptSummary = transcriptSummaryCalculator.summarize(evaluationCourses);
+        BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, evaluationCourses);
         MajorTrackCreditPolicy primaryMajorPolicy = resolvePrimaryMajorPolicy(student);
         Map<String, Integer> categoryRequirements = resolveCategoryRequirements(policy, primaryMajorPolicy);
 
@@ -102,8 +115,11 @@ public class GraduationProgressService {
                         "전기",
                         "전공기초"
                 ),
-                transcriptSummary.averageGradePoint(),
+                calculateAverageGradePoint(normalizedCourses),
                 calculateMajorGradePoint(normalizedCourses),
+                calculateLiberalGradePoint(normalizedCourses),
+                plannedCourses.totalPlannedCredits(),
+                plannedCourses.semesters(),
                 buildMajorCreditSummary(transcriptSummary, policy, primaryMajorPolicy),
                 applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements)
         );
@@ -513,8 +529,41 @@ public class GraduationProgressService {
         return totalGradePoints.divide(totalCredits, 2, RoundingMode.HALF_UP).toPlainString();
     }
 
+    private String calculateAverageGradePoint(List<CompletedCourseUploadRowDto> courses) {
+        return transcriptSummaryCalculator.summarize(courses).averageGradePoint();
+    }
+
+    private String calculateLiberalGradePoint(List<CompletedCourseUploadRowDto> courses) {
+        BigDecimal totalCredits = BigDecimal.ZERO;
+        BigDecimal totalGradePoints = BigDecimal.ZERO;
+
+        for (CompletedCourseUploadRowDto course : courses) {
+            if (!isLiberalCategory(course.category()) || !isCountableForGpa(course)) {
+                continue;
+            }
+
+            BigDecimal credit = toDecimal(course.credit());
+            BigDecimal gradePoint = toDecimal(course.gradePoint());
+            totalCredits = totalCredits.add(credit);
+            totalGradePoints = totalGradePoints.add(credit.multiply(gradePoint));
+        }
+
+        if (totalCredits.compareTo(BigDecimal.ZERO) == 0) {
+            return "0";
+        }
+
+        return totalGradePoints.divide(totalCredits, 2, RoundingMode.HALF_UP).toPlainString();
+    }
+
     private boolean isMajorCategory(String category) {
         return hasCategory(category, "전필", "전선", "전기", "전공기초");
+    }
+
+    private boolean isLiberalCategory(String category) {
+        if (category == null) {
+            return false;
+        }
+        return LIBERAL_GPA_CATEGORIES.contains(category.trim());
     }
 
     private boolean isDoubleMajorCategory(String category) {

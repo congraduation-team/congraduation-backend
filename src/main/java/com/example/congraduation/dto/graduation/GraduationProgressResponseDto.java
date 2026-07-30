@@ -1,6 +1,7 @@
 package com.example.congraduation.dto.graduation;
 
 import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.dto.plan.PlannedSemesterSummaryDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -42,6 +43,12 @@ public record GraduationProgressResponseDto(
         String averageGradePoint,
         @Schema(description = "전공 평점", example = "3.10")
         String majorGradePoint,
+        @Schema(description = "교양 평점", example = "3.13")
+        String liberalGradePoint,
+        @Schema(description = "계획 과목 총 학점", example = "36")
+        String plannedCredits,
+        @Schema(description = "남은 학기 계획 과목")
+        List<PlannedSemesterSummaryDto> plannedSemesters,
         @Schema(description = "전공학점 요약")
         MajorCreditSummaryDto majorCredits,
         @Schema(description = "이수구분별 진행도")
