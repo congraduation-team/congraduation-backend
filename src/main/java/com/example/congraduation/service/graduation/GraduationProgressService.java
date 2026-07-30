@@ -7,6 +7,7 @@ import com.example.congraduation.dto.graduation.BalancedLiberalAreaProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
 import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
+import com.example.congraduation.dto.graduation.DoubleMajorGraduationRequirementProgressDto;
 import com.example.congraduation.dto.graduation.GraduationWorkProgressDto;
 import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
@@ -58,6 +59,8 @@ public class GraduationProgressService {
     private final DepartmentCurriculumPolicyService policyService;
     private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
     private final DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService;
+    private final DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService;
+    private final MinorTrackProgressService minorTrackProgressService;
     private final SwCodingCertificationService swCodingCertificationService;
     private final EnglishCertificationService englishCertificationService;
 
@@ -69,6 +72,8 @@ public class GraduationProgressService {
             DepartmentCurriculumPolicyService policyService,
             BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService,
             DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService,
+            DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService,
+            MinorTrackProgressService minorTrackProgressService,
             SwCodingCertificationService swCodingCertificationService,
             EnglishCertificationService englishCertificationService
     ) {
@@ -79,6 +84,8 @@ public class GraduationProgressService {
         this.policyService = policyService;
         this.balancedLiberalCoursePolicyService = balancedLiberalCoursePolicyService;
         this.doubleMajorRequiredCoursePolicyService = doubleMajorRequiredCoursePolicyService;
+        this.doubleMajorGraduationRequirementService = doubleMajorGraduationRequirementService;
+        this.minorTrackProgressService = minorTrackProgressService;
         this.swCodingCertificationService = swCodingCertificationService;
         this.englishCertificationService = englishCertificationService;
     }
@@ -218,7 +225,7 @@ public class GraduationProgressService {
         }
 
         for (MajorTrackProgressDto majorTrack : majorTracks) {
-            if (!"COMPLETED".equalsIgnoreCase(majorTrack.status())) {
+            if (isDoubleMajorType(majorTrack.trackType()) && "IN_PROGRESS".equalsIgnoreCase(majorTrack.status())) {
                 blockers.add(majorTrack.department() + " 복수전공 요건을 충족하지 못했습니다.");
             }
         }
@@ -317,12 +324,18 @@ public class GraduationProgressService {
             List<CategorySummaryDto> categorySummaries,
             List<CompletedCourseUploadRowDto> courses
     ) {
-        List<StudentMajorTrack> doubleMajorTracks = resolveDoubleMajorTracks(student);
-        return doubleMajorTracks.stream()
-                .filter(track -> track.getTrackType() == com.example.congraduation.domain.MajorType.DOUBLE_MAJOR
-                        || track.getTrackType() == com.example.congraduation.domain.MajorType.DOUBLE)
-                .map(track -> buildDoubleMajorProgress(student, track, categorySummaries, courses))
-                .toList();
+        List<StudentMajorTrack> tracks = resolveAdditionalTracks(student);
+        List<MajorTrackProgressDto> progresses = new ArrayList<>();
+        for (StudentMajorTrack track : tracks) {
+            if (isDoubleMajorType(track.getTrackType())) {
+                progresses.add(buildDoubleMajorProgress(student, track, categorySummaries, courses));
+                continue;
+            }
+            if (track.getTrackType() == com.example.congraduation.domain.MajorType.MINOR) {
+                progresses.add(minorTrackProgressService.evaluate(track, categorySummaries));
+            }
+        }
+        return List.copyOf(progresses);
     }
 
     private MajorTrackProgressDto buildDoubleMajorProgress(
@@ -337,6 +350,8 @@ public class GraduationProgressService {
         BigDecimal total = required.add(elective);
         DoubleMajorRequiredCoursePolicyService.RequiredCourseEvaluation requiredCourseEvaluation =
                 doubleMajorRequiredCoursePolicyService.evaluate(track.getDepartmentCode(), courses);
+        DoubleMajorGraduationRequirementProgressDto graduationRequirement =
+                doubleMajorGraduationRequirementService.evaluate(student, track, courses);
         MajorTrackRequiredCourseProgressDto requiredCourseProgress = new MajorTrackRequiredCourseProgressDto(
                 requiredCourseEvaluation.policyApplied(),
                 requiredCourseEvaluation.policyApplied() ? requiredCourseEvaluation.requiredCourseCount() : null,
@@ -346,7 +361,9 @@ public class GraduationProgressService {
                 requiredCourseEvaluation.missingCourses()
         );
         boolean creditSatisfied = isSatisfied(required, policy.requiredCredits()) && isSatisfied(elective, policy.electiveCredits());
-        boolean trackSatisfied = creditSatisfied && requiredCourseEvaluation.satisfied();
+        boolean trackSatisfied = creditSatisfied
+                && requiredCourseEvaluation.satisfied()
+                && isDoubleMajorGraduationRequirementSatisfied(graduationRequirement);
 
         return new MajorTrackProgressDto(
                 track.getTrackType(),
@@ -370,8 +387,10 @@ public class GraduationProgressService {
                         toPercentString(elective, policy.electiveCredits())
                 ),
                 requiredCourseProgress,
+                graduationRequirement,
                 "복필/복선",
-                trackSatisfied ? "COMPLETED" : "IN_PROGRESS"
+                resolveDoubleMajorTrackStatus(trackSatisfied, graduationRequirement),
+                graduationRequirement.detail()
         );
     }
 
@@ -692,7 +711,28 @@ public class GraduationProgressService {
                         || track.getTrackType() == com.example.congraduation.domain.MajorType.DOUBLE_MAJOR);
     }
 
-    private List<StudentMajorTrack> resolveDoubleMajorTracks(Student student) {
+    private boolean isDoubleMajorGraduationRequirementSatisfied(
+            DoubleMajorGraduationRequirementProgressDto graduationRequirement
+    ) {
+        return graduationRequirement.satisfied()
+                || "NOT_REQUIRED".equalsIgnoreCase(graduationRequirement.status())
+                || "MANUAL_CHECK_REQUIRED".equalsIgnoreCase(graduationRequirement.status());
+    }
+
+    private String resolveDoubleMajorTrackStatus(
+            boolean trackSatisfied,
+            DoubleMajorGraduationRequirementProgressDto graduationRequirement
+    ) {
+        if (trackSatisfied) {
+            return "COMPLETED";
+        }
+        if ("MANUAL_CHECK_REQUIRED".equalsIgnoreCase(graduationRequirement.status())) {
+            return "MANUAL_CHECK_REQUIRED";
+        }
+        return "IN_PROGRESS";
+    }
+
+    private List<StudentMajorTrack> resolveAdditionalTracks(Student student) {
         if (!student.getMajorTracks().isEmpty()) {
             return student.getMajorTracks();
         }
@@ -711,6 +751,11 @@ public class GraduationProgressService {
                 null,
                 false
         ));
+    }
+
+    private boolean isDoubleMajorType(com.example.congraduation.domain.MajorType trackType) {
+        return trackType == com.example.congraduation.domain.MajorType.DOUBLE
+                || trackType == com.example.congraduation.domain.MajorType.DOUBLE_MAJOR;
     }
 
     private boolean isCountableForGpa(CompletedCourseUploadRowDto course) {

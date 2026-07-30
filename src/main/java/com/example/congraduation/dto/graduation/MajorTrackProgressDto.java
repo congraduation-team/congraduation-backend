@@ -16,9 +16,13 @@ public record MajorTrackProgressDto(
         CreditProgressDto electiveCredits,
         @Schema(description = "복수전공 학과지정 전필 진행도")
         MajorTrackRequiredCourseProgressDto requiredCourseProgress,
+        @Schema(description = "복수전공 추가 요건 진행도")
+        DoubleMajorGraduationRequirementProgressDto graduationRequirement,
         @Schema(description = "복수전공 이수구분 집계 기준", example = "복필/복선")
         String categoryBasis,
         @Schema(description = "진행 상태", example = "IN_PROGRESS")
-        String status
+        String status,
+        @Schema(description = "트랙 진행도 상세 안내", example = "지능IoT학과 부전공은 마이크로디그리 요건 확인이 필요합니다.")
+        String detail
 ) {
 }
