@@ -23,10 +23,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,6 +92,39 @@ public class GraduationProgressService {
         BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, evaluationCourses);
         MajorTrackCreditPolicy primaryMajorPolicy = resolvePrimaryMajorPolicy(student);
         Map<String, Integer> categoryRequirements = resolveCategoryRequirements(policy, primaryMajorPolicy);
+        List<MajorTrackProgressDto> majorTracks =
+                buildMajorTrackProgresses(student, transcriptSummary.categorySummaries(), evaluationCourses);
+        GraduationWorkProgressDto graduationWork = buildGraduationWorkProgress(student, evaluationCourses);
+        CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
+        CategoryProgressDto commonLiberalProgress =
+                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
+        CategoryProgressDto electiveLiberalProgress =
+                buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선");
+        CategoryProgressDto academicFoundationProgress =
+                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.academicFoundationCredits(), "기필", "학문기초");
+        CategoryProgressDto majorFoundationProgress = buildCategoryProgress(
+                transcriptSummary.categorySummaries(),
+                isDoubleMajorStudent(student) ? null : policy.majorFoundationCredits(),
+                "전기",
+                "전공기초"
+        );
+        MajorCreditSummaryDto majorCreditSummary =
+                buildMajorCreditSummary(transcriptSummary, policy, primaryMajorPolicy);
+        List<CategorySummaryDto> categorySummaries =
+                applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements);
+        List<String> graduationBlockers = buildGraduationBlockers(
+                totalCreditsProgress,
+                commonLiberalProgress,
+                electiveLiberalProgress,
+                balancedLiberalEvaluation.progress(),
+                academicFoundationProgress,
+                majorFoundationProgress,
+                majorCreditSummary,
+                majorTracks,
+                graduationWork,
+                categorySummaries
+        );
+        boolean graduationEligible = graduationBlockers.isEmpty();
 
         return new GraduationProgressResponseDto(
                 student.getId(),
@@ -99,30 +132,90 @@ public class GraduationProgressService {
                 student.getMajor(),
                 student.getMajorType(),
                 student.getSecondaryMajor(),
-                buildMajorTrackProgresses(student, transcriptSummary.categorySummaries(), normalizedCourses),
-                buildGraduationWorkProgress(student, normalizedCourses),
-                buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits()),
-                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필"),
-                buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선"),
+                graduationEligible,
+                graduationBlockers,
+                majorTracks,
+                graduationWork,
+                totalCreditsProgress,
+                commonLiberalProgress,
+                electiveLiberalProgress,
                 balancedLiberalEvaluation.progress(),
                 balancedLiberalEvaluation.requiredAreaCount(),
                 balancedLiberalEvaluation.completedAreaCount(),
                 balancedLiberalEvaluation.areaProgresses(),
-                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.academicFoundationCredits(), "기필", "학문기초"),
-                buildCategoryProgress(
-                        transcriptSummary.categorySummaries(),
-                        isDoubleMajorStudent(student) ? null : policy.majorFoundationCredits(),
-                        "전기",
-                        "전공기초"
-                ),
-                calculateAverageGradePoint(normalizedCourses),
-                calculateMajorGradePoint(normalizedCourses),
-                calculateLiberalGradePoint(normalizedCourses),
+                academicFoundationProgress,
+                majorFoundationProgress,
+                calculateAverageGradePoint(evaluationCourses),
+                calculateMajorGradePoint(evaluationCourses),
+                calculateLiberalGradePoint(evaluationCourses),
                 plannedCourses.totalPlannedCredits(),
                 plannedCourses.semesters(),
-                buildMajorCreditSummary(transcriptSummary, policy, primaryMajorPolicy),
-                applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements)
+                majorCreditSummary,
+                categorySummaries
         );
+    }
+
+    private List<String> buildGraduationBlockers(
+            CreditProgressDto totalCreditsProgress,
+            CategoryProgressDto commonLiberalProgress,
+            CategoryProgressDto electiveLiberalProgress,
+            CategoryProgressDto balancedLiberalProgress,
+            CategoryProgressDto academicFoundationProgress,
+            CategoryProgressDto majorFoundationProgress,
+            MajorCreditSummaryDto majorCreditSummary,
+            List<MajorTrackProgressDto> majorTracks,
+            GraduationWorkProgressDto graduationWork,
+            List<CategorySummaryDto> categorySummaries
+    ) {
+        Set<String> blockers = new LinkedHashSet<>();
+
+        if (!totalCreditsProgress.satisfied()) {
+            blockers.add("총 이수학점이 부족합니다.");
+        }
+        if (!commonLiberalProgress.satisfied()) {
+            blockers.add("공통교양 요건을 충족하지 못했습니다.");
+        }
+        if (!electiveLiberalProgress.satisfied()) {
+            blockers.add("교양선택 요건을 충족하지 못했습니다.");
+        }
+        if (!balancedLiberalProgress.satisfied()) {
+            blockers.add("균형교양 요건을 충족하지 못했습니다.");
+        }
+        if (!academicFoundationProgress.satisfied()) {
+            blockers.add("학문기초 요건을 충족하지 못했습니다.");
+        }
+        if (majorFoundationProgress.requiredCredits() != null && !majorFoundationProgress.satisfied()) {
+            blockers.add("전공기초 요건을 충족하지 못했습니다.");
+        }
+        if (!majorCreditSummary.majorCreditsSatisfied()) {
+            blockers.add("전공 총 학점이 부족합니다.");
+        }
+        if (!majorCreditSummary.majorRequiredSatisfied()) {
+            blockers.add("전공필수 학점이 부족합니다.");
+        }
+        if (!majorCreditSummary.majorElectiveSatisfied()) {
+            blockers.add("전공선택 학점이 부족합니다.");
+        }
+        if (graduationWork.required() && !graduationWork.satisfied()) {
+            blockers.add("졸업작품(시험) 요건을 충족하지 못했습니다.");
+        }
+
+        for (MajorTrackProgressDto majorTrack : majorTracks) {
+            if (!"COMPLETED".equalsIgnoreCase(majorTrack.status())) {
+                blockers.add(majorTrack.department() + " 복수전공 요건을 충족하지 못했습니다.");
+            }
+        }
+
+        for (CategorySummaryDto categorySummary : categorySummaries) {
+            if (categorySummary.requiredCredits() == null || categorySummary.requiredCredits().isBlank()) {
+                continue;
+            }
+            if (!categorySummary.satisfied()) {
+                blockers.add(categorySummary.category() + " 이수구분 요건을 충족하지 못했습니다.");
+            }
+        }
+
+        return new ArrayList<>(blockers);
     }
 
     private BalancedLiberalEvaluation evaluateBalancedLiberal(

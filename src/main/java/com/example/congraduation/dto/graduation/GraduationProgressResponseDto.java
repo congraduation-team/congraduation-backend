@@ -17,6 +17,10 @@ public record GraduationProgressResponseDto(
         MajorType majorType,
         @Schema(description = "복수전공 학과", example = "소프트웨어학과")
         String secondaryMajor,
+        @Schema(description = "계획 과목까지 반영한 졸업 가능 여부", example = "false")
+        boolean graduationEligible,
+        @Schema(description = "졸업이 아직 불가능한 경우 남은 조건 목록")
+        List<String> graduationBlockers,
         @Schema(description = "추가 전공 트랙 진행도")
         List<MajorTrackProgressDto> majorTracks,
         @Schema(description = "단일전공 졸업작품 진행도")
