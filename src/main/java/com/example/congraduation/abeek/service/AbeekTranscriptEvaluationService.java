@@ -508,8 +508,12 @@ public class AbeekTranscriptEvaluationService {
             putPreferMajor(index, withoutHyphen, master);
         }
         if ("GEN_ADV_PROG_P".equals(master.getCourseCode())) {
+            // 성적표/개설명 변형: 입문-P, 이해-P
             putPreferMajor(index, normalizeCourseName("고급프로그래밍입문P"), master);
             putPreferMajor(index, normalizeCourseName("고급프로그래밍입문"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해-P"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해P"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해"), master);
         }
     }
 
@@ -651,11 +655,15 @@ public class AbeekTranscriptEvaluationService {
             boolean majorLike
     ) {
         String probe = withoutParen != null && !withoutParen.isBlank() ? withoutParen : normalized;
-        if (probe.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(probe)) {
             CourseMaster adv = index.get(normalizeCourseName("고급프로그래밍입문-P"));
             if (adv == null) {
+                adv = index.get(normalizeCourseName("고급프로그래밍이해-P"));
+            }
+            if (adv == null) {
                 adv = index.values().stream()
-                        .filter(m -> normalizeCourseName(m.getName()).contains("고급프로그래밍입문"))
+                        .filter(m -> "GEN_ADV_PROG_P".equals(m.getCourseCode())
+                                || isAdvancedProgrammingIntroName(normalizeCourseName(m.getName())))
                         .findFirst()
                         .orElse(null);
             }
@@ -667,6 +675,15 @@ public class AbeekTranscriptEvaluationService {
             return Optional.empty();
         }
         return matchMajorAlias(normalized, withoutParen, index);
+    }
+
+    /** 고급프로그래밍입문-P / 고급프로그래밍이해-P 동일 과목 취급 */
+    private boolean isAdvancedProgrammingIntroName(String normalized) {
+        if (normalized == null || normalized.isBlank()) {
+            return false;
+        }
+        String value = normalized.replace("-", "");
+        return value.contains("고급프로그래밍입문") || value.contains("고급프로그래밍이해");
     }
 
     private Optional<CourseMaster> matchMajorAlias(

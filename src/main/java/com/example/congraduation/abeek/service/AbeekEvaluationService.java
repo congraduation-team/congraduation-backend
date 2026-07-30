@@ -829,9 +829,9 @@ public class AbeekEvaluationService {
         if (completedNames.contains(withoutHyphen)) {
             return true;
         }
-        // 고급프로그래밍입문-P ↔ 고급프로그래밍입문P / 고급프로그래밍입문
-        if (normalized.contains("고급프로그래밍입문")) {
-            return completedNames.stream().anyMatch(n -> n.contains("고급프로그래밍입문"));
+        // 고급프로그래밍입문-P ↔ 고급프로그래밍이해-P (성적표 표기 차이)
+        if (isAdvancedProgrammingIntroName(normalized)) {
+            return completedNames.stream().anyMatch(this::isAdvancedProgrammingIntroName);
         }
         return false;
     }
@@ -887,10 +887,13 @@ public class AbeekEvaluationService {
             names.add(withoutParen);
             names.add(withoutParen.replace("-", ""));
         }
-        if (normalized.contains("고급프로그래밍입문") || withoutParen.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(normalized) || isAdvancedProgrammingIntroName(withoutParen)) {
             names.add(normalizeCourseName("고급프로그래밍입문-P"));
             names.add(normalizeCourseName("고급프로그래밍입문P"));
             names.add(normalizeCourseName("고급프로그래밍입문"));
+            names.add(normalizeCourseName("고급프로그래밍이해-P"));
+            names.add(normalizeCourseName("고급프로그래밍이해P"));
+            names.add(normalizeCourseName("고급프로그래밍이해"));
         }
     }
 
@@ -906,10 +909,18 @@ public class AbeekEvaluationService {
         if (a.equals(b)) {
             return true;
         }
-        if (a.contains("고급프로그래밍입문") && b.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(a) && isAdvancedProgrammingIntroName(b)) {
             return true;
         }
         return a.contains(b) || b.contains(a);
+    }
+
+    private boolean isAdvancedProgrammingIntroName(String normalized) {
+        if (normalized == null || normalized.isBlank()) {
+            return false;
+        }
+        String value = normalized.replace("-", "");
+        return value.contains("고급프로그래밍입문") || value.contains("고급프로그래밍이해");
     }
 
     private Set<String> completedEquivalenceGroups(List<StudentEnrollment> enrollments) {
