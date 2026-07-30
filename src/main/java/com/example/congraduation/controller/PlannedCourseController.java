@@ -44,6 +44,15 @@ public class PlannedCourseController {
         return ResponseEntity.ok(plannedCourseService.addNextPlannedSemesters(studentId, count));
     }
 
+    @DeleteMapping("/planned-semesters/{plannedSemesterId}")
+    @Operation(summary = "계획 학기 삭제", description = "등록된 계획 학기와 해당 학기에 포함된 계획 과목을 함께 삭제합니다.")
+    public ResponseEntity<PlannedCourseListResponseDto> deletePlannedSemester(
+            @PathVariable Long studentId,
+            @PathVariable Long plannedSemesterId
+    ) {
+        return ResponseEntity.ok(plannedCourseService.deletePlannedSemester(studentId, plannedSemesterId));
+    }
+
     @PostMapping("/planned-courses")
     @Operation(summary = "계획 과목 추가", description = "미래 학기에 들을 계획 과목을 추가하고 계획 학점 요약을 반환합니다.")
     public ResponseEntity<PlannedCourseListResponseDto> addPlannedCourse(

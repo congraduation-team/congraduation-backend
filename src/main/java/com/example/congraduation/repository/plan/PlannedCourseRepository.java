@@ -13,5 +13,7 @@ public interface PlannedCourseRepository extends JpaRepository<PlannedCourse, Lo
 
     Optional<PlannedCourse> findByIdAndStudentId(Long id, Long studentId);
 
+    void deleteAllByPlannedSemester_IdAndStudentId(Long plannedSemesterId, Long studentId);
+
     void deleteByIdAndStudentId(Long id, Long studentId);
 }

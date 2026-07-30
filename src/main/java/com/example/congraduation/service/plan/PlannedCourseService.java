@@ -105,6 +105,20 @@ public class PlannedCourseService {
     }
 
     @Transactional
+    public PlannedCourseListResponseDto deletePlannedSemester(Long studentId, Long plannedSemesterId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
+
+        plannedSemesterRepository.findByIdAndStudentId(plannedSemesterId, studentId)
+                .orElseThrow(() -> new IllegalArgumentException("계획 학기를 찾을 수 없습니다."));
+
+        plannedCourseRepository.deleteAllByPlannedSemester_IdAndStudentId(plannedSemesterId, studentId);
+        plannedSemesterRepository.deleteByIdAndStudentId(plannedSemesterId, studentId);
+
+        return buildResponse(student, plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId));
+    }
+
+    @Transactional
     public PlannedCourseListResponseDto addNextPlannedSemesters(Long studentId, int count) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
