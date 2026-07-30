@@ -503,6 +503,14 @@ public class AbeekTranscriptEvaluationService {
         if (!withoutParen.isBlank()) {
             putPreferMajor(index, withoutParen, master);
         }
+        String withoutHyphen = normalizeCourseName(master.getName()).replace("-", "");
+        if (!withoutHyphen.isBlank()) {
+            putPreferMajor(index, withoutHyphen, master);
+        }
+        if ("GEN_ADV_PROG_P".equals(master.getCourseCode())) {
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍입문P"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍입문"), master);
+        }
     }
 
     /** 동명일 때 MAJOR를 우선하되, 이미 BSM으로 잡힌 이름은 덮어쓰지 않는다. */
@@ -585,12 +593,10 @@ public class AbeekTranscriptEvaluationService {
             }
         }
 
-        // 전필/전선 별칭 (캡스톤 등)
-        if (majorLike) {
-            Optional<CourseMaster> byAlias = matchMajorAlias(normalized, withoutParen, index);
-            if (byAlias.isPresent()) {
-                return byAlias;
-            }
+        // 전필/전선 별칭 (캡스톤 등) + 교양 별칭
+        Optional<CourseMaster> byAlias = matchCourseAlias(normalized, withoutParen, index, majorLike);
+        if (byAlias.isPresent()) {
+            return byAlias;
         }
 
         // 짧은 부분문자열(예: "프로그래밍")로 오매칭되지 않도록 길이 비율을 제한한다.
@@ -636,6 +642,31 @@ public class AbeekTranscriptEvaluationService {
                     return n.equals(normalized) || wp.equals(normalized);
                 })
                 .findFirst();
+    }
+
+    private Optional<CourseMaster> matchCourseAlias(
+            String normalized,
+            String withoutParen,
+            Map<String, CourseMaster> index,
+            boolean majorLike
+    ) {
+        String probe = withoutParen != null && !withoutParen.isBlank() ? withoutParen : normalized;
+        if (probe.contains("고급프로그래밍입문")) {
+            CourseMaster adv = index.get(normalizeCourseName("고급프로그래밍입문-P"));
+            if (adv == null) {
+                adv = index.values().stream()
+                        .filter(m -> normalizeCourseName(m.getName()).contains("고급프로그래밍입문"))
+                        .findFirst()
+                        .orElse(null);
+            }
+            if (adv != null) {
+                return Optional.of(adv);
+            }
+        }
+        if (!majorLike) {
+            return Optional.empty();
+        }
+        return matchMajorAlias(normalized, withoutParen, index);
     }
 
     private Optional<CourseMaster> matchMajorAlias(

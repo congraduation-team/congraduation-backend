@@ -64,11 +64,17 @@ public class AbeekEvaluationService {
                 .filter(StudentEnrollment::isPassed)
                 .map(e -> e.getCourseMaster().getCourseCode())
                 .collect(Collectors.toSet());
-        Set<String> completedNames = student.getEnrollments().stream()
-                .filter(StudentEnrollment::isPassed)
-                .map(e -> normalizeCourseName(e.getCourseMaster().getName()))
-                .filter(name -> !name.isBlank())
-                .collect(Collectors.toSet());
+        Set<String> completedNames = new LinkedHashSet<>();
+        for (StudentEnrollment enrollment : student.getEnrollments()) {
+            if (!enrollment.isPassed()) {
+                continue;
+            }
+            addCompletionNameVariants(completedNames, enrollment.getCourseMaster().getName());
+        }
+
+        List<CompletedCourseUploadRowDto> transcriptRows = loadTranscriptRows(student.getStudentId());
+        // 입학 전 계절학기 포함: 기이수 행이 있으면 인증필수 이수 판정에 반영
+        mergeTranscriptCompletions(transcriptRows, completedCodes, completedGroups, completedNames, entranceCourses);
 
         DesignEvaluationResult designResult =
                 designCreditEvaluator.evaluate(student.getEnrollments(), entranceByCode);
@@ -87,7 +93,6 @@ public class AbeekEvaluationService {
         int bsmFromCurriculum = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
         int majorFromCurriculum = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
 
-        List<CompletedCourseUploadRowDto> transcriptRows = loadTranscriptRows(student.getStudentId());
         // 기이수 전필+전선이 전공 학점의 기준. 커리큘럼 매칭만 쓰면 전필이 빠져 전선만 잡히는 경우가 있음.
         MajorCreditSummaryDto transcriptMajor = transcriptRows.isEmpty()
                 ? null
@@ -816,7 +821,95 @@ public class AbeekEvaluationService {
         if (master.getEquivalenceGroup() != null && groups.contains(master.getEquivalenceGroup())) {
             return true;
         }
-        return completedNames.contains(normalizeCourseName(master.getName()));
+        String normalized = normalizeCourseName(master.getName());
+        if (completedNames.contains(normalized)) {
+            return true;
+        }
+        String withoutHyphen = normalized.replace("-", "");
+        if (completedNames.contains(withoutHyphen)) {
+            return true;
+        }
+        // 고급프로그래밍입문-P ↔ 고급프로그래밍입문P / 고급프로그래밍입문
+        if (normalized.contains("고급프로그래밍입문")) {
+            return completedNames.stream().anyMatch(n -> n.contains("고급프로그래밍입문"));
+        }
+        return false;
+    }
+
+    /**
+     * 기이수 행(입학 전 계절학기 포함)을 인증필수 이수 판정에 합친다.
+     * enrollment 매칭이 빠져도 성적표에 있으면 이수로 본다.
+     */
+    private void mergeTranscriptCompletions(
+            List<CompletedCourseUploadRowDto> rows,
+            Set<String> completedCodes,
+            Set<String> completedGroups,
+            Set<String> completedNames,
+            List<CurriculumCourse> entranceCourses
+    ) {
+        if (rows == null || rows.isEmpty()) {
+            return;
+        }
+        for (CompletedCourseUploadRowDto row : rows) {
+            if (!isPassedTranscript(row)) {
+                continue;
+            }
+            addCompletionNameVariants(completedNames, row.courseName());
+
+            for (CurriculumCourse course : entranceCourses) {
+                if (course.getRole() != CourseRole.REQUIRED && course.getRole() != CourseRole.BSM_REQUIRED) {
+                    continue;
+                }
+                CourseMaster master = course.getCourseMaster();
+                if (!namesMatchForCompletion(row.courseName(), master.getName())) {
+                    continue;
+                }
+                completedCodes.add(master.getCourseCode());
+                if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+                    completedGroups.add(master.getEquivalenceGroup());
+                }
+                addCompletionNameVariants(completedNames, master.getName());
+            }
+        }
+    }
+
+    private void addCompletionNameVariants(Set<String> names, String rawName) {
+        if (rawName == null || rawName.isBlank()) {
+            return;
+        }
+        String normalized = normalizeCourseName(rawName);
+        if (!normalized.isBlank()) {
+            names.add(normalized);
+            names.add(normalized.replace("-", ""));
+        }
+        String withoutParen = normalizeCourseName(rawName.replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            names.add(withoutParen);
+            names.add(withoutParen.replace("-", ""));
+        }
+        if (normalized.contains("고급프로그래밍입문") || withoutParen.contains("고급프로그래밍입문")) {
+            names.add(normalizeCourseName("고급프로그래밍입문-P"));
+            names.add(normalizeCourseName("고급프로그래밍입문P"));
+            names.add(normalizeCourseName("고급프로그래밍입문"));
+        }
+    }
+
+    private boolean namesMatchForCompletion(String left, String right) {
+        if (left == null || right == null) {
+            return false;
+        }
+        String a = normalizeCourseName(left).replace("-", "");
+        String b = normalizeCourseName(right).replace("-", "");
+        if (a.isBlank() || b.isBlank()) {
+            return false;
+        }
+        if (a.equals(b)) {
+            return true;
+        }
+        if (a.contains("고급프로그래밍입문") && b.contains("고급프로그래밍입문")) {
+            return true;
+        }
+        return a.contains(b) || b.contains(a);
     }
 
     private Set<String> completedEquivalenceGroups(List<StudentEnrollment> enrollments) {

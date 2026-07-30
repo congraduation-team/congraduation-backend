@@ -46,6 +46,22 @@ public class CurriculumDataLoader implements CommandLineRunner {
         if (prerequisiteRepository.findByDepartmentCodeAndYear("CSE", 2024).isEmpty()) {
             seedPrerequisites();
         }
+        // 운영 DB: 세종사회봉사1은 공학인증 필수에서 제외
+        demoteVolunteerFromAbeekRequired();
+    }
+
+    /** 이미 시드된 DB에서 GEN_VOLUNTEER1 REQUIRED → ELECTIVE (2020·2021 CSE) */
+    private void demoteVolunteerFromAbeekRequired() {
+        for (int year : new int[]{2020, 2021}) {
+            curriculumCourseRepository
+                    .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(year, "CSE", "GEN_VOLUNTEER1")
+                    .ifPresent(course -> {
+                        if (course.getRole() == CourseRole.REQUIRED) {
+                            course.setRole(CourseRole.ELECTIVE);
+                            curriculumCourseRepository.save(course);
+                        }
+                    });
+        }
     }
 
     private void seedRequirements() {
@@ -210,7 +226,7 @@ public class CurriculumDataLoader implements CommandLineRunner {
         cc(y, "GEN_WRITE", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_CAREER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_STARTUP1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
-        cc(y, "GEN_VOLUNTEER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
+        // 세종사회봉사1은 공학인증 필수가 아님
         cc(y, "GEN_ENG_LISTEN", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_PHILOSOPHY", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_READ", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-2");
@@ -240,12 +256,13 @@ public class CurriculumDataLoader implements CommandLineRunner {
         cc(y, "GEN_WRITE", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_CAREER_EXP", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_STARTUP1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
-        cc(y, "GEN_VOLUNTEER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
+        // 세종사회봉사1은 공학인증 필수가 아님
         cc(y, "GEN_PHILOSOPHY", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_LISTEN", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_READ", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-2");
         cc(y, "GEN_SEMINAR", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_WORLD_HIST", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-1");
+        // 입학 전 계절학기 이수 가능 (고급프로그래밍입문-P)
         cc(y, "GEN_ADV_PROG_P", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
 
         bsm(y, "BSM_CALC", 3, "1-1");
