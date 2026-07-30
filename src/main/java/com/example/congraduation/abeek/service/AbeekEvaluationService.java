@@ -30,6 +30,7 @@ public class AbeekEvaluationService {
     private final StudentRepository appStudentRepository;
     private final TranscriptStorageService transcriptStorageService;
     private final MajorCreditSummaryService majorCreditSummaryService;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
@@ -856,6 +857,21 @@ public class AbeekEvaluationService {
             }
             addCompletionNameVariants(completedNames, row.courseName());
 
+            // 학수번호로 ABEEK 코드가 확정되면 인증필수 이수에 바로 반영
+            sejongAbeekCourseCodeCatalog.findAbeekCourseCode(row.courseCode()).ifPresent(abeekCode -> {
+                completedCodes.add(abeekCode);
+                for (CurriculumCourse course : entranceCourses) {
+                    CourseMaster master = course.getCourseMaster();
+                    if (!abeekCode.equals(master.getCourseCode())) {
+                        continue;
+                    }
+                    if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+                        completedGroups.add(master.getEquivalenceGroup());
+                    }
+                    addCompletionNameVariants(completedNames, master.getName());
+                }
+            });
+
             for (CurriculumCourse course : entranceCourses) {
                 if (course.getRole() != CourseRole.REQUIRED && course.getRole() != CourseRole.BSM_REQUIRED) {
                     continue;
@@ -1083,6 +1099,13 @@ public class AbeekEvaluationService {
             Map<String, CourseCategory> categoryByName
     ) {
         if (row.courseCode() != null && !row.courseCode().isBlank()) {
+            Optional<String> abeekCode = sejongAbeekCourseCodeCatalog.findAbeekCourseCode(row.courseCode());
+            if (abeekCode.isPresent()) {
+                CourseCategory byAbeek = categoryByCode.get(abeekCode.get());
+                if (byAbeek != null) {
+                    return byAbeek;
+                }
+            }
             CourseCategory byCode = categoryByCode.get(row.courseCode());
             if (byCode != null) {
                 return byCode;

@@ -46,6 +46,7 @@ public class AbeekTranscriptEvaluationService {
     private final AbeekStudentRepository abeekStudentRepository;
     private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final AbeekEvaluationService abeekEvaluationService;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     @Transactional
     public AbeekTranscriptEvaluationResponse evaluateFromTranscript(
@@ -131,13 +132,15 @@ public class AbeekTranscriptEvaluationService {
         List<StudentEnrollment> enrollments = new ArrayList<>();
 
         for (CompletedCourseUploadRowDto row : rows) {
-            Optional<CourseMaster> matched = matchCourse(row.courseName(), row.category(), mastersByNormalizedName);
+            // 1순위: 학수번호(과목번호) — 과목명이 바뀌어도 동일 과목
+            Optional<CourseMaster> matched = matchCourseBySejongCode(row.courseCode())
+                    .or(() -> matchCourse(row.courseName(), row.category(), mastersByNormalizedName));
             if (matched.isEmpty()) {
                 unmatched.add(UnmatchedCourseDto.builder()
                         .transcriptCourseCode(row.courseCode())
                         .transcriptCourseName(row.courseName())
                         .category(row.category())
-                        .reason("ABEEK 과목 마스터에서 동일 과목명을 찾지 못함")
+                        .reason("ABEEK 과목 마스터에서 동일 학수번호/과목명을 찾지 못함")
                         .build());
                 continue;
             }
@@ -483,6 +486,11 @@ public class AbeekTranscriptEvaluationService {
             }
         }
         return index;
+    }
+
+    private Optional<CourseMaster> matchCourseBySejongCode(String sejongCourseCode) {
+        return sejongAbeekCourseCodeCatalog.findAbeekCourseCode(sejongCourseCode)
+                .flatMap(courseMasterRepository::findByCourseCode);
     }
 
     private boolean isAbeekSeedCourseCode(String courseCode) {
