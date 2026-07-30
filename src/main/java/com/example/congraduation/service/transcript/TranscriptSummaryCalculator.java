@@ -24,23 +24,25 @@ public class TranscriptSummaryCalculator {
             BigDecimal credit = toDecimal(course.credit());
             String category = normalizeCategory(course.category());
 
-            totalCredits = totalCredits.add(credit);
+            if (isPassedForCompletion(course)) {
+                totalCredits = totalCredits.add(credit);
+
+                CategoryAccumulator accumulator = categoryMap.computeIfAbsent(
+                        category,
+                        key -> new CategoryAccumulator()
+                );
+                accumulator.earnedCredits = accumulator.earnedCredits.add(credit);
+                accumulator.courses.add(new CategoryCourseDto(
+                        course.courseCode(),
+                        course.courseName(),
+                        course.credit()
+                ));
+            }
 
             if (isCountableForGpa(course)) {
                 BigDecimal gradePoint = toDecimal(course.gradePoint());
                 totalGradePoints = totalGradePoints.add(credit.multiply(gradePoint));
             }
-
-            CategoryAccumulator accumulator = categoryMap.computeIfAbsent(
-                    category,
-                    key -> new CategoryAccumulator()
-            );
-            accumulator.earnedCredits = accumulator.earnedCredits.add(credit);
-            accumulator.courses.add(new CategoryCourseDto(
-                    course.courseCode(),
-                    course.courseName(),
-                    course.credit()
-            ));
         }
 
         BigDecimal averageGradePoint = BigDecimal.ZERO;
@@ -101,6 +103,26 @@ public class TranscriptSummaryCalculator {
 
         // Backward compatibility for rows uploaded before evaluationMethod was persisted.
         return toDecimal(course.gradePoint()).compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    private boolean isPassedForCompletion(CompletedCourseUploadRowDto course) {
+        String grade = normalizeGrade(course.grade());
+        if ("F".equals(grade) || "FA".equals(grade) || "NP".equals(grade)) {
+            return false;
+        }
+
+        String evaluationMethod = course.evaluationMethod();
+        if (evaluationMethod != null
+                && "P/NP".equalsIgnoreCase(evaluationMethod.trim())
+                && (grade == null || grade.isBlank())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private String normalizeGrade(String grade) {
+        return grade == null ? null : grade.trim().toUpperCase();
     }
 
     private String formatDecimal(BigDecimal value) {

@@ -88,13 +88,16 @@ public class GraduationProgressService {
         List<CompletedCourseUploadRowDto> normalizedProjectedCourses = normalizeCoursesForPolicy(projectedCourses, policy);
         List<CompletedCourseUploadRowDto> evaluationCourses = new ArrayList<>(normalizedCourses);
         evaluationCourses.addAll(normalizedProjectedCourses);
-        TranscriptSummaryDto transcriptSummary = transcriptSummaryCalculator.summarize(evaluationCourses);
-        BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, evaluationCourses);
+        List<CompletedCourseUploadRowDto> completedCourses = evaluationCourses.stream()
+                .filter(this::isPassedForCompletion)
+                .toList();
+        TranscriptSummaryDto transcriptSummary = transcriptSummaryCalculator.summarize(completedCourses);
+        BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, completedCourses);
         MajorTrackCreditPolicy primaryMajorPolicy = resolvePrimaryMajorPolicy(student);
         Map<String, Integer> categoryRequirements = resolveCategoryRequirements(policy, primaryMajorPolicy);
         List<MajorTrackProgressDto> majorTracks =
-                buildMajorTrackProgresses(student, transcriptSummary.categorySummaries(), evaluationCourses);
-        GraduationWorkProgressDto graduationWork = buildGraduationWorkProgress(student, evaluationCourses);
+                buildMajorTrackProgresses(student, transcriptSummary.categorySummaries(), completedCourses);
+        GraduationWorkProgressDto graduationWork = buildGraduationWorkProgress(student, completedCourses);
         CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
         CategoryProgressDto commonLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
@@ -706,6 +709,22 @@ public class GraduationProgressService {
         return toDecimal(course.gradePoint()).compareTo(BigDecimal.ZERO) > 0;
     }
 
+    private boolean isPassedForCompletion(CompletedCourseUploadRowDto course) {
+        String grade = normalizeGrade(course.grade());
+        if ("F".equals(grade) || "FA".equals(grade) || "NP".equals(grade)) {
+            return false;
+        }
+
+        String evaluationMethod = course.evaluationMethod();
+        if (evaluationMethod != null
+                && "P/NP".equalsIgnoreCase(evaluationMethod.trim())
+                && (grade == null || grade.isBlank())) {
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean hasCategory(String category, String... candidates) {
         if (category == null) {
             return false;
@@ -747,6 +766,10 @@ public class GraduationProgressService {
             return BigDecimal.ZERO;
         }
         return new BigDecimal(value.trim());
+    }
+
+    private String normalizeGrade(String grade) {
+        return grade == null ? null : grade.trim().toUpperCase();
     }
 
     private boolean isSatisfied(BigDecimal earned, Integer required) {
