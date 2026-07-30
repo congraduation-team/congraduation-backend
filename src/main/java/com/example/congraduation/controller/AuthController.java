@@ -4,6 +4,7 @@ import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.auth.StudentLoginResponseDto;
 import com.example.congraduation.dto.sejong.SejongLoginRequestDto;
 import com.example.congraduation.service.sejong.SejongStudentLoginService;
+import com.example.congraduation.service.sejong.SejongStudentLoginResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class AuthController {
     public ResponseEntity<StudentLoginResponseDto> login(
             @RequestBody SejongLoginRequestDto loginRequestDto
     ) {
-        Student student = sejongStudentLoginService.login(loginRequestDto);
-        return ResponseEntity.ok(StudentLoginResponseDto.from(student));
+        SejongStudentLoginResult loginResult = sejongStudentLoginService.login(loginRequestDto);
+        Student student = loginResult.student();
+        return ResponseEntity.ok(StudentLoginResponseDto.from(student, loginResult.readingStatus()));
     }
 }

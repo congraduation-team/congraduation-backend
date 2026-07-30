@@ -23,6 +23,10 @@ public class SejongProfileService {
             "https://classic.sejong.ac.kr/classic/reading/status.do";
 
     public SejongProfileResponseDto fetchUserProfile(SejongSession session) {
+        return parseProfileFromHtml(fetchReadingStatusPageHtml(session));
+    }
+
+    public String fetchReadingStatusPageHtml(SejongSession session) {
         if (session == null) {
             throw new IllegalArgumentException("세종 로그인 세션이 비어 있습니다.");
         }
@@ -42,7 +46,7 @@ public class SejongProfileService {
             throw new IllegalStateException("SSO 인증 실패: 로그인 페이지가 반환되었습니다.");
         }
 
-        return parseProfileFromHtml(html);
+        return html;
     }
 
     private String requestProfileHtml(SejongSession session, String referer, int remainingAttempts) {
@@ -109,7 +113,7 @@ public class SejongProfileService {
         return command;
     }
 
-    private SejongProfileResponseDto parseProfileFromHtml(String html) {
+    public SejongProfileResponseDto parseProfileFromHtml(String html) {
         Document document = Jsoup.parse(html);
 
         String major = document.select("th:contains(학과명) + td").text().trim();
