@@ -49,12 +49,15 @@ public class PlannableCourseCatalogService {
                 .filter(accumulator -> matchesOfferedTerm(accumulator, offeredTerm))
                 .filter(accumulator -> matchesDepartment(accumulator, departmentName))
                 .filter(accumulator -> matchesCategory(accumulator, category))
-                .sorted(Comparator.comparing(CourseAccumulator::courseName))
+                .sorted(Comparator
+                        .comparing(CourseAccumulator::courseName)
+                        .thenComparing(CourseAccumulator::department)
+                        .thenComparing(CourseAccumulator::category))
                 .map(accumulator -> new PlannableCourseDto(
                         new ArrayList<>(accumulator.courseCodes()),
                         accumulator.courseName(),
-                        new ArrayList<>(accumulator.categories()),
-                        new ArrayList<>(accumulator.departments()),
+                        accumulator.category(),
+                        accumulator.department(),
                         new ArrayList<>(accumulator.targetGrades()),
                         new ArrayList<>(accumulator.credits()),
                         new ArrayList<>(accumulator.offeredTerms())
@@ -88,13 +91,15 @@ public class PlannableCourseCatalogService {
                 continue;
             }
 
+            String courseName = offering.courseName().trim();
+            String resolvedDepartment = normalizeDisplayText(firstNonBlank(offering.hostDepartment(), offering.openingDepartment()));
+            String resolvedCategory = normalizeDisplayText(offering.category());
+
             CourseAccumulator accumulator = deduplicated.computeIfAbsent(
-                    offering.courseName().trim(),
-                    ignored -> new CourseAccumulator(offering.courseName().trim())
+                    toCourseKey(courseName, resolvedDepartment, resolvedCategory),
+                    ignored -> new CourseAccumulator(courseName, resolvedCategory, resolvedDepartment)
             );
             addIfPresent(accumulator.courseCodes(), offering.courseCode());
-            addIfPresent(accumulator.categories(), offering.category());
-            addIfPresent(accumulator.departments(), firstNonBlank(offering.hostDepartment(), offering.openingDepartment()));
             addIfPresent(accumulator.targetGrades(), offering.gradeYear());
             if (offering.credits() != null) {
                 accumulator.credits().add(formatCredit(offering.credits()));
@@ -141,9 +146,7 @@ public class PlannableCourseCatalogService {
             return true;
         }
         String normalizedDepartment = normalize(departmentName);
-        return accumulator.departments().stream()
-                .map(this::normalize)
-                .anyMatch(department -> department.contains(normalizedDepartment));
+        return normalize(accumulator.department()).contains(normalizedDepartment);
     }
 
     private boolean matchesCategory(CourseAccumulator accumulator, String category) {
@@ -151,9 +154,7 @@ public class PlannableCourseCatalogService {
             return true;
         }
         String normalizedCategory = normalize(category);
-        return accumulator.categories().stream()
-                .map(this::normalize)
-                .anyMatch(value -> value.contains(normalizedCategory));
+        return normalize(accumulator.category()).contains(normalizedCategory);
     }
 
     private void addIfPresent(Set<String> target, String value) {
@@ -168,6 +169,14 @@ public class PlannableCourseCatalogService {
 
     private String firstNonBlank(String primary, String fallback) {
         return isBlank(primary) ? fallback : primary;
+    }
+
+    private String normalizeDisplayText(String value) {
+        return isBlank(value) ? "미지정" : value.trim();
+    }
+
+    private String toCourseKey(String courseName, String department, String category) {
+        return normalize(courseName) + "|" + normalize(department) + "|" + normalize(category);
     }
 
     private String formatCredit(Double credits) {
@@ -187,18 +196,18 @@ public class PlannableCourseCatalogService {
     private record CourseAccumulator(
             Set<String> courseCodes,
             String courseName,
-            Set<String> categories,
-            Set<String> departments,
+            String category,
+            String department,
             Set<String> targetGrades,
             Set<String> credits,
             Set<String> offeredTerms
     ) {
-        private CourseAccumulator(String courseName) {
+        private CourseAccumulator(String courseName, String category, String department) {
             this(
                     new LinkedHashSet<>(),
                     courseName,
-                    new LinkedHashSet<>(),
-                    new LinkedHashSet<>(),
+                    category,
+                    department,
                     new LinkedHashSet<>(),
                     new LinkedHashSet<>(),
                     new LinkedHashSet<>()
