@@ -46,6 +46,7 @@ public class AbeekTranscriptEvaluationService {
     private final AbeekStudentRepository abeekStudentRepository;
     private final StudentEnrollmentRepository studentEnrollmentRepository;
     private final AbeekEvaluationService abeekEvaluationService;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     @Transactional
     public AbeekTranscriptEvaluationResponse evaluateFromTranscript(
@@ -131,13 +132,15 @@ public class AbeekTranscriptEvaluationService {
         List<StudentEnrollment> enrollments = new ArrayList<>();
 
         for (CompletedCourseUploadRowDto row : rows) {
-            Optional<CourseMaster> matched = matchCourse(row.courseName(), row.category(), mastersByNormalizedName);
+            // 1순위: 학수번호(과목번호) — 과목명이 바뀌어도 동일 과목
+            Optional<CourseMaster> matched = matchCourseBySejongCode(row.courseCode())
+                    .or(() -> matchCourse(row.courseName(), row.category(), mastersByNormalizedName));
             if (matched.isEmpty()) {
                 unmatched.add(UnmatchedCourseDto.builder()
                         .transcriptCourseCode(row.courseCode())
                         .transcriptCourseName(row.courseName())
                         .category(row.category())
-                        .reason("ABEEK 과목 마스터에서 동일 과목명을 찾지 못함")
+                        .reason("ABEEK 과목 마스터에서 동일 학수번호/과목명을 찾지 못함")
                         .build());
                 continue;
             }
@@ -485,6 +488,11 @@ public class AbeekTranscriptEvaluationService {
         return index;
     }
 
+    private Optional<CourseMaster> matchCourseBySejongCode(String sejongCourseCode) {
+        return sejongAbeekCourseCodeCatalog.findAbeekCourseCode(sejongCourseCode)
+                .flatMap(courseMasterRepository::findByCourseCode);
+    }
+
     private boolean isAbeekSeedCourseCode(String courseCode) {
         if (courseCode == null || courseCode.isBlank()) {
             return false;
@@ -508,8 +516,12 @@ public class AbeekTranscriptEvaluationService {
             putPreferMajor(index, withoutHyphen, master);
         }
         if ("GEN_ADV_PROG_P".equals(master.getCourseCode())) {
+            // 성적표/개설명 변형: 입문-P, 이해-P
             putPreferMajor(index, normalizeCourseName("고급프로그래밍입문P"), master);
             putPreferMajor(index, normalizeCourseName("고급프로그래밍입문"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해-P"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해P"), master);
+            putPreferMajor(index, normalizeCourseName("고급프로그래밍이해"), master);
         }
     }
 
@@ -651,11 +663,15 @@ public class AbeekTranscriptEvaluationService {
             boolean majorLike
     ) {
         String probe = withoutParen != null && !withoutParen.isBlank() ? withoutParen : normalized;
-        if (probe.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(probe)) {
             CourseMaster adv = index.get(normalizeCourseName("고급프로그래밍입문-P"));
             if (adv == null) {
+                adv = index.get(normalizeCourseName("고급프로그래밍이해-P"));
+            }
+            if (adv == null) {
                 adv = index.values().stream()
-                        .filter(m -> normalizeCourseName(m.getName()).contains("고급프로그래밍입문"))
+                        .filter(m -> "GEN_ADV_PROG_P".equals(m.getCourseCode())
+                                || isAdvancedProgrammingIntroName(normalizeCourseName(m.getName())))
                         .findFirst()
                         .orElse(null);
             }
@@ -667,6 +683,15 @@ public class AbeekTranscriptEvaluationService {
             return Optional.empty();
         }
         return matchMajorAlias(normalized, withoutParen, index);
+    }
+
+    /** 고급프로그래밍입문-P / 고급프로그래밍이해-P 동일 과목 취급 */
+    private boolean isAdvancedProgrammingIntroName(String normalized) {
+        if (normalized == null || normalized.isBlank()) {
+            return false;
+        }
+        String value = normalized.replace("-", "");
+        return value.contains("고급프로그래밍입문") || value.contains("고급프로그래밍이해");
     }
 
     private Optional<CourseMaster> matchMajorAlias(

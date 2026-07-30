@@ -30,6 +30,7 @@ public class AbeekEvaluationService {
     private final StudentRepository appStudentRepository;
     private final TranscriptStorageService transcriptStorageService;
     private final MajorCreditSummaryService majorCreditSummaryService;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
@@ -829,9 +830,9 @@ public class AbeekEvaluationService {
         if (completedNames.contains(withoutHyphen)) {
             return true;
         }
-        // 고급프로그래밍입문-P ↔ 고급프로그래밍입문P / 고급프로그래밍입문
-        if (normalized.contains("고급프로그래밍입문")) {
-            return completedNames.stream().anyMatch(n -> n.contains("고급프로그래밍입문"));
+        // 고급프로그래밍입문-P ↔ 고급프로그래밍이해-P (성적표 표기 차이)
+        if (isAdvancedProgrammingIntroName(normalized)) {
+            return completedNames.stream().anyMatch(this::isAdvancedProgrammingIntroName);
         }
         return false;
     }
@@ -855,6 +856,21 @@ public class AbeekEvaluationService {
                 continue;
             }
             addCompletionNameVariants(completedNames, row.courseName());
+
+            // 학수번호로 ABEEK 코드가 확정되면 인증필수 이수에 바로 반영
+            sejongAbeekCourseCodeCatalog.findAbeekCourseCode(row.courseCode()).ifPresent(abeekCode -> {
+                completedCodes.add(abeekCode);
+                for (CurriculumCourse course : entranceCourses) {
+                    CourseMaster master = course.getCourseMaster();
+                    if (!abeekCode.equals(master.getCourseCode())) {
+                        continue;
+                    }
+                    if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+                        completedGroups.add(master.getEquivalenceGroup());
+                    }
+                    addCompletionNameVariants(completedNames, master.getName());
+                }
+            });
 
             for (CurriculumCourse course : entranceCourses) {
                 if (course.getRole() != CourseRole.REQUIRED && course.getRole() != CourseRole.BSM_REQUIRED) {
@@ -887,10 +903,13 @@ public class AbeekEvaluationService {
             names.add(withoutParen);
             names.add(withoutParen.replace("-", ""));
         }
-        if (normalized.contains("고급프로그래밍입문") || withoutParen.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(normalized) || isAdvancedProgrammingIntroName(withoutParen)) {
             names.add(normalizeCourseName("고급프로그래밍입문-P"));
             names.add(normalizeCourseName("고급프로그래밍입문P"));
             names.add(normalizeCourseName("고급프로그래밍입문"));
+            names.add(normalizeCourseName("고급프로그래밍이해-P"));
+            names.add(normalizeCourseName("고급프로그래밍이해P"));
+            names.add(normalizeCourseName("고급프로그래밍이해"));
         }
     }
 
@@ -906,10 +925,18 @@ public class AbeekEvaluationService {
         if (a.equals(b)) {
             return true;
         }
-        if (a.contains("고급프로그래밍입문") && b.contains("고급프로그래밍입문")) {
+        if (isAdvancedProgrammingIntroName(a) && isAdvancedProgrammingIntroName(b)) {
             return true;
         }
         return a.contains(b) || b.contains(a);
+    }
+
+    private boolean isAdvancedProgrammingIntroName(String normalized) {
+        if (normalized == null || normalized.isBlank()) {
+            return false;
+        }
+        String value = normalized.replace("-", "");
+        return value.contains("고급프로그래밍입문") || value.contains("고급프로그래밍이해");
     }
 
     private Set<String> completedEquivalenceGroups(List<StudentEnrollment> enrollments) {
@@ -1072,6 +1099,13 @@ public class AbeekEvaluationService {
             Map<String, CourseCategory> categoryByName
     ) {
         if (row.courseCode() != null && !row.courseCode().isBlank()) {
+            Optional<String> abeekCode = sejongAbeekCourseCodeCatalog.findAbeekCourseCode(row.courseCode());
+            if (abeekCode.isPresent()) {
+                CourseCategory byAbeek = categoryByCode.get(abeekCode.get());
+                if (byAbeek != null) {
+                    return byAbeek;
+                }
+            }
             CourseCategory byCode = categoryByCode.get(row.courseCode());
             if (byCode != null) {
                 return byCode;
