@@ -15,7 +15,9 @@ public class AbeekEvaluationResponse {
     private final String studentName;
     private final int entranceYear;
     private final int graduationAbeekYear;
-    /** 표시용. 예: "2026 졸업예정 기준" (졸업이 아닌 졸업예정) */
+    /** 졸업 예정 연도 (표시용). 예: 2026-1·4-1 → 2027 */
+    private final int expectedGraduationYear;
+    /** 표시용. 예: "2027년 졸업 예정 기준" */
     private final String graduationAbeekBasisLabel;
     private final boolean overallSatisfied;
 
@@ -50,7 +52,8 @@ public class AbeekEvaluationResponse {
     public static class RequirementSummaryDto {
         private final int entranceYear;
         private final int graduationAbeekYear;
-        /** 표시용. 예: "2026 졸업예정 기준" */
+        private final int expectedGraduationYear;
+        /** 표시용. 예: "2027년 졸업 예정 기준" */
         private final String graduationAbeekBasisLabel;
         private final String appliedBasis;
         private final int generalMinCredits;

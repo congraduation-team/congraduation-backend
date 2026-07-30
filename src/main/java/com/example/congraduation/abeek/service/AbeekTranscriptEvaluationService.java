@@ -4,6 +4,7 @@ import com.example.congraduation.abeek.domain.AbeekStudent;
 import com.example.congraduation.abeek.domain.CourseMaster;
 import com.example.congraduation.abeek.domain.CurriculumCourse;
 import com.example.congraduation.abeek.domain.StudentEnrollment;
+import com.example.congraduation.abeek.dto.AbeekEvaluationResponse;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse.MatchedCourseDto;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse.UnmatchedCourseDto;
@@ -209,6 +210,8 @@ public class AbeekTranscriptEvaluationService {
                 uniqueEnrollments
         );
 
+        AbeekEvaluationResponse evaluation = abeekEvaluationService.evaluate(student.getStudentId());
+
         return AbeekTranscriptEvaluationResponse.builder()
                 .studentId(student.getStudentId())
                 .studentNo(student.getStudentId())
@@ -217,13 +220,15 @@ public class AbeekTranscriptEvaluationService {
                 .departmentCode(department.abeekCode())
                 .departmentName(department.name())
                 .entranceYear(entranceYear)
-                .graduationAbeekYear(graduationAbeekYear)
+                .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .expectedGraduationYear(evaluation.getExpectedGraduationYear())
+                .graduationAbeekBasisLabel(evaluation.getGraduationAbeekBasisLabel())
                 .totalCourses(rows.size())
                 .matchedCourses(matches.size())
                 .unmatchedCourses(unmatched.size())
                 .matches(matches)
                 .unmatched(unmatched)
-                .evaluation(abeekEvaluationService.evaluate(student.getStudentId()))
+                .evaluation(evaluation)
                 .build();
     }
 

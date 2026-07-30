@@ -21,14 +21,15 @@ public class AbeekEvaluationService {
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final AdvantageousRequirementService advantageousRequirementService;
     private final DesignCreditEvaluator designCreditEvaluator;
+    private final GraduationAbeekYearResolver graduationAbeekYearResolver;
 
     @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
         AbeekStudent student = studentRepository.findWithEnrollmentsByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
 
-        // 기이수(수강이력) 마지막 학기 연도 = 졸업 ABEEK 연도 (1학기/2학기 모두 그 해)
-        int graduationAbeekYear = resolveGraduationAbeekYearFromEnrollments(student);
+        int[] lastTerm = resolveLastTakenTerm(student);
+        int graduationAbeekYear = lastTerm[0] > 0 ? lastTerm[0] : student.getGraduationAbeekYear();
         if (graduationAbeekYear != student.getGraduationAbeekYear()) {
             student.setGraduationAbeekYear(graduationAbeekYear);
             studentRepository.save(student);
@@ -43,6 +44,11 @@ public class AbeekEvaluationService {
         List<CurriculumCourse> graduationCourses =
                 curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
                         student.getDepartmentCode(), graduationAbeekYear);
+
+        GraduationAbeekYearResolver.GraduationTiming timing =
+                resolveGraduationTiming(student, entranceCourses, graduationCourses);
+        int expectedGraduationYear = timing.expectedGraduationYear();
+        graduationAbeekYear = timing.abeekYear();
 
         Map<String, CurriculumCourse> entranceByCode = designCreditEvaluator.indexByCode(entranceCourses);
         Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
@@ -125,14 +131,16 @@ public class AbeekEvaluationService {
             notes.add("졸업예정 연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
         }
 
-        String graduationAbeekBasisLabel = graduationAbeekYear + " 졸업예정 기준";
-        String appliedBasis = String.format("입학 %d / 졸업예정 %d 중 유리한 기준 적용",
-                student.getEntranceYear(), graduationAbeekYear);
+        String graduationAbeekBasisLabel = graduationAbeekYearResolver.basisLabel(expectedGraduationYear);
+        String appliedBasis = String.format(
+                "입학 %d / 졸업예정 %d (공학인증 %d) 중 유리한 기준 적용",
+                student.getEntranceYear(), expectedGraduationYear, graduationAbeekYear);
 
         AbeekEvaluationResponse.RequirementSummaryDto requirementSummary =
                 AbeekEvaluationResponse.RequirementSummaryDto.builder()
                         .entranceYear(student.getEntranceYear())
                         .graduationAbeekYear(graduationAbeekYear)
+                        .expectedGraduationYear(expectedGraduationYear)
                         .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                         .appliedBasis(appliedBasis)
                         .generalMinCredits(effective.getGeneralMinCredits())
@@ -175,6 +183,7 @@ public class AbeekEvaluationService {
                 .studentName(student.getName())
                 .entranceYear(student.getEntranceYear())
                 .graduationAbeekYear(graduationAbeekYear)
+                .expectedGraduationYear(expectedGraduationYear)
                 .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                 .overallSatisfied(overall)
                 .general(general)
@@ -302,6 +311,7 @@ public class AbeekEvaluationService {
                 .studentName(evaluation.getStudentName())
                 .entranceYear(evaluation.getEntranceYear())
                 .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .expectedGraduationYear(evaluation.getExpectedGraduationYear())
                 .graduationAbeekBasisLabel(evaluation.getGraduationAbeekBasisLabel())
                 .evaluation(evaluation)
                 .allCompletedCourses(allCompleted)
@@ -610,17 +620,117 @@ public class AbeekEvaluationService {
                 .toList();
     }
 
-    private int resolveGraduationAbeekYearFromEnrollments(AbeekStudent student) {
+    private int[] resolveLastTakenTerm(AbeekStudent student) {
         if (student.getEnrollments() == null || student.getEnrollments().isEmpty()) {
-            return student.getGraduationAbeekYear();
+            return new int[]{student.getGraduationAbeekYear(), 1};
         }
         return student.getEnrollments().stream()
-                .map(e -> new int[]{e.getTakenYear(), e.getTakenSemester() <= 1 ? 1 : 3})
+                .map(e -> new int[]{e.getTakenYear(), e.getTakenSemester() <= 1 ? 1 : 2})
                 .max(Comparator
                         .comparingInt((int[] t) -> t[0])
                         .thenComparingInt(t -> t[1]))
-                .map(t -> t[0])
-                .orElse(student.getGraduationAbeekYear());
+                .orElse(new int[]{student.getGraduationAbeekYear(), 1});
+    }
+
+    private GraduationAbeekYearResolver.GraduationTiming resolveGraduationTiming(
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            List<CurriculumCourse> graduationCourses
+    ) {
+        int[] last = resolveLastTakenTerm(student);
+        String standing = resolveStandingTermInLastTerm(
+                student, last[0], last[1], entranceCourses, graduationCourses);
+        return graduationAbeekYearResolver.resolveFromLastTerm(last[0], last[1], standing);
+    }
+
+    private String resolveStandingTermInLastTerm(
+            AbeekStudent student,
+            int lastYear,
+            int lastSemester,
+            List<CurriculumCourse> entranceCourses,
+            List<CurriculumCourse> graduationCourses
+    ) {
+        Map<String, String> termByCode = new HashMap<>();
+        Map<String, String> termByGroup = new HashMap<>();
+        Map<String, String> termByName = new HashMap<>();
+        indexRecommendedTerms(entranceCourses, termByCode, termByGroup, termByName);
+        indexRecommendedTerms(graduationCourses, termByCode, termByGroup, termByName);
+
+        return student.getEnrollments().stream()
+                .filter(e -> e.getTakenYear() == lastYear)
+                .filter(e -> (e.getTakenSemester() <= 1 ? 1 : 2) == lastSemester)
+                .map(e -> resolveRecommendedTerm(e.getCourseMaster(), termByCode, termByGroup, termByName))
+                .filter(Objects::nonNull)
+                .max(Comparator.comparingInt(this::termOrder))
+                .orElse(null);
+    }
+
+    private void indexRecommendedTerms(
+            List<CurriculumCourse> courses,
+            Map<String, String> termByCode,
+            Map<String, String> termByGroup,
+            Map<String, String> termByName
+    ) {
+        if (courses == null) {
+            return;
+        }
+        for (CurriculumCourse course : courses) {
+            if (course.getRecommendedTerm() == null || course.getRecommendedTerm().isBlank()) {
+                continue;
+            }
+            CourseMaster master = course.getCourseMaster();
+            // 더 늦은 학기 위치를 우선 (입학연도 4-1 vs 졸업연도 4-2 등)
+            putLaterTerm(termByCode, master.getCourseCode(), course.getRecommendedTerm());
+            if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+                putLaterTerm(termByGroup, master.getEquivalenceGroup(), course.getRecommendedTerm());
+            }
+            putLaterTerm(termByName, normalizeCourseName(master.getName()), course.getRecommendedTerm());
+        }
+    }
+
+    private void putLaterTerm(Map<String, String> map, String key, String term) {
+        if (key == null || key.isBlank() || term == null || term.isBlank()) {
+            return;
+        }
+        String existing = map.get(key);
+        if (existing == null || termOrder(term) > termOrder(existing)) {
+            map.put(key, term);
+        }
+    }
+
+    private String resolveRecommendedTerm(
+            CourseMaster master,
+            Map<String, String> byCode,
+            Map<String, String> byGroup,
+            Map<String, String> byName
+    ) {
+        String byExact = byCode.get(master.getCourseCode());
+        if (byExact != null) {
+            return byExact;
+        }
+        if (master.getEquivalenceGroup() != null) {
+            String byEq = byGroup.get(master.getEquivalenceGroup());
+            if (byEq != null) {
+                return byEq;
+            }
+        }
+        return byName.get(normalizeCourseName(master.getName()));
+    }
+
+    private int termOrder(String term) {
+        if (term == null || term.isBlank()) {
+            return 0;
+        }
+        String[] parts = term.replaceAll("\\s+", "").split("-");
+        if (parts.length != 2) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(parts[0].replaceAll("\\D", "")) * 10
+                    + Integer.parseInt(parts[1].replaceAll("\\D", ""));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private boolean isCompleted(
