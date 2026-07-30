@@ -24,6 +24,10 @@ public class PlannedCourse {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "planned_semester_id")
+    private PlannedSemester plannedSemester;
+
     @Column(nullable = false)
     private Integer targetYear;
 
@@ -42,6 +46,9 @@ public class PlannedCourse {
     @Column(nullable = false, length = 20)
     private String credit;
 
+    @Column(length = 10)
+    private String expectedGrade;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -50,41 +57,49 @@ public class PlannedCourse {
 
     private PlannedCourse(
             Student student,
+            PlannedSemester plannedSemester,
             Integer targetYear,
             Integer targetSemester,
             String courseCode,
             String courseName,
             String category,
             String credit,
+            String expectedGrade,
             LocalDateTime createdAt
     ) {
         this.student = student;
+        this.plannedSemester = plannedSemester;
         this.targetYear = targetYear;
         this.targetSemester = targetSemester;
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.category = category;
         this.credit = credit;
+        this.expectedGrade = expectedGrade;
         this.createdAt = createdAt;
     }
 
     public static PlannedCourse create(
             Student student,
+            PlannedSemester plannedSemester,
             Integer targetYear,
             Integer targetSemester,
             String courseCode,
             String courseName,
             String category,
-            String credit
+            String credit,
+            String expectedGrade
     ) {
         return new PlannedCourse(
                 student,
+                plannedSemester,
                 targetYear,
                 targetSemester,
                 courseCode,
                 courseName,
                 category,
                 credit,
+                expectedGrade,
                 LocalDateTime.now()
         );
     }
@@ -105,6 +120,18 @@ public class PlannedCourse {
         return targetSemester;
     }
 
+    public Long getPlannedSemesterId() {
+        return plannedSemester == null ? null : plannedSemester.getId();
+    }
+
+    public Integer getGradeYear() {
+        return plannedSemester == null ? targetYear : plannedSemester.getGradeYear();
+    }
+
+    public Integer getSemester() {
+        return plannedSemester == null ? targetSemester : plannedSemester.getSemester();
+    }
+
     public String getCourseCode() {
         return courseCode;
     }
@@ -121,7 +148,15 @@ public class PlannedCourse {
         return credit;
     }
 
+    public String getExpectedGrade() {
+        return expectedGrade;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void updateExpectedGrade(String expectedGrade) {
+        this.expectedGrade = expectedGrade;
     }
 }
