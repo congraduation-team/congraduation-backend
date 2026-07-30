@@ -10,8 +10,8 @@ public record PlannableCourseDto(
         String courseName,
         @Schema(description = "이수구분", example = "전공필수")
         String category,
-        @Schema(description = "개설학과", example = "컴퓨터공학과")
-        String department,
+        @Schema(description = "해당 이수구분으로 개설된 학과 목록", example = "[\"컴퓨터공학과\", \"전자정보통신공학과\"]")
+        List<String> departments,
         @Schema(description = "대상 학년 목록", example = "[\"2\", \"3\"]")
         List<String> targetGrades,
         @Schema(description = "학점 목록", example = "[\"3.0\"]")

@@ -51,13 +51,12 @@ public class PlannableCourseCatalogService {
                 .filter(accumulator -> matchesCategory(accumulator, category))
                 .sorted(Comparator
                         .comparing(CourseAccumulator::courseName)
-                        .thenComparing(CourseAccumulator::department)
                         .thenComparing(CourseAccumulator::category))
                 .map(accumulator -> new PlannableCourseDto(
                         new ArrayList<>(accumulator.courseCodes()),
                         accumulator.courseName(),
                         accumulator.category(),
-                        accumulator.department(),
+                        new ArrayList<>(accumulator.departments()),
                         new ArrayList<>(accumulator.targetGrades()),
                         new ArrayList<>(accumulator.credits()),
                         new ArrayList<>(accumulator.offeredTerms())
@@ -96,10 +95,11 @@ public class PlannableCourseCatalogService {
             String resolvedCategory = normalizeDisplayText(offering.category());
 
             CourseAccumulator accumulator = deduplicated.computeIfAbsent(
-                    toCourseKey(courseName, resolvedDepartment, resolvedCategory),
-                    ignored -> new CourseAccumulator(courseName, resolvedCategory, resolvedDepartment)
+                    toCourseKey(courseName, resolvedCategory),
+                    ignored -> new CourseAccumulator(courseName, resolvedCategory)
             );
             addIfPresent(accumulator.courseCodes(), offering.courseCode());
+            accumulator.departments().add(resolvedDepartment);
             addIfPresent(accumulator.targetGrades(), offering.gradeYear());
             if (offering.credits() != null) {
                 accumulator.credits().add(formatCredit(offering.credits()));
@@ -146,7 +146,9 @@ public class PlannableCourseCatalogService {
             return true;
         }
         String normalizedDepartment = normalize(departmentName);
-        return normalize(accumulator.department()).contains(normalizedDepartment);
+        return accumulator.departments().stream()
+                .map(this::normalize)
+                .anyMatch(department -> department.contains(normalizedDepartment));
     }
 
     private boolean matchesCategory(CourseAccumulator accumulator, String category) {
@@ -175,8 +177,8 @@ public class PlannableCourseCatalogService {
         return isBlank(value) ? "미지정" : value.trim();
     }
 
-    private String toCourseKey(String courseName, String department, String category) {
-        return normalize(courseName) + "|" + normalize(department) + "|" + normalize(category);
+    private String toCourseKey(String courseName, String category) {
+        return normalize(courseName) + "|" + normalize(category);
     }
 
     private String formatCredit(Double credits) {
@@ -197,17 +199,17 @@ public class PlannableCourseCatalogService {
             Set<String> courseCodes,
             String courseName,
             String category,
-            String department,
+            Set<String> departments,
             Set<String> targetGrades,
             Set<String> credits,
             Set<String> offeredTerms
     ) {
-        private CourseAccumulator(String courseName, String category, String department) {
+        private CourseAccumulator(String courseName, String category) {
             this(
                     new LinkedHashSet<>(),
                     courseName,
                     category,
-                    department,
+                    new LinkedHashSet<>(),
                     new LinkedHashSet<>(),
                     new LinkedHashSet<>(),
                     new LinkedHashSet<>()
