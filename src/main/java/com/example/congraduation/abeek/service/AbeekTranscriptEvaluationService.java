@@ -4,6 +4,7 @@ import com.example.congraduation.abeek.domain.AbeekStudent;
 import com.example.congraduation.abeek.domain.CourseMaster;
 import com.example.congraduation.abeek.domain.CurriculumCourse;
 import com.example.congraduation.abeek.domain.StudentEnrollment;
+import com.example.congraduation.abeek.dto.AbeekEvaluationResponse;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse.MatchedCourseDto;
 import com.example.congraduation.abeek.dto.AbeekTranscriptEvaluationResponse.UnmatchedCourseDto;
@@ -130,7 +131,7 @@ public class AbeekTranscriptEvaluationService {
         List<StudentEnrollment> enrollments = new ArrayList<>();
 
         for (CompletedCourseUploadRowDto row : rows) {
-            Optional<CourseMaster> matched = matchCourse(row.courseName(), mastersByNormalizedName);
+            Optional<CourseMaster> matched = matchCourse(row.courseName(), row.category(), mastersByNormalizedName);
             if (matched.isEmpty()) {
                 unmatched.add(UnmatchedCourseDto.builder()
                         .transcriptCourseCode(row.courseCode())
@@ -209,6 +210,8 @@ public class AbeekTranscriptEvaluationService {
                 uniqueEnrollments
         );
 
+        AbeekEvaluationResponse evaluation = abeekEvaluationService.evaluate(student.getStudentId());
+
         return AbeekTranscriptEvaluationResponse.builder()
                 .studentId(student.getStudentId())
                 .studentNo(student.getStudentId())
@@ -217,13 +220,15 @@ public class AbeekTranscriptEvaluationService {
                 .departmentCode(department.abeekCode())
                 .departmentName(department.name())
                 .entranceYear(entranceYear)
-                .graduationAbeekYear(graduationAbeekYear)
+                .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .expectedGraduationYear(evaluation.getExpectedGraduationYear())
+                .graduationAbeekBasisLabel(evaluation.getGraduationAbeekBasisLabel())
                 .totalCourses(rows.size())
                 .matchedCourses(matches.size())
                 .unmatchedCourses(unmatched.size())
                 .matches(matches)
                 .unmatched(unmatched)
-                .evaluation(abeekEvaluationService.evaluate(student.getStudentId()))
+                .evaluation(evaluation)
                 .build();
     }
 
@@ -478,14 +483,34 @@ public class AbeekTranscriptEvaluationService {
         if (master == null || master.getName() == null) {
             return;
         }
-        index.putIfAbsent(normalizeCourseName(master.getName()), master);
+        putPreferMajor(index, normalizeCourseName(master.getName()), master);
         String withoutParen = normalizeCourseName(master.getName().replaceAll("\\([^)]*\\)", ""));
         if (!withoutParen.isBlank()) {
-            index.putIfAbsent(withoutParen, master);
+            putPreferMajor(index, withoutParen, master);
         }
     }
 
-    private Optional<CourseMaster> matchCourse(String transcriptName, Map<String, CourseMaster> index) {
+    /** 동명일 때 MAJOR(전필/전선) 마스터를 우선한다. */
+    private void putPreferMajor(Map<String, CourseMaster> index, String key, CourseMaster master) {
+        if (key == null || key.isBlank()) {
+            return;
+        }
+        CourseMaster existing = index.get(key);
+        if (existing == null) {
+            index.put(key, master);
+            return;
+        }
+        if (existing.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR
+                && master.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+            index.put(key, master);
+        }
+    }
+
+    private Optional<CourseMaster> matchCourse(
+            String transcriptName,
+            String transcriptCategory,
+            Map<String, CourseMaster> index
+    ) {
         if (transcriptName == null || transcriptName.isBlank()) {
             return Optional.empty();
         }
@@ -494,16 +519,39 @@ public class AbeekTranscriptEvaluationService {
             return Optional.empty();
         }
 
+        boolean majorLike = isMajorLike(transcriptCategory);
+
         CourseMaster exact = index.get(normalized);
-        if (exact != null) {
+        if (exact != null && (!majorLike || exact.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)) {
             return Optional.of(exact);
+        }
+        if (exact != null && majorLike) {
+            // 동명이 비전공으로 잡혔으면 MAJOR 후보를 다시 찾는다.
+            Optional<CourseMaster> majorExact = findMajorByNormalizedName(normalized, index);
+            if (majorExact.isPresent()) {
+                return majorExact;
+            }
         }
 
         String withoutParen = normalizeCourseName(transcriptName.replaceAll("\\([^)]*\\)", ""));
         if (!withoutParen.isBlank()) {
             CourseMaster byParen = index.get(withoutParen);
-            if (byParen != null) {
+            if (byParen != null && (!majorLike || byParen.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)) {
                 return Optional.of(byParen);
+            }
+            if (majorLike) {
+                Optional<CourseMaster> majorParen = findMajorByNormalizedName(withoutParen, index);
+                if (majorParen.isPresent()) {
+                    return majorParen;
+                }
+            }
+        }
+
+        // 전필/전선 별칭 (캡스톤 등)
+        if (majorLike) {
+            Optional<CourseMaster> byAlias = matchMajorAlias(normalized, withoutParen, index);
+            if (byAlias.isPresent()) {
+                return byAlias;
             }
         }
 
@@ -514,6 +562,10 @@ public class AbeekTranscriptEvaluationService {
         }
         return index.entrySet().stream()
                 .filter(entry -> {
+                    if (majorLike && entry.getValue().getCategory()
+                            != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+                        return false;
+                    }
                     String key = entry.getKey();
                     if (key.length() < minLen) {
                         return false;
@@ -527,6 +579,45 @@ public class AbeekTranscriptEvaluationService {
                 })
                 .min(Comparator.comparingInt(entry -> Math.abs(entry.getKey().length() - normalized.length())))
                 .map(Map.Entry::getValue);
+    }
+
+    private Optional<CourseMaster> findMajorByNormalizedName(String normalized, Map<String, CourseMaster> index) {
+        return index.values().stream()
+                .filter(m -> m.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)
+                .filter(m -> {
+                    String n = normalizeCourseName(m.getName());
+                    String wp = normalizeCourseName(m.getName().replaceAll("\\([^)]*\\)", ""));
+                    return n.equals(normalized) || wp.equals(normalized);
+                })
+                .findFirst();
+    }
+
+    private Optional<CourseMaster> matchMajorAlias(
+            String normalized,
+            String withoutParen,
+            Map<String, CourseMaster> index
+    ) {
+        String probe = withoutParen != null && !withoutParen.isBlank() ? withoutParen : normalized;
+        if (probe.contains("capstone") || probe.contains("캡스톤") || probe.contains("산학협력프로젝트")) {
+            CourseMaster capstone = index.values().stream()
+                    .filter(m -> m.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)
+                    .filter(m -> {
+                        String n = normalizeCourseName(m.getName());
+                        return n.contains("capstone") || n.contains("캡스톤");
+                    })
+                    .findFirst()
+                    .orElse(null);
+            if (capstone != null) {
+                return Optional.of(capstone);
+            }
+        }
+        if (probe.contains("공학설계기초") || probe.equals("산학프로젝트입문")) {
+            CourseMaster basic = index.get(normalizeCourseName("공학설계기초(산학프로젝트입문)"));
+            if (basic != null) {
+                return Optional.of(basic);
+            }
+        }
+        return Optional.empty();
     }
 
     private String normalizeCourseName(String name) {

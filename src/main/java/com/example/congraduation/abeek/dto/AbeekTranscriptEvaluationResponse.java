@@ -18,6 +18,8 @@ public class AbeekTranscriptEvaluationResponse {
     private final String departmentName;
     private final int entranceYear;
     private final int graduationAbeekYear;
+    private final int expectedGraduationYear;
+    private final String graduationAbeekBasisLabel;
     private final int totalCourses;
     private final int matchedCourses;
     private final int unmatchedCourses;

@@ -9,6 +9,11 @@ import com.example.congraduation.abeek.domain.enums.CourseRole;
 import com.example.congraduation.abeek.dto.*;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 import com.example.congraduation.abeek.repository.AbeekStudentRepository;
+import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
+import com.example.congraduation.dto.transcript.MajorCreditSummaryDto;
+import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.transcript.MajorCreditSummaryService;
+import com.example.congraduation.service.transcript.TranscriptStorageService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,14 +26,18 @@ public class AbeekEvaluationService {
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final AdvantageousRequirementService advantageousRequirementService;
     private final DesignCreditEvaluator designCreditEvaluator;
+    private final GraduationAbeekYearResolver graduationAbeekYearResolver;
+    private final StudentRepository appStudentRepository;
+    private final TranscriptStorageService transcriptStorageService;
+    private final MajorCreditSummaryService majorCreditSummaryService;
 
     @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
         AbeekStudent student = studentRepository.findWithEnrollmentsByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생 없음: " + studentId));
 
-        // 기이수(수강이력) 마지막 학기 연도 = 졸업 ABEEK 연도 (1학기/2학기 모두 그 해)
-        int graduationAbeekYear = resolveGraduationAbeekYearFromEnrollments(student);
+        int[] lastTerm = resolveLastTakenTerm(student);
+        int graduationAbeekYear = lastTerm[0] > 0 ? lastTerm[0] : student.getGraduationAbeekYear();
         if (graduationAbeekYear != student.getGraduationAbeekYear()) {
             student.setGraduationAbeekYear(graduationAbeekYear);
             studentRepository.save(student);
@@ -43,6 +52,11 @@ public class AbeekEvaluationService {
         List<CurriculumCourse> graduationCourses =
                 curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(
                         student.getDepartmentCode(), graduationAbeekYear);
+
+        GraduationAbeekYearResolver.GraduationTiming timing =
+                resolveGraduationTiming(student, entranceCourses, graduationCourses);
+        int expectedGraduationYear = timing.expectedGraduationYear();
+        graduationAbeekYear = timing.abeekYear();
 
         Map<String, CurriculumCourse> entranceByCode = designCreditEvaluator.indexByCode(entranceCourses);
         Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
@@ -71,14 +85,20 @@ public class AbeekEvaluationService {
 
         int generalCredits = sumCredits(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
         int bsmCredits = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
-        int majorCredits = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+        int majorFromCurriculum = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+        // 기이수 전필+전선이 전공 학점의 기준. 커리큘럼 매칭만 쓰면 전필이 빠져 전선만 잡히는 경우가 있음.
+        MajorCreditSummaryDto transcriptMajor = loadTranscriptMajorSummary(student.getStudentId());
+        int majorCredits = majorFromCurriculum;
+        if (transcriptMajor != null) {
+            majorCredits = Math.max(majorFromCurriculum, (int) Math.round(transcriptMajor.totalMajorCredits()));
+        }
 
         List<CategoryProgressDto.CompletedCourseDto> generalCompleted =
                 listCompletedByCategory(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
         List<CategoryProgressDto.CompletedCourseDto> bsmCompleted =
                 listCompletedByCategory(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
         List<CategoryProgressDto.CompletedCourseDto> majorCompleted =
-                listCompletedByCategory(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+                listMajorCompletedCourses(student, categoryByCode, categoryByGroup, categoryByName, transcriptMajor);
         List<CategoryProgressDto.CompletedCourseDto> designCompleted = designResult.getCourses().stream()
                 .filter(DesignCourseResult::isRecognized)
                 .map(c -> CategoryProgressDto.CompletedCourseDto.builder()
@@ -122,16 +142,20 @@ public class AbeekEvaluationService {
                 .map(RequiredCourseStatusDto::getCourseName)
                 .toList();
         if (!waivedNames.isEmpty()) {
-            notes.add("졸업연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
+            notes.add("졸업예정 연도 신설 필수이나 입학연도에 없어 면제: " + String.join(", ", waivedNames));
         }
 
-        String appliedBasis = String.format("입학 %d / 졸업ABEEK %d 중 유리한 기준 적용",
-                student.getEntranceYear(), graduationAbeekYear);
+        String graduationAbeekBasisLabel = graduationAbeekYearResolver.basisLabel(expectedGraduationYear);
+        String appliedBasis = String.format(
+                "입학 %d / 졸업예정 %d (공학인증 %d) 중 유리한 기준 적용",
+                student.getEntranceYear(), expectedGraduationYear, graduationAbeekYear);
 
         AbeekEvaluationResponse.RequirementSummaryDto requirementSummary =
                 AbeekEvaluationResponse.RequirementSummaryDto.builder()
                         .entranceYear(student.getEntranceYear())
                         .graduationAbeekYear(graduationAbeekYear)
+                        .expectedGraduationYear(expectedGraduationYear)
+                        .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                         .appliedBasis(appliedBasis)
                         .generalMinCredits(effective.getGeneralMinCredits())
                         .bsmMinCredits(effective.getBsmMinCredits())
@@ -173,6 +197,8 @@ public class AbeekEvaluationService {
                 .studentName(student.getName())
                 .entranceYear(student.getEntranceYear())
                 .graduationAbeekYear(graduationAbeekYear)
+                .expectedGraduationYear(expectedGraduationYear)
+                .graduationAbeekBasisLabel(graduationAbeekBasisLabel)
                 .overallSatisfied(overall)
                 .general(general)
                 .bsm(bsm)
@@ -266,6 +292,9 @@ public class AbeekEvaluationService {
                 buildCertElectiveDetail(student, entranceCourses, evaluation.isCertElectiveApplicable(), evaluation.getCertElective())
         );
 
+        // 전공은 전필+전선 합산 목록(기이수 보정 포함)을 상세에도 동일하게 쓴다.
+        categories = withMajorCompletedFromEvaluation(categories, evaluation);
+
         List<AbeekEvaluationDetailResponse.CourseDetailDto> allCompleted = student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
                 .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
@@ -299,11 +328,58 @@ public class AbeekEvaluationService {
                 .studentName(evaluation.getStudentName())
                 .entranceYear(evaluation.getEntranceYear())
                 .graduationAbeekYear(evaluation.getGraduationAbeekYear())
+                .expectedGraduationYear(evaluation.getExpectedGraduationYear())
+                .graduationAbeekBasisLabel(evaluation.getGraduationAbeekBasisLabel())
                 .evaluation(evaluation)
                 .allCompletedCourses(allCompleted)
                 .allCompletedCourseCount(allCompleted.size())
                 .categories(categories)
                 .build();
+    }
+
+    private List<AbeekEvaluationDetailResponse.CategoryDetailDto> withMajorCompletedFromEvaluation(
+            List<AbeekEvaluationDetailResponse.CategoryDetailDto> categories,
+            AbeekEvaluationResponse evaluation
+    ) {
+        if (evaluation.getMajor() == null || evaluation.getMajor().getCompletedCourses() == null) {
+            return categories;
+        }
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> majorCourses = evaluation.getMajor().getCompletedCourses()
+                .stream()
+                .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                        .courseCode(c.getCourseCode())
+                        .courseName(c.getCourseName())
+                        .category(CourseCategory.MAJOR)
+                        .categoryLabel("전공")
+                        .role(CourseRole.ELECTIVE)
+                        .roleLabel("전공(전필/전선)")
+                        .credits(c.getCredits())
+                        .designCredits(c.getDesignCredits())
+                        .designLevel(null)
+                        .completed(true)
+                        .waived(false)
+                        .takenYear(c.getTakenYear())
+                        .takenSemester(c.getTakenSemester())
+                        .note("이수")
+                        .build())
+                .toList();
+
+        List<AbeekEvaluationDetailResponse.CategoryDetailDto> replaced = new ArrayList<>();
+        for (AbeekEvaluationDetailResponse.CategoryDetailDto category : categories) {
+            if ("MAJOR".equals(category.getCategoryKey())) {
+                replaced.add(AbeekEvaluationDetailResponse.CategoryDetailDto.builder()
+                        .categoryKey(category.getCategoryKey())
+                        .categoryLabel(category.getCategoryLabel())
+                        .progress(evaluation.getMajor())
+                        .completedCourseCount(majorCourses.size())
+                        .completedCourses(majorCourses)
+                        .remainingCourses(category.getRemainingCourses())
+                        .build());
+            } else {
+                replaced.add(category);
+            }
+        }
+        return replaced;
     }
 
     private CategoryProgressDto buildCertElectiveProgress(
@@ -606,17 +682,117 @@ public class AbeekEvaluationService {
                 .toList();
     }
 
-    private int resolveGraduationAbeekYearFromEnrollments(AbeekStudent student) {
+    private int[] resolveLastTakenTerm(AbeekStudent student) {
         if (student.getEnrollments() == null || student.getEnrollments().isEmpty()) {
-            return student.getGraduationAbeekYear();
+            return new int[]{student.getGraduationAbeekYear(), 1};
         }
         return student.getEnrollments().stream()
-                .map(e -> new int[]{e.getTakenYear(), e.getTakenSemester() <= 1 ? 1 : 3})
+                .map(e -> new int[]{e.getTakenYear(), e.getTakenSemester() <= 1 ? 1 : 2})
                 .max(Comparator
                         .comparingInt((int[] t) -> t[0])
                         .thenComparingInt(t -> t[1]))
-                .map(t -> t[0])
-                .orElse(student.getGraduationAbeekYear());
+                .orElse(new int[]{student.getGraduationAbeekYear(), 1});
+    }
+
+    private GraduationAbeekYearResolver.GraduationTiming resolveGraduationTiming(
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            List<CurriculumCourse> graduationCourses
+    ) {
+        int[] last = resolveLastTakenTerm(student);
+        String standing = resolveStandingTermInLastTerm(
+                student, last[0], last[1], entranceCourses, graduationCourses);
+        return graduationAbeekYearResolver.resolveFromLastTerm(last[0], last[1], standing);
+    }
+
+    private String resolveStandingTermInLastTerm(
+            AbeekStudent student,
+            int lastYear,
+            int lastSemester,
+            List<CurriculumCourse> entranceCourses,
+            List<CurriculumCourse> graduationCourses
+    ) {
+        Map<String, String> termByCode = new HashMap<>();
+        Map<String, String> termByGroup = new HashMap<>();
+        Map<String, String> termByName = new HashMap<>();
+        indexRecommendedTerms(entranceCourses, termByCode, termByGroup, termByName);
+        indexRecommendedTerms(graduationCourses, termByCode, termByGroup, termByName);
+
+        return student.getEnrollments().stream()
+                .filter(e -> e.getTakenYear() == lastYear)
+                .filter(e -> (e.getTakenSemester() <= 1 ? 1 : 2) == lastSemester)
+                .map(e -> resolveRecommendedTerm(e.getCourseMaster(), termByCode, termByGroup, termByName))
+                .filter(Objects::nonNull)
+                .max(Comparator.comparingInt(this::termOrder))
+                .orElse(null);
+    }
+
+    private void indexRecommendedTerms(
+            List<CurriculumCourse> courses,
+            Map<String, String> termByCode,
+            Map<String, String> termByGroup,
+            Map<String, String> termByName
+    ) {
+        if (courses == null) {
+            return;
+        }
+        for (CurriculumCourse course : courses) {
+            if (course.getRecommendedTerm() == null || course.getRecommendedTerm().isBlank()) {
+                continue;
+            }
+            CourseMaster master = course.getCourseMaster();
+            // 더 늦은 학기 위치를 우선 (입학연도 4-1 vs 졸업연도 4-2 등)
+            putLaterTerm(termByCode, master.getCourseCode(), course.getRecommendedTerm());
+            if (master.getEquivalenceGroup() != null && !master.getEquivalenceGroup().isBlank()) {
+                putLaterTerm(termByGroup, master.getEquivalenceGroup(), course.getRecommendedTerm());
+            }
+            putLaterTerm(termByName, normalizeCourseName(master.getName()), course.getRecommendedTerm());
+        }
+    }
+
+    private void putLaterTerm(Map<String, String> map, String key, String term) {
+        if (key == null || key.isBlank() || term == null || term.isBlank()) {
+            return;
+        }
+        String existing = map.get(key);
+        if (existing == null || termOrder(term) > termOrder(existing)) {
+            map.put(key, term);
+        }
+    }
+
+    private String resolveRecommendedTerm(
+            CourseMaster master,
+            Map<String, String> byCode,
+            Map<String, String> byGroup,
+            Map<String, String> byName
+    ) {
+        String byExact = byCode.get(master.getCourseCode());
+        if (byExact != null) {
+            return byExact;
+        }
+        if (master.getEquivalenceGroup() != null) {
+            String byEq = byGroup.get(master.getEquivalenceGroup());
+            if (byEq != null) {
+                return byEq;
+            }
+        }
+        return byName.get(normalizeCourseName(master.getName()));
+    }
+
+    private int termOrder(String term) {
+        if (term == null || term.isBlank()) {
+            return 0;
+        }
+        String[] parts = term.replaceAll("\\s+", "").split("-");
+        if (parts.length != 2) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(parts[0].replaceAll("\\D", "")) * 10
+                    + Integer.parseInt(parts[1].replaceAll("\\D", ""));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private boolean isCompleted(
@@ -671,6 +847,126 @@ public class AbeekEvaluationService {
                 .sorted(enrollmentOrder())
                 .map(this::toCompletedCourseDto)
                 .toList();
+    }
+
+    /**
+     * 전공 = 전필(REQUIRED) + 전선(ELECTIVE).
+     * enrollment 매칭에 빠진 전필이 있어도 기이수 전필/전선 행을 목록에 포함한다.
+     */
+    private List<CategoryProgressDto.CompletedCourseDto> listMajorCompletedCourses(
+            AbeekStudent student,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName,
+            MajorCreditSummaryDto transcriptMajor
+    ) {
+        List<CategoryProgressDto.CompletedCourseDto> fromEnrollments =
+                listCompletedByCategory(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+
+        List<CompletedCourseUploadRowDto> rows = loadTranscriptRows(student.getStudentId());
+        if (rows.isEmpty()) {
+            return fromEnrollments;
+        }
+
+        Set<String> seenNames = fromEnrollments.stream()
+                .map(c -> normalizeCourseName(c.getCourseName()))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        List<CategoryProgressDto.CompletedCourseDto> merged = new ArrayList<>(fromEnrollments);
+        for (CompletedCourseUploadRowDto row : rows) {
+            if (!isPassedTranscript(row) || !isTranscriptMajorCategory(row.category())) {
+                continue;
+            }
+            String nameKey = normalizeCourseName(row.courseName());
+            if (nameKey.isBlank() || seenNames.contains(nameKey)) {
+                continue;
+            }
+            seenNames.add(nameKey);
+            merged.add(CategoryProgressDto.CompletedCourseDto.builder()
+                    .courseCode(row.courseCode())
+                    .courseName(row.courseName())
+                    .credits(parseCreditsSafe(row.credit()))
+                    .designCredits(0)
+                    .takenYear(parseIntSafe(row.year(), null))
+                    .takenSemester(parseSemesterSafe(row.semester()))
+                    .build());
+        }
+        return merged;
+    }
+
+    private MajorCreditSummaryDto loadTranscriptMajorSummary(String studentNo) {
+        List<CompletedCourseUploadRowDto> rows = loadTranscriptRows(studentNo);
+        if (rows.isEmpty()) {
+            return null;
+        }
+        return majorCreditSummaryService.summarize(rows);
+    }
+
+    private List<CompletedCourseUploadRowDto> loadTranscriptRows(String studentNo) {
+        if (studentNo == null || studentNo.isBlank()) {
+            return List.of();
+        }
+        return appStudentRepository.findByStudentNo(studentNo.trim())
+                .map(s -> {
+                    try {
+                        return transcriptStorageService.getLatestTranscriptRows(s.getId());
+                    } catch (RuntimeException ex) {
+                        return List.<CompletedCourseUploadRowDto>of();
+                    }
+                })
+                .orElse(List.of());
+    }
+
+    private boolean isTranscriptMajorCategory(String category) {
+        if (category == null || category.isBlank()) {
+            return false;
+        }
+        String value = category.replace(" ", "");
+        return value.contains("전필") || value.contains("전공필수")
+                || value.contains("전선") || value.contains("전공선택");
+    }
+
+    private boolean isPassedTranscript(CompletedCourseUploadRowDto course) {
+        String grade = course.grade();
+        if (grade == null || grade.isBlank()) {
+            return true;
+        }
+        String normalized = grade.trim().toUpperCase(Locale.ROOT);
+        return !(normalized.equals("F") || normalized.equals("NP") || normalized.equals("N")
+                || normalized.equals("U") || normalized.equals("FA"));
+    }
+
+    private int parseCreditsSafe(String credit) {
+        if (credit == null || credit.isBlank()) {
+            return 0;
+        }
+        try {
+            return (int) Math.round(Double.parseDouble(credit.trim()));
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
+
+    private Integer parseIntSafe(String value, Integer defaultValue) {
+        if (value == null || value.isBlank()) {
+            return defaultValue;
+        }
+        try {
+            return (int) Math.round(Double.parseDouble(value.trim()));
+        } catch (NumberFormatException ex) {
+            return defaultValue;
+        }
+    }
+
+    private Integer parseSemesterSafe(String semester) {
+        if (semester == null || semester.isBlank()) {
+            return null;
+        }
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(\\d+)").matcher(semester);
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
+        }
+        return null;
     }
 
     private List<CategoryProgressDto.CompletedCourseDto> listAllCompleted(AbeekStudent student) {

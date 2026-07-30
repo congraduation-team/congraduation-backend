@@ -16,6 +16,9 @@ public class AbeekEvaluationDetailResponse {
     private final String studentName;
     private final int entranceYear;
     private final int graduationAbeekYear;
+    private final int expectedGraduationYear;
+    /** 표시용. 예: "2027년 졸업 예정 기준" */
+    private final String graduationAbeekBasisLabel;
     private final AbeekEvaluationResponse evaluation;
     /** 카테고리 분류 안 된 것 포함, 이 학생의 ABEEK 매칭된 전체 이수 과목 */
     private final List<CourseDetailDto> allCompletedCourses;
