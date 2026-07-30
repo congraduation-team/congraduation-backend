@@ -9,7 +9,7 @@ public interface PlannedCourseRepository extends JpaRepository<PlannedCourse, Lo
 
     List<PlannedCourse> findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(Long studentId);
 
-    List<PlannedCourse> findAllByPlannedSemesterIdOrderByCreatedAtAsc(Long plannedSemesterId);
+    List<PlannedCourse> findAllByPlannedSemester_IdOrderByCreatedAtAsc(Long plannedSemesterId);
 
     Optional<PlannedCourse> findByIdAndStudentId(Long id, Long studentId);
 
