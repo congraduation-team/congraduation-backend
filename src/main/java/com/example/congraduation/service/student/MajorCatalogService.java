@@ -2,10 +2,20 @@ package com.example.congraduation.service.student;
 
 import com.example.congraduation.dto.student.MajorOptionDto;
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MajorCatalogService {
+
+    private static final Set<String> DISALLOWED_DOUBLE_MAJOR_MAJORS = Set.of(
+            "호텔외식관광프랜차이즈경영학과",
+            "조리서비스경영학과",
+            "국방AI로봇융합공학과",
+            "사이버국방학과",
+            "국방AI융합시스템공학과",
+            "항공시스템공학전공"
+    );
 
     private static final List<String> MAJORS = List.of(
             "AI로봇학과",
@@ -69,7 +79,12 @@ public class MajorCatalogService {
 
     public List<MajorOptionDto> getMajorOptions() {
         return MAJORS.stream()
+                .filter(this::isAllowedForDoubleMajor)
                 .map(MajorOptionDto::new)
                 .toList();
+    }
+
+    public boolean isAllowedForDoubleMajor(String major) {
+        return major != null && !DISALLOWED_DOUBLE_MAJOR_MAJORS.contains(major.trim());
     }
 }

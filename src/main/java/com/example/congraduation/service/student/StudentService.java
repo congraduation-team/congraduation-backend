@@ -18,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final MajorCatalogService majorCatalogService;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, MajorCatalogService majorCatalogService) {
         this.studentRepository = studentRepository;
+        this.majorCatalogService = majorCatalogService;
     }
 
     @Transactional
@@ -101,6 +103,9 @@ public class StudentService {
             String departmentCode = track.getDepartmentCode().trim();
             if (student.getMajor().equals(departmentCode)) {
                 throw new IllegalArgumentException("주전공과 추가 전공은 같을 수 없습니다.");
+            }
+            if (isDoubleMajorType(track.getTrackType()) && !majorCatalogService.isAllowedForDoubleMajor(departmentCode)) {
+                throw new IllegalArgumentException("해당 학과는 복수전공 신청이 불가능합니다.");
             }
 
             String duplicateKey = track.getTrackType().name() + ":" + departmentCode;
