@@ -369,7 +369,22 @@ public class AbeekTranscriptEvaluationService {
             return false;
         }
         String value = category.replace(" ", "");
-        return value.contains("전필") || value.contains("전선") || value.contains("전공");
+        // "전공기초"는 BSM/기초 쪽이라 전필·전선으로 보지 않는다.
+        if (value.contains("전공기초") || value.contains("기교") || value.contains("BSM")
+                || value.contains("기초과학")) {
+            return false;
+        }
+        return value.contains("전필") || value.contains("전선")
+                || value.contains("전공필수") || value.contains("전공선택");
+    }
+
+    private boolean isBsmLike(String category) {
+        if (category == null) {
+            return false;
+        }
+        String value = category.replace(" ", "");
+        return value.contains("전공기초") || value.contains("기교") || value.contains("BSM")
+                || value.contains("기초과학");
     }
 
     private int inferEntranceYear(List<CompletedCourseUploadRowDto> rows, String studentId) {
@@ -490,7 +505,7 @@ public class AbeekTranscriptEvaluationService {
         }
     }
 
-    /** 동명일 때 MAJOR(전필/전선) 마스터를 우선한다. */
+    /** 동명일 때 MAJOR를 우선하되, 이미 BSM으로 잡힌 이름은 덮어쓰지 않는다. */
     private void putPreferMajor(Map<String, CourseMaster> index, String key, CourseMaster master) {
         if (key == null || key.isBlank()) {
             return;
@@ -498,6 +513,9 @@ public class AbeekTranscriptEvaluationService {
         CourseMaster existing = index.get(key);
         if (existing == null) {
             index.put(key, master);
+            return;
+        }
+        if (existing.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.BSM) {
             return;
         }
         if (existing.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR
@@ -520,29 +538,49 @@ public class AbeekTranscriptEvaluationService {
         }
 
         boolean majorLike = isMajorLike(transcriptCategory);
+        boolean bsmLike = isBsmLike(transcriptCategory);
 
         CourseMaster exact = index.get(normalized);
-        if (exact != null && (!majorLike || exact.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)) {
-            return Optional.of(exact);
-        }
-        if (exact != null && majorLike) {
-            // 동명이 비전공으로 잡혔으면 MAJOR 후보를 다시 찾는다.
-            Optional<CourseMaster> majorExact = findMajorByNormalizedName(normalized, index);
-            if (majorExact.isPresent()) {
-                return majorExact;
+        if (exact != null) {
+            if (majorLike && exact.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+                Optional<CourseMaster> majorExact = findByNormalizedNameAndCategory(
+                        normalized, com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR, index);
+                if (majorExact.isPresent()) {
+                    return majorExact;
+                }
+            }
+            if (bsmLike && exact.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.BSM) {
+                Optional<CourseMaster> bsmExact = findByNormalizedNameAndCategory(
+                        normalized, com.example.congraduation.abeek.domain.enums.CourseCategory.BSM, index);
+                if (bsmExact.isPresent()) {
+                    return bsmExact;
+                }
+            }
+            if (!majorLike || exact.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+                return Optional.of(exact);
             }
         }
 
         String withoutParen = normalizeCourseName(transcriptName.replaceAll("\\([^)]*\\)", ""));
         if (!withoutParen.isBlank()) {
             CourseMaster byParen = index.get(withoutParen);
-            if (byParen != null && (!majorLike || byParen.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)) {
-                return Optional.of(byParen);
-            }
-            if (majorLike) {
-                Optional<CourseMaster> majorParen = findMajorByNormalizedName(withoutParen, index);
-                if (majorParen.isPresent()) {
-                    return majorParen;
+            if (byParen != null) {
+                if (majorLike && byParen.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+                    Optional<CourseMaster> majorParen = findByNormalizedNameAndCategory(
+                            withoutParen, com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR, index);
+                    if (majorParen.isPresent()) {
+                        return majorParen;
+                    }
+                }
+                if (bsmLike && byParen.getCategory() != com.example.congraduation.abeek.domain.enums.CourseCategory.BSM) {
+                    Optional<CourseMaster> bsmParen = findByNormalizedNameAndCategory(
+                            withoutParen, com.example.congraduation.abeek.domain.enums.CourseCategory.BSM, index);
+                    if (bsmParen.isPresent()) {
+                        return bsmParen;
+                    }
+                }
+                if (!majorLike || byParen.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
+                    return Optional.of(byParen);
                 }
             }
         }
@@ -566,6 +604,10 @@ public class AbeekTranscriptEvaluationService {
                             != com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR) {
                         return false;
                     }
+                    if (bsmLike && entry.getValue().getCategory()
+                            != com.example.congraduation.abeek.domain.enums.CourseCategory.BSM) {
+                        return false;
+                    }
                     String key = entry.getKey();
                     if (key.length() < minLen) {
                         return false;
@@ -581,9 +623,13 @@ public class AbeekTranscriptEvaluationService {
                 .map(Map.Entry::getValue);
     }
 
-    private Optional<CourseMaster> findMajorByNormalizedName(String normalized, Map<String, CourseMaster> index) {
+    private Optional<CourseMaster> findByNormalizedNameAndCategory(
+            String normalized,
+            com.example.congraduation.abeek.domain.enums.CourseCategory category,
+            Map<String, CourseMaster> index
+    ) {
         return index.values().stream()
-                .filter(m -> m.getCategory() == com.example.congraduation.abeek.domain.enums.CourseCategory.MAJOR)
+                .filter(m -> m.getCategory() == category)
                 .filter(m -> {
                     String n = normalizeCourseName(m.getName());
                     String wp = normalizeCourseName(m.getName().replaceAll("\\([^)]*\\)", ""));
