@@ -119,8 +119,12 @@ public class StudentService {
         if (request.tracks() != null && !request.tracks().isEmpty()) {
             List<StudentMajorTrack> tracks = new ArrayList<>();
             for (StudentMajorTrackRequestDto trackRequest : request.tracks()) {
+                MajorType normalizedTrackType = normalizeTrackType(trackRequest.trackType());
+                if (normalizedTrackType == null || normalizedTrackType == MajorType.SINGLE) {
+                    continue;
+                }
                 tracks.add(StudentMajorTrack.create(
-                        normalizeTrackType(trackRequest.trackType()),
+                        normalizedTrackType,
                         normalizeDepartment(trackRequest.departmentCode()),
                         trackRequest.approvedAtSemester(),
                         trackRequest.teachingCert()
