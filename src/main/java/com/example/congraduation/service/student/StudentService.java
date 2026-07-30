@@ -39,7 +39,8 @@ public class StudentService {
                                 null,
                                 profile.getGradeLevel(),
                                 admissionYear,
-                                "ACTIVE"
+                                "ACTIVE",
+                                false
                         )
                 ));
     }

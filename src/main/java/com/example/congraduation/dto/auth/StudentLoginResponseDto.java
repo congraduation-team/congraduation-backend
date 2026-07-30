@@ -17,6 +17,7 @@ public class StudentLoginResponseDto {
     private Integer gradeLevel;
     private Integer admissionYear;
     private String status;
+    private boolean admin;
 
     public StudentLoginResponseDto(
             Long id,
@@ -28,7 +29,8 @@ public class StudentLoginResponseDto {
             List<StudentMajorTrackResponseDto> tracks,
             Integer gradeLevel,
             Integer admissionYear,
-            String status
+            String status,
+            boolean admin
     ) {
         this.id = id;
         this.studentNo = studentNo;
@@ -40,6 +42,7 @@ public class StudentLoginResponseDto {
         this.gradeLevel = gradeLevel;
         this.admissionYear = admissionYear;
         this.status = status;
+        this.admin = admin;
     }
 
     public static StudentLoginResponseDto from(Student student) {
@@ -55,7 +58,8 @@ public class StudentLoginResponseDto {
                         .toList(),
                 student.getGradeLevel(),
                 student.getAdmissionYear(),
-                student.getStatus()
+                student.getStatus(),
+                student.isAdmin()
         );
     }
 
@@ -97,5 +101,9 @@ public class StudentLoginResponseDto {
 
     public String getStatus() {
         return status;
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 }

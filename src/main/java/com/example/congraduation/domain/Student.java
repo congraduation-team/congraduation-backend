@@ -49,6 +49,9 @@ public class Student {
     @Column(length = 20)
     private String status;
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    private boolean admin;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -67,6 +70,7 @@ public class Student {
             Integer gradeLevel,
             Integer admissionYear,
             String status,
+            boolean admin,
             LocalDateTime createdAt
     ) {
         this.studentNo = studentNo;
@@ -77,6 +81,7 @@ public class Student {
         this.gradeLevel = gradeLevel;
         this.admissionYear = admissionYear;
         this.status = status;
+        this.admin = admin;
         this.createdAt = createdAt;
     }
 
@@ -88,7 +93,8 @@ public class Student {
             String secondaryMajor,
             Integer gradeLevel,
             Integer admissionYear,
-            String status
+            String status,
+            boolean admin
     ) {
         return new Student(
                 studentNo,
@@ -99,6 +105,7 @@ public class Student {
                 gradeLevel,
                 admissionYear,
                 status,
+                admin,
                 LocalDateTime.now()
         );
     }
@@ -168,6 +175,10 @@ public class Student {
 
     public String getStatus() {
         return status;
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 
     public LocalDateTime getCreatedAt() {
