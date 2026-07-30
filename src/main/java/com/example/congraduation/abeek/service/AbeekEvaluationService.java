@@ -84,21 +84,30 @@ public class AbeekEvaluationService {
         }
 
         int generalCredits = sumCredits(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
-        int bsmCredits = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+        int bsmFromCurriculum = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
         int majorFromCurriculum = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
+
+        List<CompletedCourseUploadRowDto> transcriptRows = loadTranscriptRows(student.getStudentId());
         // 기이수 전필+전선이 전공 학점의 기준. 커리큘럼 매칭만 쓰면 전필이 빠져 전선만 잡히는 경우가 있음.
-        MajorCreditSummaryDto transcriptMajor = loadTranscriptMajorSummary(student.getStudentId());
+        MajorCreditSummaryDto transcriptMajor = transcriptRows.isEmpty()
+                ? null
+                : majorCreditSummaryService.summarize(transcriptRows);
         int majorCredits = majorFromCurriculum;
         if (transcriptMajor != null) {
             majorCredits = Math.max(majorFromCurriculum, (int) Math.round(transcriptMajor.totalMajorCredits()));
         }
 
+        // BSM: enrollment 오매칭(전공기초→전선 등) 대비, 기이수 과목명이 BSM 커리큘럼과 맞으면 학점 보정
+        int bsmFromTranscript = sumTranscriptCreditsMatchingCategory(
+                transcriptRows, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+        int bsmCredits = Math.max(bsmFromCurriculum, bsmFromTranscript);
+
         List<CategoryProgressDto.CompletedCourseDto> generalCompleted =
                 listCompletedByCategory(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
         List<CategoryProgressDto.CompletedCourseDto> bsmCompleted =
-                listCompletedByCategory(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+                listBsmCompletedCourses(student, categoryByCode, categoryByGroup, categoryByName, transcriptRows);
         List<CategoryProgressDto.CompletedCourseDto> majorCompleted =
-                listMajorCompletedCourses(student, categoryByCode, categoryByGroup, categoryByName, transcriptMajor);
+                listMajorCompletedCourses(student, categoryByCode, categoryByGroup, categoryByName, transcriptRows);
         List<CategoryProgressDto.CompletedCourseDto> designCompleted = designResult.getCourses().stream()
                 .filter(DesignCourseResult::isRecognized)
                 .map(c -> CategoryProgressDto.CompletedCourseDto.builder()
@@ -858,13 +867,12 @@ public class AbeekEvaluationService {
             Map<String, CourseCategory> categoryByCode,
             Map<String, CourseCategory> categoryByGroup,
             Map<String, CourseCategory> categoryByName,
-            MajorCreditSummaryDto transcriptMajor
+            List<CompletedCourseUploadRowDto> transcriptRows
     ) {
         List<CategoryProgressDto.CompletedCourseDto> fromEnrollments =
                 listCompletedByCategory(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
 
-        List<CompletedCourseUploadRowDto> rows = loadTranscriptRows(student.getStudentId());
-        if (rows.isEmpty()) {
+        if (transcriptRows == null || transcriptRows.isEmpty()) {
             return fromEnrollments;
         }
 
@@ -873,7 +881,7 @@ public class AbeekEvaluationService {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         List<CategoryProgressDto.CompletedCourseDto> merged = new ArrayList<>(fromEnrollments);
-        for (CompletedCourseUploadRowDto row : rows) {
+        for (CompletedCourseUploadRowDto row : transcriptRows) {
             if (!isPassedTranscript(row) || !isTranscriptMajorCategory(row.category())) {
                 continue;
             }
@@ -882,24 +890,120 @@ public class AbeekEvaluationService {
                 continue;
             }
             seenNames.add(nameKey);
-            merged.add(CategoryProgressDto.CompletedCourseDto.builder()
-                    .courseCode(row.courseCode())
-                    .courseName(row.courseName())
-                    .credits(parseCreditsSafe(row.credit()))
-                    .designCredits(0)
-                    .takenYear(parseIntSafe(row.year(), null))
-                    .takenSemester(parseSemesterSafe(row.semester()))
-                    .build());
+            merged.add(toTranscriptCompletedDto(row));
         }
         return merged;
     }
 
-    private MajorCreditSummaryDto loadTranscriptMajorSummary(String studentNo) {
-        List<CompletedCourseUploadRowDto> rows = loadTranscriptRows(studentNo);
-        if (rows.isEmpty()) {
-            return null;
+    private List<CategoryProgressDto.CompletedCourseDto> listBsmCompletedCourses(
+            AbeekStudent student,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName,
+            List<CompletedCourseUploadRowDto> transcriptRows
+    ) {
+        List<CategoryProgressDto.CompletedCourseDto> fromEnrollments =
+                listCompletedByCategory(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
+
+        if (transcriptRows == null || transcriptRows.isEmpty()) {
+            return fromEnrollments;
         }
-        return majorCreditSummaryService.summarize(rows);
+
+        Set<String> seenNames = fromEnrollments.stream()
+                .map(c -> normalizeCourseName(c.getCourseName()))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        List<CategoryProgressDto.CompletedCourseDto> merged = new ArrayList<>(fromEnrollments);
+        for (CompletedCourseUploadRowDto row : transcriptRows) {
+            if (!isPassedTranscript(row)) {
+                continue;
+            }
+            CourseCategory resolved = resolveTranscriptRowCategory(
+                    row, categoryByCode, categoryByGroup, categoryByName);
+            if (resolved != CourseCategory.BSM) {
+                continue;
+            }
+            String nameKey = normalizeCourseName(row.courseName());
+            if (nameKey.isBlank() || seenNames.contains(nameKey)) {
+                continue;
+            }
+            seenNames.add(nameKey);
+            merged.add(toTranscriptCompletedDto(row));
+        }
+        return merged;
+    }
+
+    private CategoryProgressDto.CompletedCourseDto toTranscriptCompletedDto(CompletedCourseUploadRowDto row) {
+        return CategoryProgressDto.CompletedCourseDto.builder()
+                .courseCode(row.courseCode())
+                .courseName(row.courseName())
+                .credits(parseCreditsSafe(row.credit()))
+                .designCredits(0)
+                .takenYear(parseIntSafe(row.year(), null))
+                .takenSemester(parseSemesterSafe(row.semester()))
+                .build();
+    }
+
+    private int sumTranscriptCreditsMatchingCategory(
+            List<CompletedCourseUploadRowDto> rows,
+            CourseCategory target,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName
+    ) {
+        if (rows == null || rows.isEmpty()) {
+            return 0;
+        }
+        int sum = 0;
+        Set<String> counted = new HashSet<>();
+        for (CompletedCourseUploadRowDto row : rows) {
+            if (!isPassedTranscript(row)) {
+                continue;
+            }
+            if (resolveTranscriptRowCategory(row, categoryByCode, categoryByGroup, categoryByName) != target) {
+                continue;
+            }
+            String key = normalizeCourseName(row.courseName());
+            if (key.isBlank() || !counted.add(key)) {
+                continue;
+            }
+            sum += parseCreditsSafe(row.credit());
+        }
+        return sum;
+    }
+
+    private CourseCategory resolveTranscriptRowCategory(
+            CompletedCourseUploadRowDto row,
+            Map<String, CourseCategory> categoryByCode,
+            Map<String, CourseCategory> categoryByGroup,
+            Map<String, CourseCategory> categoryByName
+    ) {
+        if (row.courseCode() != null && !row.courseCode().isBlank()) {
+            CourseCategory byCode = categoryByCode.get(row.courseCode());
+            if (byCode != null) {
+                return byCode;
+            }
+        }
+        String normalized = normalizeCourseName(row.courseName());
+        if (!normalized.isBlank()) {
+            CourseCategory byName = categoryByName.get(normalized);
+            if (byName != null) {
+                return byName;
+            }
+        }
+        String withoutParen = normalizeCourseName(
+                row.courseName() == null ? "" : row.courseName().replaceAll("\\([^)]*\\)", ""));
+        if (!withoutParen.isBlank()) {
+            CourseCategory byParen = categoryByName.get(withoutParen);
+            if (byParen != null) {
+                return byParen;
+            }
+        }
+        // 기이수 이수구분이 전필/전선이면 전공으로 본다.
+        if (isTranscriptMajorCategory(row.category())) {
+            return CourseCategory.MAJOR;
+        }
+        return null;
     }
 
     private List<CompletedCourseUploadRowDto> loadTranscriptRows(String studentNo) {
@@ -922,6 +1026,9 @@ public class AbeekEvaluationService {
             return false;
         }
         String value = category.replace(" ", "");
+        if (value.contains("전공기초")) {
+            return false;
+        }
         return value.contains("전필") || value.contains("전공필수")
                 || value.contains("전선") || value.contains("전공선택");
     }
