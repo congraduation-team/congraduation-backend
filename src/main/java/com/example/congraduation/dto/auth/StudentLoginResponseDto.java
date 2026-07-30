@@ -2,6 +2,7 @@ package com.example.congraduation.dto.auth;
 
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
+import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
 import com.example.congraduation.dto.student.StudentMajorTrackResponseDto;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class StudentLoginResponseDto {
     private Integer admissionYear;
     private String status;
     private boolean admin;
+    private SejongReadingStatusResponseDto readingStatus;
 
     public StudentLoginResponseDto(
             Long id,
@@ -30,7 +32,8 @@ public class StudentLoginResponseDto {
             Integer gradeLevel,
             Integer admissionYear,
             String status,
-            boolean admin
+            boolean admin,
+            SejongReadingStatusResponseDto readingStatus
     ) {
         this.id = id;
         this.studentNo = studentNo;
@@ -43,9 +46,10 @@ public class StudentLoginResponseDto {
         this.admissionYear = admissionYear;
         this.status = status;
         this.admin = admin;
+        this.readingStatus = readingStatus;
     }
 
-    public static StudentLoginResponseDto from(Student student) {
+    public static StudentLoginResponseDto from(Student student, SejongReadingStatusResponseDto readingStatus) {
         return new StudentLoginResponseDto(
                 student.getId(),
                 student.getStudentNo(),
@@ -59,8 +63,13 @@ public class StudentLoginResponseDto {
                 student.getGradeLevel(),
                 student.getAdmissionYear(),
                 student.getStatus(),
-                student.isAdmin()
+                student.isAdmin(),
+                readingStatus
         );
+    }
+
+    public static StudentLoginResponseDto from(Student student) {
+        return from(student, null);
     }
 
     public Long getId() {
@@ -105,5 +114,9 @@ public class StudentLoginResponseDto {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public SejongReadingStatusResponseDto getReadingStatus() {
+        return readingStatus;
     }
 }
