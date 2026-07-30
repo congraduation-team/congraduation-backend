@@ -5,12 +5,14 @@ import com.example.congraduation.domain.StudentMajorTrack;
 import com.example.congraduation.dto.plan.PlannedCourseListResponseDto;
 import com.example.congraduation.dto.graduation.BalancedLiberalAreaProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
+import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
 import com.example.congraduation.dto.graduation.GraduationWorkProgressDto;
 import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackRequiredCourseProgressDto;
+import com.example.congraduation.dto.graduation.SwCodingCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
@@ -56,6 +58,8 @@ public class GraduationProgressService {
     private final DepartmentCurriculumPolicyService policyService;
     private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
     private final DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService;
+    private final SwCodingCertificationService swCodingCertificationService;
+    private final EnglishCertificationService englishCertificationService;
 
     public GraduationProgressService(
             StudentRepository studentRepository,
@@ -64,7 +68,9 @@ public class GraduationProgressService {
             PlannedCourseService plannedCourseService,
             DepartmentCurriculumPolicyService policyService,
             BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService,
-            DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService
+            DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService,
+            SwCodingCertificationService swCodingCertificationService,
+            EnglishCertificationService englishCertificationService
     ) {
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
@@ -73,6 +79,8 @@ public class GraduationProgressService {
         this.policyService = policyService;
         this.balancedLiberalCoursePolicyService = balancedLiberalCoursePolicyService;
         this.doubleMajorRequiredCoursePolicyService = doubleMajorRequiredCoursePolicyService;
+        this.swCodingCertificationService = swCodingCertificationService;
+        this.englishCertificationService = englishCertificationService;
     }
 
     @Transactional(readOnly = true)
@@ -98,6 +106,10 @@ public class GraduationProgressService {
         List<MajorTrackProgressDto> majorTracks =
                 buildMajorTrackProgresses(student, transcriptSummary.categorySummaries(), completedCourses);
         GraduationWorkProgressDto graduationWork = buildGraduationWorkProgress(student, completedCourses);
+        EnglishCertificationProgressDto englishCertification =
+                englishCertificationService.evaluate(student, completedCourses);
+        SwCodingCertificationProgressDto swCodingCertification =
+                swCodingCertificationService.evaluate(student, completedCourses);
         CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
         CategoryProgressDto commonLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
@@ -139,6 +151,8 @@ public class GraduationProgressService {
                 graduationBlockers,
                 majorTracks,
                 graduationWork,
+                englishCertification,
+                swCodingCertification,
                 totalCreditsProgress,
                 commonLiberalProgress,
                 electiveLiberalProgress,

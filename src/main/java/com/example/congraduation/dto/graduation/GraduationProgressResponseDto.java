@@ -25,6 +25,10 @@ public record GraduationProgressResponseDto(
         List<MajorTrackProgressDto> majorTracks,
         @Schema(description = "단일전공 졸업작품 진행도")
         GraduationWorkProgressDto graduationWork,
+        @Schema(description = "영어졸업인증 진행도")
+        EnglishCertificationProgressDto englishCertification,
+        @Schema(description = "SW코딩졸업인증 진행도")
+        SwCodingCertificationProgressDto swCodingCertification,
         @Schema(description = "총 이수학점 진행도")
         CreditProgressDto totalCredits,
         @Schema(description = "공통교양 진행도")
