@@ -125,7 +125,10 @@ public class AbeekEvaluationService {
                         .takenSemester(c.getTakenSemester())
                         .build())
                 .toList();
-        List<CategoryProgressDto.CompletedCourseDto> allCompleted = listAllCompleted(student);
+        Map<String, Double> recognizedDesignByCode =
+                designCreditEvaluator.recognizedCreditsByCourseCode(designResult);
+        List<CategoryProgressDto.CompletedCourseDto> allCompleted =
+                listAllCompleted(student, recognizedDesignByCode);
 
         CategoryProgressDto general = progress("전문교양", generalCredits, effective.getGeneralMinCredits(),
                 effective.getGeneralSource(), generalCompleted);
@@ -151,6 +154,13 @@ public class AbeekEvaluationService {
         }
         if (!designResult.isHasComprehensiveDesign()) {
             notes.add("종합설계(Capstone) 미이수");
+        }
+        List<String> excludedDesign = designResult.getCourses().stream()
+                .filter(c -> !c.isRecognized())
+                .map(c -> c.getCourseName() + "(" + c.getReason() + ")")
+                .toList();
+        if (!excludedDesign.isEmpty()) {
+            notes.add("설계학점 불인정 요소설계: " + String.join(", ", excludedDesign));
         }
 
         List<String> waivedNames = waived.stream()
@@ -1203,11 +1213,14 @@ public class AbeekEvaluationService {
         return null;
     }
 
-    private List<CategoryProgressDto.CompletedCourseDto> listAllCompleted(AbeekStudent student) {
+    private List<CategoryProgressDto.CompletedCourseDto> listAllCompleted(
+            AbeekStudent student,
+            Map<String, Double> recognizedDesignByCode
+    ) {
         return student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
                 .sorted(enrollmentOrder())
-                .map(this::toCompletedCourseDto)
+                .map(e -> toCompletedCourseDto(e, recognizedDesignByCode))
                 .toList();
     }
 
@@ -1217,15 +1230,24 @@ public class AbeekEvaluationService {
                 .thenComparing(e -> e.getCourseMaster().getName());
     }
 
-    private CategoryProgressDto.CompletedCourseDto toCompletedCourseDto(StudentEnrollment e) {
+    private CategoryProgressDto.CompletedCourseDto toCompletedCourseDto(
+            StudentEnrollment e,
+            Map<String, Double> recognizedDesignByCode
+    ) {
+        String code = e.getCourseMaster().getCourseCode();
+        double designCredits = recognizedDesignByCode.getOrDefault(code, 0.0);
         return CategoryProgressDto.CompletedCourseDto.builder()
-                .courseCode(e.getCourseMaster().getCourseCode())
+                .courseCode(code)
                 .courseName(e.getCourseMaster().getName())
                 .credits(e.getCredits())
-                .designCredits(e.getDesignCredits())
+                .designCredits(designCredits)
                 .takenYear(e.getTakenYear())
                 .takenSemester(e.getTakenSemester())
                 .build();
+    }
+
+    private CategoryProgressDto.CompletedCourseDto toCompletedCourseDto(StudentEnrollment e) {
+        return toCompletedCourseDto(e, Map.of());
     }
 
     private void indexCategory(
