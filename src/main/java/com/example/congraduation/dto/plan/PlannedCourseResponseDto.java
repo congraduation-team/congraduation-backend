@@ -23,10 +23,21 @@ public record PlannedCourseResponseDto(
         @Schema(description = "예상 성적", example = "A+")
         String expectedGrade,
         @Schema(description = "예상 평점", example = "4.5")
-        String expectedGradePoint
+        String expectedGradePoint,
+        @Schema(description = "기존 수강 이력이 있는 동일 학수번호 재수강 여부", example = "true")
+        boolean retake,
+        @Schema(description = "기존 수강 성적", example = "C+")
+        String previousGrade,
+        @Schema(description = "기존 수강 평점", example = "2.5")
+        String previousGradePoint
 ) {
 
-    public static PlannedCourseResponseDto from(PlannedCourse plannedCourse) {
+    public static PlannedCourseResponseDto from(
+            PlannedCourse plannedCourse,
+            boolean retake,
+            String previousGrade,
+            String previousGradePoint
+    ) {
         return new PlannedCourseResponseDto(
                 plannedCourse.getId(),
                 plannedCourse.getPlannedSemesterId(),
@@ -37,7 +48,10 @@ public record PlannedCourseResponseDto(
                 plannedCourse.getCategory(),
                 plannedCourse.getCredit(),
                 plannedCourse.getExpectedGrade(),
-                PlannedCourseGradePolicy.toGradePoint(plannedCourse.getExpectedGrade())
+                PlannedCourseGradePolicy.toGradePoint(plannedCourse.getExpectedGrade()),
+                retake,
+                previousGrade,
+                previousGradePoint
         );
     }
 }

@@ -103,6 +103,7 @@ public class GraduationProgressService {
         List<CompletedCourseUploadRowDto> normalizedProjectedCourses = normalizeCoursesForPolicy(projectedCourses, policy);
         List<CompletedCourseUploadRowDto> evaluationCourses = new ArrayList<>(normalizedCourses);
         evaluationCourses.addAll(normalizedProjectedCourses);
+        evaluationCourses = transcriptSummaryCalculator.resolveRetakenCourses(evaluationCourses);
         List<CompletedCourseUploadRowDto> completedCourses = evaluationCourses.stream()
                 .filter(this::isPassedForCompletion)
                 .toList();
