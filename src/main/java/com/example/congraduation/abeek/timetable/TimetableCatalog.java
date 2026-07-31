@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -56,5 +59,54 @@ public class TimetableCatalog {
         return terms.stream()
                 .filter(term -> term.semester() == semester)
                 .findFirst();
+    }
+
+    /**
+     * 최신 1·2학기 시간표에 등장하는 개설학과(한글명) 목록.
+     * college는 해당 개설학과에서 가장 많이 나온 단과대학.
+     */
+    public List<OpeningDepartment> listOpeningDepartments() {
+        List<TimetableTermData> source = new ArrayList<>();
+        latestTermForSemester(1).ifPresent(source::add);
+        latestTermForSemester(2).ifPresent(source::add);
+        if (source.isEmpty()) {
+            source.addAll(terms);
+        }
+
+        Map<String, Map<String, Integer>> collegeCounts = new LinkedHashMap<>();
+        for (TimetableTermData term : source) {
+            if (term.offerings() == null) {
+                continue;
+            }
+            for (TimetableOffering offering : term.offerings()) {
+                String name = offering.openingDepartment() == null ? "" : offering.openingDepartment().trim();
+                if (name.isBlank()) {
+                    continue;
+                }
+                String college = offering.college() == null ? "" : offering.college().trim();
+                collegeCounts
+                        .computeIfAbsent(name, ignored -> new HashMap<>())
+                        .merge(college, 1, Integer::sum);
+            }
+        }
+
+        return collegeCounts.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> new OpeningDepartment(
+                        entry.getKey(),
+                        mostFrequentCollege(entry.getValue())
+                ))
+                .toList();
+    }
+
+    private static String mostFrequentCollege(Map<String, Integer> counts) {
+        return counts.entrySet().stream()
+                .filter(e -> e.getKey() != null && !e.getKey().isBlank())
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    public record OpeningDepartment(String departmentName, String college) {
     }
 }
