@@ -7,6 +7,7 @@ import com.example.congraduation.abeek.timetable.TimetableTermData;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.exception.TranscriptNotFoundException;
+import com.example.congraduation.roadmap.dto.RoadmapDepartmentDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapCourseDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapSummaryDto;
@@ -44,6 +45,35 @@ public class StudentRoadmapService {
     private final TimetableCatalog timetableCatalog;
     private final AbeekDepartmentCatalog departmentCatalog;
     private final TranscriptStorageService transcriptStorageService;
+
+    /**
+     * 최신 강의시간표 기준 전 학과(개설학과) 목록. 학과명은 한글.
+     * {@code departmentName} 또는 {@code aliases}를 {@link #getByDepartment}에 넘기면 된다.
+     */
+    @Transactional(readOnly = true)
+    public List<RoadmapDepartmentDto> listDepartments() {
+        return timetableCatalog.listOpeningDepartments().stream()
+                .map(opening -> {
+                    Optional<AbeekDepartmentCatalog.DepartmentInfo> abeek =
+                            departmentCatalog.findByDepartmentName(opening.departmentName());
+                    if (abeek.isEmpty()) {
+                        for (String alias : shortNameAliases(opening.departmentName())) {
+                            abeek = departmentCatalog.findByDepartmentName(alias);
+                            if (abeek.isPresent()) {
+                                break;
+                            }
+                        }
+                    }
+                    return RoadmapDepartmentDto.builder()
+                            .departmentName(opening.departmentName())
+                            .aliases(shortNameAliases(opening.departmentName()))
+                            .college(opening.college())
+                            .abeekTarget(abeek.isPresent())
+                            .abeekDepartmentCode(abeek.map(AbeekDepartmentCatalog.DepartmentInfo::abeekCode).orElse(null))
+                            .build();
+                })
+                .toList();
+    }
 
     @Transactional(readOnly = true)
     public StudentRoadmapResponse getByStudent(Long studentDbId) {
@@ -204,6 +234,16 @@ public class StudentRoadmapService {
     ) {
         Set<String> names = new HashSet<>();
         names.add(normalize(departmentName));
+        for (String alias : shortNameAliases(departmentName)) {
+            names.add(normalize(alias));
+        }
+        // 시간표는 "창의소프트학부 디자인이노베이션전공"처럼 학부+전공인 경우가 많음
+        for (TimetableCatalog.OpeningDepartment opening : timetableCatalog.listOpeningDepartments()) {
+            String openingName = opening.departmentName();
+            if (fuzzyDepartmentMatch(normalize(departmentName), normalize(openingName))) {
+                names.add(normalize(openingName));
+            }
+        }
         abeekDept.ifPresent(info -> {
             for (String alias : departmentCatalog.openingDepartmentNames(info.abeekCode())) {
                 names.add(normalize(alias));
@@ -213,13 +253,49 @@ public class StudentRoadmapService {
         return names;
     }
 
+    /**
+     * 학생 전공명(디자인이노베이션전공) ↔ 시간표 개설학과(창의소프트학부 디자인이노베이션전공) 매칭.
+     * OfferedCurriculumService와 동일하게 포함 매칭을 허용한다.
+     */
     private boolean matchesOpeningDepartment(TimetableOffering offering, Set<String> openingNames) {
-        String opening = normalize(offering.openingDepartment());
-        if (openingNames.contains(opening)) {
-            return true;
+        if (openingNames.isEmpty()) {
+            return false;
         }
+        String opening = normalize(offering.openingDepartment());
         String host = normalize(offering.hostDepartment());
-        return !host.isBlank() && openingNames.contains(host);
+        for (String name : openingNames) {
+            if (name.isBlank()) {
+                continue;
+            }
+            if (fuzzyDepartmentMatch(name, opening) || fuzzyDepartmentMatch(name, host)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean fuzzyDepartmentMatch(String query, String candidate) {
+        if (query == null || query.isBlank() || candidate == null || candidate.isBlank()) {
+            return false;
+        }
+        return candidate.equals(query) || candidate.contains(query) || query.contains(candidate);
+    }
+
+    /** "창의소프트학부 디자인이노베이션전공" → ["디자인이노베이션전공"] */
+    private List<String> shortNameAliases(String openingName) {
+        if (openingName == null || openingName.isBlank()) {
+            return List.of();
+        }
+        String trimmed = openingName.trim();
+        int space = trimmed.lastIndexOf(' ');
+        if (space <= 0 || space >= trimmed.length() - 1) {
+            return List.of();
+        }
+        String suffix = trimmed.substring(space + 1).trim();
+        if (suffix.isBlank() || suffix.equals(trimmed)) {
+            return List.of();
+        }
+        return List.of(suffix);
     }
 
     private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion) {
