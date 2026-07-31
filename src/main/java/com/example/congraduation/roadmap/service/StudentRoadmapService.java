@@ -197,7 +197,8 @@ public class StudentRoadmapService {
             allCourses.addAll(courses);
 
             Map<String, List<RoadmapCourseDto>> categories = new LinkedHashMap<>();
-            categories.put("GENERAL", filterByDisplayCategory(courses, "교양필수"));
+            // 교양 행: 전공·BSM이 아닌 과목(기이수 공필/교선/균필 등 포함)
+            categories.put("GENERAL", filterBucket(courses, "GENERAL"));
             categories.put("FOUNDATION", filterByDisplayCategory(courses, "기초필수"));
             categories.put("MAJOR", filterBucket(courses, "MAJOR"));
             if (abeekTarget) {
@@ -340,6 +341,11 @@ public class StudentRoadmapService {
             targetTermByNorm.put(norm, termKey);
 
             String displayCategory = normalizeDisplayCategory(hit.category(), hit.courseName());
+            String bucket = classifyAbeekBucket(displayCategory, hit.courseName());
+            // 기이수 중 전공·BSM이 아니면 교양필수로 정규화해 교양 행에 넣는다
+            if (!"MAJOR".equals(bucket) && !"BSM".equals(bucket)) {
+                displayCategory = "교양필수";
+            }
             AggregatedCourse template = timetableTemplates.get(norm);
             AggregatedCourse course = template != null
                     ? template.withCategory(displayCategory)
@@ -398,6 +404,13 @@ public class StudentRoadmapService {
                 ? normalizeDisplayCategory(hit.category(), hit.courseName())
                 : normalizeDisplayCategory(agg.category, agg.courseName);
         String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+        // 기이수: 전공·BSM이 아니면 교양(GENERAL)으로 노출
+        if (hit != null && !"MAJOR".equals(bucket) && !"BSM".equals(bucket)) {
+            bucket = "GENERAL";
+            if (!"교양필수".equals(displayCategory)) {
+                displayCategory = "교양필수";
+            }
+        }
         return RoadmapCourseDto.builder()
                 .courseCode(agg.courseCode)
                 .courseName(agg.courseName)
@@ -423,13 +436,16 @@ public class StudentRoadmapService {
 
     /**
      * 기이수/시간표 구분을 로드맵 표시용으로 정규화.
-     * 교필·공필 → 교양필수, 기필·학문기초 → 기초필수, 전*/자기주도창의전공 → 전공 계열 유지.
+     * 교필·공필·교선·균필 등 → 교양필수, 기필·학문기초 → 기초필수, 전*/자기주도창의전공 → 전공 계열 유지.
      */
     String normalizeDisplayCategory(String category, String courseName) {
         String cat = category == null ? "" : category.replaceAll("\\s+", "");
         String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
 
-        if (cat.contains("교양필수") || cat.equals("교필") || cat.equals("공필") || cat.contains("중핵필수")) {
+        if (cat.contains("교양필수") || cat.equals("교필") || cat.equals("공필") || cat.contains("중핵필수")
+                || cat.equals("교선") || cat.contains("교양선택")
+                || cat.equals("균필") || cat.contains("균형")
+                || cat.equals("일선") || cat.contains("일반선택") || cat.contains("자유선택")) {
             return "교양필수";
         }
         if (cat.contains("기초필수") || cat.contains("학문기초") || cat.equals("기필")
@@ -470,7 +486,8 @@ public class StudentRoadmapService {
     }
 
     /**
-     * GENERAL=교양필수, BSM=기초필수(학문기초), MAJOR=전공.
+     * GENERAL=교양(공필/교선/균필 등), BSM=기초필수(학문기초), MAJOR=전공.
+     * 전공·BSM이 아니면 GENERAL로 본다(기이수 교양 행 노출).
      */
     String classifyAbeekBucket(String category, String courseName) {
         String cat = category == null ? "" : category.replaceAll("\\s+", "");
@@ -478,18 +495,20 @@ public class StudentRoadmapService {
                 || isAcademicFoundationCourseName(courseName)) {
             return "BSM";
         }
-        if ("교양필수".equals(cat) || cat.contains("교필") || cat.contains("공필")
-                || cat.contains("전문교양") || cat.contains("중핵")) {
-            return "GENERAL";
-        }
         if (cat.contains("전공") || cat.contains("전필") || cat.contains("전선") || cat.contains("전기")
                 || (courseName != null && courseName.replaceAll("\\s+", "").contains("자기주도창의전공"))) {
             return "MAJOR";
         }
-        if (cat.contains("교양") || cat.contains("공통")) {
+        if ("교양필수".equals(cat) || cat.contains("교필") || cat.contains("공필")
+                || cat.contains("전문교양") || cat.contains("중핵")
+                || cat.equals("교선") || cat.contains("교양선택")
+                || cat.equals("균필") || cat.contains("균형")
+                || cat.equals("일선") || cat.contains("일반선택") || cat.contains("자유선택")
+                || cat.contains("교양") || cat.contains("공통")) {
             return "GENERAL";
         }
-        return "OTHER";
+        // 전공·BSM이 아니면 교양 행에 포함
+        return "GENERAL";
     }
 
     private RoadmapSummaryDto buildSummary(List<RoadmapCourseDto> courses, boolean countBuckets) {
