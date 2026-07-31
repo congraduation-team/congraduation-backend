@@ -2,6 +2,7 @@ package com.example.congraduation.dto.graduation;
 
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.dto.plan.PlannedSemesterSummaryDto;
+import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -33,6 +34,8 @@ public record GraduationProgressResponseDto(
         CreditProgressDto totalCredits,
         @Schema(description = "공통교양 진행도")
         CategoryProgressDto commonLiberalCredits,
+        @Schema(description = "공통교양(공필/교필) 상세 과목 목록")
+        List<CategoryCourseDto> commonLiberalCourses,
         @Schema(description = "교양선택 진행도")
         CategoryProgressDto electiveLiberalCredits,
         @Schema(description = "균형교양 진행도")

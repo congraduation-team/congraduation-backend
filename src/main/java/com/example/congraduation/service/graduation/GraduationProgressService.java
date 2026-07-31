@@ -121,6 +121,8 @@ public class GraduationProgressService {
         CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
         CategoryProgressDto commonLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
+        List<CategoryCourseDto> commonLiberalCourses =
+                extractCategoryCourses(transcriptSummary.categorySummaries(), "공필", "교필");
         CategoryProgressDto electiveLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선");
         CategoryProgressDto academicFoundationProgress =
@@ -163,6 +165,7 @@ public class GraduationProgressService {
                 swCodingCertification,
                 totalCreditsProgress,
                 commonLiberalProgress,
+                commonLiberalCourses,
                 electiveLiberalProgress,
                 balancedLiberalEvaluation.progress(),
                 balancedLiberalEvaluation.requiredAreaCount(),
@@ -635,6 +638,17 @@ public class GraduationProgressService {
                 isSatisfied(earned, requiredCredits),
                 toPercentString(earned, requiredCredits)
         );
+    }
+
+    private List<CategoryCourseDto> extractCategoryCourses(List<CategorySummaryDto> summaries, String... categories) {
+        List<CategoryCourseDto> courses = new ArrayList<>();
+        for (CategorySummaryDto summary : summaries) {
+            if (Arrays.stream(categories).noneMatch(category -> summary.category().equals(category))) {
+                continue;
+            }
+            courses.addAll(summary.courses());
+        }
+        return List.copyOf(courses);
     }
 
     private String calculateMajorGradePoint(List<CompletedCourseUploadRowDto> courses) {
