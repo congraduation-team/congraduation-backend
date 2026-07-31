@@ -30,6 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlannedCourseService {
 
+    /** 계획 학기 상한(학년). 4-2 고정 제한 대신 여유 있게 허용. */
+    private static final int MAX_PLAN_GRADE_YEAR = 8;
+
     private final StudentRepository studentRepository;
     private final PlannedCourseRepository plannedCourseRepository;
     private final PlannedSemesterRepository plannedSemesterRepository;
@@ -136,8 +139,9 @@ public class PlannedCourseService {
             int nextStep = lastStep + i;
             int gradeYear = ((nextStep - 1) / 2) + 1;
             int semester = ((nextStep - 1) % 2) + 1;
-            if (gradeYear > 4) {
-                throw new IllegalArgumentException("추가 가능한 학기는 4학년 2학기까지입니다.");
+            if (gradeYear > MAX_PLAN_GRADE_YEAR) {
+                throw new IllegalArgumentException(
+                        "추가 가능한 학기는 " + MAX_PLAN_GRADE_YEAR + "학년 2학기까지입니다.");
             }
             plannedSemesterRepository.findByStudentIdAndGradeYearAndSemester(studentId, gradeYear, semester)
                     .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
@@ -274,8 +278,8 @@ public class PlannedCourseService {
     }
 
     private Integer requireGradeYear(Integer gradeYear) {
-        if (gradeYear == null || gradeYear < 1 || gradeYear > 4) {
-            throw new IllegalArgumentException("학년은 1~4 사이만 가능합니다.");
+        if (gradeYear == null || gradeYear < 1 || gradeYear > MAX_PLAN_GRADE_YEAR) {
+            throw new IllegalArgumentException("학년은 1~" + MAX_PLAN_GRADE_YEAR + " 사이만 가능합니다.");
         }
         return gradeYear;
     }
