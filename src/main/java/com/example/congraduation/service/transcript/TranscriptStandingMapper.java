@@ -1,4 +1,4 @@
-package com.example.congraduation.roadmap.service;
+package com.example.congraduation.service.transcript;
 
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 
@@ -11,13 +11,13 @@ import java.util.Map;
 /**
  * 기이수 정규학기 순번 → 로드맵 termKey (1-1~4-2).
  * <p>
- * 입학년도 이후 정규학기만 센다.
+ * 입학년도 이후 정규학기만 센다. 달력 연도(takenYear − admissionYear + 1)로 학년을 만들지 않는다.
  * 예: 2021입학, 기이수 2021-1 / 2021-2 / 2024-1 → 1-1 / 1-2 / 2-1
  * 입학 전 수강은 1-1에 붙이고, 계절학기는 직전 정규학기에 귀속.
  */
-final class TranscriptStandingMapper {
+public final class TranscriptStandingMapper {
 
-    private static final List<String> TERM_KEYS = List.of(
+    public static final List<String> TERM_KEYS = List.of(
             "1-1", "1-2", "2-1", "2-2", "3-1", "3-2", "4-1", "4-2"
     );
 
@@ -35,7 +35,7 @@ final class TranscriptStandingMapper {
         this.admissionYear = admissionYear;
     }
 
-    static TranscriptStandingMapper fromRows(List<CompletedCourseUploadRowDto> rows, Integer admissionYear) {
+    public static TranscriptStandingMapper fromRows(List<CompletedCourseUploadRowDto> rows, Integer admissionYear) {
         List<TermEvent> events = new ArrayList<>();
         for (CompletedCourseUploadRowDto row : rows) {
             Integer year = parseYear(row.year());
@@ -59,7 +59,7 @@ final class TranscriptStandingMapper {
             if (!event.kind().regular()) {
                 continue;
             }
-            // 입학 전 학기는 순번에서 제외 (예: 2020 계절 → 2021입학 기준 카운트 안 함)
+            // 입학 전 학기는 순번에서 제외
             if (admissionYear != null && event.year() < admissionYear) {
                 continue;
             }
@@ -78,9 +78,9 @@ final class TranscriptStandingMapper {
     }
 
     /**
-     * 대응 로드맵 칸이 있을 때만 termKey 반환. 임의 2-1 fallback 없음.
+     * 대응 로드맵 칸이 있을 때만 termKey 반환. 임의 fallback 없음.
      */
-    String resolveTermKey(String yearText, String semesterText) {
+    public String resolveTermKey(String yearText, String semesterText) {
         Integer year = parseYear(yearText);
         SemesterKind kind = classifySemester(semesterText);
         if (year == null || kind == SemesterKind.UNKNOWN) {
@@ -110,8 +110,17 @@ final class TranscriptStandingMapper {
         if (previous != null) {
             return regularTermKeys.get(previous);
         }
-        // 입학 직 직후 여름만 있는 경우 등 → 첫 정규 칸
         return orderedRegularTerms.isEmpty() ? null : TERM_KEYS.get(0);
+    }
+
+    /** 1~8. 매핑 없으면 0. */
+    public int resolveStep(String yearText, String semesterText) {
+        String key = resolveTermKey(yearText, semesterText);
+        if (key == null) {
+            return 0;
+        }
+        int index = TERM_KEYS.indexOf(key);
+        return index < 0 ? 0 : index + 1;
     }
 
     private static Integer parseYear(String value) {

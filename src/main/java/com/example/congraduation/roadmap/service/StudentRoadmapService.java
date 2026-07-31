@@ -13,6 +13,7 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapCours
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapSummaryDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.SourceTermDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.TermRoadmapDto;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -191,7 +192,7 @@ public class StudentRoadmapService {
             String[] parts = termKey.split("-");
             List<RoadmapCourseDto> courses = byTermAndCode.get(termKey).values().stream()
                     .sorted(Comparator.comparing(AggregatedCourse::courseName, Comparator.nullsLast(String::compareTo)))
-                    .map(agg -> toCourseDto(agg, completion))
+                    .map(agg -> toCourseDto(agg, completion, termKey))
                     .toList();
             allCourses.addAll(courses);
 
@@ -391,7 +392,7 @@ public class StudentRoadmapService {
         return List.of(suffix);
     }
 
-    private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion) {
+    private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion, String termKey) {
         CompletionHit hit = completion.findByCourseCode(agg.courseCode);
         String displayCategory = hit != null
                 ? normalizeDisplayCategory(hit.category(), hit.courseName())
@@ -406,6 +407,7 @@ public class StudentRoadmapService {
                 .completed(hit != null)
                 .takenYear(hit == null ? null : hit.year())
                 .takenSemester(hit == null ? null : hit.semester())
+                .standingTermKey(hit == null ? null : termKey)
                 .grade(hit == null ? null : hit.grade())
                 .sectionCount(agg.sectionCount)
                 .build();
