@@ -7,6 +7,7 @@ import com.example.congraduation.abeek.domain.CurriculumCourse;
 import com.example.congraduation.abeek.domain.StudentEnrollment;
 import com.example.congraduation.abeek.domain.enums.CourseCategory;
 import com.example.congraduation.abeek.domain.enums.CourseRole;
+import com.example.congraduation.abeek.dto.DesignEvaluationResult;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapCourseDto;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapEdgeDto;
@@ -40,6 +41,7 @@ public class FullRoadmapService {
     private final CoursePrerequisiteRepository coursePrerequisiteRepository;
     private final AbeekStudentRepository abeekStudentRepository;
     private final AbeekDepartmentCatalog departmentCatalog;
+    private final DesignCreditEvaluator designCreditEvaluator;
 
     @Transactional(readOnly = true)
     public FullRoadmapResponse getFullRoadmap(
@@ -123,6 +125,10 @@ public class FullRoadmapService {
         byTerm.values().forEach(all::addAll);
         all.addAll(unscheduled);
 
+        DesignEvaluationResult designResult = student == null
+                ? null
+                : designCreditEvaluator.evaluate(student.getEnrollments(), byCode);
+
         return FullRoadmapResponse.builder()
                 .departmentCode(department.abeekCode())
                 .departmentName(department.name())
@@ -132,7 +138,7 @@ public class FullRoadmapService {
                 .terms(terms)
                 .unscheduledCourses(unscheduled)
                 .edges(edges)
-                .summary(buildSummary(all))
+                .summary(buildSummary(all, designResult))
                 .build();
     }
 
@@ -229,7 +235,7 @@ public class FullRoadmapService {
         return byNormalizedName.get(normalizeName(raw));
     }
 
-    private RoadmapSummaryDto buildSummary(List<RoadmapCourseDto> courses) {
+    private RoadmapSummaryDto buildSummary(List<RoadmapCourseDto> courses, DesignEvaluationResult designResult) {
         int completed = 0;
         int general = 0;
         int bsm = 0;
@@ -248,7 +254,15 @@ public class FullRoadmapService {
             totalDesign += course.getDesignCredits();
             if (course.isCompleted()) {
                 completed++;
-                completedDesign += course.getDesignCredits();
+            }
+        }
+        if (designResult != null) {
+            completedDesign = designResult.getRecognizedDesignCredits();
+        } else {
+            for (RoadmapCourseDto course : courses) {
+                if (course.isCompleted()) {
+                    completedDesign += course.getDesignCredits();
+                }
             }
         }
 

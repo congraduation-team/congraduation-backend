@@ -11,13 +11,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 설계학점 인정 규칙:
+ * 설계학점 인정 규칙 (전 공학인증 학과 공통):
  * <ul>
  *   <li>기초설계 → 요소설계 → 종합설계 순서</li>
  *   <li>기초+요소, 요소+종합 병수 가능</li>
  *   <li>기초 이수 전 / 종합 이수 후 요소설계는 설계학점 불인정</li>
  *   <li>소속 학과 개설 교과만 인정 (departmentCourse)</li>
  * </ul>
+ * 일부 학과 JSON이 기초/종합을 ELEMENT로 오표기해도 과목명으로 단계를 보정한다.
  */
 @Service
 public class DesignCreditEvaluator {
@@ -30,7 +31,8 @@ public class DesignCreditEvaluator {
                 .filter(StudentEnrollment::isPassed)
                 .filter(e -> e.getCourseMaster().isDepartmentCourse())
                 .filter(e -> effectiveDesignCredits(e, entranceCurriculumByCode) > 0)
-                .sorted(Comparator.comparingInt(StudentEnrollment::termKey))
+                .sorted(Comparator.comparingInt(StudentEnrollment::termKey)
+                        .thenComparing(e -> e.getCourseMaster().getCourseCode()))
                 .toList();
 
         OptionalInt basicTerm = findFirstTerm(passed, entranceCurriculumByCode, DesignLevel.BASIC);
@@ -164,27 +166,55 @@ public class DesignCreditEvaluator {
     }
 
     /**
-     * 수강 과목의 설계 단계는 입학 연도 교과과정에서 우선 조회.
-     * 코드가 다르더라도 과목명·동등그룹이 같으면 동일 단계로 본다.
-     * 없으면 설계학점 &gt; 0 이면 이름 휴리스틱 / ELEMENT.
+     * 설계 단계 판정.
+     * 과목명으로 기초/종합이 명확하면 커리큘럼의 ELEMENT 오표기보다 우선한다.
      */
-    private DesignLevel resolveDesignLevel(StudentEnrollment e, Map<String, CurriculumCourse> curriculum) {
-        CurriculumCourse cc = findCurriculumCourse(e, curriculum);
-        if (cc != null && cc.getDesignLevel() != DesignLevel.NONE) {
-            return cc.getDesignLevel();
+    DesignLevel resolveDesignLevel(StudentEnrollment e, Map<String, CurriculumCourse> curriculum) {
+        DesignLevel fromName = inferDesignLevelFromName(e.getCourseMaster().getName());
+        if (fromName == DesignLevel.BASIC || fromName == DesignLevel.COMPREHENSIVE) {
+            return fromName;
         }
+
+        CurriculumCourse cc = findCurriculumCourse(e, curriculum);
+        if (cc != null && cc.getDesignLevel() != null && cc.getDesignLevel() != DesignLevel.NONE) {
+            DesignLevel curriculumLevel = cc.getDesignLevel();
+            // 커리큘럼이 ELEMENT여도 학점이 종합/기초 규모면 이름 재확인
+            if (curriculumLevel == DesignLevel.ELEMENT) {
+                DesignLevel renamed = inferDesignLevelFromName(cc.getCourseMaster().getName());
+                if (renamed == DesignLevel.BASIC || renamed == DesignLevel.COMPREHENSIVE) {
+                    return renamed;
+                }
+            }
+            return curriculumLevel;
+        }
+
         double designCredits = effectiveDesignCredits(e, curriculum);
         if (designCredits > 0) {
-            String name = e.getCourseMaster().getName();
-            if (name.contains("Capstone") || name.contains("종합설계")) {
-                return DesignLevel.COMPREHENSIVE;
-            }
-            if (name.contains("공학설계기초") || name.contains("산학프로젝트입문")) {
-                return DesignLevel.BASIC;
-            }
-            return DesignLevel.ELEMENT;
+            return fromName != null ? fromName : DesignLevel.ELEMENT;
         }
         return DesignLevel.NONE;
+    }
+
+    /**
+     * 학과 JSON 오표기 보정용. 명확한 기초/종합만 반환하고 요소는 null.
+     */
+    DesignLevel inferDesignLevelFromName(String name) {
+        String n = normalizeName(name);
+        if (n.isBlank()) {
+            return null;
+        }
+        if (n.contains("capstone") || n.contains("종합설계")) {
+            return DesignLevel.COMPREHENSIVE;
+        }
+        // SW설계기초, 공학설계기초, 산학프로젝트입문, 단독 "기초설계"
+        if (n.contains("공학설계기초")
+                || n.contains("산학프로젝트입문")
+                || n.contains("sw설계기초")
+                || n.equals("기초설계")
+                || (n.contains("설계기초") && !n.contains("요소"))) {
+            return DesignLevel.BASIC;
+        }
+        return null;
     }
 
     private String normalizeName(String name) {
@@ -205,5 +235,17 @@ public class DesignCreditEvaluator {
                 c -> c,
                 (a, b) -> a
         ));
+    }
+
+    /** courseCode(정규화 없이) → 인정 설계학점 */
+    public Map<String, Double> recognizedCreditsByCourseCode(DesignEvaluationResult result) {
+        Map<String, Double> map = new LinkedHashMap<>();
+        if (result == null || result.getCourses() == null) {
+            return map;
+        }
+        for (DesignCourseResult course : result.getCourses()) {
+            map.merge(course.getCourseCode(), course.getRecognizedDesignCredits(), Double::sum);
+        }
+        return map;
     }
 }
