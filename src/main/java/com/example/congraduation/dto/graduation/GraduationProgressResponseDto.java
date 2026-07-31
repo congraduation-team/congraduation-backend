@@ -1,6 +1,7 @@
 package com.example.congraduation.dto.graduation;
 
 import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.dto.graduation.RequirementCourseDto;
 import com.example.congraduation.dto.plan.PlannedSemesterSummaryDto;
 import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
@@ -36,10 +37,14 @@ public record GraduationProgressResponseDto(
         CategoryProgressDto commonLiberalCredits,
         @Schema(description = "공통교양(공필/교필) 상세 과목 목록")
         List<CategoryCourseDto> commonLiberalCourses,
+        @Schema(description = "주전공 필수 미이수 과목 목록")
+        List<RequirementCourseDto> remainingMajorRequiredCourses,
         @Schema(description = "교양선택 진행도")
         CategoryProgressDto electiveLiberalCredits,
         @Schema(description = "균형교양 진행도")
         CategoryProgressDto balancedLiberalCredits,
+        @Schema(description = "균형교양 미충족 영역 목록")
+        List<String> missingBalancedLiberalAreas,
         @Schema(description = "균형교양 필요 영역 수", example = "3")
         Integer balancedLiberalRequiredAreaCount,
         @Schema(description = "균형교양 충족 영역 수", example = "2")

@@ -1,6 +1,7 @@
 package com.example.congraduation.service.graduation;
 
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
+import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
@@ -95,6 +96,17 @@ public class BalancedLiberalCoursePolicyService {
 
         int academicYear = takenYear - admissionYear + 1;
         return academicYear >= requirement.minAcademicYear() && academicYear <= requirement.maxAcademicYear();
+    }
+
+    public List<String> availableAreas(Integer admissionYear) {
+        int year = admissionYear == null ? 0 : admissionYear;
+        if (year >= 2024) {
+            return List.of(AREA_HISTORY, AREA_NATURE, AREA_SOCIETY, AREA_CULTURE, AREA_FUSION);
+        }
+        if (year >= 2022) {
+            return List.of(AREA_HISTORY, AREA_NATURE, AREA_SOCIETY, AREA_CULTURE);
+        }
+        return List.of();
     }
 
     private String normalizeCourseCode(String courseCode) {

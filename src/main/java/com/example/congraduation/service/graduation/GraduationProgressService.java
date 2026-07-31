@@ -1,5 +1,9 @@
 package com.example.congraduation.service.graduation;
 
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.domain.enums.CourseRole;
+import com.example.congraduation.abeek.dto.CurriculumCourseDto;
+import com.example.congraduation.abeek.service.CurriculumQueryService;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.domain.StudentMajorTrack;
 import com.example.congraduation.dto.plan.PlannedCourseListResponseDto;
@@ -13,6 +17,7 @@ import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackRequiredCourseProgressDto;
+import com.example.congraduation.dto.graduation.RequirementCourseDto;
 import com.example.congraduation.dto.graduation.SwCodingCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
@@ -26,6 +31,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -57,6 +63,7 @@ public class GraduationProgressService {
     private final TranscriptSummaryCalculator transcriptSummaryCalculator;
     private final PlannedCourseService plannedCourseService;
     private final DepartmentCurriculumPolicyService policyService;
+    private final CurriculumQueryService curriculumQueryService;
     private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
     private final DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService;
     private final DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService;
@@ -70,6 +77,7 @@ public class GraduationProgressService {
             TranscriptSummaryCalculator transcriptSummaryCalculator,
             PlannedCourseService plannedCourseService,
             DepartmentCurriculumPolicyService policyService,
+            CurriculumQueryService curriculumQueryService,
             BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService,
             DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService,
             DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService,
@@ -82,6 +90,7 @@ public class GraduationProgressService {
         this.transcriptSummaryCalculator = transcriptSummaryCalculator;
         this.plannedCourseService = plannedCourseService;
         this.policyService = policyService;
+        this.curriculumQueryService = curriculumQueryService;
         this.balancedLiberalCoursePolicyService = balancedLiberalCoursePolicyService;
         this.doubleMajorRequiredCoursePolicyService = doubleMajorRequiredCoursePolicyService;
         this.doubleMajorGraduationRequirementService = doubleMajorGraduationRequirementService;
@@ -123,6 +132,8 @@ public class GraduationProgressService {
                 buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
         List<CategoryCourseDto> commonLiberalCourses =
                 extractCategoryCourses(transcriptSummary.categorySummaries(), "공필", "교필");
+        List<RequirementCourseDto> remainingMajorRequiredCourses =
+                extractRemainingMajorRequiredCourses(student, completedCourses);
         CategoryProgressDto electiveLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선");
         CategoryProgressDto academicFoundationProgress =
@@ -137,6 +148,8 @@ public class GraduationProgressService {
                 buildMajorCreditSummary(transcriptSummary, policy, primaryMajorPolicy);
         List<CategorySummaryDto> categorySummaries =
                 applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements);
+        List<String> missingBalancedLiberalAreas =
+                resolveMissingBalancedLiberalAreas(student, balancedLiberalEvaluation.areaProgresses());
         List<String> graduationBlockers = buildGraduationBlockers(
                 totalCreditsProgress,
                 commonLiberalProgress,
@@ -166,8 +179,10 @@ public class GraduationProgressService {
                 totalCreditsProgress,
                 commonLiberalProgress,
                 commonLiberalCourses,
+                remainingMajorRequiredCourses,
                 electiveLiberalProgress,
                 balancedLiberalEvaluation.progress(),
+                missingBalancedLiberalAreas,
                 balancedLiberalEvaluation.requiredAreaCount(),
                 balancedLiberalEvaluation.completedAreaCount(),
                 balancedLiberalEvaluation.areaProgresses(),
@@ -651,6 +666,65 @@ public class GraduationProgressService {
         return List.copyOf(courses);
     }
 
+    private List<RequirementCourseDto> extractRemainingMajorRequiredCourses(
+            Student student,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        Integer admissionYear = student.getAdmissionYear();
+        String departmentCode = resolveCurriculumDepartmentCode(student.getMajor());
+        if (admissionYear == null || departmentCode == null || departmentCode.isBlank()) {
+            return List.of();
+        }
+
+        List<CurriculumCourseDto> curriculumCourses;
+        try {
+            curriculumCourses = curriculumQueryService.getCurriculum(departmentCode, admissionYear);
+        } catch (IllegalArgumentException ignored) {
+            return List.of();
+        }
+
+        Set<String> completedCourseNames = completedCourses.stream()
+                .map(CompletedCourseUploadRowDto::courseName)
+                .map(this::normalizeCourseName)
+                .filter(name -> !name.isBlank())
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+
+        return curriculumCourses.stream()
+                .filter(course -> course.getRole() == CourseRole.REQUIRED)
+                .filter(course -> course.getCategory() == CourseCategory.MAJOR)
+                .filter(course -> !course.isNewlyIntroducedRequired())
+                .filter(course -> !completedCourseNames.contains(normalizeCourseName(course.getCourseName())))
+                .sorted(Comparator
+                        .comparing((CurriculumCourseDto course) -> defaultString(course.getRecommendedTerm()))
+                        .thenComparing(CurriculumCourseDto::getCourseName))
+                .map(course -> new RequirementCourseDto(
+                        course.getCourseCode(),
+                        course.getCourseName(),
+                        String.valueOf(course.getCredits()),
+                        course.getRecommendedTerm()
+                ))
+                .toList();
+    }
+
+    private List<String> resolveMissingBalancedLiberalAreas(
+            Student student,
+            List<BalancedLiberalAreaProgressDto> areaProgresses
+    ) {
+        List<String> availableAreas = balancedLiberalCoursePolicyService.availableAreas(student.getAdmissionYear());
+        if (availableAreas.isEmpty()) {
+            return List.of();
+        }
+
+        Set<String> completedAreas = areaProgresses.stream()
+                .filter(BalancedLiberalAreaProgressDto::satisfied)
+                .map(BalancedLiberalAreaProgressDto::area)
+                .collect(java.util.stream.Collectors.toSet());
+
+        return availableAreas.stream()
+                .filter(area -> !completedAreas.contains(area))
+                .toList();
+    }
+
     private String calculateMajorGradePoint(List<CompletedCourseUploadRowDto> courses) {
         BigDecimal totalCredits = BigDecimal.ZERO;
         BigDecimal totalGradePoints = BigDecimal.ZERO;
@@ -833,6 +907,35 @@ public class GraduationProgressService {
             return "법학전공";
         }
         return normalized;
+    }
+
+    private String resolveCurriculumDepartmentCode(String major) {
+        return switch (normalizeMajor(major)) {
+            case "컴퓨터공학과" -> "CSE";
+            case "소프트웨어학과" -> "SW";
+            case "건설환경공학과" -> "CIVIL";
+            case "데이터사이언스학과", "인공지능데이터사이언스학과" -> "DS";
+            case "전자정보통신공학과" -> "EICE";
+            case "정보보호학과" -> "SEC";
+            case "양자원자력공학과" -> "NUCLEAR";
+            case "나노신소재공학과" -> "NANO";
+            case "기계공학과" -> "MECH";
+            case "건축공학과" -> "ARCH";
+            case "우주항공공학전공" -> "AERO";
+            case "환경에너지공간융합학과" -> "ENV";
+            case "AI로봇학과" -> "AIROBOT";
+            case "인공지능학과" -> "AI";
+            case "지구자원시스템공학과" -> "ENERGY";
+            default -> null;
+        };
+    }
+
+    private String normalizeCourseName(String courseName) {
+        return courseName == null ? "" : courseName.replaceAll("\\s+", "").trim().toLowerCase();
+    }
+
+    private String defaultString(String value) {
+        return value == null ? "" : value;
     }
 
     private BigDecimal toDecimal(String value) {
