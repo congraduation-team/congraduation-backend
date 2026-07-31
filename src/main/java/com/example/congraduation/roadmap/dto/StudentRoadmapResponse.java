@@ -66,9 +66,9 @@ public class StudentRoadmapResponse {
         @Schema(description = "학수번호", example = "009960")
         private final String courseCode;
         private final String courseName;
-        @Schema(description = "시간표 이수구분 원문", example = "전공필수")
+        @Schema(description = "시간표 이수구분 원문. 학문기초성 전공기초는 기초필수로 정규화", example = "기초필수")
         private final String category;
-        @Schema(description = "공학인증 분할용. GENERAL|BSM|MAJOR|OTHER")
+        @Schema(description = "공학인증 분할용. GENERAL|BSM|MAJOR|OTHER. 기초필수는 BSM")
         private final String abeekBucket;
         private final Double credits;
         private final boolean completed;

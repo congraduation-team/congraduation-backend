@@ -500,11 +500,12 @@ public class StudentRoadmapService {
 
     private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion) {
         CompletionHit hit = completion.findByCourseCode(agg.courseCode);
-        String bucket = classifyAbeekBucket(agg.category, agg.courseName);
+        String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
+        String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
         return RoadmapCourseDto.builder()
                 .courseCode(agg.courseCode)
                 .courseName(agg.courseName)
-                .category(agg.category)
+                .category(displayCategory)
                 .abeekBucket(bucket)
                 .credits(agg.credits)
                 .completed(hit != null)
@@ -520,29 +521,67 @@ public class StudentRoadmapService {
     }
 
     /**
+     * 시간표의 "전공기초" 중 학문기초(기필)성 과목은 기초필수로 표기한다.
+     * 예: 확률및통계, 선형대수, 공업수학1, 일반물리학1
+     */
+    String normalizeDisplayCategory(String category, String courseName) {
+        if (isAcademicFoundationCourse(category, courseName)) {
+            return "기초필수";
+        }
+        if (category == null || category.isBlank()) {
+            return category;
+        }
+        String cat = category.replaceAll("\\s+", "");
+        if (cat.contains("교양필수") || cat.equals("교필") || cat.equals("공필")) {
+            return "교양필수";
+        }
+        if (cat.contains("학문기초") || cat.contains("기초필수") || cat.equals("기필")) {
+            return "기초필수";
+        }
+        return category;
+    }
+
+    private boolean isAcademicFoundationCourse(String category, String courseName) {
+        String cat = category == null ? "" : category.replaceAll("\\s+", "");
+        if (cat.contains("학문기초") || cat.contains("기초필수") || cat.equals("기필")) {
+            return true;
+        }
+        // 시간표에 전공기초로 올라와 있어도 학문기초인 과목
+        if (!(cat.contains("전공기초") || cat.contains("전기") || cat.contains("BSM") || cat.isBlank())) {
+            return false;
+        }
+        return isAcademicFoundationCourseName(courseName);
+    }
+
+    private boolean isAcademicFoundationCourseName(String courseName) {
+        String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
+        return name.contains("미적분")
+                || name.contains("공업수학")
+                || name.contains("이산수학")
+                || name.contains("선형대수")
+                || (name.contains("확률") && name.contains("통계"))
+                || name.contains("일반물리")
+                || name.contains("물리학및실험")
+                || name.contains("물리학")
+                || name.contains("일반화학")
+                || name.contains("일반생물");
+    }
+
+    /**
      * 시간표 이수구분/과목명으로 공학인증 표시 버킷 추정.
-     * 학과 개설 시간표에는 전공이 대부분이라 GENERAL/BSM은 적을 수 있다.
+     * 기초필수(학문기초)는 MAJOR가 아니라 BSM.
      */
     String classifyAbeekBucket(String category, String courseName) {
-        String cat = category == null ? "" : category.replaceAll("\\s+", "");
-        String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
-
-        if (cat.contains("BSM") || name.contains("BSM")) {
+        if (isAcademicFoundationCourse(category, courseName)) {
             return "BSM";
         }
-        if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")
-                || cat.contains("전문교양") || (cat.contains("MSC") && !cat.contains("전공"))) {
+        String cat = category == null ? "" : category.replaceAll("\\s+", "");
+
+        if (cat.contains("교양필수") || cat.contains("전문교양") || (cat.contains("MSC") && !cat.contains("전공"))) {
             return "GENERAL";
         }
-        // 전형적 BSM / 기초 과목명 (전공기초로 개설돼도 BSM으로 표시)
-        if (name.contains("미적분") || name.contains("공업수학") || name.contains("이산수학")
-                || name.contains("선형대수") || (name.contains("확률") && name.contains("통계"))
-                || name.contains("일반물리") || name.contains("물리학")
-                || name.contains("일반화학") || name.contains("일반생물")) {
-            return "BSM";
-        }
         if (cat.contains("교양") || cat.contains("중핵") || cat.contains("공통")
-                || cat.contains("교필") || cat.contains("공필") || cat.contains("기필")) {
+                || cat.contains("교필") || cat.contains("공필")) {
             return "GENERAL";
         }
         if (cat.contains("전공") || cat.contains("전필") || cat.contains("전선")
