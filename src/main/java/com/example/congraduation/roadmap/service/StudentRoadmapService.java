@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -95,7 +95,8 @@ public class StudentRoadmapService {
                 abeekTarget,
                 abeekCode,
                 openingNamesFor(departmentName, abeekDept),
-                completion
+                completion,
+                student.getAdmissionYear()
         );
     }
 
@@ -113,9 +114,11 @@ public class StudentRoadmapService {
 
         Student student = null;
         CompletionIndex completion = CompletionIndex.empty();
+        Integer admissionYear = null;
         if (studentDbId != null) {
             student = transcriptStorageService.getStudentOrThrow(studentDbId);
             completion = buildCompletionIndex(studentDbId);
+            admissionYear = student.getAdmissionYear();
         }
 
         return buildRoadmap(
@@ -126,7 +129,8 @@ public class StudentRoadmapService {
                 abeekTarget,
                 abeekCode,
                 openingNamesFor(resolvedName, abeekDept),
-                completion
+                completion,
+                admissionYear
         );
     }
 
@@ -138,7 +142,8 @@ public class StudentRoadmapService {
             boolean abeekTarget,
             String abeekCode,
             Set<String> openingNames,
-            CompletionIndex completion
+            CompletionIndex completion,
+            Integer admissionYear
     ) {
         List<TimetableTermData> sourceTerms = resolveSourceTerms();
         Map<String, Map<String, AggregatedCourse>> byTermAndCode = new LinkedHashMap<>();
@@ -150,7 +155,7 @@ public class StudentRoadmapService {
         for (TimetableTermData term : sourceTerms) {
             int used = 0;
             for (TimetableOffering offering : term.offerings()) {
-                if (!matchesOpeningDepartment(offering, openingNames)) {
+                if (!shouldIncludeOffering(offering, openingNames)) {
                     continue;
                 }
                 Integer gradeYear = parseGradeYear(offering.gradeYear());
@@ -176,6 +181,12 @@ public class StudentRoadmapService {
                     .offeringCount(used)
                     .build());
         }
+
+        // 이수한 과목은 시간표 권장학기가 아니라 실제 이수학기에 하나만 배치
+        // (예: Capstone이 4-1·4-2에 둘 다 있어도, 3-2에 들었으면 3-2에만 표시)
+        relocateCompletedCourses(byTermAndCode, completion, admissionYear);
+        // 학과 개설 시간표에 없는 교양필수·기필 등 이수 과목도 실제 이수학기에 표시
+        injectMissingCompletedCourses(byTermAndCode, completion, admissionYear);
 
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
@@ -228,6 +239,174 @@ public class StudentRoadmapService {
         return List.of(spring, fall);
     }
 
+    /**
+     * 이수한 학수번호는 로드맵에서 한 번만, 실제 이수학기(학년-학기) 칸에 둔다.
+     * Capstone·생성형AI처럼 1·2학기 시간표에 모두 있는 과목이 4-1/4-2에 중복 표시되는 것을 막는다.
+     */
+    private void relocateCompletedCourses(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            Integer admissionYear
+    ) {
+        if (admissionYear == null || completion.isEmpty()) {
+            return;
+        }
+
+        Map<String, AggregatedCourse> completedCourses = new LinkedHashMap<>();
+        Map<String, CompletionHit> hitsByNormCode = new LinkedHashMap<>();
+        Map<String, String> fallbackTermByNormCode = new LinkedHashMap<>();
+
+        for (String termKey : TERM_KEYS) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(termKey);
+            var iterator = termMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                CompletionHit hit = completion.findByCourseCode(entry.getKey());
+                if (hit == null) {
+                    continue;
+                }
+                String norm = normalizeCourseCode(entry.getKey());
+                completedCourses.putIfAbsent(norm, entry.getValue());
+                hitsByNormCode.putIfAbsent(norm, hit);
+                fallbackTermByNormCode.putIfAbsent(norm, termKey);
+                iterator.remove();
+            }
+        }
+
+        for (Map.Entry<String, AggregatedCourse> entry : completedCourses.entrySet()) {
+            String norm = entry.getKey();
+            CompletionHit hit = hitsByNormCode.get(norm);
+            String targetTerm = resolveTakenTermKey(admissionYear, hit.year(), hit.semester());
+            if (targetTerm == null || !byTermAndCode.containsKey(targetTerm)) {
+                targetTerm = fallbackTermByNormCode.getOrDefault(norm, TERM_KEYS.get(0));
+            }
+            AggregatedCourse course = entry.getValue();
+            byTermAndCode.get(targetTerm).put(course.courseCode, course);
+        }
+    }
+
+    /**
+     * 학과 시간표에 없는 이수 과목(교양필수·기필·학문기초 등)을 실제 이수학기 칸에 추가한다.
+     */
+    private void injectMissingCompletedCourses(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            Integer admissionYear
+    ) {
+        if (completion.isEmpty()) {
+            return;
+        }
+
+        Set<String> present = new HashSet<>();
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            for (String code : termMap.keySet()) {
+                present.add(normalizeCourseCode(code));
+            }
+        }
+
+        for (CompletionHit hit : completion.allHits()) {
+            String norm = normalizeCourseCode(hit.courseCode());
+            if (norm.isBlank() || present.contains(norm)) {
+                continue;
+            }
+            if (!isRoadmapRelevantCompletedCategory(hit.category())) {
+                continue;
+            }
+
+            String targetTerm = admissionYear == null
+                    ? null
+                    : resolveTakenTermKey(admissionYear, hit.year(), hit.semester());
+            if (targetTerm == null || !byTermAndCode.containsKey(targetTerm)) {
+                Integer semester = toRoadmapSemester(hit.semester());
+                targetTerm = (semester != null && semester == 2) ? "1-2" : "1-1";
+            }
+
+            AggregatedCourse course = AggregatedCourse.fromCompleted(
+                    hit.courseCode(),
+                    hit.courseName(),
+                    hit.category(),
+                    hit.credits()
+            );
+            byTermAndCode.get(targetTerm).putIfAbsent(course.courseCode, course);
+            present.add(norm);
+        }
+    }
+
+    /** 공통 로드맵에 올릴 이수 과목 구분 (기초·교양·전공 관련) */
+    private boolean isRoadmapRelevantCompletedCategory(String category) {
+        if (category == null || category.isBlank()) {
+            // 구분 없으면 일단 표시 (기이수에 구분이 비는 경우)
+            return true;
+        }
+        String cat = category.replaceAll("\\s+", "");
+        return cat.contains("교양필수")
+                || cat.contains("기초필수")
+                || cat.contains("학문기초")
+                || cat.contains("전공기초")
+                || cat.contains("교필")
+                || cat.contains("공필")
+                || cat.contains("기필")
+                || cat.contains("균필")
+                || cat.contains("전필")
+                || cat.contains("전선")
+                || cat.contains("전기")
+                || cat.contains("전공필수")
+                || cat.contains("전공선택")
+                || cat.contains("전공")
+                || cat.contains("교양")
+                || cat.contains("중핵")
+                || cat.contains("BSM")
+                || cat.contains("MSC");
+    }
+
+    /**
+     * 입학년도 + 수강연도/학기 → 로드맵 termKey (예: 2021입학, 2023년 2학기 → "3-2").
+     * 4학년을 넘으면 4학년 해당 학기로 clamp.
+     */
+    String resolveTakenTermKey(int admissionYear, String takenYear, String takenSemester) {
+        Integer year = parseIntOrNull(takenYear);
+        Integer semester = toRoadmapSemester(takenSemester);
+        if (year == null || semester == null) {
+            return null;
+        }
+        int gradeYear = year - admissionYear + 1;
+        if (gradeYear < 1) {
+            gradeYear = 1;
+        } else if (gradeYear > 4) {
+            gradeYear = 4;
+        }
+        return gradeYear + "-" + semester;
+    }
+
+    private Integer toRoadmapSemester(String semesterText) {
+        if (semesterText == null || semesterText.isBlank()) {
+            return null;
+        }
+        String normalized = semesterText.trim();
+        if (normalized.contains("2") || normalized.contains("겨울")) {
+            return 2;
+        }
+        if (normalized.contains("1") || normalized.contains("여름")) {
+            return 1;
+        }
+        return null;
+    }
+
+    private Integer parseIntOrNull(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            String digits = value.trim().replaceAll("[^0-9]", "");
+            if (digits.isBlank()) {
+                return null;
+            }
+            return Integer.parseInt(digits);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
     private Set<String> openingNamesFor(
             String departmentName,
             Optional<AbeekDepartmentCatalog.DepartmentInfo> abeekDept
@@ -272,6 +451,48 @@ public class StudentRoadmapService {
             }
         }
         return false;
+    }
+
+    /** 학과 개설 과목 + 전학생 공통 교양필수/기초필수 */
+    private boolean shouldIncludeOffering(TimetableOffering offering, Set<String> openingNames) {
+        if (matchesOpeningDepartment(offering, openingNames)) {
+            return true;
+        }
+        return isCommonRequiredOffering(offering);
+    }
+
+    /**
+     * 대양휴머니티 등 타 개설학과의 교양필수·기초필수.
+     * 학과 필터에 걸리지 않아도 공통 로드맵에 포함한다.
+     */
+    private boolean isCommonRequiredOffering(TimetableOffering offering) {
+        String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
+        if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")) {
+            return true;
+        }
+        // 일부 시간표는 대양휴머니티 공통필수만 다른 표기를 씀
+        String opening = offering.openingDepartment() == null ? "" : offering.openingDepartment();
+        if (opening.contains("대양휴머니티") && (cat.contains("필수") || cat.contains("중핵"))) {
+            return true;
+        }
+        // 타 학과 전공기초로 개설되지만 학문기초(기필)로 이수하는 과목
+        if (cat.contains("전공기초") && isAcademicFoundationCourseName(offering.courseName())) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isAcademicFoundationCourseName(String courseName) {
+        String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
+        return name.contains("미적분")
+                || name.contains("공업수학")
+                || name.contains("이산수학")
+                || name.contains("선형대수")
+                || (name.contains("확률") && name.contains("통계"))
+                || name.contains("일반물리")
+                || name.contains("물리학및실험")
+                || name.contains("일반화학")
+                || name.contains("일반생물");
     }
 
     private boolean fuzzyDepartmentMatch(String query, String candidate) {
@@ -330,19 +551,23 @@ public class StudentRoadmapService {
         if (cat.contains("BSM") || name.contains("BSM")) {
             return "BSM";
         }
-        if (cat.contains("전문교양") || cat.contains("MSC") && !cat.contains("전공")) {
+        if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")
+                || cat.contains("전문교양") || (cat.contains("MSC") && !cat.contains("전공"))) {
             return "GENERAL";
         }
-        // 전형적 BSM 과목명
+        // 전형적 BSM / 기초 과목명 (전공기초로 개설돼도 BSM으로 표시)
         if (name.contains("미적분") || name.contains("공업수학") || name.contains("이산수학")
-                || name.contains("선형대수") || name.contains("확률") && name.contains("통계")
-                || name.contains("일반물리") || name.contains("물리학")) {
+                || name.contains("선형대수") || (name.contains("확률") && name.contains("통계"))
+                || name.contains("일반물리") || name.contains("물리학")
+                || name.contains("일반화학") || name.contains("일반생물")) {
             return "BSM";
         }
-        if (cat.contains("교양") || cat.contains("중핵") || cat.contains("공통")) {
+        if (cat.contains("교양") || cat.contains("중핵") || cat.contains("공통")
+                || cat.contains("교필") || cat.contains("공필") || cat.contains("기필")) {
             return "GENERAL";
         }
-        if (cat.contains("전공") || cat.contains("전필") || cat.contains("전선") || cat.contains("기초")) {
+        if (cat.contains("전공") || cat.contains("전필") || cat.contains("전선")
+                || cat.contains("전공기초") || cat.contains("전기") || cat.contains("기초")) {
             return "MAJOR";
         }
         return "OTHER";
@@ -383,7 +608,7 @@ public class StudentRoadmapService {
         } catch (TranscriptNotFoundException ex) {
             return CompletionIndex.empty();
         }
-        Map<String, CompletionHit> byCode = new HashMap<>();
+        Map<String, CompletionHit> byCode = new LinkedHashMap<>();
         for (CompletedCourseUploadRowDto row : rows) {
             if (!isPassed(row.grade())) {
                 continue;
@@ -392,9 +617,28 @@ public class StudentRoadmapService {
             if (key.isBlank()) {
                 continue;
             }
-            byCode.putIfAbsent(key, new CompletionHit(row.year(), row.semester(), row.grade()));
+            byCode.putIfAbsent(key, new CompletionHit(
+                    row.year(),
+                    row.semester(),
+                    row.grade(),
+                    row.courseCode() == null ? "" : row.courseCode().trim(),
+                    row.courseName(),
+                    row.category(),
+                    parseCredits(row.credit())
+            ));
         }
         return new CompletionIndex(byCode);
+    }
+
+    private Double parseCredits(String credit) {
+        if (credit == null || credit.isBlank()) {
+            return null;
+        }
+        try {
+            return Double.parseDouble(credit.trim());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
     private boolean isPassed(String grade) {
@@ -457,12 +701,31 @@ public class StudentRoadmapService {
             );
         }
 
+        static AggregatedCourse fromCompleted(String courseCode, String courseName, String category, Double credits) {
+            AggregatedCourse course = new AggregatedCourse(
+                    courseCode == null ? "" : courseCode.trim(),
+                    courseName,
+                    category,
+                    credits
+            );
+            course.sectionCount = 1;
+            return course;
+        }
+
         String courseName() {
             return courseName;
         }
     }
 
-    private record CompletionHit(String year, String semester, String grade) {
+    private record CompletionHit(
+            String year,
+            String semester,
+            String grade,
+            String courseCode,
+            String courseName,
+            String category,
+            Double credits
+    ) {
     }
 
     private record CompletionIndex(Map<String, CompletionHit> byNormalizedCode) {
@@ -470,8 +733,16 @@ public class StudentRoadmapService {
             return new CompletionIndex(Map.of());
         }
 
+        boolean isEmpty() {
+            return byNormalizedCode == null || byNormalizedCode.isEmpty();
+        }
+
         CompletionHit findByCourseCode(String courseCode) {
             return byNormalizedCode.get(normalizeCourseCode(courseCode));
+        }
+
+        Collection<CompletionHit> allHits() {
+            return byNormalizedCode.values();
         }
     }
 }
