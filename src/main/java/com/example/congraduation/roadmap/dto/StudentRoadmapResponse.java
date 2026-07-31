@@ -54,8 +54,8 @@ public class StudentRoadmapResponse {
         /** 모든 학생 공통: 해당 학기 과목 (중복 분반 제거) */
         private final List<RoadmapCourseDto> courses;
         /**
-         * 공학인증 대상만 채움. GENERAL / BSM / MAJOR.
-         * 비대상이면 null.
+         * GENERAL=교양필수, FOUNDATION=기초필수, MAJOR=전공.
+         * 공학인증 대상이면 BSM(학문기초)도 포함.
          */
         private final Map<String, List<RoadmapCourseDto>> categories;
     }
@@ -66,9 +66,9 @@ public class StudentRoadmapResponse {
         @Schema(description = "학수번호", example = "009960")
         private final String courseCode;
         private final String courseName;
-        @Schema(description = "시간표 이수구분 원문", example = "전공필수")
+        @Schema(description = "표시 이수구분. 교양필수|기초필수|전공필수|전공선택 등", example = "기초필수")
         private final String category;
-        @Schema(description = "공학인증 분할용. GENERAL|BSM|MAJOR|OTHER")
+        @Schema(description = "GENERAL|BSM|MAJOR|OTHER. 기초필수→BSM, 교양필수→GENERAL")
         private final String abeekBucket;
         private final Double credits;
         private final boolean completed;

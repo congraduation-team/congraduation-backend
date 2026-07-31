@@ -19,9 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(
         name = "Student Roadmap",
-        description = "강의시간표 기반 1~8학기 로드맵. 이수 여부는 기이수성적 학수번호로 표시. "
-                + "공학인증 대상 학과면 GENERAL/BSM/MAJOR로 나눠 반환. "
-                + "전 학과 선택은 /api/roadmap/departments (한글 개설학과명)."
+        description = "강의시간표 + 기이수 기반 1~8학기 로드맵. "
+                + "기이수는 정규학기 순번으로 배치(휴학 건너뜀, 계절→직전 정규). "
+                + "categories: GENERAL(교양필수)/FOUNDATION(기초필수)/MAJOR. "
+                + "전 학과: /api/roadmap/departments."
 )
 public class StudentRoadmapController {
 
