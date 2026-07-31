@@ -462,37 +462,16 @@ public class StudentRoadmapService {
     }
 
     /**
-     * 대양휴머니티 등 타 개설학과의 교양필수·기초필수.
-     * 학과 필터에 걸리지 않아도 공통 로드맵에 포함한다.
+     * 대양휴머니티 등 전학생 공통 교양필수만 학과와 무관하게 포함한다.
+     * 확률및통계·선형대수 같은 전공기초는 해당 학과 개설일 때만 표시한다.
      */
     private boolean isCommonRequiredOffering(TimetableOffering offering) {
         String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
         if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")) {
             return true;
         }
-        // 일부 시간표는 대양휴머니티 공통필수만 다른 표기를 씀
         String opening = offering.openingDepartment() == null ? "" : offering.openingDepartment();
-        if (opening.contains("대양휴머니티") && (cat.contains("필수") || cat.contains("중핵"))) {
-            return true;
-        }
-        // 타 학과 전공기초로 개설되지만 학문기초(기필)로 이수하는 과목
-        if (cat.contains("전공기초") && isAcademicFoundationCourseName(offering.courseName())) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isAcademicFoundationCourseName(String courseName) {
-        String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
-        return name.contains("미적분")
-                || name.contains("공업수학")
-                || name.contains("이산수학")
-                || name.contains("선형대수")
-                || (name.contains("확률") && name.contains("통계"))
-                || name.contains("일반물리")
-                || name.contains("물리학및실험")
-                || name.contains("일반화학")
-                || name.contains("일반생물");
+        return opening.contains("대양휴머니티") && (cat.contains("필수") || cat.contains("중핵"));
     }
 
     private boolean fuzzyDepartmentMatch(String query, String candidate) {
