@@ -29,4 +29,22 @@ class TranscriptSummaryCalculatorTest {
         assertEquals("3", summary.categorySummaries().get(0).earnedCredits());
         assertEquals("1", summary.categorySummaries().get(1).earnedCredits());
     }
+
+    @Test
+    void summarizeKeepsOnlyLatestAttemptForSameCourseCode() {
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2025", "1학기", "C101", "자료구조", "전필", "3", "GRADE", "C0", "2.0"),
+                new CompletedCourseUploadRowDto("2026", "1학기", "C101", "자료구조", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "1학기", "L201", "세계사", "교선", "3", "GRADE", "B0", "3.0")
+        );
+
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals("6", summary.totalCredits());
+        assertEquals("21", summary.totalGradePoints());
+        assertEquals("3.5", summary.averageGradePoint());
+        assertEquals(2, summary.categorySummaries().stream()
+                .mapToInt(category -> category.courses().size())
+                .sum());
+    }
 }

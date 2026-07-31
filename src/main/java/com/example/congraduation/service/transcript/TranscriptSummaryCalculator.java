@@ -16,11 +16,12 @@ import org.springframework.stereotype.Service;
 public class TranscriptSummaryCalculator {
 
     public TranscriptSummaryDto summarize(List<CompletedCourseUploadRowDto> courses) {
+        List<CompletedCourseUploadRowDto> resolvedCourses = resolveRetakenCourses(courses);
         BigDecimal totalCredits = BigDecimal.ZERO;
         BigDecimal totalGradePoints = BigDecimal.ZERO;
         Map<String, CategoryAccumulator> categoryMap = new LinkedHashMap<>();
 
-        for (CompletedCourseUploadRowDto course : courses) {
+        for (CompletedCourseUploadRowDto course : resolvedCourses) {
             BigDecimal credit = toDecimal(course.credit());
             String category = normalizeCategory(course.category());
 
@@ -46,7 +47,7 @@ public class TranscriptSummaryCalculator {
         }
 
         BigDecimal averageGradePoint = BigDecimal.ZERO;
-        BigDecimal gpaCredits = courses.stream()
+        BigDecimal gpaCredits = resolvedCourses.stream()
                 .filter(this::isCountableForGpa)
                 .map(course -> toDecimal(course.credit()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -73,6 +74,25 @@ public class TranscriptSummaryCalculator {
                 formatDecimal(averageGradePoint),
                 categorySummaries
         );
+    }
+
+    public List<CompletedCourseUploadRowDto> resolveRetakenCourses(List<CompletedCourseUploadRowDto> courses) {
+        Map<String, CompletedCourseUploadRowDto> resolved = new LinkedHashMap<>();
+        List<CompletedCourseUploadRowDto> blankCodeCourses = new ArrayList<>();
+
+        for (CompletedCourseUploadRowDto course : courses) {
+            String courseCode = normalizeCourseCode(course.courseCode());
+            if (courseCode.isBlank()) {
+                blankCodeCourses.add(course);
+                continue;
+            }
+            resolved.remove(courseCode);
+            resolved.put(courseCode, course);
+        }
+
+        List<CompletedCourseUploadRowDto> deduplicated = new ArrayList<>(blankCodeCourses);
+        deduplicated.addAll(resolved.values());
+        return deduplicated;
     }
 
     private BigDecimal toDecimal(String value) {
@@ -123,6 +143,10 @@ public class TranscriptSummaryCalculator {
 
     private String normalizeGrade(String grade) {
         return grade == null ? null : grade.trim().toUpperCase();
+    }
+
+    private String normalizeCourseCode(String courseCode) {
+        return courseCode == null ? "" : courseCode.trim();
     }
 
     private String formatDecimal(BigDecimal value) {

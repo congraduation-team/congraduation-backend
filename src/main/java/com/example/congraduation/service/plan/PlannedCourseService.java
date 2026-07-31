@@ -17,10 +17,12 @@ import com.example.congraduation.service.transcript.TranscriptStorageService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,13 +58,16 @@ public class PlannedCourseService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
         PlannedSemester plannedSemester = resolvePlannedSemester(studentId, request);
+        String courseCode = requireText(request.courseCode(), "학수번호");
+        validateNoDuplicatePlannedCourse(studentId, courseCode);
+        validateRetakeEligibility(studentId, courseCode);
 
         PlannedCourse plannedCourse = PlannedCourse.create(
                 student,
                 plannedSemester,
                 plannedSemester.getGradeYear(),
                 plannedSemester.getSemester(),
-                requireText(request.courseCode(), "학수번호"),
+                courseCode,
                 requireText(request.courseName(), "교과목명"),
                 normalizeText(request.category()),
                 requireCredit(request.credit()),
@@ -160,6 +165,7 @@ public class PlannedCourseService {
     private PlannedCourseListResponseDto buildResponse(Student student, List<PlannedCourse> courses) {
         Map<String, SemesterAccumulator> semesterMap = new LinkedHashMap<>();
         BigDecimal totalCredits = BigDecimal.ZERO;
+        Map<String, CompletedCourseUploadRowDto> transcriptCourseMap = resolveTranscriptCourseMap(student.getId());
         List<PlannedSemester> plannedSemesters = plannedSemesterRepository
                 .findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(student.getId());
 
@@ -176,7 +182,13 @@ public class PlannedCourseService {
                     key,
                     ignored -> new SemesterAccumulator(course.getPlannedSemesterId(), course.getGradeYear(), course.getSemester())
             );
-            accumulator.courses.add(PlannedCourseResponseDto.from(course));
+            CompletedCourseUploadRowDto previousCourse = transcriptCourseMap.get(normalizeCourseCode(course.getCourseCode()));
+            accumulator.courses.add(PlannedCourseResponseDto.from(
+                    course,
+                    previousCourse != null,
+                    previousCourse == null ? null : defaultText(previousCourse.grade(), null),
+                    previousCourse == null ? null : defaultText(previousCourse.gradePoint(), "0")
+            ));
 
             BigDecimal credit = toDecimal(course.getCredit());
             accumulator.totalCredits = accumulator.totalCredits.add(credit);
@@ -228,6 +240,27 @@ public class PlannedCourseService {
         return semester;
     }
 
+    private void validateNoDuplicatePlannedCourse(Long studentId, String courseCode) {
+        String normalizedCourseCode = normalizeCourseCode(courseCode);
+        boolean duplicated = plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId).stream()
+                .map(PlannedCourse::getCourseCode)
+                .map(this::normalizeCourseCode)
+                .anyMatch(normalizedCourseCode::equals);
+        if (duplicated) {
+            throw new IllegalArgumentException("이미 수강 계획에 추가한 학수번호입니다.");
+        }
+    }
+
+    private void validateRetakeEligibility(Long studentId, String courseCode) {
+        CompletedCourseUploadRowDto completedCourse = resolveTranscriptCourseMap(studentId).get(normalizeCourseCode(courseCode));
+        if (completedCourse == null) {
+            return;
+        }
+        if (isRetakeBlocked(completedCourse)) {
+            throw new IllegalArgumentException("기존 성적이 B0 이상인 과목은 재수강 계획에 추가할 수 없습니다.");
+        }
+    }
+
     private String requireText(String value, String fieldName) {
         String normalized = normalizeText(value);
         if (normalized == null || normalized.isBlank()) {
@@ -252,6 +285,44 @@ public class PlannedCourseService {
 
     private String normalizeText(String value) {
         return value == null ? null : value.trim();
+    }
+
+    private Map<String, CompletedCourseUploadRowDto> resolveTranscriptCourseMap(Long studentId) {
+        Map<String, CompletedCourseUploadRowDto> courseMap = new LinkedHashMap<>();
+        for (CompletedCourseUploadRowDto row : transcriptStorageService.getLatestTranscriptRows(studentId)) {
+            String courseCode = normalizeCourseCode(row.courseCode());
+            if (courseCode.isBlank()) {
+                continue;
+            }
+            courseMap.put(courseCode, row);
+        }
+        return courseMap;
+    }
+
+    private boolean isRetakeBlocked(CompletedCourseUploadRowDto course) {
+        String normalizedGrade = normalizeGrade(course.grade());
+        if (Set.of("A+", "A0", "B+", "B0").contains(normalizedGrade)) {
+            return true;
+        }
+        if (course.evaluationMethod() != null && "GRADE".equalsIgnoreCase(course.evaluationMethod().trim())) {
+            return parseGradePoint(course.gradePoint()).compareTo(BigDecimal.valueOf(3.0)) >= 0;
+        }
+        return false;
+    }
+
+    private BigDecimal parseGradePoint(String value) {
+        if (value == null || value.isBlank()) {
+            return BigDecimal.ZERO;
+        }
+        return new BigDecimal(value.trim());
+    }
+
+    private String normalizeGrade(String grade) {
+        return grade == null ? "" : grade.trim().toUpperCase();
+    }
+
+    private String normalizeCourseCode(String courseCode) {
+        return courseCode == null ? "" : courseCode.trim();
     }
 
     private String defaultText(String value) {
