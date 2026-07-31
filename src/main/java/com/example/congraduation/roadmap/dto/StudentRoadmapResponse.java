@@ -72,8 +72,16 @@ public class StudentRoadmapResponse {
         private final String abeekBucket;
         private final Double credits;
         private final boolean completed;
+        @Schema(description = "실제 수강 연도(원본). 학년 계산에 쓰지 말 것. standingTermKey / terms.termKey 사용")
         private final String takenYear;
+        @Schema(description = "실제 수강 학기(원본). 예: 1학기")
         private final String takenSemester;
+        @Schema(
+                description = "기이수 정규학기 순번 기준 배치 칸(1-1~4-2). "
+                        + "takenYear-admissionYear+1 달력 계산 금지. 휴학 건너뛴 순번.",
+                example = "2-1"
+        )
+        private final String standingTermKey;
         private final String grade;
         private final int sectionCount;
     }

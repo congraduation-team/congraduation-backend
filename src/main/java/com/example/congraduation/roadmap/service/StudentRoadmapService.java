@@ -13,6 +13,7 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapCours
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapSummaryDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.SourceTermDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.TermRoadmapDto;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -94,7 +95,8 @@ public class StudentRoadmapService {
                 abeekTarget,
                 abeekCode,
                 openingNamesFor(departmentName, abeekDept),
-                completion
+                completion,
+                student.getAdmissionYear()
         );
     }
 
@@ -112,9 +114,11 @@ public class StudentRoadmapService {
 
         Student student = null;
         CompletionIndex completion = CompletionIndex.empty();
+        Integer admissionYear = null;
         if (studentDbId != null) {
             student = transcriptStorageService.getStudentOrThrow(studentDbId);
             completion = buildCompletionIndex(studentDbId);
+            admissionYear = student.getAdmissionYear();
         }
 
         return buildRoadmap(
@@ -125,7 +129,8 @@ public class StudentRoadmapService {
                 abeekTarget,
                 abeekCode,
                 openingNamesFor(resolvedName, abeekDept),
-                completion
+                completion,
+                admissionYear
         );
     }
 
@@ -137,7 +142,8 @@ public class StudentRoadmapService {
             boolean abeekTarget,
             String abeekCode,
             Set<String> openingNames,
-            CompletionIndex completion
+            CompletionIndex completion,
+            Integer admissionYear
     ) {
         List<TimetableTermData> sourceTerms = resolveSourceTerms();
         Map<String, Map<String, AggregatedCourse>> byTermAndCode = new LinkedHashMap<>();
@@ -176,8 +182,8 @@ public class StudentRoadmapService {
                     .build());
         }
 
-        // 기이수: 정규학기 순번(휴학 건너뜀)으로 재배치. 학기 없으면 넣지 않음.
-        placeCompletedCoursesByStanding(byTermAndCode, completion);
+        // 기이수: 입학 이후 정규학기 순번으로 재배치. 학기 없으면 넣지 않음.
+        placeCompletedCoursesByStanding(byTermAndCode, completion, admissionYear);
 
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
@@ -186,7 +192,7 @@ public class StudentRoadmapService {
             String[] parts = termKey.split("-");
             List<RoadmapCourseDto> courses = byTermAndCode.get(termKey).values().stream()
                     .sorted(Comparator.comparing(AggregatedCourse::courseName, Comparator.nullsLast(String::compareTo)))
-                    .map(agg -> toCourseDto(agg, completion))
+                    .map(agg -> toCourseDto(agg, completion, termKey))
                     .toList();
             allCourses.addAll(courses);
 
@@ -293,39 +299,48 @@ public class StudentRoadmapService {
     }
 
     /**
-     * 기이수 과목을 정규학기 순번 칸에만 배치.
-     * 교필→교양필수, 기필→기초필수, 전필/전선/자기주도창의전공 등→전공.
+     * 기이수 과목을 입학 이후 정규학기 순번 칸에만 1회 배치.
+     * 시간표 권장학년 칸에 남은 이수 과목/중복(1·2학기 동시 개설)을 제거한다.
      */
     private void placeCompletedCoursesByStanding(
             Map<String, Map<String, AggregatedCourse>> byTermAndCode,
-            CompletionIndex completion
+            CompletionIndex completion,
+            Integer admissionYear
     ) {
         if (completion.isEmpty()) {
             return;
         }
 
-        TranscriptStandingMapper standing = TranscriptStandingMapper.fromRows(completion.rows());
+        TranscriptStandingMapper standing =
+                TranscriptStandingMapper.fromRows(completion.rows(), admissionYear);
 
         Map<String, AggregatedCourse> timetableTemplates = new LinkedHashMap<>();
         for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
             var iterator = termMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, AggregatedCourse> entry = iterator.next();
-                String norm = normalizeCourseCode(entry.getKey());
                 if (completion.findByCourseCode(entry.getKey()) != null) {
+                    String norm = normalizeCourseCode(entry.getKey());
                     timetableTemplates.putIfAbsent(norm, entry.getValue());
                     iterator.remove();
                 }
             }
         }
 
+        Map<String, String> targetTermByNorm = new LinkedHashMap<>();
         for (CompletionHit hit : completion.allHits()) {
             String termKey = standing.resolveTermKey(hit.year(), hit.semester());
             if (termKey == null || !byTermAndCode.containsKey(termKey)) {
                 continue;
             }
+            String norm = normalizeCourseCode(hit.courseCode());
+            if (norm.isBlank() || targetTermByNorm.containsKey(norm)) {
+                continue;
+            }
+            targetTermByNorm.put(norm, termKey);
+
             String displayCategory = normalizeDisplayCategory(hit.category(), hit.courseName());
-            AggregatedCourse template = timetableTemplates.get(normalizeCourseCode(hit.courseCode()));
+            AggregatedCourse template = timetableTemplates.get(norm);
             AggregatedCourse course = template != null
                     ? template.withCategory(displayCategory)
                     : AggregatedCourse.fromCompleted(
@@ -334,7 +349,22 @@ public class StudentRoadmapService {
                             displayCategory,
                             hit.credits()
                     );
+            // 동일 학수번호는 한 칸에만
             byTermAndCode.get(termKey).put(course.courseCode, course);
+        }
+
+        // 안전망: 이수 과목이 다른 학기 칸에 남아 있으면 제거
+        for (Map.Entry<String, Map<String, AggregatedCourse>> termEntry : byTermAndCode.entrySet()) {
+            String termKey = termEntry.getKey();
+            var iterator = termEntry.getValue().entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                String norm = normalizeCourseCode(entry.getKey());
+                String target = targetTermByNorm.get(norm);
+                if (target != null && !target.equals(termKey)) {
+                    iterator.remove();
+                }
+            }
         }
     }
 
@@ -362,7 +392,7 @@ public class StudentRoadmapService {
         return List.of(suffix);
     }
 
-    private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion) {
+    private RoadmapCourseDto toCourseDto(AggregatedCourse agg, CompletionIndex completion, String termKey) {
         CompletionHit hit = completion.findByCourseCode(agg.courseCode);
         String displayCategory = hit != null
                 ? normalizeDisplayCategory(hit.category(), hit.courseName())
@@ -377,6 +407,7 @@ public class StudentRoadmapService {
                 .completed(hit != null)
                 .takenYear(hit == null ? null : hit.year())
                 .takenSemester(hit == null ? null : hit.semester())
+                .standingTermKey(hit == null ? null : termKey)
                 .grade(hit == null ? null : hit.grade())
                 .sectionCount(agg.sectionCount)
                 .build();

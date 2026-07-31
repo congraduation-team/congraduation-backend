@@ -1,4 +1,4 @@
-package com.example.congraduation.roadmap.service;
+package com.example.congraduation.service.transcript;
 
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 
@@ -6,33 +6,36 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
  * 기이수 정규학기 순번 → 로드맵 termKey (1-1~4-2).
  * <p>
- * 예: 2021입학 후 2021-1, 2021-2, (휴학), 2024-1 → 1-1, 1-2, 2-1
- * 계절학기는 직전 정규학기에 귀속.
+ * 입학년도 이후 정규학기만 센다. 달력 연도(takenYear − admissionYear + 1)로 학년을 만들지 않는다.
+ * 예: 2021입학, 기이수 2021-1 / 2021-2 / 2024-1 → 1-1 / 1-2 / 2-1
+ * 입학 전 수강은 1-1에 붙이고, 계절학기는 직전 정규학기에 귀속.
  */
-final class TranscriptStandingMapper {
+public final class TranscriptStandingMapper {
 
-    private static final List<String> TERM_KEYS = List.of(
+    public static final List<String> TERM_KEYS = List.of(
             "1-1", "1-2", "2-1", "2-2", "3-1", "3-2", "4-1", "4-2"
     );
 
     private final Map<RegularTerm, String> regularTermKeys;
     private final List<RegularTerm> orderedRegularTerms;
+    private final Integer admissionYear;
 
     private TranscriptStandingMapper(
             Map<RegularTerm, String> regularTermKeys,
-            List<RegularTerm> orderedRegularTerms
+            List<RegularTerm> orderedRegularTerms,
+            Integer admissionYear
     ) {
         this.regularTermKeys = regularTermKeys;
         this.orderedRegularTerms = orderedRegularTerms;
+        this.admissionYear = admissionYear;
     }
 
-    static TranscriptStandingMapper fromRows(List<CompletedCourseUploadRowDto> rows) {
+    public static TranscriptStandingMapper fromRows(List<CompletedCourseUploadRowDto> rows, Integer admissionYear) {
         List<TermEvent> events = new ArrayList<>();
         for (CompletedCourseUploadRowDto row : rows) {
             Integer year = parseYear(row.year());
@@ -43,7 +46,7 @@ final class TranscriptStandingMapper {
             if (kind == SemesterKind.UNKNOWN) {
                 continue;
             }
-            events.add(new TermEvent(year, kind, row.semester()));
+            events.add(new TermEvent(year, kind));
         }
 
         events.sort(Comparator
@@ -54,6 +57,10 @@ final class TranscriptStandingMapper {
         List<RegularTerm> ordered = new ArrayList<>();
         for (TermEvent event : events) {
             if (!event.kind().regular()) {
+                continue;
+            }
+            // 입학 전 학기는 순번에서 제외
+            if (admissionYear != null && event.year() < admissionYear) {
                 continue;
             }
             RegularTerm term = new RegularTerm(event.year(), event.kind().regularSemester());
@@ -67,25 +74,29 @@ final class TranscriptStandingMapper {
             ordered.add(term);
             regularKeys.put(term, key);
         }
-        return new TranscriptStandingMapper(Map.copyOf(regularKeys), List.copyOf(ordered));
+        return new TranscriptStandingMapper(Map.copyOf(regularKeys), List.copyOf(ordered), admissionYear);
     }
 
     /**
-     * 실제 수강 학기가 정규/계절로 해석되고, 대응 로드맵 칸이 있을 때만 termKey 반환.
-     * 없으면 null (임의 fallback 금지).
+     * 대응 로드맵 칸이 있을 때만 termKey 반환. 임의 fallback 없음.
      */
-    String resolveTermKey(String yearText, String semesterText) {
+    public String resolveTermKey(String yearText, String semesterText) {
         Integer year = parseYear(yearText);
         SemesterKind kind = classifySemester(semesterText);
         if (year == null || kind == SemesterKind.UNKNOWN) {
             return null;
         }
 
+        // 입학 전 수강 → 1-1 (순번에 넣지 않음)
+        if (admissionYear != null && year < admissionYear) {
+            return orderedRegularTerms.isEmpty() ? null : TERM_KEYS.get(0);
+        }
+
         if (kind.regular()) {
             return regularTermKeys.get(new RegularTerm(year, kind.regularSemester()));
         }
 
-        // 계절학기 → 직전 정규학기
+        // 계절학기 → 직전 정규학기 (입학 이후만)
         RegularTerm previous = null;
         int seasonalOrder = kind.sortOrder();
         for (RegularTerm term : orderedRegularTerms) {
@@ -96,7 +107,20 @@ final class TranscriptStandingMapper {
                 break;
             }
         }
-        return previous == null ? null : regularTermKeys.get(previous);
+        if (previous != null) {
+            return regularTermKeys.get(previous);
+        }
+        return orderedRegularTerms.isEmpty() ? null : TERM_KEYS.get(0);
+    }
+
+    /** 1~8. 매핑 없으면 0. */
+    public int resolveStep(String yearText, String semesterText) {
+        String key = resolveTermKey(yearText, semesterText);
+        if (key == null) {
+            return 0;
+        }
+        int index = TERM_KEYS.indexOf(key);
+        return index < 0 ? 0 : index + 1;
     }
 
     private static Integer parseYear(String value) {
@@ -134,7 +158,7 @@ final class TranscriptStandingMapper {
         return SemesterKind.UNKNOWN;
     }
 
-    private record TermEvent(int year, SemesterKind kind, String rawSemester) {
+    private record TermEvent(int year, SemesterKind kind) {
     }
 
     private record RegularTerm(int year, int semester) {

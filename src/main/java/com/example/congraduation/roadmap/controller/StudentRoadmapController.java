@@ -43,7 +43,8 @@ public class StudentRoadmapController {
     @Operation(
             summary = "학생 로드맵 (시간표 + 기이수)",
             description = "학생 전공의 개설학과 시간표를 gradeYear+학기로 1-1~4-2에 배치하고, "
-                    + "업로드된 기이수성적 학수번호로 이수 여부를 표시합니다. "
+                    + "기이수 과목은 입학 이후 정규학기 순번(standingTermKey)으로 재배치합니다. "
+                    + "takenYear−admissionYear+1 달력 학년 계산은 사용하지 마세요. "
                     + "전공이 공학인증 대상 학과면 categories(GENERAL/BSM/MAJOR)를 채웁니다."
     )
     public StudentRoadmapResponse byStudent(

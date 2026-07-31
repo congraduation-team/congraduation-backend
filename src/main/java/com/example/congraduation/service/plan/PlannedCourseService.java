@@ -13,6 +13,7 @@ import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.repository.plan.PlannedCourseRepository;
 import com.example.congraduation.repository.plan.PlannedSemesterRepository;
 import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -334,15 +335,21 @@ public class PlannedCourseService {
     }
 
     private int resolveLastCompletedStep(Student student) {
+        int fallback = Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
         if (!transcriptStorageService.hasTranscript(student.getId())) {
-            return Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
+            return fallback;
         }
 
-        return transcriptStorageService.getLatestTranscriptRows(student.getId()).stream()
-                .map(row -> toAcademicStep(student, row))
+        List<CompletedCourseUploadRowDto> rows =
+                transcriptStorageService.getLatestTranscriptRows(student.getId());
+        // 달력 상대학년(takenYear−admissionYear+1) 금지. 기이수 정규학기 순번만 사용.
+        TranscriptStandingMapper standing =
+                TranscriptStandingMapper.fromRows(rows, student.getAdmissionYear());
+        return rows.stream()
+                .mapToInt(row -> standing.resolveStep(row.year(), row.semester()))
                 .filter(step -> step > 0)
-                .max(Comparator.naturalOrder())
-                .orElse(Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2));
+                .max()
+                .orElse(fallback);
     }
 
     private int resolveLastPlannedStep(List<PlannedSemester> semesters) {
@@ -350,25 +357,6 @@ public class PlannedCourseService {
                 .map(semester -> toAcademicStep(semester.getGradeYear(), semester.getSemester()))
                 .max(Comparator.naturalOrder())
                 .orElse(0);
-    }
-
-    private int toAcademicStep(Student student, CompletedCourseUploadRowDto row) {
-        Integer year = parseInt(row.year());
-        if (year == null) {
-            return 0;
-        }
-
-        int semesterIndex = toRegularSemesterIndex(row.semester());
-        if (semesterIndex == 0) {
-            return 0;
-        }
-
-        Integer admissionYear = student.getAdmissionYear();
-        if (admissionYear == null || year < admissionYear) {
-            return 0;
-        }
-
-        return ((year - admissionYear) * 2) + semesterIndex;
     }
 
     private int toAcademicStep(Integer gradeYear, Integer semester) {
@@ -386,28 +374,6 @@ public class PlannedCourseService {
         int gradeYear = ((step - 1) / 2) + 1;
         int semester = ((step - 1) % 2) + 1;
         return gradeYear + "-" + semester;
-    }
-
-    private Integer parseInt(String value) {
-        try {
-            return value == null ? null : Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private int toRegularSemesterIndex(String semesterText) {
-        if (semesterText == null) {
-            return 0;
-        }
-        String normalized = semesterText.trim();
-        if (normalized.contains("2")) {
-            return 2;
-        }
-        if (normalized.contains("1") || normalized.contains("여름")) {
-            return 1;
-        }
-        return 0;
     }
 
     private BigDecimal toDecimal(String value) {
