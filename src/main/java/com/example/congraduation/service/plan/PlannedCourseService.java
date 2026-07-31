@@ -207,12 +207,58 @@ public class PlannedCourseService {
                 ))
                 .toList();
 
+        StandingSnapshot standing = resolveStandingSnapshot(student);
         return new PlannedCourseListResponseDto(
                 student.getId(),
-                formatSemesterLabel(resolveLastCompletedStep(student)),
+                standing.termKey(),
+                standing.takenYear(),
+                standing.takenSemester(),
+                standing.gradeYear(),
+                standing.overStanding(),
                 formatDecimal(totalCredits),
                 semesters
         );
+    }
+
+    private StandingSnapshot resolveStandingSnapshot(Student student) {
+        int step = resolveLastCompletedStep(student);
+        String termKey = formatSemesterLabel(step);
+        Integer gradeYear = null;
+        boolean overStanding = false;
+        if (termKey != null) {
+            String[] parts = termKey.split("-");
+            gradeYear = Integer.parseInt(parts[0]);
+            overStanding = gradeYear > 4;
+        }
+
+        String takenYear = null;
+        String takenSemester = null;
+        if (transcriptStorageService.hasTranscript(student.getId())) {
+            List<CompletedCourseUploadRowDto> rows =
+                    transcriptStorageService.getLatestTranscriptRows(student.getId());
+            TranscriptStandingMapper mapper =
+                    TranscriptStandingMapper.fromRows(rows, student.getAdmissionYear());
+            int bestStep = 0;
+            for (CompletedCourseUploadRowDto row : rows) {
+                int rowStep = mapper.resolveStep(row.year(), row.semester());
+                if (rowStep > bestStep) {
+                    bestStep = rowStep;
+                    takenYear = row.year();
+                    takenSemester = row.semester();
+                }
+            }
+        }
+
+        return new StandingSnapshot(termKey, takenYear, takenSemester, gradeYear, overStanding);
+    }
+
+    private record StandingSnapshot(
+            String termKey,
+            String takenYear,
+            String takenSemester,
+            Integer gradeYear,
+            boolean overStanding
+    ) {
     }
 
     private PlannedSemester resolvePlannedSemester(Long studentId, PlannedCourseRequestDto request) {
