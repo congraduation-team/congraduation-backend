@@ -5,6 +5,7 @@ import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,33 @@ public final class TranscriptStandingMapper {
             regularKeys.put(term, key);
         }
         return new TranscriptStandingMapper(Map.copyOf(regularKeys), List.copyOf(ordered), admissionYear);
+    }
+
+    /**
+     * 입학 이후 실제로 이수한 정규학기(1·2학기) 개수.
+     * 휴학으로 비는 연도는 세지 않으며, 로드맵 8학기 상한과 무관하다.
+     * 달력식 (takenYear−admissionYear)×2+학기 금지.
+     */
+    public static int countDistinctRegularTerms(List<CompletedCourseUploadRowDto> rows, Integer admissionYear) {
+        if (rows == null || rows.isEmpty()) {
+            return 0;
+        }
+        LinkedHashSet<RegularTerm> terms = new LinkedHashSet<>();
+        for (CompletedCourseUploadRowDto row : rows) {
+            Integer year = parseYear(row.year());
+            if (year == null) {
+                continue;
+            }
+            if (admissionYear != null && year < admissionYear) {
+                continue;
+            }
+            SemesterKind kind = classifySemester(row.semester());
+            if (!kind.regular()) {
+                continue;
+            }
+            terms.add(new RegularTerm(year, kind.regularSemester()));
+        }
+        return terms.size();
     }
 
     /**

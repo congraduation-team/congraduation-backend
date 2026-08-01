@@ -56,6 +56,38 @@ class TranscriptStandingMapperTest {
     }
 
     @Test
+    void countDistinctRegularTerms_skipsLeaveYearsAndIgnoresEightTermCap() {
+        List<CompletedCourseUploadRowDto> rows = List.of(
+                row("2021", "1학기", "A"),
+                row("2021", "2학기", "B"),
+                row("2024", "1학기", "C"),
+                row("2024", "2학기", "D"),
+                row("2025", "1학기", "E"),
+                row("2025", "2학기", "F"),
+                row("2026", "1학기", "G")
+        );
+        // 달력 (2026-2021)*2+1 = 11 이지만 실제 이수 정규학기는 7
+        assertThat(TranscriptStandingMapper.countDistinctRegularTerms(rows, 2021)).isEqualTo(7);
+    }
+
+    @Test
+    void countDistinctRegularTerms_canExceedEight() {
+        List<CompletedCourseUploadRowDto> rows = new java.util.ArrayList<>();
+        int year = 2017;
+        int semester = 1;
+        for (int i = 0; i < 10; i++) {
+            rows.add(row(String.valueOf(year), semester + "학기", "C" + i));
+            if (semester == 1) {
+                semester = 2;
+            } else {
+                semester = 1;
+                year++;
+            }
+        }
+        assertThat(TranscriptStandingMapper.countDistinctRegularTerms(rows, 2017)).isEqualTo(10);
+    }
+
+    @Test
     void seasonalAttachesToPreviousRegularTerm() {
         TranscriptStandingMapper mapper = TranscriptStandingMapper.fromRows(List.of(
                 row("2021", "1학기", "A"),

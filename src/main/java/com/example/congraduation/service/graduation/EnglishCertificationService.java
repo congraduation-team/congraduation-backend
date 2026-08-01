@@ -3,6 +3,7 @@ package com.example.congraduation.service.graduation;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -75,7 +76,11 @@ public class EnglishCertificationService {
             );
         }
 
-        int completedRegularSemesters = resolveCompletedRegularSemesters(student, courses);
+        // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
+        int completedRegularSemesters = TranscriptStandingMapper.countDistinctRegularTerms(
+                courses,
+                student.getAdmissionYear()
+        );
         int requiredSemestersForExemption = "건축학과".equals(major) ? 12 : 10;
         if (completedRegularSemesters >= requiredSemestersForExemption) {
             return new EnglishCertificationProgressDto(
@@ -94,61 +99,13 @@ public class EnglishCertificationService {
                 "IN_PROGRESS",
                 optionalPolicy ? "OPTIONAL" : "REQUIRED",
                 primaryRequirement(optionalPolicy),
-                buildPendingDetail(optionalPolicy)
+                buildPendingDetail(optionalPolicy, completedRegularSemesters, requiredSemestersForExemption)
         );
     }
 
     private boolean hasCompletedIntensiveEnglish(List<CompletedCourseUploadRowDto> courses) {
         return courses.stream()
                 .anyMatch(course -> normalizeCourseName(course.courseName()).equals(INTENSIVE_ENGLISH));
-    }
-
-    private int resolveCompletedRegularSemesters(Student student, List<CompletedCourseUploadRowDto> courses) {
-        Integer admissionYear = student.getAdmissionYear();
-        if (admissionYear == null) {
-            return 0;
-        }
-
-        return courses.stream()
-                .mapToInt(course -> toAcademicStep(admissionYear, course))
-                .max()
-                .orElse(0);
-    }
-
-    private int toAcademicStep(int admissionYear, CompletedCourseUploadRowDto row) {
-        Integer year = parseInt(row.year());
-        if (year == null || year < admissionYear) {
-            return 0;
-        }
-
-        int semesterIndex = toRegularSemesterIndex(row.semester());
-        if (semesterIndex == 0) {
-            return 0;
-        }
-
-        return ((year - admissionYear) * 2) + semesterIndex;
-    }
-
-    private int toRegularSemesterIndex(String semesterText) {
-        if (semesterText == null) {
-            return 0;
-        }
-        String normalized = semesterText.trim();
-        if (normalized.contains("2")) {
-            return 2;
-        }
-        if (normalized.contains("1") || normalized.contains("여름")) {
-            return 1;
-        }
-        return 0;
-    }
-
-    private Integer parseInt(String value) {
-        try {
-            return value == null ? null : Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 
     private boolean isArtsCollegeMajor(String major) {
@@ -166,12 +123,20 @@ public class EnglishCertificationService {
         return "공인영어 기준 점수 또는 Intensive English 이수(면제 가능)";
     }
 
-    private String buildPendingDetail(boolean optionalPolicy) {
+    private String buildPendingDetail(
+            boolean optionalPolicy,
+            int completedRegularSemesters,
+            int requiredSemestersForExemption
+    ) {
+        String progress = "현재 기이수 정규학기 " + completedRegularSemesters + "학기"
+                + " / 학기 면제 기준 " + requiredSemestersForExemption + "학기. ";
         if (optionalPolicy) {
-            return "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+            return progress
+                    + "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                     + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
         }
-        return "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+        return progress
+                + "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                 + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
     }
 
