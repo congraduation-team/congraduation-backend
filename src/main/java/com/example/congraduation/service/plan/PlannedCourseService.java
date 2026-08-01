@@ -30,8 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlannedCourseService {
 
-    /** 계획 학기 상한(학년). 4-2 고정 제한 대신 여유 있게 허용. */
+    /** 계획 학기 상한(학년). 초과학년 계획용 여유. */
     private static final int MAX_PLAN_GRADE_YEAR = 8;
+
+    /** 표준 졸업 로드맵 마지막 순번 (4-2). 남은 학기 카드는 여기까지 채운다. */
+    private static final int STANDARD_GRADUATION_STEP = 8;
 
     private final StudentRepository studentRepository;
     private final PlannedCourseRepository plannedCourseRepository;
@@ -50,10 +53,12 @@ public class PlannedCourseService {
         this.transcriptStorageService = transcriptStorageService;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PlannedCourseListResponseDto getPlannedCourses(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
+        // 마지막 이수 다음 ~ 4-2까지 빈 학기 카드를 항상 확보
+        ensureRemainingSemestersThroughGraduation(student);
         return buildResponse(student, plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId));
     }
 
@@ -131,11 +136,20 @@ public class PlannedCourseService {
     public PlannedCourseListResponseDto addNextPlannedSemesters(Long studentId, int count) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
-        int requestedCount = count <= 0 ? 1 : count;
 
-        List<PlannedSemester> existingSemesters = plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(studentId);
+        // FE는 보통 count=1만 보냄. 기본은 마지막 이수 다음~4-2를 한 번에 채운다.
+        if (count <= 1) {
+            ensureRemainingSemestersThroughGraduation(student);
+            return buildResponse(
+                    student,
+                    plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId)
+            );
+        }
+
+        List<PlannedSemester> existingSemesters = plannedSemesterRepository
+                .findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(studentId);
         int lastStep = Math.max(resolveLastCompletedStep(student), resolveLastPlannedStep(existingSemesters));
-        for (int i = 1; i <= requestedCount; i++) {
+        for (int i = 1; i <= count; i++) {
             int nextStep = lastStep + i;
             int gradeYear = ((nextStep - 1) / 2) + 1;
             int semester = ((nextStep - 1) % 2) + 1;
@@ -143,11 +157,29 @@ public class PlannedCourseService {
                 throw new IllegalArgumentException(
                         "추가 가능한 학기는 " + MAX_PLAN_GRADE_YEAR + "학년 2학기까지입니다.");
             }
-            plannedSemesterRepository.findByStudentIdAndGradeYearAndSemester(studentId, gradeYear, semester)
-                    .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
+            ensurePlannedSemester(student, gradeYear, semester);
         }
 
         return buildResponse(student, plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId));
+    }
+
+    /**
+     * 기이수 순번 다음부터 표준 졸업(4-2)까지 빈 계획 학기를 모두 만든다.
+     * 예: 마지막 이수 3-1 → 3-2, 4-1, 4-2 / 마지막 이수 1-1 → 1-2 … 4-2
+     */
+    private void ensureRemainingSemestersThroughGraduation(Student student) {
+        int lastCompletedStep = resolveLastCompletedStep(student);
+        for (int step = lastCompletedStep + 1; step <= STANDARD_GRADUATION_STEP; step++) {
+            int gradeYear = ((step - 1) / 2) + 1;
+            int semester = ((step - 1) % 2) + 1;
+            ensurePlannedSemester(student, gradeYear, semester);
+        }
+    }
+
+    private void ensurePlannedSemester(Student student, int gradeYear, int semester) {
+        plannedSemesterRepository
+                .findByStudentIdAndGradeYearAndSemester(student.getId(), gradeYear, semester)
+                .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
     }
 
     @Transactional(readOnly = true)
