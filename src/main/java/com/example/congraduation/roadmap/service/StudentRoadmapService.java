@@ -470,7 +470,7 @@ public class StudentRoadmapService {
 
     /**
      * 기이수/시간표 구분을 로드맵 표시용으로 정규화.
-     * 교필·공필·교선·균필 등 → 교양필수, 기필·학문기초 → 기초필수, 전*/자기주도창의전공 → 전공 계열 유지.
+     * 교필·공필·교선·균필 등 → 교양필수, 기필·학문기초 → 기초필수, 전공/자기주도창의전공 → 전공 계열 유지.
      */
     String normalizeDisplayCategory(String category, String courseName) {
         String cat = category == null ? "" : category.replaceAll("\\s+", "");
