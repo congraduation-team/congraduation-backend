@@ -299,12 +299,12 @@ public class StudentRoadmapService {
         return isCommonRequiredOffering(offering);
     }
 
-    /** 전학생 공통: 기초필수·학문기초·자기주도만 시간표에서 포함. 교양필수는 기이수만 주입. */
+    /**
+     * 전학생 공통으로 시간표에서 넣는 것: 기초필수·학문기초만.
+     * 교양필수·자기주도창의전공은 기이수(placeCompleted)로만 넣는다.
+     * (자기주도 Ⅲ·Ⅳ 등이 1학년 칸에 무분별하게 붙는 것 방지)
+     */
     private boolean isCommonRequiredOffering(TimetableOffering offering) {
-        String name = offering.courseName() == null ? "" : offering.courseName().replaceAll("\\s+", "");
-        if (name.contains("자기주도창의전공")) {
-            return true;
-        }
         String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
         return cat.contains("기초필수") || cat.contains("학문기초");
     }
@@ -325,6 +325,12 @@ public class StudentRoadmapService {
                     continue;
                 }
                 AggregatedCourse agg = entry.getValue();
+                String name = agg.courseName == null ? "" : agg.courseName.replaceAll("\\s+", "");
+                // 미이수 자기주도창의전공도 제거 (시간표 gy=1에 Ⅲ·Ⅳ가 붙는 경우)
+                if (name.contains("자기주도창의전공")) {
+                    iterator.remove();
+                    continue;
+                }
                 String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
                 String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
                 if ("GENERAL".equals(bucket)) {
