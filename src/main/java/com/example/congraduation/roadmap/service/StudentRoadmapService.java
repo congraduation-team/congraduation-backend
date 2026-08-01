@@ -186,6 +186,11 @@ public class StudentRoadmapService {
         // 기이수: 입학 이후 정규학기 순번으로 재배치. 학기 없으면 넣지 않음.
         placeCompletedCoursesByStanding(byTermAndCode, completion, admissionYear);
 
+        // 학생 로드맵: 교양(GENERAL)은 기이수만. 시간표 공통교양필수 미이수 슬롯 제거.
+        if (studentDbId != null) {
+            stripIncompleteGeneralCourses(byTermAndCode, completion);
+        }
+
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
         for (int i = 0; i < TERM_KEYS.size(); i++) {
@@ -198,8 +203,12 @@ public class StudentRoadmapService {
             allCourses.addAll(courses);
 
             Map<String, List<RoadmapCourseDto>> categories = new LinkedHashMap<>();
-            // 교양 행: 전공·BSM이 아닌 과목(기이수 공필/교선/균필 등 포함)
-            categories.put("GENERAL", filterBucket(courses, "GENERAL"));
+            // 교양 행: 전공·BSM이 아닌 기이수 (공필/교선/균필 등)
+            List<RoadmapCourseDto> general = filterBucket(courses, "GENERAL");
+            if (studentDbId != null) {
+                general = general.stream().filter(RoadmapCourseDto::isCompleted).toList();
+            }
+            categories.put("GENERAL", general);
             categories.put("FOUNDATION", filterByDisplayCategory(courses, "기초필수"));
             categories.put("MAJOR", filterBucket(courses, "MAJOR"));
             if (abeekTarget) {
@@ -290,18 +299,45 @@ public class StudentRoadmapService {
         return isCommonRequiredOffering(offering);
     }
 
-    /** 전학생 공통 교양필수·자기주도창의전공 등 학과와 무관하게 포함 */
+    /**
+     * 전학생 공통으로 시간표에서 넣는 것: 기초필수·학문기초만.
+     * 교양필수·자기주도창의전공은 기이수(placeCompleted)로만 넣는다.
+     * (자기주도 Ⅲ·Ⅳ 등이 1학년 칸에 무분별하게 붙는 것 방지)
+     */
     private boolean isCommonRequiredOffering(TimetableOffering offering) {
-        String name = offering.courseName() == null ? "" : offering.courseName().replaceAll("\\s+", "");
-        if (name.contains("자기주도창의전공")) {
-            return true;
-        }
         String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
-        if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")) {
-            return true;
+        return cat.contains("기초필수") || cat.contains("학문기초");
+    }
+
+    /**
+     * 학생 로드맵에서 미이수 교양(GENERAL) 시간표 슬롯을 제거한다.
+     * English Listening/Reading 등 공통 교양필수가 미이수로 남는 것을 막는다.
+     */
+    private void stripIncompleteGeneralCourses(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion
+    ) {
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            var iterator = termMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                if (completion.findByCourseCode(entry.getKey()) != null) {
+                    continue;
+                }
+                AggregatedCourse agg = entry.getValue();
+                String name = agg.courseName == null ? "" : agg.courseName.replaceAll("\\s+", "");
+                // 미이수 자기주도창의전공도 제거 (시간표 gy=1에 Ⅲ·Ⅳ가 붙는 경우)
+                if (name.contains("자기주도창의전공")) {
+                    iterator.remove();
+                    continue;
+                }
+                String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
+                String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+                if ("GENERAL".equals(bucket)) {
+                    iterator.remove();
+                }
+            }
         }
-        String opening = offering.openingDepartment() == null ? "" : offering.openingDepartment();
-        return opening.contains("대양휴머니티") && (cat.contains("필수") || cat.contains("중핵"));
     }
 
     /**
