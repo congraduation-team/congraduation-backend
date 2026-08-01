@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -289,8 +290,12 @@ public class StudentRoadmapService {
         return isCommonRequiredOffering(offering);
     }
 
-    /** 전학생 공통 교양필수만 학과와 무관하게 포함 */
+    /** 전학생 공통 교양필수·자기주도창의전공 등 학과와 무관하게 포함 */
     private boolean isCommonRequiredOffering(TimetableOffering offering) {
+        String name = offering.courseName() == null ? "" : offering.courseName().replaceAll("\\s+", "");
+        if (name.contains("자기주도창의전공")) {
+            return true;
+        }
         String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
         if (cat.contains("교양필수") || cat.contains("기초필수") || cat.contains("학문기초")) {
             return true;
@@ -315,30 +320,37 @@ public class StudentRoadmapService {
         TranscriptStandingMapper standing =
                 TranscriptStandingMapper.fromRows(completion.rows(), admissionYear);
 
+        // 시간표 칸 제거 + 템플릿 보관 (동등 학수번호 포함)
         Map<String, AggregatedCourse> timetableTemplates = new LinkedHashMap<>();
         for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
             var iterator = termMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, AggregatedCourse> entry = iterator.next();
                 if (completion.findByCourseCode(entry.getKey()) != null) {
-                    String norm = normalizeCourseCode(entry.getKey());
-                    timetableTemplates.putIfAbsent(norm, entry.getValue());
+                    AggregatedCourse template = entry.getValue();
+                    for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(entry.getKey())) {
+                        timetableTemplates.putIfAbsent(equiv, template);
+                    }
                     iterator.remove();
                 }
             }
         }
 
         Map<String, String> targetTermByNorm = new LinkedHashMap<>();
+        Set<String> placedGroups = new HashSet<>();
         for (CompletionHit hit : completion.allHits()) {
             String termKey = standing.resolveTermKey(hit.year(), hit.semester());
             if (termKey == null || !byTermAndCode.containsKey(termKey)) {
                 continue;
             }
             String norm = normalizeCourseCode(hit.courseCode());
-            if (norm.isBlank() || targetTermByNorm.containsKey(norm)) {
+            if (norm.isBlank()) {
                 continue;
             }
-            targetTermByNorm.put(norm, termKey);
+            String group = RoadmapCourseCodeEquivalence.canonical(norm);
+            if (!placedGroups.add(group)) {
+                continue;
+            }
 
             String displayCategory = normalizeDisplayCategory(hit.category(), hit.courseName());
             String bucket = classifyAbeekBucket(displayCategory, hit.courseName());
@@ -346,7 +358,15 @@ public class StudentRoadmapService {
             if (!"MAJOR".equals(bucket) && !"BSM".equals(bucket)) {
                 displayCategory = "교양필수";
             }
-            AggregatedCourse template = timetableTemplates.get(norm);
+
+            AggregatedCourse template = null;
+            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(norm)) {
+                template = timetableTemplates.get(equiv);
+                if (template != null) {
+                    break;
+                }
+            }
+            // 시간표(신 학수번호·과목명)가 있으면 그 칸에 이수 표시
             AggregatedCourse course = template != null
                     ? template.withCategory(displayCategory)
                     : AggregatedCourse.fromCompleted(
@@ -355,11 +375,17 @@ public class StudentRoadmapService {
                             displayCategory,
                             hit.credits()
                     );
-            // 동일 학수번호는 한 칸에만
             byTermAndCode.get(termKey).put(course.courseCode, course);
+
+            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(course.courseCode)) {
+                targetTermByNorm.put(equiv, termKey);
+            }
+            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(norm)) {
+                targetTermByNorm.putIfAbsent(equiv, termKey);
+            }
         }
 
-        // 안전망: 이수 과목이 다른 학기 칸에 남아 있으면 제거
+        // 안전망: 동등 학수번호가 다른 학기 칸에 남아 있으면 제거
         for (Map.Entry<String, Map<String, AggregatedCourse>> termEntry : byTermAndCode.entrySet()) {
             String termKey = termEntry.getKey();
             var iterator = termEntry.getValue().entrySet().iterator();
@@ -367,6 +393,14 @@ public class StudentRoadmapService {
                 Map.Entry<String, AggregatedCourse> entry = iterator.next();
                 String norm = normalizeCourseCode(entry.getKey());
                 String target = targetTermByNorm.get(norm);
+                if (target == null) {
+                    for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(norm)) {
+                        target = targetTermByNorm.get(equiv);
+                        if (target != null) {
+                            break;
+                        }
+                    }
+                }
                 if (target != null && !target.equals(termKey)) {
                     iterator.remove();
                 }
@@ -557,7 +591,7 @@ public class StudentRoadmapService {
             if (key.isBlank()) {
                 continue;
             }
-            byCode.putIfAbsent(key, new CompletionHit(
+            CompletionHit hit = new CompletionHit(
                     row.year(),
                     row.semester(),
                     row.grade(),
@@ -565,7 +599,11 @@ public class StudentRoadmapService {
                     row.courseName(),
                     row.category(),
                     parseCredits(row.credit())
-            ));
+            );
+            // 동등 학수번호(구·신)에도 같은 이수 hit를 걸어 시간표 신코드와 매칭
+            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(key)) {
+                byCode.putIfAbsent(equiv, hit);
+            }
         }
         return new CompletionIndex(byCode, List.copyOf(kept));
     }
@@ -688,11 +726,23 @@ public class StudentRoadmapService {
         }
 
         CompletionHit findByCourseCode(String courseCode) {
-            return byNormalizedCode.get(normalizeCourseCode(courseCode));
+            String norm = normalizeCourseCode(courseCode);
+            CompletionHit hit = byNormalizedCode.get(norm);
+            if (hit != null) {
+                return hit;
+            }
+            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(norm)) {
+                hit = byNormalizedCode.get(equiv);
+                if (hit != null) {
+                    return hit;
+                }
+            }
+            return null;
         }
 
         List<CompletionHit> allHits() {
-            return List.copyOf(byNormalizedCode.values());
+            // 동등 코드로 중복 인덱싱된 hit는 한 번만
+            return List.copyOf(new LinkedHashSet<>(byNormalizedCode.values()));
         }
     }
 }
