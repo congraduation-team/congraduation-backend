@@ -39,8 +39,10 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("002647", "BSM_PHYS_LAB");
         map.put("000304", "BSM_EMATH1");
         map.put("009955", "BSM_DISC");
-        map.put("009959", "BSM_PROB_PROG");
-        map.put("009961", "BSM_LINEAR_PROG");
+        map.put("009959", "BSM_PROB_PROG"); // 확률통계및프로그래밍(구)
+        map.put("007330", "BSM_PROB");     // 확률및통계(신)
+        map.put("009961", "BSM_LINEAR_PROG"); // 선형대수및프로그래밍(구)
+        map.put("001725", "BSM_LINEAR");      // 선형대수(신)
 
         // —— 전공 ——
         map.put("009912", "MAJ_C");
