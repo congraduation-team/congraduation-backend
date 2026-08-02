@@ -30,6 +30,8 @@ public class FullRoadmapController {
     @Operation(
             summary = "[레거시] ABEEK 이수체계도 로드맵",
             description = "ABEEK 커리큘럼 시드(recommendedTerm) 기반입니다. "
+                    + "edges[].edgeType = MANDATORY(실선) | RECOMMENDED(점선). "
+                    + "commonMajorPrerequisiteCourseCodes = 「모든 전공의 선수 과목」 영역. "
                     + "일반 학생 로드맵은 /api/roadmap 를 사용하세요."
     )
     public FullRoadmapResponse fullRoadmap(

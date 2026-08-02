@@ -19,8 +19,15 @@ public class FullRoadmapResponse {
     private final String studentName;
     private final List<TermRoadmapDto> terms;
     private final List<RoadmapCourseDto> unscheduledCourses;
-    /** 선수/권장 과목 간선 (from → to) */
+    /** 선수/권장 과목 간선 (from → to). edgeType: MANDATORY(실선) | RECOMMENDED(점선) */
     private final List<RoadmapEdgeDto> edges;
+    /**
+     * 「모든 전공의 선수 과목」 영역에 넣을 과목 코드.
+     * 검수 JSON commonMajorPrerequisiteCourseNames 를 커리큘럼 코드로 해석한 결과.
+     */
+    private final List<String> commonMajorPrerequisiteCourseCodes;
+    /** 공통선수 영역 과목명 (해석 실패 포함 원본 유지용) */
+    private final List<String> commonMajorPrerequisiteCourseNames;
     private final RoadmapSummaryDto summary;
 
     @Getter

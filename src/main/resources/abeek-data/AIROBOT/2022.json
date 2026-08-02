@@ -1127,9 +1127,166 @@
       }
     ],
     "prerequisites": [],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:21"
+  "scrapedAt": "2026-07-28T19:25:21",
+  "prerequisites": [
+    {
+      "from": "C프로그래밍및실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산수학및프로그래밍",
+      "to": "기계전자프로그래밍",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "이산수학및프로그래밍",
+      "to": "자료구조및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "기계전자프로그래밍",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "확률통계및프로그래밍",
+      "to": "수치해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "반도체기초",
+      "to": "반도체소자",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "반도체소자",
+      "to": "반도체공정및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "반도체공정및실습",
+      "to": "스마트소자및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로실험",
+      "to": "전자회로",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "신호및시스템",
+      "to": "통신시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "통신시스템",
+      "to": "디지털통신",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "알고리즘및실습",
+      "to": "기계학습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기계학습",
+      "to": "인공지능",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "영상처리",
+      "to": "인공지능",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "인공지능",
+      "to": "딥러닝시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자동제어",
+      "to": "로보틱스",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "컴퓨터구조및운영체제",
+      "to": "임베디드시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "JAVA프로그래밍",
+      "to": "데이터베이스",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "데이터베이스",
+      "to": "앱프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "인공지능",
+      "to": "Capstone디자인(산학협력프로젝트)",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "임베디드시스템",
+      "to": "Capstone디자인(산학협력프로젝트)",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "인턴십1",
+      "to": "인턴쉽2",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "로보틱스",
+      "to": "AI 로봇설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "AIROBOT 2022 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "창의SW기초설계"
+  ]
 }

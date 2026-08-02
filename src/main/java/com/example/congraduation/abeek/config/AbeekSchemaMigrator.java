@@ -51,5 +51,23 @@ public class AbeekSchemaMigrator implements CommandLineRunner {
                 log.debug("Skip opening_department_code migration: {}", ex.getMessage());
             }
         }
+
+        try {
+            Integer count = jdbcTemplate.queryForObject(
+                    "SELECT COUNT(*) FROM information_schema.COLUMNS "
+                            + "WHERE TABLE_SCHEMA = DATABASE() "
+                            + "AND TABLE_NAME = 'abeek_year_requirement' "
+                            + "AND COLUMN_NAME = 'common_major_prerequisite_names'",
+                    Integer.class
+            );
+            if (count == null || count == 0) {
+                jdbcTemplate.execute(
+                        "ALTER TABLE abeek_year_requirement "
+                                + "ADD COLUMN common_major_prerequisite_names TEXT NULL");
+                log.info("Added abeek_year_requirement.common_major_prerequisite_names");
+            }
+        } catch (Exception ex) {
+            log.debug("Skip common_major_prerequisite_names migration: {}", ex.getMessage());
+        }
     }
 }

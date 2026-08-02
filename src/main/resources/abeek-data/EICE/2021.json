@@ -1853,143 +1853,108 @@
         "estimatedTerm": "4-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "Practice",
-        "to": "English Listening",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "English Listening",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "English Reading",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일변-미적분학",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학1",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학",
-        "to": "선형대수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기런로",
-        "to": "기초설겨",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설겨",
-        "to": "통신이론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터구조록",
-        "to": "전자회로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기런로실철",
-        "to": "전자회로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자기2",
-        "to": "플라즈마공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "플라즈마공학",
-        "to": "수치해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수치해석",
-        "to": "전자 Track",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "<인종조건> 추가 조건을 모두 만족하여 전공 5학점 이상 이수",
-        "to": "(추가 조건의 구체적인 내용은 인종기준 참고)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반도전공학",
-        "to": "태양전지공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "태양전지공학",
-        "to": "안티나공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "무선통신공학",
-        "to": "차서머이동통신",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "차서머이동통신",
-        "to": "통신 Track",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "음성최리",
-        "to": "멀티미디어통신",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공(설계)",
-        "to": "필수 선수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지등",
-        "to": "음함공함",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "음함공함",
-        "to": "정보 Track",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:09"
+  "scrapedAt": "2026-07-28T19:25:09",
+  "prerequisites": [
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "전기회로",
+      "to": "물리전자공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "신호및시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "전기회로실험",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "신호및시스템",
+      "to": "디지털신호처리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로1",
+      "to": "전자회로2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전자기1",
+      "to": "전자기2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "컴퓨터구조론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "통신이론",
+      "to": "디지털통신시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "데이터통신",
+      "to": "컴퓨터네트워크",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "데이터통신",
+      "to": "데이터통신설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로2",
+      "to": "전자회로설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "임베디드시스템",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "commonMajorPrerequisiteCourseNames": [
+    "전기회로",
+    "기초설계"
+  ],
+  "prerequisitesNote": "EICE 2021 공식 이수체계도 검수."
 }

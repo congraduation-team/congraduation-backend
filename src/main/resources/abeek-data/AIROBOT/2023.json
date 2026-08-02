@@ -1846,377 +1846,119 @@
         "estimatedTerm": "4-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "신입생세미나A",
-        "to": "신입생세미나B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "JAVA",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및",
-        "to": "졸업연구및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제해결을위한",
-        "to": "글쓰기와발표",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "글쓰기와발표",
-        "to": "쟁점과토론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "쟁점과토론",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:",
-        "to": "창의SW기초",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "창의SW기초",
-        "to": "웬프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "웬프로그래망",
-        "to": "데이터베이스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터베이스",
-        "to": "디지털신호처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디지털신호처리",
-        "to": "Capstone",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Capstone",
-        "to": "Capstone",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "우주자연인간",
-        "to": "대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지능기전특강 ,",
-        "to": "지능기전특강2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학 |",
-        "to": "공업수학 |",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학 |",
-        "to": "인공지능과",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능과",
-        "to": "넥데이터",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지능기전",
-        "to": "산학세미나",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "산학세미나",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "메타버스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(경제와사회영역) 경제학(3) , 경영학(3)",
-        "to": "역사와사상영역) 세계사(3) , 동서양의사상과운리(3)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "역사와사상영역) 세계사(3) , 동서양의사상과운리(3)",
-        "to": "(문화와예술영역) 컴퓨터게임과메타버스(3), 움합예술의이해(3)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(문화와예술영역) 컴퓨터게임과메타버스(3), 움합예술의이해(3)",
-        "to": "<2~4학년 전문교양 인종선택 지정과목>",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그래망",
-        "to": "이산수학및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이산수학및",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "선형대수및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선형대수및",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "확출통계및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "C프로그래망",
-        "to": "고급C프로그래",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급C프로그래",
-        "to": "자료구조딪실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료구조딪실습",
-        "to": "알고리롬렉실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "알고리롬렉실습",
-        "to": "기계학습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계학습",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능",
-        "to": "SW ` Al",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기회로",
-        "to": "전기회로실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지능형 로보틱스",
-        "to": "MATLAB",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "MATLAB",
-        "to": "동적시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "동적시스템",
-        "to": "자동제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자동제어",
-        "to": "로보텍스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "로보텍스",
-        "to": "A로봇설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "신호및시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "동적시스템",
-        "to": "수치해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수치해석",
-        "to": "자율이동체개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "스마트 모발리터",
-        "to": "MATLAB",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "영상처리",
-        "to": "임베디드시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신호및시스템",
-        "to": "통신시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "통신시스템",
-        "to": "디지럴통신",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터네트위크",
-        "to": "컴퓨터구조및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터구조및",
-        "to": "사물인터넷",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "운영체제",
-        "to": "임베디드시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공통교양필수",
-        "to": "공학인증필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학인증필수",
-        "to": "비 공학인증 교과",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "비 공학인증 교과",
-        "to": "학문기초교양필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "학문기초교양필수",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "전공(설계)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공(설계)",
-        "to": "필수선후수 (기초설계-요소설계-종합설계는 화살표가 없더라도 필수선후수임)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선후수 (기초설계-요소설계-종합설계는 화살표가 없더라도 필수선후수임)",
-        "to": "전공필수 (SW",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수 (SW",
-        "to": "전공필수(수학)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수(수학)",
-        "to": "권장 트럭",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "권장 트럭",
-        "to": "권장선후수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:21"
+  "scrapedAt": "2026-07-28T19:25:21",
+  "prerequisites": [
+    {
+      "from": "C프로그래밍및실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산수학및프로그래밍",
+      "to": "선형대수및프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "선형대수및프로그래밍",
+      "to": "확률통계및프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "전기회로실험",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "동적시스템모델링",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "알고리즘및실습",
+      "to": "기계학습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기계학습",
+      "to": "인공지능",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "동적시스템모델링",
+      "to": "자동제어",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "자동제어",
+      "to": "로보틱스",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "로보틱스",
+      "to": "AI 로봇설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "자동제어",
+      "to": "자율이동체개론및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "자율이동체개론및실습",
+      "to": "자율이동체시뮬레이션",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "신호및시스템",
+      "to": "통신시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "통신시스템",
+      "to": "디지털통신",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "컴퓨터네트워크",
+      "to": "사물인터넷",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "AIROBOT 2023 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "창의SW기초설계"
+  ]
 }

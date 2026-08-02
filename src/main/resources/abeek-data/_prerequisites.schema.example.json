@@ -1,0 +1,22 @@
+{
+  "_comment": "Phase0+ curated edge schema example. Copy fields into {DEPT}/{year}.json (do not load this file).",
+  "departmentCode": "SW",
+  "year": 2024,
+  "commonMajorPrerequisiteCourseNames": [
+    "C프로그래밍 및 실습"
+  ],
+  "prerequisites": [
+    {
+      "from": "C프로그래밍 및 실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    }
+  ]
+}

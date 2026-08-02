@@ -1550,289 +1550,139 @@
         "estimatedTerm": "2-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "문제해결음위한",
-        "to": "English Listening",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "English Listening",
-        "to": "정보사회의",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정보사회의",
-        "to": "English Reading",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "글쓰기와발표",
-        "to": "Practxe",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practxe",
-        "to": "서양철학:챔점과",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:챔점과",
-        "to": "사이버문리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "사이버문리",
-        "to": "Practxe",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초미적분학",
-        "to": "일반생물학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반생물학",
-        "to": "이산수학 및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이산수학 및",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "<인종조건 >",
-        "to": "BSh 인종필수 교과목올 포함하여 18학점 이상 이수하여야 함.",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이수해야 함.",
-        "to": "'확출통계 및 프로그래망 , '선형대수 및 프로그래망' 중 한 과목 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료구조 및 실습",
-        "to": "공개키암호론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공개키암호론",
-        "to": "시스템해림과보안",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시스템해림과보안",
-        "to": "모바일시스템보안",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "보안의 기초",
-        "to": "정보보호와",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정보보호와",
-        "to": "밥프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "밥프로그래망",
-        "to": "알고리좀 및 실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "알고리좀 및 실습",
-        "to": "데이터베이스보안",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터베이스보안",
-        "to": "모른소스SW설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "모른소스SW설계",
-        "to": "디지널포렌식",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디지널포렌식",
-        "to": "정보보호특강",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "창의SW움합",
-        "to": "문제해결 및 실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제해결 및 실습",
-        "to": ": JAVA",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "네트위크해림과",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "네트위크해림과",
-        "to": "기술동향",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기술동향",
-        "to": "정보보호산업",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "사이버전개론",
-        "to": "보안프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "보안프로그래망",
-        "to": "운영체제",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "운영체제",
-        "to": "보안공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "보안공학",
-        "to": "악성코드분석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "악성코드분석",
-        "to": "보안정책과 법규",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터네트위크",
-        "to": "컴퓨터구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문교양 필수",
-        "to": "BSm 필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급컴퓨터",
-        "to": "네트위크",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "네트위크",
-        "to": "보안경진대회",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "보안경진대회",
-        "to": "트레이님",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "트레이님",
-        "to": "종합훈련",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합훈련",
-        "to": "사이버공방",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "사이버공방",
-        "to": "졸업연구및진로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": ": 권장 선 후수",
-        "to": "필수 선 후수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 실습",
-        "to": "반드시 공학설계기초 - 요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반드시 공학설계기초 - 요소설계",
-        "to": "* 설계교과목이수 유의사항 *",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "* 설계교과목이수 유의사항 *",
-        "to": "Capstone디자인 순으로 이수해야 함",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(단, 공학설계기초 > 요소설계",
-        "to": "& 요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "& 요소설계",
-        "to": "capstone디자인문 병수가 가능함 )",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {
       "2-2": 0.4501
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:54:44"
+  "scrapedAt": "2026-07-28T19:54:44",
+  "commonMajorPrerequisiteCourseNames": [
+    "C프로그래밍및실습"
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "SEC 2020 공식 이수체계도 검수.",
+  "prerequisites": [
+    {
+      "from": "C프로그래밍및실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "어셈블리어",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "대칭키암호론",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초미적분학",
+      "to": "이산수학및프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산수학및프로그래밍",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산수학및프로그래밍",
+      "to": "선형대수및프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "확률통계및프로그래밍",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "정수론",
+      "to": "대칭키암호론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "대칭키암호론",
+      "to": "공개키암호론",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "컴퓨터네트워크",
+      "to": "고급컴퓨터네트워크",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "컴퓨터네트워크",
+      "to": "보안프로그래밍",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고급컴퓨터네트워크",
+      "to": "네트워크 해킹과 보안",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "보안프로그래밍",
+      "to": "보안공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "웹프로그래밍",
+      "to": "웹해킹과 보안",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "어셈블리어",
+      "to": "시스템해킹과 보안",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "운영체제",
+      "to": "시스템해킹과 보안",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "오픈소스SW개론",
+      "to": "오픈소스SW설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공학설계기초(산학프로젝트입문)",
+      "to": "Capstone디자인(산학협력프로젝트)",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ]
 }

@@ -1907,311 +1907,186 @@
         "estimatedTerm": "4-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "문화와여",
-        "to": "역사와사상영역) 서계사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "역사와사상영역) 서계사",
-        "to": "'와사회영역) 경제학 ,",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "'와사회영역) 경제학 ,",
-        "to": "양의사상과운리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "양의사상과운리",
-        "to": "문제히결승위한글쓰기와발표 서양철학 정점과토론 대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디적분-학2",
-        "to": "공업수학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학기",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초 크딩",
-        "to": "일반물리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학",
-        "to": "활용-C",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "활용-C",
-        "to": "일반물리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학",
-        "to": "수지하석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수지하석",
-        "to": "일반화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "다이크로",
-        "to": "노기계금",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "노기계금",
-        "to": "최적설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초유한",
-        "to": "공기조화및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계진동학",
-        "to": "자동제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자동제어",
-        "to": "토보텍스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "토보텍스",
-        "to": "유체역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "유체 역학",
-        "to": "유제기계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "유제기계",
-        "to": "기계곧학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계곧학",
-        "to": "공지능등록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공지능등록",
-        "to": "연소금학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "연소금학개론",
-        "to": "트라-이불로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업역학",
-        "to": "고제역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "합자료역학",
-        "to": "생제역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계제작법",
-        "to": "자료거동학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료거동학",
-        "to": "기계가-곧학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계가-곧학",
-        "to": "자곧학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자곧학개론",
-        "to": "시스템하 석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시스템하 석",
-        "to": "자-동차-구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자-동차-구조",
-        "to": "졸업연구및진로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인터쉽2",
-        "to": "기계곧학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "열긍정하석",
-        "to": "기계공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계금학",
-        "to": "계속및실험2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "계속및실험2",
-        "to": "응용열 역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용열 역학",
-        "to": "내연기관",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계; 종들설계름 포함하여",
-        "to": "(인종조건) 설계관목은 기초",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(인종조건) 설계관목은 기초",
-        "to": "기계제도",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계제도",
-        "to": "및 CAD",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 CAD",
-        "to": "응용기계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용기계",
-        "to": "열유제응용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "열유제응용",
-        "to": "응용설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용설계",
-        "to": "신제품개",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반드시 기초설계- > 설계인정과목 > 종랍설계 순서로 이수",
-        "to": "기초설계 전 종들설계 후 수감한 설계과목은 설계학점으로 인정하지 압음",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계 전 종들설계 후 수감한 설계과목은 설계학점으로 인정하지 압음",
-        "to": "단 기초설계와 설계인정과목; 설계인정과목과 종랍설계의 병수수감은 허용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반드시 이수",
-        "to": "응용기계설계; 열유제응용설계 중 1과목은",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용기계설계; 열유제응용설계 중 1과목은",
-        "to": "종합설계 A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계 A",
-        "to": "종합설계3",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문교양필수",
-        "to": "전공필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수",
-        "to": "전공선택",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공선택",
-        "to": "설계과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:59"
+  "scrapedAt": "2026-07-28T19:24:59",
+  "commonMajorPrerequisiteCourseNames": [
+    "열역학",
+    "기초설계"
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "MECH 2022 공식 이수체계도 검수(Phase4).",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학1",
+      "to": "열역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "열역학",
+      "to": "유체역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "열역학",
+      "to": "열전달",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "응용열역학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "동역학",
+      "to": "기계진동학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "시스템해석",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고체역학",
+      "to": "기계요소설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고체역학",
+      "to": "재료거동학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "고체역학",
+      "to": "기초유한요소법",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고체역학",
+      "to": "복합재료역학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "유체역학",
+      "to": "유체기계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "유체역학",
+      "to": "전산열유체역학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기계제도및CAD",
+      "to": "기계요소설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기계요소설계",
+      "to": "응용기계설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "응용기계설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "유체기계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기계제작법",
+      "to": "기계가공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기계가공학",
+      "to": "마이크로나노기계공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "자동제어",
+      "to": "로보틱스",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "열역학",
+      "to": "연소공학개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "응용열역학",
+      "to": "전산열유체역학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전자공학개론",
+      "to": "메카트로닉스",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "열전달",
+      "to": "마이크로나노기계공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ]
 }

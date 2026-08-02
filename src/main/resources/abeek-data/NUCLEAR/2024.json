@@ -1388,213 +1388,8 @@
         "estimatedTerm": "1-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "글쓰기와발표",
-        "to": "대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "역사화사상 : 세계사,",
-        "to": "지정 균형교양 영역 중 2과목 필수 수강(인증선택과목)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "'정점과토론",
-        "to": "서양철학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "고급프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그래망",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학1",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "수치하석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "미적분학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자력공학기론2",
-        "to": "방사선계속및실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "방사선계속및실험",
-        "to": "확출론적안전성공",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "확출론적안전성공",
-        "to": "졸업연구및진로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및진로1",
-        "to": "졸업연구및진로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기최설계",
-        "to": "플라즈마조자기학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "플라즈마조자기학",
-        "to": "원자로히석실무",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자로히석실무",
-        "to": "종합설계A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자력안전규제및",
-        "to": "원자락발전및방사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공 필주",
-        "to": "전문교양(필수)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "발전소계통공학",
-        "to": "원자로열수력학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "방사선과물질의상",
-        "to": "원자로동역학및보",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자로동역학및보",
-        "to": "보건물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "보건물리",
-        "to": "자력안전과물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자력안전과물리",
-        "to": "원자락데이터사이",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선후수",
-        "to": "권장선후수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자되열역학",
-        "to": "원자로열전달",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자로열전달",
-        "to": "가속기임공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "가속기임공학",
-        "to": "학연료성능평가",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "[인종요건",
-        "to": "인종골수 포함 45학점 이상이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자로공학",
-        "to": "학재료공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "학재료공학",
-        "to": "원자력고등수학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자력고등수학",
-        "to": "방사선기술의응용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "포함하여",
-        "to": "기초설기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설기",
-        "to": "총 9학점 이상 이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자력기계공학기",
-        "to": "원자로고등전산코",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "원자로고등전산코",
-        "to": "양자공학응용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {
       "1-2": 0.2164,
       "2-2": 0.4547,
@@ -1603,5 +1398,169 @@
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:08"
+  "scrapedAt": "2026-07-28T19:25:08",
+  "prerequisites": [
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학2",
+      "to": "수치해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "확률및통계",
+      "to": "수치해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "확률및통계",
+      "to": "확률론적안전성평가",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "원자로공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "원자로열역학",
+      "to": "원자력기계공학기초",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학2",
+      "to": "원자력기계공학기초",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공업수학2",
+      "to": "원자로열수력학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "원자로공학",
+      "to": "원자로열수력학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "원자로공학",
+      "to": "원자로동역학및보호계통",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "수치해석",
+      "to": "원자로열수력학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "원자력기계공학기초",
+      "to": "원자력발전소구조해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "원자로동역학및보호계통",
+      "to": "확률론적안전성평가",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "확률론적안전성평가",
+      "to": "원자력안전과물리적방호",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "원자로열수력학",
+      "to": "종합설계A",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "종합설계A",
+      "to": "종합설계B",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "방사선과물질의상호작용",
+      "to": "방사선계측및실험",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학1",
+      "to": "원자및핵물리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "원자및핵물리",
+      "to": "원자력공학개론2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "원자력공학개론2",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "원자로열전달",
+      "to": "원자로열수력학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "방사선계측및실험",
+      "to": "확률론적안전성평가",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "NUCLEAR 2024 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계",
+    "원자로공학"
+  ]
 }

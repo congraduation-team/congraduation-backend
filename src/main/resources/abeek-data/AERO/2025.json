@@ -1153,65 +1153,199 @@
         "estimatedTerm": "3-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "Sw기즈크템",
-        "to": "고급프로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "주진지공락",
-        "to": "현소공락",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "기초설거",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설거",
-        "to": "활증기설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "활증기설계",
-        "to": "시스템설조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문고양플",
-        "to": "전금필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전금필수",
-        "to": "설계과-목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계과-목",
-        "to": "종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계",
-        "to": "(1,2 중 택1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:03"
+  "scrapedAt": "2026-07-28T19:25:03",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학1",
+      "to": "열역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학1",
+      "to": "고체역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학1",
+      "to": "동역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "공기역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "비행동역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "자동제어",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고체역학",
+      "to": "항공기구조역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "메카트로닉스종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계2",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "메카트로닉스종합설계",
+      "to": "항공기설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공기설계",
+      "to": "종합설계1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공기설계",
+      "to": "종합설계2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "자율비행체시스템설계1",
+      "to": "자율비행체시스템설계2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로 2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "항공우주공학연구1",
+      "to": "항공우주공학연구2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "항공우주응용SW1",
+      "to": "항공우주응용SW2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공우주제도및CAD",
+      "to": "항공기설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "열전달",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "추진체공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "자동제어",
+      "to": "유도제어시스템설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "압축성유체역학",
+      "to": "응용공기역학및설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "공기역학",
+      "to": "압축성유체역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "열역학",
+      "to": "연소공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "항공우주전자응용설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공우주AI기초",
+      "to": "항공우주AI응용",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "AERO 2025 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계",
+    "동역학",
+    "열역학"
+  ]
 }

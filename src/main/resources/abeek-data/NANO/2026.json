@@ -2052,359 +2052,319 @@
         "estimatedTerm": "4-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "전공 교과목의",
-        "to": "신소재공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "취창업과진로설계",
-        "to": "심화체계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "창의적글쓰기",
-        "to": "진로설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "진로설계",
-        "to": "비판적사고와",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "비판적사고와",
-        "to": "전공담색",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공담색",
-        "to": "쟁점과토론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "쟁점과토론",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선택선수",
-        "to": "필수선수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선수",
-        "to": "소재 및 분석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학7",
-        "to": "미적분학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학2",
-        "to": "공업수학7",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학7",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "현대물리",
-        "to": "고체물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "고급프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그래망",
-        "to": "나노신소재물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "나노신소재물리",
-        "to": "기초물리화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초물리화학",
-        "to": "전기화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기화학",
-        "to": "졸업연구및진로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및진로1",
-        "to": "졸업연구및진로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및진로2",
-        "to": "움합기술",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기전자공학",
-        "to": "전자기적물성",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계적성질",
-        "to": "산학현동강좌1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "산학현동강좌1",
-        "to": "산학현동강좌2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "산학현동강좌2",
-        "to": "구조 . 금속",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "재료전자기학",
-        "to": "시재료과학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "나노신소재",
-        "to": "나노신소재",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "재료열역학1",
-        "to": "재료열역학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "재료열역학2",
-        "to": "확산 및상변태",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "확산 및상변태",
-        "to": "신금속재료",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신금속재료",
-        "to": "초미립소재학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "초미립소재학",
-        "to": "금속공정학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학7",
-        "to": "유기화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반도체재료",
-        "to": "반도체제조공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반도체제조공학",
-        "to": "반도체나노소자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반도체나노소자",
-        "to": "광전자소자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신소재과학1",
-        "to": "결정구조및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "결정구조및",
-        "to": "신소재과학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "박악공학",
-        "to": "디스팔레이",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디스팔레이",
-        "to": "반도체 소재",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지재료",
-        "to": "고체화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고체화학",
-        "to": "재료분석학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "재료분석학",
-        "to": "전자세라미스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자세라미스",
-        "to": "전공공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "화학기기분석",
-        "to": "나노재로용용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공 실습 설계",
-        "to": "공정 및 합성",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "바이오재료공학",
-        "to": "고분자화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고분자화학",
-        "to": "고분자물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고분자물리",
-        "to": "고분자합성",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고분자합성",
-        "to": "유기전자소자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "산학인터",
-        "to": "소자 및 응용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "움합기술",
-        "to": "공학기초설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "금속세라막",
-        "to": "기초실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초실험",
-        "to": "화학기초실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "화학기초실험",
-        "to": "반도체와고분자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반도체와고분자",
-        "to": "나노신소재창의",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "나노신소재창의",
-        "to": "연구1(종합설계)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "연구1(종합설계)",
-        "to": "나노신소재창의",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "나노신소재창의",
-        "to": "연구2(종합설계)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:06"
+  "scrapedAt": "2026-07-28T19:25:06",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "재료열역학1",
+      "to": "재료열역학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기전자공학",
+      "to": "재료전자기학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "현대물리",
+      "to": "재료열역학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "공학기초설계실험",
+      "to": "금속과세라믹기초설계및실험",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "재료열역학1",
+      "to": "확산및상변태",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "결정구조및X선회절",
+      "to": "확산및상변태",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "재료열역학2",
+      "to": "확산및상변태",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "현대물리",
+      "to": "고체물리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "결정구조및X선회절",
+      "to": "고체물리",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "유기화학",
+      "to": "고분자화학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "신소재과학2",
+      "to": "에너지재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "재료열역학2",
+      "to": "에너지재료",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "재료전자기학",
+      "to": "반도체재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "재료의전자기적물성",
+      "to": "반도체재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "확산및상변태",
+      "to": "재료의기계적성질",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "재료열역학2",
+      "to": "재료의기계적성질",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "확산및상변태",
+      "to": "신금속재료",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고체물리",
+      "to": "신금속재료",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "재료의기계적성질",
+      "to": "신금속재료",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고체물리",
+      "to": "산화물재료",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "에너지재료",
+      "to": "고체화학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "에너지재료",
+      "to": "산화물재료",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "반도체재료",
+      "to": "반도체제조공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고분자화학",
+      "to": "고분자물리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고분자화학",
+      "to": "화학기기분석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "금속과세라믹기초설계및실험",
+      "to": "반도체와고분자화학기초설계및실험",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "신금속재료",
+      "to": "초미립소재학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "신금속재료",
+      "to": "자성체재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고체화학",
+      "to": "재료분석학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전기화학",
+      "to": "재료분석학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "산화물재료",
+      "to": "재료분석학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "반도체제조공학",
+      "to": "반도체나노소자",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "반도체제조공학",
+      "to": "박막공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고분자물리",
+      "to": "고분자합성",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "화학기기분석",
+      "to": "고분자합성",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "고분자합성",
+      "to": "유기전자소지",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "나노신소재창의연구1(종합설계)",
+      "to": "나노신소재창의연구2(종합설계)",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "반도체와고분자화학기초설계및실험",
+      "to": "나노신소재창의연구1(종합설계)",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학1",
+      "to": "현대물리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반화학1",
+      "to": "유기화학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "SW 기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "신소재과학1",
+      "to": "신소재과학2",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "나노신소재물리",
+      "to": "고체물리",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "나노신소재화학",
+      "to": "유기화학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "AI재료과학",
+      "to": "재료열역학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "재료전자기학",
+      "to": "재료의전자기적물성",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "NANO 2026 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "재료열역학1",
+    "결정구조및X선회절",
+    "공학기초설계실험"
+  ]
 }

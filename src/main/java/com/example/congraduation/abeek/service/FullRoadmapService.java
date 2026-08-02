@@ -1,6 +1,7 @@
 package com.example.congraduation.abeek.service;
 
 import com.example.congraduation.abeek.domain.AbeekStudent;
+import com.example.congraduation.abeek.domain.AbeekYearRequirement;
 import com.example.congraduation.abeek.domain.CourseMaster;
 import com.example.congraduation.abeek.domain.CoursePrerequisite;
 import com.example.congraduation.abeek.domain.CurriculumCourse;
@@ -14,8 +15,11 @@ import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapEdgeDto;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.RoadmapSummaryDto;
 import com.example.congraduation.abeek.dto.FullRoadmapResponse.TermRoadmapDto;
 import com.example.congraduation.abeek.repository.AbeekStudentRepository;
+import com.example.congraduation.abeek.repository.AbeekYearRequirementRepository;
 import com.example.congraduation.abeek.repository.CoursePrerequisiteRepository;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,9 +43,11 @@ public class FullRoadmapService {
 
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final CoursePrerequisiteRepository coursePrerequisiteRepository;
+    private final AbeekYearRequirementRepository requirementRepository;
     private final AbeekStudentRepository abeekStudentRepository;
     private final AbeekDepartmentCatalog departmentCatalog;
     private final DesignCreditEvaluator designCreditEvaluator;
+    private final ObjectMapper objectMapper;
 
     @Transactional(readOnly = true)
     public FullRoadmapResponse getFullRoadmap(
@@ -129,6 +135,9 @@ public class FullRoadmapService {
                 ? null
                 : designCreditEvaluator.evaluate(student.getEnrollments(), byCode);
 
+        List<String> commonMajorNames = loadCommonMajorNames(department.abeekCode(), curriculumYear);
+        List<String> commonMajorCodes = resolveCommonMajorCodes(commonMajorNames, byCode, byNormalizedName);
+
         return FullRoadmapResponse.builder()
                 .departmentCode(department.abeekCode())
                 .departmentName(department.name())
@@ -138,8 +147,48 @@ public class FullRoadmapService {
                 .terms(terms)
                 .unscheduledCourses(unscheduled)
                 .edges(edges)
+                .commonMajorPrerequisiteCourseCodes(commonMajorCodes)
+                .commonMajorPrerequisiteCourseNames(commonMajorNames)
                 .summary(buildSummary(all, designResult))
                 .build();
+    }
+
+    private List<String> loadCommonMajorNames(String departmentCode, int curriculumYear) {
+        return requirementRepository.findByDepartmentCodeAndYear(departmentCode, curriculumYear)
+                .map(AbeekYearRequirement::getCommonMajorPrerequisiteNames)
+                .map(this::parseNameList)
+                .orElse(List.of());
+    }
+
+    private List<String> parseNameList(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return List.of();
+        }
+        try {
+            List<String> parsed = objectMapper.readValue(raw, new TypeReference<>() {
+            });
+            return parsed == null ? List.of() : List.copyOf(parsed);
+        } catch (Exception ignored) {
+            return List.of();
+        }
+    }
+
+    private List<String> resolveCommonMajorCodes(
+            List<String> names,
+            Map<String, CurriculumCourse> byCode,
+            Map<String, CurriculumCourse> byNormalizedName
+    ) {
+        if (names.isEmpty()) {
+            return List.of();
+        }
+        List<String> codes = new ArrayList<>();
+        for (String name : names) {
+            CurriculumCourse course = resolveCourse(name, byCode, byNormalizedName);
+            if (course != null) {
+                codes.add(course.getCourseMaster().getCourseCode());
+            }
+        }
+        return List.copyOf(codes);
     }
 
     @Transactional(readOnly = true)
