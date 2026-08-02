@@ -1,6 +1,10 @@
 package com.example.congraduation.roadmap.service;
 
+import com.example.congraduation.abeek.domain.CurriculumCourse;
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 import com.example.congraduation.abeek.service.AbeekDepartmentCatalog;
+import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
@@ -46,6 +50,8 @@ public class StudentRoadmapService {
     private final TimetableCatalog timetableCatalog;
     private final AbeekDepartmentCatalog departmentCatalog;
     private final TranscriptStorageService transcriptStorageService;
+    private final CurriculumCourseRepository curriculumCourseRepository;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     /**
      * 최신 강의시간표 기준 전 학과(개설학과) 목록. 학과명은 한글.
@@ -189,6 +195,14 @@ public class StudentRoadmapService {
         // 학생 로드맵: 교양(GENERAL)은 기이수만. 시간표 공통교양필수 미이수 슬롯 제거.
         if (studentDbId != null) {
             stripIncompleteGeneralCourses(byTermAndCode, completion);
+            // 공학인증 학과: 전교 공통 기초필수(화학2·생물 등) 중 소속 BSM이 아닌 미이수 슬롯 제거
+            if (abeekTarget && abeekCode != null && admissionYear != null) {
+                stripIncompleteNonCurriculumBsm(
+                        byTermAndCode,
+                        completion,
+                        loadAbeekBsmAllowlist(abeekCode, admissionYear)
+                );
+            }
         }
 
         List<TermRoadmapDto> terms = new ArrayList<>();
@@ -338,6 +352,45 @@ public class StudentRoadmapService {
                 }
             }
         }
+    }
+
+    /**
+     * 공학인증 학과 로드맵에서, 전교 공통 기초필수·학문기초로 들어온 미이수 과목 중
+     * 해당 입학연도 ABEEK BSM 커리큘럼에 없는 것(예: 컴공의 미적분학2·일반화학1·일반생물학)을 제거한다.
+     */
+    private void stripIncompleteNonCurriculumBsm(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            AbeekBsmAllowlist allowlist
+    ) {
+        if (allowlist.isEmpty()) {
+            return;
+        }
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            var iterator = termMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                if (completion.findByCourseCode(entry.getKey()) != null) {
+                    continue;
+                }
+                AggregatedCourse agg = entry.getValue();
+                String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
+                String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+                if (!"BSM".equals(bucket) && !"기초필수".equals(displayCategory)) {
+                    continue;
+                }
+                if (!allowlist.matches(agg.courseCode, agg.courseName)) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    static String normalizeCourseName(String name) {
+        if (name == null || name.isBlank()) {
+            return "";
+        }
+        return name.replaceAll("\\s+", "");
     }
 
     /**
@@ -735,6 +788,101 @@ public class StudentRoadmapService {
 
         String courseName() {
             return courseName;
+        }
+    }
+
+    private AbeekBsmAllowlist loadAbeekBsmAllowlist(String departmentCode, int curriculumYear) {
+        Set<String> names = new HashSet<>();
+        Set<String> codes = new HashSet<>();
+        List<CurriculumCourse> courses =
+                curriculumCourseRepository.findByDepartmentCodeAndCurriculumYear(departmentCode, curriculumYear);
+        for (CurriculumCourse course : courses) {
+            if (course.getCourseMaster() == null
+                    || course.getCourseMaster().getCategory() != CourseCategory.BSM) {
+                continue;
+            }
+            String name = normalizeCourseName(course.getCourseMaster().getName());
+            if (!name.isBlank()) {
+                names.add(name);
+                addBsmNameAliases(names, name);
+            }
+            String code = course.getCourseMaster().getCourseCode();
+            if (code != null && !code.isBlank()) {
+                String upper = code.trim().toUpperCase(Locale.ROOT);
+                codes.add(upper);
+                addBsmCodeAliases(codes, upper);
+            }
+        }
+        return new AbeekBsmAllowlist(names, codes, sejongAbeekCourseCodeCatalog);
+    }
+
+    /** 연도별 표기 차이(실험 포함/미포함, 구·신 과목명)를 허용 목록에 합친다. */
+    private static void addBsmNameAliases(Set<String> names, String name) {
+        if (name.equals("일반물리학1")) {
+            names.add("일반물리학및실험1");
+        } else if (name.equals("일반물리학및실험1")) {
+            names.add("일반물리학1");
+        } else if (name.equals("미적분학1")) {
+            names.add("기초미적분학");
+        } else if (name.equals("기초미적분학")) {
+            names.add("미적분학1");
+        } else if (name.equals("선형대수")) {
+            names.add("선형대수및프로그래밍");
+        } else if (name.equals("선형대수및프로그래밍")) {
+            names.add("선형대수");
+        } else if (name.equals("확률및통계")) {
+            names.add("확률통계및프로그래밍");
+        } else if (name.equals("확률통계및프로그래밍")) {
+            names.add("확률및통계");
+        }
+    }
+
+    private static void addBsmCodeAliases(Set<String> codes, String code) {
+        if (code.equals("BSM_PHYS") || code.equals("BSM_PHYS_LAB")) {
+            codes.add("BSM_PHYS");
+            codes.add("BSM_PHYS_LAB");
+        } else if (code.equals("BSM_CALC") || code.equals("BSM_CALC1")) {
+            codes.add("BSM_CALC");
+            codes.add("BSM_CALC1");
+        } else if (code.equals("BSM_PROB") || code.equals("BSM_PROB_PROG")) {
+            codes.add("BSM_PROB");
+            codes.add("BSM_PROB_PROG");
+        } else if (code.equals("BSM_LINEAR") || code.equals("BSM_LINEAR_PROG")) {
+            codes.add("BSM_LINEAR");
+            codes.add("BSM_LINEAR_PROG");
+        }
+    }
+
+    /**
+     * ABEEK BSM 허용 과목(이름·내부코드). 미적분학1 ≠ 미적분학2 처럼 번호가 다른 과목은 별개로 취급.
+     */
+    static final class AbeekBsmAllowlist {
+        private final Set<String> names;
+        private final Set<String> codes;
+        private final SejongAbeekCourseCodeCatalog catalog;
+
+        AbeekBsmAllowlist(Set<String> names, Set<String> codes, SejongAbeekCourseCodeCatalog catalog) {
+            this.names = names;
+            this.codes = codes;
+            this.catalog = catalog;
+        }
+
+        boolean isEmpty() {
+            return names.isEmpty() && codes.isEmpty();
+        }
+
+        boolean matches(String sejongCourseCode, String courseName) {
+            String normName = normalizeCourseName(courseName);
+            if (!normName.isBlank() && names.contains(normName)) {
+                return true;
+            }
+            if (catalog != null) {
+                Optional<String> abeek = catalog.findAbeekCourseCode(sejongCourseCode);
+                if (abeek.isPresent() && codes.contains(abeek.get().toUpperCase(Locale.ROOT))) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

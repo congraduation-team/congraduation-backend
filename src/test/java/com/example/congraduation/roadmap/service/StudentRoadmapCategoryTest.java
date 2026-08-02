@@ -1,12 +1,15 @@
 package com.example.congraduation.roadmap.service;
 
+import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StudentRoadmapCategoryTest {
 
-    private final StudentRoadmapService service = new StudentRoadmapService(null, null, null);
+    private final StudentRoadmapService service = new StudentRoadmapService(null, null, null, null, null);
 
     @Test
     void normalizesLiberalAliasesToGeneralRequired() {
@@ -25,5 +28,20 @@ class StudentRoadmapCategoryTest {
         assertThat(service.classifyAbeekBucket("전선", "운영체제")).isEqualTo("MAJOR");
         assertThat(service.classifyAbeekBucket("기초필수", "미적분학1")).isEqualTo("BSM");
         assertThat(service.classifyAbeekBucket("전공기초", "이산수학")).isEqualTo("BSM");
+    }
+
+    @Test
+    void abeekBsmAllowlistRejectsSiblingNumberedCourses() {
+        var allow = new StudentRoadmapService.AbeekBsmAllowlist(
+                Set.of("미적분학1", "일반물리학1", "공업수학1", "선형대수"),
+                Set.of("BSM_CALC1", "BSM_PHYS", "BSM_EMATH1", "BSM_LINEAR"),
+                new SejongAbeekCourseCodeCatalog()
+        );
+        assertThat(allow.matches(null, "미적분학1")).isTrue();
+        assertThat(allow.matches(null, "미적분학2")).isFalse();
+        assertThat(allow.matches(null, "일반물리학1")).isTrue();
+        assertThat(allow.matches(null, "일반물리학2")).isFalse();
+        assertThat(allow.matches(null, "일반화학1")).isFalse();
+        assertThat(allow.matches(null, "일반생물학")).isFalse();
     }
 }
