@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,6 +25,8 @@ public class TimetableCatalog {
 
     private final ObjectMapper objectMapper;
     private final List<TimetableTermData> terms = new ArrayList<>();
+    /** 정규화 과목명 → 최신 학기 기준 학수번호 */
+    private final Map<String, String> courseCodeByNormalizedName = new HashMap<>();
 
     @PostConstruct
     void load() throws IOException {
@@ -38,6 +41,42 @@ public class TimetableCatalog {
         terms.sort(Comparator
                 .comparingInt(TimetableTermData::termYear).reversed()
                 .thenComparingInt(TimetableTermData::semester).reversed());
+        indexCourseCodesByName();
+    }
+
+    private void indexCourseCodesByName() {
+        // 오래된 학기부터 넣어 최신 학기 코드가 덮어쓰게 한다.
+        List<TimetableTermData> oldestFirst = new ArrayList<>(terms);
+        Collections.reverse(oldestFirst);
+        for (TimetableTermData term : oldestFirst) {
+            if (term.offerings() == null) {
+                continue;
+            }
+            for (TimetableOffering offering : term.offerings()) {
+                String code = offering.courseCode() == null ? "" : offering.courseCode().trim();
+                String name = normalizeCourseName(offering.courseName());
+                if (code.isBlank() || name.isBlank()) {
+                    continue;
+                }
+                courseCodeByNormalizedName.put(name, code);
+            }
+        }
+    }
+
+    /** 강의시간표 기준 과목명 → 학수번호 (공백 무시 정규화). */
+    public Optional<String> findCourseCodeByName(String courseName) {
+        String key = normalizeCourseName(courseName);
+        if (key.isBlank()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(courseCodeByNormalizedName.get(key));
+    }
+
+    static String normalizeCourseName(String name) {
+        if (name == null || name.isBlank()) {
+            return "";
+        }
+        return name.replaceAll("\\s+", "");
     }
 
     public List<TimetableTermData> availableTerms() {
