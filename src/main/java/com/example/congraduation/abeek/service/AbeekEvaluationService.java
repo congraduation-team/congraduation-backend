@@ -720,8 +720,7 @@ public class AbeekEvaluationService {
     ) {
         return AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                 .courseCode(courseCode)
-                // 인증선택: 학수번호 대신 영역 표시
-                .sejongCourseCode(null)
+                .sejongCourseCode(resolveSejongCourseCode(courseCode, courseName))
                 .electiveArea(area == null || area == com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE
                         ? null
                         : area.name())
