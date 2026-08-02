@@ -47,4 +47,21 @@ class TranscriptSummaryCalculatorTest {
                 .mapToInt(category -> category.courses().size())
                 .sum());
     }
+
+    @Test
+    void retakeKeepsOriginalCategoryWhenLatestAttemptHasDifferentCategory() {
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2025", "1학기", "W001", "웹프로그래밍", "전필", "3", "GRADE", "C0", "2.0"),
+                new CompletedCourseUploadRowDto("2026", "1학기", "W001", "웹프로그래밍", "전선", "3", "GRADE", "A0", "4.0")
+        );
+
+        List<CompletedCourseUploadRowDto> resolved = calculator.resolveRetakenCourses(courses);
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals(1, resolved.size());
+        assertEquals("전필", resolved.getFirst().category());
+        assertEquals("3", summary.totalCredits());
+        assertEquals("전필", summary.categorySummaries().getFirst().category());
+        assertEquals("3", summary.categorySummaries().getFirst().earnedCredits());
+    }
 }

@@ -86,13 +86,35 @@ public class TranscriptSummaryCalculator {
                 blankCodeCourses.add(course);
                 continue;
             }
-            resolved.remove(courseCode);
-            resolved.put(courseCode, course);
+            CompletedCourseUploadRowDto previous = resolved.remove(courseCode);
+            resolved.put(courseCode, mergeRetakenCourse(previous, course));
         }
 
         List<CompletedCourseUploadRowDto> deduplicated = new ArrayList<>(blankCodeCourses);
         deduplicated.addAll(resolved.values());
         return deduplicated;
+    }
+
+    private CompletedCourseUploadRowDto mergeRetakenCourse(
+            CompletedCourseUploadRowDto previous,
+            CompletedCourseUploadRowDto replacement
+    ) {
+        if (previous == null) {
+            return replacement;
+        }
+
+        return new CompletedCourseUploadRowDto(
+                replacement.year(),
+                replacement.semester(),
+                replacement.courseCode(),
+                replacement.courseName(),
+                firstNonBlank(previous.category(), replacement.category()),
+                replacement.credit(),
+                replacement.evaluationMethod(),
+                replacement.grade(),
+                replacement.gradePoint(),
+                firstNonBlank(previous.openingDepartmentCode(), replacement.openingDepartmentCode())
+        );
     }
 
     private BigDecimal toDecimal(String value) {
@@ -147,6 +169,13 @@ public class TranscriptSummaryCalculator {
 
     private String normalizeCourseCode(String courseCode) {
         return courseCode == null ? "" : courseCode.trim();
+    }
+
+    private String firstNonBlank(String primary, String fallback) {
+        if (primary != null && !primary.isBlank()) {
+            return primary;
+        }
+        return fallback;
     }
 
     private String formatDecimal(BigDecimal value) {
