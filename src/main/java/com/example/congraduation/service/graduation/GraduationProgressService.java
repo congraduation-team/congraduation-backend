@@ -17,6 +17,8 @@ import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackRequiredCourseProgressDto;
+import com.example.congraduation.dto.graduation.MissingBalancedLiberalAreaDto;
+import com.example.congraduation.dto.graduation.RemainingCommonLiberalCourseDto;
 import com.example.congraduation.dto.graduation.RequirementCourseDto;
 import com.example.congraduation.dto.graduation.SwCodingCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CategoryCourseDto;
@@ -132,8 +134,12 @@ public class GraduationProgressService {
                 buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
         List<CategoryCourseDto> commonLiberalCourses =
                 extractCategoryCourses(transcriptSummary.categorySummaries(), "공필", "교필");
+        List<RemainingCommonLiberalCourseDto> remainingCommonLiberalRequiredCourses =
+                extractRemainingCommonLiberalRequiredCourses(student, completedCourses);
         List<RequirementCourseDto> remainingMajorRequiredCourses =
                 extractRemainingMajorRequiredCourses(student, completedCourses);
+        List<RequirementCourseDto> remainingMajorElectiveCourses =
+                extractRemainingMajorElectiveCourses(student, completedCourses);
         CategoryProgressDto electiveLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선");
         CategoryProgressDto academicFoundationProgress =
@@ -150,6 +156,8 @@ public class GraduationProgressService {
                 applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements);
         List<String> missingBalancedLiberalAreas =
                 resolveMissingBalancedLiberalAreas(student, balancedLiberalEvaluation.areaProgresses());
+        List<MissingBalancedLiberalAreaDto> missingBalancedLiberalAreaDetails =
+                resolveMissingBalancedLiberalAreaDetails(student, missingBalancedLiberalAreas);
         List<String> graduationBlockers = buildGraduationBlockers(
                 totalCreditsProgress,
                 commonLiberalProgress,
@@ -179,10 +187,13 @@ public class GraduationProgressService {
                 totalCreditsProgress,
                 commonLiberalProgress,
                 commonLiberalCourses,
+                remainingCommonLiberalRequiredCourses,
                 remainingMajorRequiredCourses,
+                remainingMajorElectiveCourses,
                 electiveLiberalProgress,
                 balancedLiberalEvaluation.progress(),
                 missingBalancedLiberalAreas,
+                missingBalancedLiberalAreaDetails,
                 balancedLiberalEvaluation.requiredAreaCount(),
                 balancedLiberalEvaluation.completedAreaCount(),
                 balancedLiberalEvaluation.areaProgresses(),
@@ -285,7 +296,7 @@ public class GraduationProgressService {
                 continue;
             }
 
-            String area = balancedLiberalCoursePolicyService.resolveArea(student.getAdmissionYear(), course);
+            String area = balancedLiberalCoursePolicyService.resolveArea(student, course);
             if (area == null) {
                 continue;
             }
@@ -670,6 +681,21 @@ public class GraduationProgressService {
             Student student,
             List<CompletedCourseUploadRowDto> completedCourses
     ) {
+        return extractRemainingMajorCourses(student, completedCourses, CourseRole.REQUIRED);
+    }
+
+    private List<RequirementCourseDto> extractRemainingMajorElectiveCourses(
+            Student student,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        return extractRemainingMajorCourses(student, completedCourses, CourseRole.ELECTIVE);
+    }
+
+    private List<RequirementCourseDto> extractRemainingMajorCourses(
+            Student student,
+            List<CompletedCourseUploadRowDto> completedCourses,
+            CourseRole targetRole
+    ) {
         Integer admissionYear = student.getAdmissionYear();
         String departmentCode = resolveCurriculumDepartmentCode(student.getMajor());
         if (admissionYear == null || departmentCode == null || departmentCode.isBlank()) {
@@ -690,7 +716,7 @@ public class GraduationProgressService {
                 .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
 
         return curriculumCourses.stream()
-                .filter(course -> course.getRole() == CourseRole.REQUIRED)
+                .filter(course -> course.getRole() == targetRole)
                 .filter(course -> course.getCategory() == CourseCategory.MAJOR)
                 .filter(course -> !course.isNewlyIntroducedRequired())
                 .filter(course -> !completedCourseNames.contains(normalizeCourseName(course.getCourseName())))
@@ -706,11 +732,27 @@ public class GraduationProgressService {
                 .toList();
     }
 
+    private List<RemainingCommonLiberalCourseDto> extractRemainingCommonLiberalRequiredCourses(
+            Student student,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        List<CategoryCourseDto> requiredCourses =
+                balancedLiberalCoursePolicyService.requiredCommonLiberalCourses(student.getAdmissionYear());
+        if (requiredCourses.isEmpty()) {
+            return List.of();
+        }
+
+        return requiredCourses.stream()
+                .filter(course -> !hasCompletedEquivalentCommonLiberalCourse(course, completedCourses))
+                .map(course -> new RemainingCommonLiberalCourseDto(course, List.of()))
+                .toList();
+    }
+
     private List<String> resolveMissingBalancedLiberalAreas(
             Student student,
             List<BalancedLiberalAreaProgressDto> areaProgresses
     ) {
-        List<String> availableAreas = balancedLiberalCoursePolicyService.availableAreas(student.getAdmissionYear());
+        List<String> availableAreas = balancedLiberalCoursePolicyService.availableAreas(student);
         if (availableAreas.isEmpty()) {
             return List.of();
         }
@@ -723,6 +765,45 @@ public class GraduationProgressService {
         return availableAreas.stream()
                 .filter(area -> !completedAreas.contains(area))
                 .toList();
+    }
+
+    private List<MissingBalancedLiberalAreaDto> resolveMissingBalancedLiberalAreaDetails(
+            Student student,
+            List<String> missingAreas
+    ) {
+        if (missingAreas.isEmpty()) {
+            return List.of();
+        }
+
+        Map<String, List<CategoryCourseDto>> catalog =
+                balancedLiberalCoursePolicyService.balancedLiberalAreaCatalog(student);
+
+        return missingAreas.stream()
+                .map(area -> new MissingBalancedLiberalAreaDto(
+                        area,
+                        catalog.getOrDefault(area, List.of())
+                ))
+                .toList();
+    }
+
+    private boolean hasCompletedEquivalentCommonLiberalCourse(
+            CategoryCourseDto requiredCourse,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        Set<String> equivalentNames =
+                balancedLiberalCoursePolicyService.commonLiberalEquivalentNames(requiredCourse.courseCode());
+        if (equivalentNames.isEmpty()) {
+            equivalentNames = Set.of(requiredCourse.courseName());
+        }
+
+        Set<String> normalizedEquivalentNames = equivalentNames.stream()
+                .map(this::normalizeCourseName)
+                .collect(java.util.stream.Collectors.toSet());
+
+        return completedCourses.stream()
+                .map(CompletedCourseUploadRowDto::courseName)
+                .map(this::normalizeCourseName)
+                .anyMatch(normalizedEquivalentNames::contains);
     }
 
     private String calculateMajorGradePoint(List<CompletedCourseUploadRowDto> courses) {
