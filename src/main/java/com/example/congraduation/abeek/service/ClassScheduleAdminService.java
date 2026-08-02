@@ -90,9 +90,38 @@ public class ClassScheduleAdminService {
     private void persist(TimetableTermData termData) {
         String fileName = termData.termYear() + "-" + termData.semester() + ".json";
         writeJson(dataDir, fileName, termData, true);
-        // 로컬 개발용: 리포지토리 리소스 JSON도 덮어써서 커밋/배포 기본값을 갱신할 수 있게 한다.
-        // 배포 jar 환경에서는 보통 경로가 없어 skip 된다.
-        writeJson(resourcesDir, fileName, termData, false);
+
+        Path resolvedResources = resolveResourcesDir();
+        // 로컬 레포: src/main/resources/timetable-data 에 반드시 기록 (깃허브에 보이는 그 폴더)
+        // 배포 jar만 돌리는 환경에서는 경로가 없어 data-dir만 사용
+        if (resolvedResources != null) {
+            writeJson(resolvedResources, fileName, termData, true);
+        } else {
+            log.warn("timetable resources-dir not found ({}). Wrote only to {}",
+                    resourcesDir.toAbsolutePath(), dataDir.toAbsolutePath());
+        }
+    }
+
+    /**
+     * 설정 경로가 있으면 사용하고, 없으면 현재 작업 디렉터리에서
+     * src/main/resources/timetable-data 를 위로 탐색한다.
+     */
+    private Path resolveResourcesDir() {
+        if (Files.isDirectory(resourcesDir)) {
+            return resourcesDir;
+        }
+        if (Files.isDirectory(resourcesDir.getParent())) {
+            return resourcesDir;
+        }
+        Path cursor = Path.of("").toAbsolutePath().normalize();
+        for (int i = 0; i < 6 && cursor != null; i++) {
+            Path candidate = cursor.resolve("src/main/resources/timetable-data");
+            if (Files.isDirectory(candidate) || Files.isDirectory(candidate.getParent())) {
+                return candidate;
+            }
+            cursor = cursor.getParent();
+        }
+        return null;
     }
 
     private void writeJson(Path dir, String fileName, TimetableTermData termData, boolean required) {
