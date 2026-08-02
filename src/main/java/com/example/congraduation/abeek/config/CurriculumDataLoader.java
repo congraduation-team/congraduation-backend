@@ -54,6 +54,7 @@ public class CurriculumDataLoader implements CommandLineRunner {
         for (int year = 2020; year <= 2026; year++) {
             prerequisiteRepository.deleteByDepartmentCodeAndYear("CSE", year);
         }
+        prerequisiteRepository.flush();
         seedPrerequisites();
     }
 
@@ -579,14 +580,17 @@ public class CurriculumDataLoader implements CommandLineRunner {
     }
 
     private void savePrereq(int year, String from, String to, String type, boolean needsReview) {
-        CoursePrerequisite prerequisite = CoursePrerequisite.builder()
-                .departmentCode("CSE")
-                .year(year)
-                .fromCourseCode(from)
-                .toCourseCode(to)
-                .type(type)
-                .needsReview(needsReview)
-                .build();
+        CoursePrerequisite prerequisite = prerequisiteRepository
+                .findByDepartmentCodeAndYearAndFromCourseCodeAndToCourseCodeAndType(
+                        "CSE", year, from, to, type)
+                .orElseGet(() -> CoursePrerequisite.builder()
+                        .departmentCode("CSE")
+                        .year(year)
+                        .fromCourseCode(from)
+                        .toCourseCode(to)
+                        .type(type)
+                        .build());
+        prerequisite.setNeedsReview(needsReview);
         prerequisiteRepository.save(prerequisite);
     }
 }

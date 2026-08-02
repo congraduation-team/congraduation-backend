@@ -843,12 +843,6 @@
       "to": "Capstone디자인(산학협력프로젝트)",
       "type": "MANDATORY",
       "needsReview": true
-    },
-    {
-      "from": "통계학개론",
-      "to": "데이터분석개론",
-      "type": "MANDATORY",
-      "needsReview": false
     }
   ],
   "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_9.html",
