@@ -92,6 +92,28 @@ class EnglishCertificationServiceTest {
         assertFalse(result.satisfied());
         assertEquals("IN_PROGRESS", result.status());
         assertTrue(result.applicable());
+        assertTrue(result.primaryRequirement().contains("TOEIC 800"));
+        assertTrue(result.detail().contains("2023학년도 이후 기준 점수"));
+    }
+
+    @Test
+    void showsLegacyRequirementForPre2023Students() {
+        Student student = Student.create("22000003", "테스트", "경영학부", MajorType.SINGLE, null, 4, 2022, "ACTIVE", false);
+
+        EnglishCertificationProgressDto result = service.evaluate(student, List.of());
+
+        assertTrue(result.primaryRequirement().contains("TOEIC 700"));
+        assertTrue(result.detail().contains("2012~2022학년도 기준 점수"));
+    }
+
+    @Test
+    void showsEnglishMajorRequirementForEnglishDataConvergenceStudents() {
+        Student student = Student.create("24000002", "테스트", "영어데이터융합전공", MajorType.SINGLE, null, 3, 2024, "ACTIVE", false);
+
+        EnglishCertificationProgressDto result = service.evaluate(student, List.of());
+
+        assertTrue(result.primaryRequirement().contains("TOEIC 900"));
+        assertTrue(result.detail().contains("영어영문 계열 2023학년도 이후 기준 점수"));
     }
 
     private static List<CompletedCourseUploadRowDto> regularTermsFrom(int startYear, int count) {
