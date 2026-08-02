@@ -88,8 +88,9 @@ public class TimetableCatalog {
 
     private void sortTerms() {
         terms.sort(Comparator
-                .comparingInt(TimetableTermData::termYear).reversed()
-                .thenComparingInt(TimetableTermData::semester).reversed());
+                .comparingInt(TimetableTermData::termYear)
+                .thenComparingInt(TimetableTermData::semester)
+                .reversed());
     }
 
     private void indexCourseCodesByName() {
