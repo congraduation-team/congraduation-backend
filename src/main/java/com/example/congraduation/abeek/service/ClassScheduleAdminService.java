@@ -25,17 +25,20 @@ public class ClassScheduleAdminService {
     private final TimetableCatalog timetableCatalog;
     private final ObjectMapper objectMapper;
     private final Path dataDir;
+    private final Path resourcesDir;
 
     public ClassScheduleAdminService(
             TimetableExcelParser excelParser,
             TimetableCatalog timetableCatalog,
             ObjectMapper objectMapper,
-            @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir
+            @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir,
+            @Value("${app.timetable.resources-dir:./src/main/resources/timetable-data}") String resourcesDir
     ) {
         this.excelParser = excelParser;
         this.timetableCatalog = timetableCatalog;
         this.objectMapper = objectMapper;
         this.dataDir = Path.of(dataDir);
+        this.resourcesDir = Path.of(resourcesDir);
     }
 
     public AdminUploadResponseDto upload(MultipartFile file, int year, int semester) {
@@ -85,13 +88,28 @@ public class ClassScheduleAdminService {
     }
 
     private void persist(TimetableTermData termData) {
+        String fileName = termData.termYear() + "-" + termData.semester() + ".json";
+        writeJson(dataDir, fileName, termData, true);
+        // 로컬 개발용: 리포지토리 리소스 JSON도 덮어써서 커밋/배포 기본값을 갱신할 수 있게 한다.
+        // 배포 jar 환경에서는 보통 경로가 없어 skip 된다.
+        writeJson(resourcesDir, fileName, termData, false);
+    }
+
+    private void writeJson(Path dir, String fileName, TimetableTermData termData, boolean required) {
         try {
-            Files.createDirectories(dataDir);
-            Path target = dataDir.resolve(termData.termYear() + "-" + termData.semester() + ".json");
+            if (!required && !Files.isDirectory(dir) && !Files.isDirectory(dir.getParent())) {
+                log.debug("Skip timetable resources write; dir missing: {}", dir.toAbsolutePath());
+                return;
+            }
+            Files.createDirectories(dir);
+            Path target = dir.resolve(fileName);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(target.toFile(), termData);
-            log.info("Saved timetable override to {}", target.toAbsolutePath());
+            log.info("Saved timetable to {}", target.toAbsolutePath());
         } catch (IOException e) {
-            throw new IllegalArgumentException("강의시간표 파일 저장 실패: " + e.getMessage(), e);
+            if (required) {
+                throw new IllegalArgumentException("강의시간표 파일 저장 실패: " + e.getMessage(), e);
+            }
+            log.warn("Failed to update timetable resources at {}: {}", dir.toAbsolutePath(), e.getMessage());
         }
     }
 

@@ -22,13 +22,18 @@ class ClassScheduleAdminServiceTest {
     @Test
     void uploadCsvPersistsAndReplacesCatalog() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        TimetableCatalog catalog = new TimetableCatalog(objectMapper, tempDir.toString());
+        Path overrideDir = tempDir.resolve("override");
+        Path resourcesDir = tempDir.resolve("resources");
+        Files.createDirectories(resourcesDir);
+
+        TimetableCatalog catalog = new TimetableCatalog(objectMapper, overrideDir.toString());
         // @PostConstruct 미호출 — 빈 카탈로그에서 시작
         ClassScheduleAdminService service = new ClassScheduleAdminService(
                 new TimetableExcelParser(),
                 catalog,
                 objectMapper,
-                tempDir.toString()
+                overrideDir.toString(),
+                resourcesDir.toString()
         );
 
         String csv = """
@@ -45,6 +50,7 @@ class ClassScheduleAdminServiceTest {
         assertThat(response.year()).isEqualTo(2026);
         assertThat(response.semester()).isEqualTo(1);
         assertThat(catalog.findTerm(2026, 1)).isPresent();
-        assertThat(Files.exists(tempDir.resolve("2026-1.json"))).isTrue();
+        assertThat(Files.exists(overrideDir.resolve("2026-1.json"))).isTrue();
+        assertThat(Files.exists(resourcesDir.resolve("2026-1.json"))).isTrue();
     }
 }
