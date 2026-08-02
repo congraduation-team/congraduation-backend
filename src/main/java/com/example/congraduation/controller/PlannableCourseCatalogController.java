@@ -29,6 +29,8 @@ public class PlannableCourseCatalogController {
                     + "교과목명 검색, 대상학년, 개설학기 필터를 지원합니다."
     )
     public ResponseEntity<PlannableCourseCatalogResponseDto> getCatalog(
+            @Parameter(description = "학생 ID. 전달하면 학생 전공/기이수 기준으로 맞춤 검색합니다.", example = "1")
+            @RequestParam(required = false) Long studentId,
             @Parameter(description = "교과목명 검색어", example = "자료구조")
             @RequestParam(required = false) String keyword,
             @Parameter(description = "대상학년 필터", example = "2")
@@ -41,7 +43,7 @@ public class PlannableCourseCatalogController {
             @RequestParam(required = false) String category
     ) {
         return ResponseEntity.ok(
-                plannableCourseCatalogService.getCatalog(keyword, targetGrade, offeredTerm, departmentName, category)
+                plannableCourseCatalogService.getCatalog(studentId, keyword, targetGrade, offeredTerm, departmentName, category)
         );
     }
 }
