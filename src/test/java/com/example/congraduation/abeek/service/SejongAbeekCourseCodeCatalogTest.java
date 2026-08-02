@@ -15,6 +15,8 @@ class SejongAbeekCourseCodeCatalogTest {
         assertThat(catalog.findSejongCourseCode("BSM_PROB")).contains("007330");
         assertThat(catalog.findAbeekCourseCode("011304")).contains("GEN_UNI_ENG");
         assertThat(catalog.findSejongCourseCode("GEN_UNI_ENG")).contains("011304");
+        assertThat(catalog.findSejongCourseCode("GEN_MGMT")).contains("011312");
+        assertThat(catalog.findSejongCourseCode("GEN_FUSION_ART")).contains("011316");
         assertThat(catalog.findSejongCourseCode("UNKNOWN")).isEmpty();
     }
 }
