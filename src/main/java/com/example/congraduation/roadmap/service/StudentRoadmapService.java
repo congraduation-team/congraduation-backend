@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -205,6 +206,15 @@ public class StudentRoadmapService {
             }
         }
 
+        // 동일 학수번호가 1·2학기 시간표에 모두 있으면 한 칸만 유지.
+        // 선호 칸: 해당 학과·입학연도 커리큘럼 recommendedTerm (학과마다 Capstone 학기가 다를 수 있음).
+        // 커리큘럼 정보가 없으면 TERM_KEYS 앞쪽(더 이른 칸)을 유지.
+        Map<String, String> preferredTermByCode = Map.of();
+        if (abeekTarget && abeekCode != null && admissionYear != null) {
+            preferredTermByCode = loadPreferredTermBySejongCode(abeekCode, admissionYear);
+        }
+        dedupeIncompleteCourseCodesAcrossTerms(byTermAndCode, completion, preferredTermByCode);
+
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
         for (int i = 0; i < TERM_KEYS.size(); i++) {
@@ -253,12 +263,20 @@ public class StudentRoadmapService {
     }
 
     private List<TimetableTermData> resolveSourceTerms() {
-        TimetableTermData spring = timetableCatalog.latestTermForSemester(1)
+        TimetableTermData spring = latestNonEmptyTermForSemester(1)
                 .orElseThrow(() -> new IllegalArgumentException("1학기 강의시간표 데이터가 없습니다."));
-        TimetableTermData fall = timetableCatalog.latestTermForSemester(2)
+        TimetableTermData fall = latestNonEmptyTermForSemester(2)
                 .orElseThrow(() -> new IllegalArgumentException("2학기 강의시간표 데이터가 없습니다."));
         // 1학기·2학기 모두 사용해 1-1~4-2 채움
         return List.of(spring, fall);
+    }
+
+    /** offerings가 비어 있지 않은 최신 학기 시간표 */
+    private Optional<TimetableTermData> latestNonEmptyTermForSemester(int semester) {
+        return timetableCatalog.availableTerms().stream()
+                .filter(term -> term.semester() == semester)
+                .filter(term -> term.offerings() != null && !term.offerings().isEmpty())
+                .findFirst();
     }
 
     private Set<String> openingNamesFor(
@@ -384,6 +402,90 @@ public class StudentRoadmapService {
                 }
             }
         }
+    }
+
+    /**
+     * 미이수 과목이 여러 학기 칸에 같은 학수번호로 중복되면
+     * (예: Capstone이 1·2학기 시간표에 모두 gy=4) 한 칸만 남긴다.
+     * 커리큘럼 recommendedTerm이 있으면 그 칸을 우선하고, 없으면 TERM_KEYS 앞쪽을 유지한다.
+     */
+    private void dedupeIncompleteCourseCodesAcrossTerms(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            Map<String, String> preferredTermByCode
+    ) {
+        Map<String, List<String>> termsByCode = new LinkedHashMap<>();
+        for (String termKey : TERM_KEYS) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(termKey);
+            if (termMap == null || termMap.isEmpty()) {
+                continue;
+            }
+            for (String code : termMap.keySet()) {
+                if (code == null || code.isBlank()) {
+                    continue;
+                }
+                if (completion.findByCourseCode(code) != null) {
+                    continue;
+                }
+                String normalized = code.trim().toUpperCase(Locale.ROOT);
+                termsByCode.computeIfAbsent(normalized, ignored -> new ArrayList<>()).add(termKey);
+            }
+        }
+
+        for (Map.Entry<String, List<String>> entry : termsByCode.entrySet()) {
+            List<String> terms = entry.getValue();
+            if (terms.size() <= 1) {
+                continue;
+            }
+            String code = entry.getKey();
+            String preferred = preferredTermByCode.get(code);
+            String keep = (preferred != null && terms.contains(preferred))
+                    ? preferred
+                    : terms.stream()
+                            .min(Comparator.comparingInt(TERM_KEYS::indexOf))
+                            .orElse(terms.getFirst());
+            for (String termKey : terms) {
+                if (!termKey.equals(keep)) {
+                    byTermAndCode.get(termKey).remove(code);
+                    // 원본 키가 대소문자/공백 다를 수 있어 스캔 삭제
+                    byTermAndCode.get(termKey).entrySet()
+                            .removeIf(e -> e.getKey() != null
+                                    && e.getKey().trim().equalsIgnoreCase(code));
+                }
+            }
+        }
+    }
+
+    /** ABEEK 커리큘럼 recommendedTerm → 세종 학수번호 기준 선호 학기 칸. */
+    private Map<String, String> loadPreferredTermBySejongCode(String departmentCode, int curriculumYear) {
+        Map<String, String> preferred = new HashMap<>();
+        List<CurriculumCourse> courses =
+                curriculumCourseRepository.findByDepartmentCodeAndCurriculumYear(departmentCode, curriculumYear);
+        for (CurriculumCourse course : courses) {
+            if (course.getCourseMaster() == null) {
+                continue;
+            }
+            String term = normalizeRecommendedTerm(course.getRecommendedTerm());
+            if (term == null) {
+                continue;
+            }
+            String abeekCode = course.getCourseMaster().getCourseCode();
+            sejongAbeekCourseCodeCatalog.findSejongCourseCode(abeekCode).ifPresent(sejong ->
+                    preferred.putIfAbsent(sejong.trim().toUpperCase(Locale.ROOT), term)
+            );
+        }
+        return preferred;
+    }
+
+    private static String normalizeRecommendedTerm(String recommendedTerm) {
+        if (recommendedTerm == null || recommendedTerm.isBlank()) {
+            return null;
+        }
+        String value = recommendedTerm.trim().replace('－', '-');
+        if (TERM_KEYS.contains(value)) {
+            return value;
+        }
+        return null;
     }
 
     static String normalizeCourseName(String name) {
@@ -816,17 +918,14 @@ public class StudentRoadmapService {
         return new AbeekBsmAllowlist(names, codes, sejongAbeekCourseCodeCatalog);
     }
 
-    /** 연도별 표기 차이(실험 포함/미포함, 구·신 과목명)를 허용 목록에 합친다. */
+    /**
+     * Incomplete 슬롯용 표기 alias.
+     * 구·신 과목명(확률/선형대수)만 허용한다.
+     * 기초미적분학↔미적분학1, 일반물리학및실험1↔일반물리학1 은 다른 과목(학수번호도 다름)이므로
+     * incomplete allowlist에 넣지 않는다. (CSE 2021에 전교 공통 미적분학1·일반물리학1이 남는 문제 방지)
+     */
     private static void addBsmNameAliases(Set<String> names, String name) {
-        if (name.equals("일반물리학1")) {
-            names.add("일반물리학및실험1");
-        } else if (name.equals("일반물리학및실험1")) {
-            names.add("일반물리학1");
-        } else if (name.equals("미적분학1")) {
-            names.add("기초미적분학");
-        } else if (name.equals("기초미적분학")) {
-            names.add("미적분학1");
-        } else if (name.equals("선형대수")) {
+        if (name.equals("선형대수")) {
             names.add("선형대수및프로그래밍");
         } else if (name.equals("선형대수및프로그래밍")) {
             names.add("선형대수");
@@ -838,13 +937,7 @@ public class StudentRoadmapService {
     }
 
     private static void addBsmCodeAliases(Set<String> codes, String code) {
-        if (code.equals("BSM_PHYS") || code.equals("BSM_PHYS_LAB")) {
-            codes.add("BSM_PHYS");
-            codes.add("BSM_PHYS_LAB");
-        } else if (code.equals("BSM_CALC") || code.equals("BSM_CALC1")) {
-            codes.add("BSM_CALC");
-            codes.add("BSM_CALC1");
-        } else if (code.equals("BSM_PROB") || code.equals("BSM_PROB_PROG")) {
+        if (code.equals("BSM_PROB") || code.equals("BSM_PROB_PROG")) {
             codes.add("BSM_PROB");
             codes.add("BSM_PROB_PROG");
         } else if (code.equals("BSM_LINEAR") || code.equals("BSM_LINEAR_PROG")) {
