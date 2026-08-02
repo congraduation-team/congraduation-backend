@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,6 +31,7 @@ public class TimetableGitHubSyncService {
     private final String pathPrefix;
     private final RestClient restClient;
 
+    @Autowired
     public TimetableGitHubSyncService(
             ObjectMapper objectMapper,
             @Value("${app.timetable.github.enabled:true}") boolean enabled,
