@@ -2,13 +2,16 @@ package com.example.congraduation.abeek.timetable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,13 +23,21 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class TimetableCatalog {
 
     private final ObjectMapper objectMapper;
+    private final Path dataDir;
     private final List<TimetableTermData> terms = new ArrayList<>();
     /** 정규화 과목명 → 최신 학기 기준 학수번호 */
     private final Map<String, String> courseCodeByNormalizedName = new HashMap<>();
+
+    public TimetableCatalog(
+            ObjectMapper objectMapper,
+            @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir
+    ) {
+        this.objectMapper = objectMapper;
+        this.dataDir = Path.of(dataDir);
+    }
 
     @PostConstruct
     void load() throws IOException {
@@ -34,14 +45,51 @@ public class TimetableCatalog {
         Resource[] resources = resolver.getResources("classpath:timetable-data/*.json");
         for (Resource resource : resources) {
             TimetableTermData data = objectMapper.readValue(resource.getInputStream(), TimetableTermData.class);
-            terms.add(data);
-            log.info("Loaded timetable {}-{} ({} offerings)",
+            putTerm(data);
+            log.info("Loaded timetable {}-{} ({} offerings) from classpath",
                     data.termYear(), data.semester(), data.offerings() == null ? 0 : data.offerings().size());
         }
+        loadExternalOverrides();
+        sortTerms();
+        indexCourseCodesByName();
+    }
+
+    private void loadExternalOverrides() throws IOException {
+        if (!Files.isDirectory(dataDir)) {
+            return;
+        }
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dataDir, "*.json")) {
+            for (Path path : stream) {
+                TimetableTermData data = objectMapper.readValue(path.toFile(), TimetableTermData.class);
+                putTerm(data);
+                log.info("Loaded timetable {}-{} ({} offerings) from {}",
+                        data.termYear(),
+                        data.semester(),
+                        data.offerings() == null ? 0 : data.offerings().size(),
+                        path.toAbsolutePath());
+            }
+        }
+    }
+
+    /** 업로드된 학기 데이터를 메모리에 즉시 반영한다. */
+    public synchronized void replaceTerm(TimetableTermData data) {
+        putTerm(data);
+        sortTerms();
+        courseCodeByNormalizedName.clear();
+        indexCourseCodesByName();
+        log.info("Replaced in-memory timetable {}-{} ({} offerings)",
+                data.termYear(), data.semester(), data.offerings() == null ? 0 : data.offerings().size());
+    }
+
+    private void putTerm(TimetableTermData data) {
+        terms.removeIf(term -> term.termYear() == data.termYear() && term.semester() == data.semester());
+        terms.add(data);
+    }
+
+    private void sortTerms() {
         terms.sort(Comparator
                 .comparingInt(TimetableTermData::termYear).reversed()
                 .thenComparingInt(TimetableTermData::semester).reversed());
-        indexCourseCodesByName();
     }
 
     private void indexCourseCodesByName() {
