@@ -61,11 +61,32 @@ public class TimetableCatalog {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dataDir, "*.json")) {
             for (Path path : stream) {
                 TimetableTermData data = objectMapper.readValue(path.toFile(), TimetableTermData.class);
+                int incoming = data.offerings() == null ? 0 : data.offerings().size();
+                if (incoming == 0) {
+                    log.warn("Skip empty timetable override {}", path.toAbsolutePath());
+                    continue;
+                }
+                Optional<TimetableTermData> existing = findTerm(data.termYear(), data.semester());
+                if (existing.isPresent()) {
+                    int current = existing.get().offerings() == null ? 0 : existing.get().offerings().size();
+                    //  sparseness guard: 관리자 업로드 실패/부분 파일로 풍부한 classpath 데이터를 지우지 않음
+                    if (current > 0 && incoming * 2 < current) {
+                        log.warn(
+                                "Skip sparse timetable override {} ({} offerings) over existing {}-{} ({} offerings)",
+                                path.toAbsolutePath(),
+                                incoming,
+                                data.termYear(),
+                                data.semester(),
+                                current
+                        );
+                        continue;
+                    }
+                }
                 putTerm(data);
                 log.info("Loaded timetable {}-{} ({} offerings) from {}",
                         data.termYear(),
                         data.semester(),
-                        data.offerings() == null ? 0 : data.offerings().size(),
+                        incoming,
                         path.toAbsolutePath());
             }
         }
