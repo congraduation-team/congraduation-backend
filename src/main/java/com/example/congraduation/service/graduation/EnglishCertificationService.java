@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 public class EnglishCertificationService {
 
     private static final int OPTIONAL_POLICY_ADMISSION_YEAR = 2023;
+    private static final Set<String> ENGLISH_MAJOR_NAMES = Set.of(
+            "영어영문학과",
+            "영어영문학전공",
+            "영어데이터융합전공"
+    );
     private static final Set<String> ARTS_COLLEGE_MAJORS = Set.of(
             "회화과",
             "패션디자인학과",
@@ -39,6 +44,8 @@ public class EnglishCertificationService {
         String major = normalizeMajor(student.getMajor());
         int admissionYear = student.getAdmissionYear() == null ? 0 : student.getAdmissionYear();
         boolean optionalPolicy = admissionYear >= OPTIONAL_POLICY_ADMISSION_YEAR;
+        boolean englishMajor = isEnglishMajor(major);
+        String requirement = buildRequirementSummary(optionalPolicy, englishMajor);
 
         if (isDepartmentExempt(major)) {
             return new EnglishCertificationProgressDto(
@@ -46,7 +53,7 @@ public class EnglishCertificationService {
                     true,
                     "EXEMPTED",
                     optionalPolicy ? "OPTIONAL" : "EXEMPT",
-                    primaryRequirement(optionalPolicy),
+                    requirement,
                     "학과 기준 면제 대상이라 영어졸업인증이 면제됩니다."
             );
         }
@@ -57,7 +64,7 @@ public class EnglishCertificationService {
                     true,
                     "EXEMPTED",
                     optionalPolicy ? "OPTIONAL" : "EXEMPT",
-                    primaryRequirement(optionalPolicy),
+                    requirement,
                     optionalPolicy
                             ? "예체능 계열은 2023학년도 이후 영어졸업인증 선택 대상입니다."
                             : "예체능 계열은 영어졸업인증 면제 대상입니다."
@@ -70,7 +77,7 @@ public class EnglishCertificationService {
                     true,
                     "EXEMPTED",
                     optionalPolicy ? "OPTIONAL" : "REQUIRED",
-                    primaryRequirement(optionalPolicy),
+                    requirement,
                     "Intensive English 이수로 영어졸업인증이 면제됩니다."
             );
         }
@@ -83,7 +90,7 @@ public class EnglishCertificationService {
                     true,
                     "EXEMPTED",
                     optionalPolicy ? "OPTIONAL" : "REQUIRED",
-                    primaryRequirement(optionalPolicy),
+                    requirement,
                     completedRegularSemesters + "학기 이수 기준으로 영어졸업인증이 면제됩니다."
             );
         }
@@ -93,8 +100,8 @@ public class EnglishCertificationService {
                 false,
                 "IN_PROGRESS",
                 optionalPolicy ? "OPTIONAL" : "REQUIRED",
-                primaryRequirement(optionalPolicy),
-                buildPendingDetail(optionalPolicy)
+                requirement,
+                buildPendingDetail(optionalPolicy, englishMajor)
         );
     }
 
@@ -159,20 +166,44 @@ public class EnglishCertificationService {
         return DEPARTMENT_EXEMPT_MAJORS.contains(major);
     }
 
-    private String primaryRequirement(boolean optionalPolicy) {
-        if (optionalPolicy) {
-            return "공인영어 기준 점수 또는 Intensive English 이수";
-        }
-        return "공인영어 기준 점수 또는 Intensive English 이수(면제 가능)";
+    private boolean isEnglishMajor(String major) {
+        return ENGLISH_MAJOR_NAMES.contains(major);
     }
 
-    private String buildPendingDetail(boolean optionalPolicy) {
+    private String buildRequirementSummary(boolean optionalPolicy, boolean englishMajor) {
+        if (englishMajor) {
+            if (optionalPolicy) {
+                return "영어영문 계열 기준: TOEIC 900, TOEFL iBT 91, TEPS 766(뉴텝스 430), OPIc IM2, TOEIC Speaking IM2, G-TELP 2급 90점, G-TELP Speaking Level 3 이상 또는 Intensive English 이수";
+            }
+            return "영어영문 계열 기준: TOEIC 800, TOEFL iBT 91, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점 이상 또는 Intensive English 이수(면제 가능)";
+        }
         if (optionalPolicy) {
-            return "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+            return "일반 기준: TOEIC 800, TOEFL iBT 80, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점, G-TELP Speaking Level 4 이상 또는 Intensive English 이수";
+        }
+        return "일반 기준: TOEIC 700, TOEFL iBT 80, TEPS 556(뉴텝스 301), OPIc IL, TOEIC Speaking IL, G-TELP 2급 65점 이상 또는 Intensive English 이수(면제 가능)";
+    }
+
+    private String buildPendingDetail(boolean optionalPolicy, boolean englishMajor) {
+        String scoreGuide = buildScoreGuide(optionalPolicy, englishMajor);
+        if (optionalPolicy) {
+            return scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                     + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
         }
-        return "현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+        return scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                 + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
+    }
+
+    private String buildScoreGuide(boolean optionalPolicy, boolean englishMajor) {
+        if (englishMajor) {
+            if (optionalPolicy) {
+                return "영어영문 계열 2023학년도 이후 기준 점수는 TOEIC 900, TOEFL iBT 91, TEPS 766(뉴텝스 430), OPIc IM2, TOEIC Speaking IM2, G-TELP 2급 90점, G-TELP Speaking Level 3 이상입니다.";
+            }
+            return "영어영문 계열 2012~2022학년도 기준 점수는 TOEIC 800, TOEFL iBT 91, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점 이상입니다.";
+        }
+        if (optionalPolicy) {
+            return "2023학년도 이후 기준 점수는 TOEIC 800, TOEFL iBT 80, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점, G-TELP Speaking Level 4 이상입니다.";
+        }
+        return "2012~2022학년도 기준 점수는 TOEIC 700, TOEFL iBT 80, TEPS 556(뉴텝스 301), OPIc IL, TOEIC Speaking IL, G-TELP 2급 65점 이상입니다.";
     }
 
     private String normalizeMajor(String major) {
