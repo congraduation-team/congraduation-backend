@@ -1761,83 +1761,120 @@
         "estimatedTerm": "3-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "전자리트2",
-        "to": "음용금-학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "출고주파공학",
-        "to": "스치하석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이트 통신",
-        "to": "박도치 소자설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "박도치 소자설계",
-        "to": "유선통신공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "종함설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종함설계",
-        "to": "자동제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자동제어",
-        "to": "영상처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "영상처리",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필스 선스",
-        "to": "설계 선후스 지정",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "접보시스템 실계",
-        "to": "파린인식",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "파린인식",
-        "to": "정보 Track",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:10"
+  "scrapedAt": "2026-07-28T19:25:10",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "미적분학1",
+      "to": "전기회로",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "전기회로",
+      "to": "물리전자공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "신호및시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "전기회로실험",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "신호및시스템",
+      "to": "디지털신호처리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로1",
+      "to": "전자회로2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전자기1",
+      "to": "전자기2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "컴퓨터구조론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "통신이론",
+      "to": "디지털통신시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "데이터통신",
+      "to": "컴퓨터네트워크",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "데이터통신",
+      "to": "데이터통신설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로2",
+      "to": "전자회로설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "임베디드시스템",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "commonMajorPrerequisiteCourseNames": [
+    "전기회로",
+    "기초설계"
+  ],
+  "prerequisitesNote": "EICE 2023 공식 이수체계도 검수."
 }

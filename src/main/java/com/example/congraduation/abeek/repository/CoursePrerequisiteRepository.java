@@ -10,4 +10,6 @@ public interface CoursePrerequisiteRepository extends JpaRepository<CoursePrereq
             String departmentCode, int year, String fromCourseCode, String toCourseCode, String type);
 
     java.util.List<CoursePrerequisite> findByDepartmentCodeAndYear(String departmentCode, int year);
+
+    void deleteByDepartmentCodeAndYear(String departmentCode, int year);
 }

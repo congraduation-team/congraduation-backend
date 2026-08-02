@@ -1969,413 +1969,229 @@
         "estimatedTerm": "3-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "(물제해결물",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:",
-        "to": "행점과 토론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "행점과 토론",
-        "to": "Erglish Listerirg",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Erglish Listerirg",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "Erglish Readirg",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서증사회롬",
-        "to": "세계사:인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "세계사:인",
-        "to": "과 문명",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학",
-        "to": "프트워어기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프트워어기",
-        "to": "고급프로그",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그",
-        "to": "미적분학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학",
-        "to": "공업수학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학기",
-        "to": "일반화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "선형다 수학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선형다 수학",
-        "to": "수치하석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학",
-        "to": "및 실험2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 실험2",
-        "to": "라망입문-C",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "라망입문-C",
-        "to": "일반물리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이스템설계2",
-        "to": "물비행제",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "물비행제",
-        "to": "자율랑법",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자율랑법",
-        "to": "시스템설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업역학",
-        "to": "이상유제",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이상유제",
-        "to": "비행동역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "비행동역학",
-        "to": "랑글MEMS",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "랑글MEMS",
-        "to": "업연구및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "업연구및",
-        "to": "항공우주",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항공우주",
-        "to": "공학개록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학개록",
-        "to": "고체 역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고체 역학",
-        "to": "항공우주",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항공우주",
-        "to": "자동제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자동제어",
-        "to": "항곧우주곧",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "함글제도",
-        "to": "깊CAD",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신소자금",
-        "to": "항공우주",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항공우주",
-        "to": "구조역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조역학",
-        "to": "추진체공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "추진체공학",
-        "to": "전산구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전산구조",
-        "to": "곧학연구2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "곧학연구2",
-        "to": "항글우주",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항글우주",
-        "to": "응용SW2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "유처 역학",
-        "to": "인공위성등용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공위성등용",
-        "to": "하석및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "하석및실습",
-        "to": "유도제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설거",
-        "to": "응용설겨",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용설겨",
-        "to": "} 카르로넉스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "} 카르로넉스",
-        "to": "항공기설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항공기설계",
-        "to": "로켓곧학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "로켓곧학",
-        "to": "및 설계_",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 설계_",
-        "to": "무인항공기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "다른 설계과목들 듣기 전",
-        "to": "최소 6설계학점 이상 이수하여",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "최소 6설계학점 이상 이수하여",
-        "to": "들어야 하",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "들어야 하",
-        "to": "역학 및 설",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "역학 및 설",
-        "to": "시스템설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시스템설계",
-        "to": "항법전자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "항법전자",
-        "to": "흥용공기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "흥용공기",
-        "to": "~기초설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "~기초설계",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "후 수감",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "으로 인정하지 않음",
-        "to": "포함 9설계학점 이상들 이수하여야 함",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "포함 9설계학점 이상들 이수하여야 함",
-        "to": "기초설계 전 종합설계 후 수강한 설계과목은 설계학점",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "무인항공기",
-        "to": "시물레이선",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시물레이선",
-        "to": "시스템설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시스템설계",
-        "to": "최소 3과목 이상 이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문교양필수",
-        "to": "전공필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수",
-        "to": "설계과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계과목",
-        "to": "종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계",
-        "to": "종합설계2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:01"
+  "scrapedAt": "2026-07-28T19:25:01",
+  "prerequisites": [
+    {
+      "from": "일변수미적분학",
+      "to": "다변수미적분학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "다변수미적분학",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "일반물리학및실험2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "소프트웨어기초코딩",
+      "to": "고급프로그래밍입문-C",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험2",
+      "to": "공업역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험2",
+      "to": "열역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험2",
+      "to": "동역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "열역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "고체역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "동역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공업역학",
+      "to": "고체역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업역학",
+      "to": "동역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "열역학",
+      "to": "이상유체역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이상유체역학",
+      "to": "압축성유체역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "비행동역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "동역학",
+      "to": "자동제어",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고체역학",
+      "to": "항공기구조역학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "메카트로닉스종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계2",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "메카트로닉스종합설계",
+      "to": "메카트로닉스응용설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "메카트로닉스종합설계",
+      "to": "항공기설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공기설계",
+      "to": "종합설계1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공기설계",
+      "to": "종합설계2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "자율비행체시스템설계1",
+      "to": "자율비행체시스템설계2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "무인항공기설계1",
+      "to": "무인항공기설계2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로 2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "항공우주공학연구1",
+      "to": "항공우주공학연구2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "항공우주응용SW1",
+      "to": "항공우주응용SW2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "항공제도 및CAD",
+      "to": "항공기설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "열전달",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "열역학",
+      "to": "추진체공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "자동제어",
+      "to": "유도제어시스템설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "압축성유체역학",
+      "to": "응용공기역학및설계1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "AERO 2020 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계",
+    "동역학",
+    "열역학"
+  ]
 }

@@ -42,12 +42,31 @@ public class CurriculumDataLoader implements CommandLineRunner {
             seedRequirements();
             seedCurricula();
         }
-        // 기존 DB에도 선수과목 간선이 비어 있으면 시드 (CSE JSON 없음)
-        if (prerequisiteRepository.findByDepartmentCodeAndYear("CSE", 2024).isEmpty()) {
-            seedPrerequisites();
-        }
+        // CSE는 abeek-data JSON이 없어 Java 시드로 관리. 공식 이수체계도 검수본으로 매 기동 교체.
+        refreshCsePrerequisites();
+        applyCseCommonMajorPrerequisites();
         // 운영 DB: 세종사회봉사1은 공학인증 필수에서 제외
         demoteVolunteerFromAbeekRequired();
+    }
+
+    /** CSE 2020~2026 선수 간선을 삭제 후 검수본으로 재적재한다. */
+    private void refreshCsePrerequisites() {
+        for (int year = 2020; year <= 2026; year++) {
+            prerequisiteRepository.deleteByDepartmentCodeAndYear("CSE", year);
+        }
+        seedPrerequisites();
+    }
+
+    /** 「모든 전공의 선수 과목」: 1-1 전공 코어 C프로그래밍 */
+    private void applyCseCommonMajorPrerequisites() {
+        String namesJson = "[\"C프로그래밍및실습\"]";
+        for (int year = 2020; year <= 2026; year++) {
+            final int y = year;
+            requirementRepository.findByDepartmentCodeAndYear("CSE", y).ifPresent(req -> {
+                req.setCommonMajorPrerequisiteNames(namesJson);
+                requirementRepository.save(req);
+            });
+        }
     }
 
     /** 이미 시드된 DB에서 GEN_VOLUNTEER1 REQUIRED → ELECTIVE (2020·2021 CSE) */
@@ -502,66 +521,72 @@ public class CurriculumDataLoader implements CommandLineRunner {
     }
 
     /**
-     * 컴공 이수체계도 선수/권장 간선 (화살표용).
-     * 연도별로 없는 과목은 FullRoadmapService에서 resolve 실패 시 제외된다.
+     * 컴공 공식 이수체계도(program0302) 기준 선수/권장 간선.
+     * 실선=MANDATORY, 점선=RECOMMENDED.
+     * 연도별로 커리큘럼에 없는 과목은 FullRoadmapService에서 resolve 실패 시 제외된다.
      */
     private void seedPrerequisites() {
-        List<String[]> edges = List.of(
-                // 프로그래밍 → 자료구조 → 알고리즘 → OS → 네트워크
-                arr("MAJ_C", "MAJ_ADV_C", "MANDATORY"),
-                arr("MAJ_ADV_C", "MAJ_DS", "MANDATORY"),
-                arr("MAJ_DS", "MAJ_ALGO", "MANDATORY"),
-                arr("MAJ_ALGO", "MAJ_OS", "MANDATORY"),
-                arr("MAJ_OS", "MAJ_NETWORK", "MANDATORY"),
-                // 디지털 → 컴퓨터구조 → OS
-                arr("MAJ_DIGITAL", "MAJ_ARCH", "MANDATORY"),
-                arr("MAJ_ARCH", "MAJ_OS", "RECOMMENDED"),
+        // 공통(2020~2026): 이미지에서 반복 확인된 코어·설계·권장 간선
+        List<String[]> shared = List.of(
+                // 코어 필수 체인
+                arr("MAJ_C", "MAJ_ADV_C", "MANDATORY", false),
+                arr("MAJ_ADV_C", "MAJ_DS", "MANDATORY", false),
+                arr("MAJ_DS", "MAJ_ALGO", "MANDATORY", false),
+                arr("MAJ_ALGO", "MAJ_OS", "MANDATORY", false),
+                arr("MAJ_OS", "MAJ_NETWORK", "MANDATORY", false),
+                // 하드웨어 계열
+                arr("MAJ_BASIC_DESIGN", "MAJ_DIGITAL", "MANDATORY", false),
+                arr("MAJ_DIGITAL", "MAJ_ARCH", "MANDATORY", false),
+                arr("MAJ_ARCH", "MAJ_OS", "RECOMMENDED", false),
+                arr("MAJ_DIGITAL", "MAJ_MICRO", "RECOMMENDED", false),
+                arr("MAJ_ARCH", "MAJ_MICRO", "RECOMMENDED", true),
+                arr("MAJ_ARCH", "MAJ_VHDL", "RECOMMENDED", true),
                 // 설계 시퀀스
-                arr("MAJ_BASIC_DESIGN", "MAJ_ADV_DESIGN", "MANDATORY"),
-                arr("MAJ_ADV_DESIGN", "MAJ_CAPSTONE", "MANDATORY"),
-                arr("MAJ_BASIC_DESIGN", "MAJ_CAPSTONE", "RECOMMENDED"),
-                arr("MAJ_SE", "MAJ_CAPSTONE", "RECOMMENDED"),
-                // 요소설계/선택
-                arr("MAJ_ADV_C", "MAJ_CPP", "RECOMMENDED"),
-                arr("MAJ_ADV_C", "MAJ_JAVA", "RECOMMENDED"),
-                arr("MAJ_DS", "MAJ_DB", "RECOMMENDED"),
-                arr("MAJ_WEB", "MAJ_WEB_DESIGN", "RECOMMENDED"),
-                arr("MAJ_OS", "MAJ_UNIX", "RECOMMENDED"),
-                arr("MAJ_OS", "MAJ_LINUX", "RECOMMENDED"),
-                arr("MAJ_NETWORK", "MAJ_NET_PROG", "RECOMMENDED"),
-                arr("MAJ_NETWORK", "MAJ_INTEL_NET", "RECOMMENDED"),
-                arr("MAJ_SIGNAL", "MAJ_DSP", "RECOMMENDED"),
-                arr("MAJ_AI", "MAJ_ML", "RECOMMENDED"),
-                arr("MAJ_PL", "MAJ_COMPILER", "RECOMMENDED"),
+                arr("MAJ_BASIC_DESIGN", "MAJ_ADV_DESIGN", "MANDATORY", false),
+                arr("MAJ_ADV_DESIGN", "MAJ_CAPSTONE", "MANDATORY", false),
+                arr("MAJ_BASIC_DESIGN", "MAJ_CAPSTONE", "RECOMMENDED", false),
+                arr("MAJ_SE", "MAJ_CAPSTONE", "RECOMMENDED", false),
+                // 권장 선·후수
+                arr("MAJ_ADV_C", "MAJ_CPP", "RECOMMENDED", false),
+                arr("MAJ_ADV_C", "MAJ_JAVA", "RECOMMENDED", false),
+                arr("MAJ_DS", "MAJ_DB", "RECOMMENDED", false),
+                arr("MAJ_ALGO", "MAJ_DB", "RECOMMENDED", true),
+                arr("MAJ_WEB", "MAJ_WEB_DESIGN", "RECOMMENDED", false),
+                arr("MAJ_OSS_INTRO", "MAJ_OSS_ENG", "RECOMMENDED", false),
+                arr("MAJ_OS", "MAJ_UNIX", "RECOMMENDED", false),
+                arr("MAJ_OS", "MAJ_LINUX", "RECOMMENDED", false),
+                arr("MAJ_NETWORK", "MAJ_NET_PROG", "RECOMMENDED", false),
+                arr("MAJ_NETWORK", "MAJ_INTEL_NET", "RECOMMENDED", false),
+                arr("MAJ_SIGNAL", "MAJ_DSP", "RECOMMENDED", false),
+                arr("MAJ_DB", "MAJ_XML", "RECOMMENDED", true),
+                arr("MAJ_PL", "MAJ_COMPILER", "RECOMMENDED", false),
                 // BSM
-                arr("BSM_CALC", "BSM_EMATH1", "RECOMMENDED"),
-                arr("BSM_CALC1", "BSM_EMATH1", "RECOMMENDED"),
-                arr("BSM_CALC", "BSM_LINEAR_PROG", "RECOMMENDED"),
-                arr("BSM_CALC1", "BSM_LINEAR", "RECOMMENDED")
+                arr("BSM_CALC", "BSM_EMATH1", "RECOMMENDED", false),
+                arr("BSM_CALC1", "BSM_EMATH1", "RECOMMENDED", false),
+                arr("BSM_CALC", "BSM_LINEAR_PROG", "RECOMMENDED", true),
+                arr("BSM_CALC1", "BSM_LINEAR", "RECOMMENDED", true)
         );
 
         for (int year = 2020; year <= 2026; year++) {
-            for (String[] edge : edges) {
-                upsertPrereq(year, edge[0], edge[1], edge[2]);
+            for (String[] edge : shared) {
+                savePrereq(year, edge[0], edge[1], edge[2], Boolean.parseBoolean(edge[3]));
             }
         }
     }
 
-    private static String[] arr(String from, String to, String type) {
-        return new String[]{from, to, type};
+    private static String[] arr(String from, String to, String type, boolean needsReview) {
+        return new String[]{from, to, type, Boolean.toString(needsReview)};
     }
 
-    private void upsertPrereq(int year, String from, String to, String type) {
-        CoursePrerequisite prerequisite = prerequisiteRepository
-                .findByDepartmentCodeAndYearAndFromCourseCodeAndToCourseCodeAndType(
-                        "CSE", year, from, to, type)
-                .orElseGet(CoursePrerequisite::new);
-        prerequisite.setDepartmentCode("CSE");
-        prerequisite.setYear(year);
-        prerequisite.setFromCourseCode(from);
-        prerequisite.setToCourseCode(to);
-        prerequisite.setType(type);
-        prerequisite.setNeedsReview(false);
+    private void savePrereq(int year, String from, String to, String type, boolean needsReview) {
+        CoursePrerequisite prerequisite = CoursePrerequisite.builder()
+                .departmentCode("CSE")
+                .year(year)
+                .fromCourseCode(from)
+                .toCourseCode(to)
+                .type(type)
+                .needsReview(needsReview)
+                .build();
         prerequisiteRepository.save(prerequisite);
     }
 }

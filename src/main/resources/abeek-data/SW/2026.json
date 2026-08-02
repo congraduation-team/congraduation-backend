@@ -1855,387 +1855,8 @@
         "estimatedTerm": "2-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "창의적글쓰기",
-        "to": "비판적사고와",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "비판적사고와",
-        "to": "쟁점과토론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "쟁점과토론",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:",
-        "to": "<2-4학년 지정과목>",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "<2-4학년 지정과목>",
-        "to": "역사와 사상: 세계사 동서양의사상과운리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "대학영어",
-        "to": "2개 영역에서 각 한 과목씩 수강올 권장함",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학1",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인종조건>",
-        "to": "BSM 인종필수 교과목올 포함하여 18학점 이상 이수하여야 함.",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "확출렉통계",
-        "to": "선형대수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선형대수",
-        "to": "시물레이선",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시물레이선",
-        "to": "일반물리및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "C프로그래망",
-        "to": "고급C프로그래",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급C프로그래",
-        "to": "래망:C+ +",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "래망:C+ +",
-        "to": "객체지항프로그",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "객체지항프로그",
-        "to": "SW설계기초",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW설계기초",
-        "to": "(산학프로적트입문)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(산학프로적트입문)",
-        "to": "운영체제",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "운영체제",
-        "to": "애니데이선",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "애니데이선",
-        "to": "Capstone디자인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Capstone디자인",
-        "to": "(산학협력프로적트)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료구조및",
-        "to": "알고리롬및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "알고리롬및",
-        "to": "데이터베이스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터베이스",
-        "to": "XR엔진개록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "XR엔진개록",
-        "to": "인런쉽2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디지털이미지",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "실시간컴퓨터그",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "실시간컴퓨터그",
-        "to": "실세계모델림및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "실세계모델림및",
-        "to": "데이터베이스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터베이스",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "가상현실",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용수치해석및",
-        "to": "객체지향프로그",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "객체지향프로그",
-        "to": "머신러님",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "머신러님",
-        "to": "생성형시",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "생성형시",
-        "to": "게임인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "래망:AVA",
-        "to": "객체지향XR프로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "객체지향XR프로",
-        "to": "컴퓨터비전및실",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터비전및실",
-        "to": "메타버스시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "BSM 필수",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "컴퓨터구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터구조",
-        "to": "컴퓨터네트위크",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터네트위크",
-        "to": "UIUX디I자인개",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "오른소스",
-        "to": "SW개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW개론",
-        "to": "음성넷오디오처",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "음성넷오디오처",
-        "to": "SW-AI 종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW-AI 종합설계",
-        "to": "증강현실",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "모바일프로그래",
-        "to": "웬기반프로그래",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "웬기반프로그래",
-        "to": "소프트웨어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "소프트웨어",
-        "to": "소프트웨어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "권장 선 후수",
-        "to": "필수 선 후수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "연구실인런십1",
-        "to": "연구실인터심2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "연구실인터심2",
-        "to": "졸업연구및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및",
-        "to": "졸업연구및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "최신기술골로키",
-        "to": "최신기술홀로키",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "최신기술홀로키",
-        "to": "최신기술골로키",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "최신기술골로키",
-        "to": "최신기술홀로키",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW설계기초",
-        "to": "SW설계기초",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW설계기초",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "설계교과목이수 유의사항>",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계교과목이수 유의사항>",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "Capstone디자인 순으로 _이수해야합.",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Capstone디자인 순으로 _이수해야합.",
-        "to": "Capstone디자인은 병수가 가능함.",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites(검수본) 사용. OCR 휴리스틱 간선은 폐기함.",
     "termLabelPositions": {
       "2-2": 0.4523,
       "3-2": 0.6956,
@@ -2244,5 +1865,120 @@
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:15"
+  "scrapedAt": "2026-07-28T19:25:15",
+  "commonMajorPrerequisiteCourseNames": [
+    "C프로그래밍 및 실습"
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "SW 2026 공식 이수체계도 이미지 검수(Phase2). needsReview=true 는 저해상도/교차선/연도개편으로 화살촉 재확인 권장.",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "C프로그래밍 및 실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "C프로그래밍 및 실습",
+      "to": "디지털이미지프로그래밍",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "객체지향프로그래밍:C++",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "객체지향프로그래밍:C++",
+      "to": "SW설계기초(산학프로젝트입문)",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조 및 실습",
+      "to": "알고리즘 및 실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "SW설계기초(산학프로젝트입문)",
+      "to": "운영체제",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "운영체제",
+      "to": "Capstone디자인(산학협력프로젝트)",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "데이터베이스",
+      "to": "데이터베이스프로그래밍",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "실시간컴퓨터그래픽스",
+      "to": "컴퓨터애니메이션",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "소프트웨어특강1",
+      "to": "소프트웨어특강2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "알고리즘 및 실습",
+      "to": "데이터베이스",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "운영체제",
+      "to": "컴퓨터네트워크",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "자료구조 및 실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "일반물리 및 시뮬레이션",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "자료구조 및 실습",
+      "to": "실시간컴퓨터그래픽스",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "SW설계기초(산학프로젝트입문)",
+      "to": "컴퓨터애니메이션",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "데이터베이스",
+      "to": "XR엔진개론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ]
 }

@@ -71,4 +71,13 @@ public class AbeekYearRequirement {
     @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     @Column(columnDefinition = "TEXT")
     private String note;
+
+    /**
+     * 「모든 전공의 선수 과목」 영역에 해당하는 과목명 목록 (JSON 배열 문자열).
+     * 예: ["C프로그래밍 및 실습","확률및통계"]
+     * 검수된 abeek-data JSON의 commonMajorPrerequisiteCourseNames 에서 적재한다.
+     */
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
+    @Column(name = "common_major_prerequisite_names", columnDefinition = "TEXT")
+    private String commonMajorPrerequisiteNames;
 }
