@@ -112,8 +112,34 @@ public class GraduationProgressService {
         DepartmentCurriculumPolicy policy = policyService.resolve(student);
         List<CompletedCourseUploadRowDto> normalizedCourses = normalizeCoursesForPolicy(courses, policy);
         List<CompletedCourseUploadRowDto> normalizedProjectedCourses = normalizeCoursesForPolicy(projectedCourses, policy);
+        GraduationProgressResponseDto simulation = buildProgressResponse(
+                student,
+                policy,
+                plannedCourses,
+                normalizedCourses,
+                normalizedProjectedCourses,
+                null
+        );
+        return buildProgressResponse(
+                student,
+                policy,
+                plannedCourses,
+                normalizedCourses,
+                List.of(),
+                simulation
+        );
+    }
+
+    private GraduationProgressResponseDto buildProgressResponse(
+            Student student,
+            DepartmentCurriculumPolicy policy,
+            PlannedCourseListResponseDto plannedCourses,
+            List<CompletedCourseUploadRowDto> normalizedCourses,
+            List<CompletedCourseUploadRowDto> additionalCourses,
+            GraduationProgressResponseDto simulation
+    ) {
         List<CompletedCourseUploadRowDto> evaluationCourses = new ArrayList<>(normalizedCourses);
-        evaluationCourses.addAll(normalizedProjectedCourses);
+        evaluationCourses.addAll(additionalCourses);
         evaluationCourses = transcriptSummaryCalculator.resolveRetakenCourses(evaluationCourses);
         List<CompletedCourseUploadRowDto> completedCourses = evaluationCourses.stream()
                 .filter(this::isPassedForCompletion)
@@ -205,7 +231,8 @@ public class GraduationProgressService {
                 plannedCourses.totalPlannedCredits(),
                 plannedCourses.semesters(),
                 majorCreditSummary,
-                categorySummaries
+                categorySummaries,
+                simulation
         );
     }
 
