@@ -13,6 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ClassScheduleAdminServiceTest {
 
@@ -26,12 +30,16 @@ class ClassScheduleAdminServiceTest {
         Path resourcesDir = tempDir.resolve("resources");
         Files.createDirectories(resourcesDir);
 
+        TimetableGitHubSyncService github = mock(TimetableGitHubSyncService.class);
+        when(github.upsertTimetableFile(anyString(), any()))
+                .thenReturn(TimetableGitHubSyncService.SyncResult.synced("https://github.com/example/commit/1"));
+
         TimetableCatalog catalog = new TimetableCatalog(objectMapper, overrideDir.toString());
-        // @PostConstruct 미호출 — 빈 카탈로그에서 시작
         ClassScheduleAdminService service = new ClassScheduleAdminService(
                 new TimetableExcelParser(),
                 catalog,
                 objectMapper,
+                github,
                 overrideDir.toString(),
                 resourcesDir.toString()
         );
@@ -49,6 +57,8 @@ class ClassScheduleAdminServiceTest {
         assertThat(response.count()).isEqualTo(1);
         assertThat(response.year()).isEqualTo(2026);
         assertThat(response.semester()).isEqualTo(1);
+        assertThat(response.githubSynced()).isTrue();
+        assertThat(response.githubCommitUrl()).contains("github.com");
         assertThat(catalog.findTerm(2026, 1)).isPresent();
         assertThat(Files.exists(overrideDir.resolve("2026-1.json"))).isTrue();
         assertThat(Files.exists(resourcesDir.resolve("2026-1.json"))).isTrue();

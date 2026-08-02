@@ -27,8 +27,8 @@ public class AdminClassScheduleController {
             summary = "학기별 강의시간표 업로드",
             description = "세종대 공식 강의시간표(.xlsx/.xls/.csv) 또는 timetable JSON을 업로드하면 "
                     + "해당 연도·학기 데이터를 교체하고 메모리 카탈로그를 즉시 반영합니다. "
-                    + "저장 위치: (1) app.timetable.data-dir/{year}-{semester}.json "
-                    + "(2) 로컬이면 app.timetable.resources-dir(src/main/resources/timetable-data)도 갱신."
+                    + "로컬 저장: data-dir + resources-dir. "
+                    + "GitHub: TIMETABLE_GITHUB_TOKEN 설정 시 src/main/resources/timetable-data 에 자동 커밋."
     )
     public AdminUploadResponseDto uploadClassSchedule(
             @Parameter(description = "강의시간표 파일 (.xlsx / .xls / .csv / .json)", required = true)
