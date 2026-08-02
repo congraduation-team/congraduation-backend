@@ -23,6 +23,8 @@ public record GraduationProgressResponseDto(
         boolean graduationEligible,
         @Schema(description = "졸업이 아직 불가능한 경우 남은 조건 목록")
         List<String> graduationBlockers,
+        @Schema(description = "현재 화면 표시용 부족 요건 목록. 시뮬레이션 결과가 있으면 그 결과를 우선 반영")
+        List<String> displayGraduationBlockers,
         @Schema(description = "추가 전공 트랙 진행도")
         List<MajorTrackProgressDto> majorTracks,
         @Schema(description = "단일전공 졸업작품 진행도")
