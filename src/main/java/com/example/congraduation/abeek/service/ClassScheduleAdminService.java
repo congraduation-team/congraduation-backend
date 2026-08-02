@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ClassScheduleAdminService {
     private final TimetableExcelParser excelParser;
     private final TimetableCatalog timetableCatalog;
     private final ObjectMapper objectMapper;
+    private final TimetableGitHubSyncService gitHubSyncService;
     private final Path dataDir;
     private final Path resourcesDir;
 
@@ -31,12 +33,14 @@ public class ClassScheduleAdminService {
             TimetableExcelParser excelParser,
             TimetableCatalog timetableCatalog,
             ObjectMapper objectMapper,
+            TimetableGitHubSyncService gitHubSyncService,
             @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir,
             @Value("${app.timetable.resources-dir:./src/main/resources/timetable-data}") String resourcesDir
     ) {
         this.excelParser = excelParser;
         this.timetableCatalog = timetableCatalog;
         this.objectMapper = objectMapper;
+        this.gitHubSyncService = gitHubSyncService;
         this.dataDir = Path.of(dataDir);
         this.resourcesDir = Path.of(resourcesDir);
     }
@@ -50,15 +54,40 @@ public class ClassScheduleAdminService {
         List<TimetableOffering> offerings = parseOfferings(file);
         TimetableTermData termData = new TimetableTermData(year, semester, offerings);
 
-        persist(termData);
+        String fileName = year + "-" + semester + ".json";
+        byte[] jsonBytes = toPrettyJsonBytes(termData);
+
+        persist(fileName, jsonBytes);
         timetableCatalog.replaceTerm(termData);
 
+        TimetableGitHubSyncService.SyncResult github = gitHubSyncService.upsertTimetableFile(fileName, jsonBytes);
+
         String message = String.format(
-                "%d-%d 강의시간표가 업데이트되었습니다. (%d개 개설 강좌)",
-                year, semester, offerings.size()
+                "%d-%d 강의시간표가 업데이트되었습니다. (%d개 개설 강좌). %s",
+                year, semester, offerings.size(), github.detail()
         );
+        if (github.commitUrl() != null) {
+            message = message + " " + github.commitUrl();
+        }
         log.info(message);
-        return new AdminUploadResponseDto(message, offerings.size(), year, semester);
+        return new AdminUploadResponseDto(
+                message,
+                offerings.size(),
+                year,
+                semester,
+                github.synced(),
+                github.commitUrl()
+        );
+    }
+
+    private byte[] toPrettyJsonBytes(TimetableTermData termData) {
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(termData)
+                    .getBytes(StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("강의시간표 JSON 직렬화 실패: " + e.getMessage(), e);
+        }
     }
 
     private List<TimetableOffering> parseOfferings(MultipartFile file) {
@@ -87,36 +116,30 @@ public class ClassScheduleAdminService {
         return excelParser.parse(file);
     }
 
-    private void persist(TimetableTermData termData) {
-        String fileName = termData.termYear() + "-" + termData.semester() + ".json";
-        writeJson(dataDir, fileName, termData, true);
+    private void persist(String fileName, byte[] jsonBytes) {
+        writeBytes(dataDir, fileName, jsonBytes, true);
 
         Path resolvedResources = resolveResourcesDir();
-        // 로컬 레포: src/main/resources/timetable-data 에 반드시 기록 (깃허브에 보이는 그 폴더)
-        // 배포 jar만 돌리는 환경에서는 경로가 없어 data-dir만 사용
         if (resolvedResources != null) {
-            writeJson(resolvedResources, fileName, termData, true);
+            writeBytes(resolvedResources, fileName, jsonBytes, true);
         } else {
             log.warn("timetable resources-dir not found ({}). Wrote only to {}",
                     resourcesDir.toAbsolutePath(), dataDir.toAbsolutePath());
         }
     }
 
-    /**
-     * 설정 경로가 있으면 사용하고, 없으면 현재 작업 디렉터리에서
-     * src/main/resources/timetable-data 를 위로 탐색한다.
-     */
     private Path resolveResourcesDir() {
         if (Files.isDirectory(resourcesDir)) {
             return resourcesDir;
         }
-        if (Files.isDirectory(resourcesDir.getParent())) {
+        if (resourcesDir.getParent() != null && Files.isDirectory(resourcesDir.getParent())) {
             return resourcesDir;
         }
         Path cursor = Path.of("").toAbsolutePath().normalize();
         for (int i = 0; i < 6 && cursor != null; i++) {
             Path candidate = cursor.resolve("src/main/resources/timetable-data");
-            if (Files.isDirectory(candidate) || Files.isDirectory(candidate.getParent())) {
+            if (Files.isDirectory(candidate)
+                    || (candidate.getParent() != null && Files.isDirectory(candidate.getParent()))) {
                 return candidate;
             }
             cursor = cursor.getParent();
@@ -124,21 +147,22 @@ public class ClassScheduleAdminService {
         return null;
     }
 
-    private void writeJson(Path dir, String fileName, TimetableTermData termData, boolean required) {
+    private void writeBytes(Path dir, String fileName, byte[] jsonBytes, boolean required) {
         try {
-            if (!required && !Files.isDirectory(dir) && !Files.isDirectory(dir.getParent())) {
-                log.debug("Skip timetable resources write; dir missing: {}", dir.toAbsolutePath());
+            if (!required && !Files.isDirectory(dir)
+                    && (dir.getParent() == null || !Files.isDirectory(dir.getParent()))) {
+                log.debug("Skip timetable write; dir missing: {}", dir.toAbsolutePath());
                 return;
             }
             Files.createDirectories(dir);
             Path target = dir.resolve(fileName);
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(target.toFile(), termData);
+            Files.write(target, jsonBytes);
             log.info("Saved timetable to {}", target.toAbsolutePath());
         } catch (IOException e) {
             if (required) {
                 throw new IllegalArgumentException("강의시간표 파일 저장 실패: " + e.getMessage(), e);
             }
-            log.warn("Failed to update timetable resources at {}: {}", dir.toAbsolutePath(), e.getMessage());
+            log.warn("Failed to update timetable at {}: {}", dir.toAbsolutePath(), e.getMessage());
         }
     }
 

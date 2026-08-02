@@ -10,6 +10,10 @@ public record AdminUploadResponseDto(
         @Schema(description = "연도", example = "2026")
         int year,
         @Schema(description = "학기 (1/2/3/4)", example = "1")
-        int semester
+        int semester,
+        @Schema(description = "GitHub timetable-data 커밋 반영 여부")
+        boolean githubSynced,
+        @Schema(description = "GitHub 커밋 URL (성공 시)")
+        String githubCommitUrl
 ) {
 }
