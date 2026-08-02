@@ -658,9 +658,8 @@ public class GraduationProgressService {
     private BigDecimal creditOf(List<CategorySummaryDto> summaries, String... categories) {
         return summaries.stream()
                 .filter(summary -> Arrays.stream(categories).anyMatch(category -> summary.category().equals(category)))
-                .findFirst()
                 .map(summary -> new BigDecimal(summary.earnedCredits()))
-                .orElse(BigDecimal.ZERO);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private String formatDecimal(BigDecimal value) {

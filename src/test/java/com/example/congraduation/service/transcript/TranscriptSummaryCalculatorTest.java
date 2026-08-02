@@ -64,4 +64,37 @@ class TranscriptSummaryCalculatorTest {
         assertEquals("전필", summary.categorySummaries().getFirst().category());
         assertEquals("3", summary.categorySummaries().getFirst().earnedCredits());
     }
+
+    @Test
+    void summarizeNormalizesTimetableCategoriesToGraduationBuckets() {
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2026", "2학기", "L001", "취창업과진로설계", "공통교양필수", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "L002", "컴퓨터게임과메타버스", "균형교양", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "M001", "최신기술콜로키움2", "전공선택", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "M002", "캡스톤디자인", "전공필수", "6", "GRADE", "A0", "4.0")
+        );
+
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals("1", summary.categorySummaries().stream()
+                .filter(category -> "공필".equals(category.category()))
+                .findFirst()
+                .orElseThrow()
+                .earnedCredits());
+        assertEquals("3", summary.categorySummaries().stream()
+                .filter(category -> "균필".equals(category.category()))
+                .findFirst()
+                .orElseThrow()
+                .earnedCredits());
+        assertEquals("1", summary.categorySummaries().stream()
+                .filter(category -> "전선".equals(category.category()))
+                .findFirst()
+                .orElseThrow()
+                .earnedCredits());
+        assertEquals("6", summary.categorySummaries().stream()
+                .filter(category -> "전필".equals(category.category()))
+                .findFirst()
+                .orElseThrow()
+                .earnedCredits());
+    }
 }
