@@ -25,8 +25,12 @@ import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * src/main/resources/abeek-data/{department}/{year}.json 에서 스크랩한 교육과정을 적재한다.
@@ -55,20 +59,26 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Resource[] resources = new PathMatchingResourcePatternResolver()
                 .getResources("classpath*:abeek-data/*/*.json");
+        Set<String> loadedDepartmentYears = new HashSet<>();
         for (Resource resource : resources) {
             String filename = resource.getFilename();
             if (filename == null || filename.startsWith("_")) {
                 continue;
             }
-            load(resource);
+            load(resource, loadedDepartmentYears);
         }
     }
 
-    private void load(Resource resource) throws IOException {
+    private void load(Resource resource, Set<String> loadedDepartmentYears) throws IOException {
         JsonNode root = objectMapper.readTree(resource.getInputStream());
         String departmentCode = text(root, "departmentCode").toUpperCase(Locale.ROOT);
         int year = root.path("year").asInt();
         if (departmentCode.isBlank() || year <= 0 || root.path("requirement").isMissingNode()) {
+            return;
+        }
+        String deptYearKey = departmentCode + "-" + year;
+        if (!loadedDepartmentYears.add(deptYearKey)) {
+            log.warn("Skipping duplicate ABEEK JSON for {} ({})", deptYearKey, resource);
             return;
         }
 
@@ -171,9 +181,13 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
             return;
         }
 
+        // delete 직후 flush 없으면 기존 행이 남은 채 insert 되어 UK 충돌이 날 수 있다.
         prerequisiteRepository.deleteByDepartmentCodeAndYear(departmentCode, year);
+        prerequisiteRepository.flush();
 
+        Set<String> seenEdges = new LinkedHashSet<>();
         int saved = 0;
+        int skippedDuplicates = 0;
         for (JsonNode node : curated) {
             String from = text(node, "fromCourseCode", "from");
             String to = text(node, "toCourseCode", "to");
@@ -181,19 +195,40 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
                 continue;
             }
             String type = normalizeEdgeType(text(node, "type"));
+            String edgeKey = prerequisiteEdgeKey(from, to, type);
+            if (!seenEdges.add(edgeKey)) {
+                skippedDuplicates++;
+                continue;
+            }
             boolean needsReview = node.path("needsReview").asBoolean(false);
-            CoursePrerequisite prerequisite = CoursePrerequisite.builder()
-                    .departmentCode(departmentCode)
-                    .year(year)
-                    .fromCourseCode(from)
-                    .toCourseCode(to)
-                    .type(type)
-                    .needsReview(needsReview)
-                    .build();
-            prerequisiteRepository.save(prerequisite);
+            Optional<CoursePrerequisite> existing = prerequisiteRepository
+                    .findByDepartmentCodeAndYearAndFromCourseCodeAndToCourseCodeAndType(
+                            departmentCode, year, from, to, type);
+            if (existing.isPresent()) {
+                CoursePrerequisite prerequisite = existing.get();
+                prerequisite.setNeedsReview(needsReview);
+                prerequisiteRepository.save(prerequisite);
+            } else {
+                prerequisiteRepository.save(CoursePrerequisite.builder()
+                        .departmentCode(departmentCode)
+                        .year(year)
+                        .fromCourseCode(from)
+                        .toCourseCode(to)
+                        .type(type)
+                        .needsReview(needsReview)
+                        .build());
+            }
             saved++;
         }
+        if (skippedDuplicates > 0) {
+            log.warn("Skipped {} duplicate curated prerequisite edges for {}/{}",
+                    skippedDuplicates, departmentCode, year);
+        }
         log.info("Loaded curated prerequisites {}/{}: {} edges", departmentCode, year, saved);
+    }
+
+    static String prerequisiteEdgeKey(String fromCourseCode, String toCourseCode, String type) {
+        return fromCourseCode + '\0' + toCourseCode + '\0' + type;
     }
 
     static String normalizeEdgeType(String rawType) {
