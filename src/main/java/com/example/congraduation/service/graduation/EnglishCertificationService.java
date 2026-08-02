@@ -101,7 +101,12 @@ public class EnglishCertificationService {
                 "IN_PROGRESS",
                 optionalPolicy ? "OPTIONAL" : "REQUIRED",
                 requirement,
-                buildPendingDetail(optionalPolicy, englishMajor)
+                buildPendingDetail(
+                        optionalPolicy,
+                        englishMajor,
+                        completedRegularSemesters,
+                        requiredSemestersForExemption
+                )
         );
     }
 
@@ -183,13 +188,20 @@ public class EnglishCertificationService {
         return "일반 기준: TOEIC 700, TOEFL iBT 80, TEPS 556(뉴텝스 301), OPIc IL, TOEIC Speaking IL, G-TELP 2급 65점 이상 또는 Intensive English 이수(면제 가능)";
     }
 
-    private String buildPendingDetail(boolean optionalPolicy, boolean englishMajor) {
+    private String buildPendingDetail(
+            boolean optionalPolicy,
+            boolean englishMajor,
+            int completedRegularSemesters,
+            int requiredSemestersForExemption
+    ) {
         String scoreGuide = buildScoreGuide(optionalPolicy, englishMajor);
+        String progress = "현재 기이수 정규학기 " + completedRegularSemesters + "학기"
+                + " / 학기 면제 기준 " + requiredSemestersForExemption + "학기. ";
         if (optionalPolicy) {
-            return scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+            return progress + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                     + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
         }
-        return scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+        return progress + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                 + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
     }
 
