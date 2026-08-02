@@ -614,7 +614,12 @@ public class GraduationProgressService {
                 formatRequired(requiredMajorElective),
                 isSatisfied(majorElective, requiredMajorElective),
                 toPercentString(majorElective, requiredMajorElective),
-                formatDecimal(majorFoundation)
+                formatDecimal(majorFoundation),
+                courseCountOf(transcriptSummary.categorySummaries(), "전필"),
+                courseCountOf(transcriptSummary.categorySummaries(), "전선"),
+                primaryMajorPolicy == null
+                        ? courseCountOf(transcriptSummary.categorySummaries(), "전필", "전선", "전기", "전공기초")
+                        : courseCountOf(transcriptSummary.categorySummaries(), "전필", "전선")
         );
     }
 
@@ -660,6 +665,14 @@ public class GraduationProgressService {
                 .findFirst()
                 .map(summary -> new BigDecimal(summary.earnedCredits()))
                 .orElse(BigDecimal.ZERO);
+    }
+
+    private int courseCountOf(List<CategorySummaryDto> summaries, String... categories) {
+        Set<String> wanted = Set.of(categories);
+        return summaries.stream()
+                .filter(summary -> wanted.contains(summary.category()))
+                .mapToInt(summary -> summary.courses() == null ? 0 : summary.courses().size())
+                .sum();
     }
 
     private String formatDecimal(BigDecimal value) {
