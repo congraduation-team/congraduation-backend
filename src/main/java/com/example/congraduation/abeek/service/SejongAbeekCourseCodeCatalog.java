@@ -16,6 +16,7 @@ import java.util.Optional;
 public class SejongAbeekCourseCodeCatalog {
 
     private final Map<String, String> sejongToAbeek;
+    private final Map<String, String> abeekToSejong;
 
     public SejongAbeekCourseCodeCatalog() {
         Map<String, String> map = new LinkedHashMap<>();
@@ -33,6 +34,8 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("010112", "GEN_GRAD2");
         // 고급프로그래밍입문-P / 이해-P (표기만 다름, 동일 학수번호)
         map.put("009787", "GEN_ADV_PROG_P");
+        // 대학영어 (2022~ 전문교양 필수, Listening/Reading 대체)
+        map.put("011304", "GEN_UNI_ENG");
 
         // —— BSM ——
         map.put("006098", "BSM_CALC");
@@ -59,6 +62,16 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("007313", "MAJ_PL");
 
         this.sejongToAbeek = Collections.unmodifiableMap(map);
+        Map<String, String> reverse = new LinkedHashMap<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            reverse.putIfAbsent(entry.getValue(), entry.getKey());
+        }
+        // 구·신 표기 중 신코드 우선
+        reverse.put("BSM_PROB", "007330");
+        reverse.put("BSM_LINEAR", "001725");
+        reverse.put("BSM_PHYS", "002647");
+        reverse.put("BSM_CALC1", "006098");
+        this.abeekToSejong = Collections.unmodifiableMap(reverse);
     }
 
     public Optional<String> findAbeekCourseCode(String sejongCourseCode) {
@@ -67,6 +80,15 @@ public class SejongAbeekCourseCodeCatalog {
             return Optional.empty();
         }
         return Optional.ofNullable(sejongToAbeek.get(normalized));
+    }
+
+    /** ABEEK 내부 코드 → 대표 세종 학수번호 */
+    public Optional<String> findSejongCourseCode(String abeekCourseCode) {
+        String normalized = normalize(abeekCourseCode);
+        if (normalized.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(abeekToSejong.get(normalized));
     }
 
     public boolean isKnownSejongCode(String sejongCourseCode) {

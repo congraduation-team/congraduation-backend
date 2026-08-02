@@ -47,6 +47,8 @@ public class CurriculumDataLoader implements CommandLineRunner {
         applyCseCommonMajorPrerequisites();
         // 운영 DB: 세종사회봉사1은 공학인증 필수에서 제외
         demoteVolunteerFromAbeekRequired();
+        // 운영 DB: 2022~ 전문교양 필수(대학영어 등) 누락 시 보완 — 남은 필수 과목 반환용
+        ensureCseModernGeneralRequired();
     }
 
     /** CSE 2020~2026 선수 간선을 삭제 후 검수본으로 재적재한다. */
@@ -82,6 +84,89 @@ public class CurriculumDataLoader implements CommandLineRunner {
                         }
                     });
         }
+    }
+
+    /**
+     * 초기 시드 이후 추가된 전문교양 필수(대학영어 등)가 운영 DB에 없으면 보강한다.
+     * 없으면 평가 상세 "남은 필수 과목"이 비게 된다.
+     */
+    private void ensureCseModernGeneralRequired() {
+        for (int year = 2022; year <= 2025; year++) {
+            ensureCurriculumCourse(year, "GEN_WRITE", 3, CourseRole.REQUIRED, "1-1");
+            ensureCurriculumCourse(year, "GEN_UNI_ENG", 2, CourseRole.REQUIRED, "1-2");
+            ensureCurriculumCourse(year, "GEN_PHILOSOPHY", 3, CourseRole.REQUIRED, "1-2");
+        }
+        ensureCurriculumCourse(2026, "GEN_WRITE_2026", 3, CourseRole.REQUIRED, "1-1");
+        ensureCurriculumCourse(2026, "GEN_UNI_ENG", 2, CourseRole.REQUIRED, "1-2");
+        ensureCurriculumCourse(2026, "GEN_PHILOSOPHY", 3, CourseRole.REQUIRED, "1-2");
+    }
+
+    private void ensureCurriculumCourse(
+            int year, String courseCode, int credits, CourseRole role, String term
+    ) {
+        CourseMaster master = courseMasterRepository.findByCourseCode(courseCode).orElse(null);
+        if (master == null) {
+            master = switch (courseCode) {
+                case "GEN_UNI_ENG" -> courseMasterRepository.save(CourseMaster.builder()
+                        .courseCode("GEN_UNI_ENG")
+                        .name("대학영어")
+                        .category(CourseCategory.GENERAL)
+                        .equivalenceGroup("GEN_ENG")
+                        .electiveArea(ElectiveArea.NONE)
+                        .departmentCourse(true)
+                        .build());
+                case "GEN_WRITE" -> courseMasterRepository.save(CourseMaster.builder()
+                        .courseCode("GEN_WRITE")
+                        .name("문제해결을위한글쓰기와발표")
+                        .category(CourseCategory.GENERAL)
+                        .equivalenceGroup("GEN_WRITE")
+                        .electiveArea(ElectiveArea.NONE)
+                        .departmentCourse(true)
+                        .build());
+                case "GEN_WRITE_2026" -> courseMasterRepository.save(CourseMaster.builder()
+                        .courseCode("GEN_WRITE_2026")
+                        .name("비판적사고와창의적글쓰기")
+                        .category(CourseCategory.GENERAL)
+                        .equivalenceGroup("GEN_WRITE")
+                        .electiveArea(ElectiveArea.NONE)
+                        .departmentCourse(true)
+                        .build());
+                case "GEN_PHILOSOPHY" -> courseMasterRepository.save(CourseMaster.builder()
+                        .courseCode("GEN_PHILOSOPHY")
+                        .name("서양철학:쟁점과토론")
+                        .category(CourseCategory.GENERAL)
+                        .equivalenceGroup("GEN_PHILOSOPHY")
+                        .electiveArea(ElectiveArea.NONE)
+                        .departmentCourse(true)
+                        .build());
+                default -> null;
+            };
+        }
+        if (master == null) {
+            return;
+        }
+        final CourseMaster resolvedMaster = master;
+        curriculumCourseRepository
+                .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(year, "CSE", courseCode)
+                .ifPresentOrElse(
+                        existing -> {
+                            if (existing.getRole() != role) {
+                                existing.setRole(role);
+                                curriculumCourseRepository.save(existing);
+                            }
+                        },
+                        () -> curriculumCourseRepository.save(CurriculumCourse.builder()
+                                .curriculumYear(year)
+                                .departmentCode("CSE")
+                                .courseMaster(resolvedMaster)
+                                .credits(credits)
+                                .designCredits(0)
+                                .designLevel(DesignLevel.NONE)
+                                .role(role)
+                                .recommendedTerm(term)
+                                .newlyIntroducedRequired(false)
+                                .build())
+                );
     }
 
     private void seedRequirements() {

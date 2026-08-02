@@ -9,6 +9,7 @@ import com.example.congraduation.abeek.domain.enums.CourseRole;
 import com.example.congraduation.abeek.dto.*;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 import com.example.congraduation.abeek.repository.AbeekStudentRepository;
+import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.MajorCreditSummaryDto;
 import com.example.congraduation.repository.student.StudentRepository;
@@ -31,6 +32,7 @@ public class AbeekEvaluationService {
     private final TranscriptStorageService transcriptStorageService;
     private final MajorCreditSummaryService majorCreditSummaryService;
     private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
+    private final TimetableCatalog timetableCatalog;
 
     @Transactional
     public AbeekEvaluationResponse evaluate(String studentId) {
@@ -118,6 +120,7 @@ public class AbeekEvaluationService {
                 .filter(DesignCourseResult::isRecognized)
                 .map(c -> CategoryProgressDto.CompletedCourseDto.builder()
                         .courseCode(c.getCourseCode())
+                        .sejongCourseCode(resolveSejongCourseCode(c.getCourseCode(), c.getCourseName()))
                         .courseName(c.getCourseName())
                         .credits((int) Math.round(c.getRecognizedDesignCredits()))
                         .designCredits(c.getRecognizedDesignCredits())
@@ -268,11 +271,15 @@ public class AbeekEvaluationService {
                 .map(e -> e.getCourseMaster().getCourseCode())
                 .collect(Collectors.toSet());
         Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
-        Set<String> completedNames = student.getEnrollments().stream()
-                .filter(StudentEnrollment::isPassed)
-                .map(e -> normalizeCourseName(e.getCourseMaster().getName()))
-                .filter(name -> !name.isBlank())
-                .collect(Collectors.toSet());
+        Set<String> completedNames = new LinkedHashSet<>();
+        for (StudentEnrollment enrollment : student.getEnrollments()) {
+            if (!enrollment.isPassed()) {
+                continue;
+            }
+            addCompletionNameVariants(completedNames, enrollment.getCourseMaster().getName());
+        }
+        List<CompletedCourseUploadRowDto> transcriptRows = loadTranscriptRows(student.getStudentId());
+        mergeTranscriptCompletions(transcriptRows, completedCodes, completedGroups, completedNames, entranceCourses);
 
         List<AbeekEvaluationDetailResponse.CategoryDetailDto> categories = List.of(
                 buildCategoryDetail(
@@ -330,6 +337,8 @@ public class AbeekEvaluationService {
                     String catLabel = categoryLabel(cat);
                     return AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                             .courseCode(e.getCourseMaster().getCourseCode())
+                            .sejongCourseCode(resolveSejongCourseCode(
+                                    e.getCourseMaster().getCourseCode(), e.getCourseMaster().getName()))
                             .courseName(e.getCourseMaster().getName())
                             .category(cat)
                             .categoryLabel(catLabel)
@@ -373,6 +382,7 @@ public class AbeekEvaluationService {
                 .stream()
                 .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                         .courseCode(c.getCourseCode())
+                        .sejongCourseCode(resolveSejongCourseCode(c.getCourseCode(), c.getCourseName()))
                         .courseName(c.getCourseName())
                         .category(CourseCategory.MAJOR)
                         .categoryLabel("전공")
@@ -399,6 +409,9 @@ public class AbeekEvaluationService {
                         .completedCourseCount(majorCourses.size())
                         .completedCourses(majorCourses)
                         .remainingCourses(category.getRemainingCourses())
+                        .remainingAreas(category.getRemainingAreas() == null
+                                ? List.of()
+                                : category.getRemainingAreas())
                         .build());
             } else {
                 replaced.add(category);
@@ -521,6 +534,8 @@ public class AbeekEvaluationService {
                         .thenComparing(e -> e.getCourseMaster().getName()))
                 .map(e -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                         .courseCode(e.getCourseMaster().getCourseCode())
+                        .sejongCourseCode(resolveSejongCourseCode(
+                                e.getCourseMaster().getCourseCode(), e.getCourseMaster().getName()))
                         .courseName(e.getCourseMaster().getName())
                         .category(targetCategory)
                         .categoryLabel(categoryLabel)
@@ -539,11 +554,15 @@ public class AbeekEvaluationService {
 
         List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = entranceCourses.stream()
                 .filter(c -> c.getCourseMaster().getCategory() == targetCategory)
+                // 전문교양 "남은 필수": 인증선택(CERT_ELECTIVE)은 인증선택 카테고리로만 노출
+                .filter(c -> targetCategory != CourseCategory.GENERAL || c.getRole() == CourseRole.REQUIRED)
                 .filter(c -> !isCompleted(c.getCourseMaster(), completedCodes, completedGroups, completedNames))
                 .sorted(Comparator.comparing(CurriculumCourse::getRecommendedTerm, Comparator.nullsLast(String::compareTo))
                         .thenComparing(c -> c.getCourseMaster().getName()))
                 .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                         .courseCode(c.getCourseMaster().getCourseCode())
+                        .sejongCourseCode(resolveSejongCourseCode(
+                                c.getCourseMaster().getCourseCode(), c.getCourseMaster().getName()))
                         .courseName(c.getCourseMaster().getName())
                         .category(targetCategory)
                         .categoryLabel(categoryLabel)
@@ -567,6 +586,7 @@ public class AbeekEvaluationService {
                 .completedCourseCount(completedCourses.size())
                 .completedCourses(completedCourses)
                 .remainingCourses(remainingCourses)
+                .remainingAreas(List.of())
                 .build();
     }
 
@@ -584,6 +604,7 @@ public class AbeekEvaluationService {
                     .completedCourseCount(0)
                     .completedCourses(List.of())
                     .remainingCourses(List.of())
+                    .remainingAreas(List.of())
                     .build();
         }
 
@@ -592,49 +613,88 @@ public class AbeekEvaluationService {
                 .map(c -> c.getCourseMaster().getCourseCode())
                 .collect(Collectors.toSet());
 
+        Set<String> completedCodes = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .map(e -> e.getCourseMaster().getCourseCode())
+                .collect(Collectors.toSet());
+        Set<String> completedGroups = completedEquivalenceGroups(student.getEnrollments());
+        Set<String> completedNames = new LinkedHashSet<>();
+        for (StudentEnrollment enrollment : student.getEnrollments()) {
+            if (!enrollment.isPassed()) {
+                continue;
+            }
+            addCompletionNameVariants(completedNames, enrollment.getCourseMaster().getName());
+        }
+
+        Set<com.example.congraduation.abeek.domain.enums.ElectiveArea> completedAreas = student.getEnrollments().stream()
+                .filter(StudentEnrollment::isPassed)
+                .filter(e -> electiveCodes.contains(e.getCourseMaster().getCourseCode())
+                        || e.getCourseMaster().getElectiveArea()
+                        != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .map(e -> e.getCourseMaster().getElectiveArea())
+                .filter(a -> a != null && a != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
         List<AbeekEvaluationDetailResponse.CourseDetailDto> completedCourses = student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
                 .filter(e -> electiveCodes.contains(e.getCourseMaster().getCourseCode())
-                        || e.getCourseMaster().getElectiveArea() != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                        || e.getCourseMaster().getElectiveArea()
+                        != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
                 .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
                         .thenComparingInt(StudentEnrollment::getTakenSemester)
                         .thenComparing(e -> e.getCourseMaster().getName()))
-                .map(e -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
-                        .courseCode(e.getCourseMaster().getCourseCode())
-                        .courseName(e.getCourseMaster().getName())
-                        .category(CourseCategory.GENERAL)
-                        .categoryLabel("인증선택")
-                        .role(CourseRole.CERT_ELECTIVE)
-                        .roleLabel("인증선택")
-                        .credits(e.getCredits())
-                        .designCredits(0)
-                        .designLevel(null)
-                        .completed(true)
-                        .waived(false)
-                        .takenYear(e.getTakenYear())
-                        .takenSemester(e.getTakenSemester())
-                        .note("이수")
-                        .build())
+                .map(e -> toCertElectiveCourseDetail(
+                        e.getCourseMaster().getCourseCode(),
+                        e.getCourseMaster().getName(),
+                        e.getCourseMaster().getElectiveArea(),
+                        e.getCredits(),
+                        true,
+                        e.getTakenYear(),
+                        e.getTakenSemester(),
+                        "이수"))
                 .toList();
 
-        List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = entranceCourses.stream()
+        List<CurriculumCourse> incompleteElectives = entranceCourses.stream()
                 .filter(c -> c.getRole() == CourseRole.CERT_ELECTIVE)
-                .map(c -> AbeekEvaluationDetailResponse.CourseDetailDto.builder()
-                        .courseCode(c.getCourseMaster().getCourseCode())
-                        .courseName(c.getCourseMaster().getName())
-                        .category(CourseCategory.GENERAL)
-                        .categoryLabel("인증선택")
-                        .role(CourseRole.CERT_ELECTIVE)
-                        .roleLabel("인증선택")
-                        .credits(c.getCredits())
-                        .designCredits(0)
-                        .designLevel(null)
-                        .completed(false)
-                        .waived(false)
-                        .takenYear(null)
-                        .takenSemester(null)
-                        .note(c.getRecommendedTerm())
-                        .build())
+                .filter(c -> c.getCourseMaster().getElectiveArea()
+                        != com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE)
+                .filter(c -> !isCompleted(c.getCourseMaster(), completedCodes, completedGroups, completedNames))
+                .sorted(Comparator
+                        .<CurriculumCourse, String>comparing(c -> c.getCourseMaster().getElectiveArea().name())
+                        .thenComparing(c -> c.getCourseMaster().getName()))
+                .toList();
+
+        // 더보기: 미이수 인증선택 과목 (학수번호 대신 영역)
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = incompleteElectives.stream()
+                .map(c -> toCertElectiveCourseDetail(
+                        c.getCourseMaster().getCourseCode(),
+                        c.getCourseMaster().getName(),
+                        c.getCourseMaster().getElectiveArea(),
+                        c.getCredits(),
+                        false,
+                        null,
+                        null,
+                        c.getRecommendedTerm()))
+                .toList();
+
+        // 카드: 아직 한 과목도 안 들은 영역
+        List<AbeekEvaluationDetailResponse.RemainingAreaDto> remainingAreas = incompleteElectives.stream()
+                .map(c -> c.getCourseMaster().getElectiveArea())
+                .filter(a -> !completedAreas.contains(a))
+                .distinct()
+                .sorted(Comparator.comparing(Enum::name))
+                .map(area -> {
+                    List<AbeekEvaluationDetailResponse.CourseDetailDto> areaCourses = remainingCourses.stream()
+                            .filter(c -> area.name().equals(c.getElectiveArea()))
+                            .toList();
+                    return AbeekEvaluationDetailResponse.RemainingAreaDto.builder()
+                            .area(area.name())
+                            .areaLabel(electiveAreaLabel(area))
+                            .completed(false)
+                            .remainingCourseCount(areaCourses.size())
+                            .remainingCourses(areaCourses)
+                            .build();
+                })
                 .toList();
 
         return AbeekEvaluationDetailResponse.CategoryDetailDto.builder()
@@ -644,7 +704,54 @@ public class AbeekEvaluationService {
                 .completedCourseCount(completedCourses.size())
                 .completedCourses(completedCourses)
                 .remainingCourses(remainingCourses)
+                .remainingAreas(remainingAreas)
                 .build();
+    }
+
+    private AbeekEvaluationDetailResponse.CourseDetailDto toCertElectiveCourseDetail(
+            String courseCode,
+            String courseName,
+            com.example.congraduation.abeek.domain.enums.ElectiveArea area,
+            int credits,
+            boolean completed,
+            Integer takenYear,
+            Integer takenSemester,
+            String note
+    ) {
+        return AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                .courseCode(courseCode)
+                // 인증선택: 학수번호 대신 영역 표시
+                .sejongCourseCode(null)
+                .electiveArea(area == null || area == com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE
+                        ? null
+                        : area.name())
+                .electiveAreaLabel(electiveAreaLabel(area))
+                .courseName(courseName)
+                .category(CourseCategory.GENERAL)
+                .categoryLabel("인증선택")
+                .role(CourseRole.CERT_ELECTIVE)
+                .roleLabel("인증선택")
+                .credits(credits)
+                .designCredits(0)
+                .designLevel(null)
+                .completed(completed)
+                .waived(false)
+                .takenYear(takenYear)
+                .takenSemester(takenSemester)
+                .note(note)
+                .build();
+    }
+
+    private String electiveAreaLabel(com.example.congraduation.abeek.domain.enums.ElectiveArea area) {
+        if (area == null) {
+            return null;
+        }
+        return switch (area) {
+            case HISTORY_THOUGHT -> "역사와사상";
+            case ECONOMY_SOCIETY -> "경제와사회";
+            case CULTURE_ART -> "문화와예술";
+            case NONE -> null;
+        };
     }
 
     private List<RequiredCourseStatusDto> evaluateEntranceRequired(
@@ -1066,6 +1173,7 @@ public class AbeekEvaluationService {
     private CategoryProgressDto.CompletedCourseDto toTranscriptCompletedDto(CompletedCourseUploadRowDto row) {
         return CategoryProgressDto.CompletedCourseDto.builder()
                 .courseCode(row.courseCode())
+                .sejongCourseCode(row.courseCode())
                 .courseName(row.courseName())
                 .credits(parseCreditsSafe(row.credit()))
                 .designCredits(0)
@@ -1238,6 +1346,7 @@ public class AbeekEvaluationService {
         double designCredits = recognizedDesignByCode.getOrDefault(code, 0.0);
         return CategoryProgressDto.CompletedCourseDto.builder()
                 .courseCode(code)
+                .sejongCourseCode(resolveSejongCourseCode(code, e.getCourseMaster().getName()))
                 .courseName(e.getCourseMaster().getName())
                 .credits(e.getCredits())
                 .designCredits(designCredits)
@@ -1364,6 +1473,17 @@ public class AbeekEvaluationService {
             return true;
         }
         return normalizeCourseName(left.getName()).equals(normalizeCourseName(right.getName()));
+    }
+
+    /**
+     * 세종 학수번호 해석: ABEEK 코드 역매핑 → 강의시간표 과목명 매칭.
+     */
+    private String resolveSejongCourseCode(String abeekCourseCode, String courseName) {
+        Optional<String> fromCatalog = sejongAbeekCourseCodeCatalog.findSejongCourseCode(abeekCourseCode);
+        if (fromCatalog.isPresent()) {
+            return fromCatalog.get();
+        }
+        return timetableCatalog.findCourseCodeByName(courseName).orElse(null);
     }
 
     private String roleLabel(CourseRole role) {
