@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
+import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.plan.PlannableCourseCatalogResponseDto;
 import com.example.congraduation.repository.student.StudentRepository;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
@@ -119,10 +121,158 @@ class PlannableCourseCatalogServiceTest {
                 .hasMessageContaining("semester는 1 또는 2만 가능합니다.");
     }
 
+    @Test
+    void mergesSameCourseCodeWhenResolvedCategoryMatches() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "컴퓨터공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "지능기전공학과")
+                )
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "정보보호학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().courseName()).isEqualTo("Capstone디자인(산학협력프로젝트)");
+        assertThat(response.courses().getFirst().category()).isEqualTo("전공선택");
+        assertThat(response.courses().getFirst().courseCodes()).containsExactly("009960");
+        assertThat(response.courses().getFirst().departments())
+                .containsExactlyInAnyOrder("컴퓨터공학과", "지능기전공학과");
+    }
+
+    @Test
+    void keepsSameCourseCodeSeparatedWhenResolvedCategoryDiffers() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "컴퓨터공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "지능기전공학과")
+                )
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(2);
+        assertThat(response.courses()).extracting(course -> course.category())
+                .containsExactly("전공선택", "전공필수");
+    }
+
+    @Test
+    void keywordSearchReturnsOnlyMatchingCourses() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("100001", "자료구조및알고리즘", "전공필수"),
+                        offering("100002", "컴퓨터네트워크", "전공선택"),
+                        offering("100003", "Capstone디자인(산학협력프로젝트)", "전공선택")
+                )
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                null,
+                "알고리즘",
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses()).extracting(course -> course.courseName())
+                .containsExactly("자료구조및알고리즘");
+    }
+
     private TimetableOffering offering(String courseCode, String courseName, String category) {
+        return offering(courseCode, courseName, category, "컴퓨터공학과");
+    }
+
+    private TimetableOffering offering(String courseCode, String courseName, String category, String hostDepartment) {
         return new TimetableOffering(
                 "공과대학",
-                "컴퓨터공학과",
+                hostDepartment,
                 courseCode,
                 "001",
                 courseName,
@@ -133,7 +283,7 @@ class PlannableCourseCatalogServiceTest {
                 "월 09:00~10:30",
                 "집현관",
                 "홍길동",
-                "컴퓨터공학과"
+                hostDepartment
         );
     }
 }
