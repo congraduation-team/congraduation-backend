@@ -30,8 +30,8 @@ public class AbeekStudent {
     private int entranceYear;
 
     /**
-     * 졸업(예정) 연도의 공학인증 적용 연도.
-     * 예: 2027년 2월 졸업 → 막학기 2026-2 → graduationAbeekYear = 2026
+     * 공학인증(ABEEK) 적용 연도. 졸업 예정 연도와 다를 수 있다.
+     * 예: 2026-1·4-1 이수 → 졸업예정 2027, graduationAbeekYear = 2026
      */
     @Column(nullable = false)
     private int graduationAbeekYear;

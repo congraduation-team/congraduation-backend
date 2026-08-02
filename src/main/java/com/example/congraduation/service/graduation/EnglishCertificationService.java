@@ -3,6 +3,7 @@ package com.example.congraduation.service.graduation;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -82,7 +83,11 @@ public class EnglishCertificationService {
             );
         }
 
-        int completedRegularSemesters = resolveCompletedRegularSemesters(student, courses);
+        // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
+        int completedRegularSemesters = TranscriptStandingMapper.countDistinctRegularTerms(
+                courses,
+                student.getAdmissionYear()
+        );
         int requiredSemestersForExemption = "건축학과".equals(major) ? 12 : 10;
         if (completedRegularSemesters >= requiredSemestersForExemption) {
             return new EnglishCertificationProgressDto(
@@ -113,54 +118,6 @@ public class EnglishCertificationService {
     private boolean hasCompletedIntensiveEnglish(List<CompletedCourseUploadRowDto> courses) {
         return courses.stream()
                 .anyMatch(course -> normalizeCourseName(course.courseName()).equals(INTENSIVE_ENGLISH));
-    }
-
-    private int resolveCompletedRegularSemesters(Student student, List<CompletedCourseUploadRowDto> courses) {
-        Integer admissionYear = student.getAdmissionYear();
-        if (admissionYear == null) {
-            return 0;
-        }
-
-        return courses.stream()
-                .mapToInt(course -> toAcademicStep(admissionYear, course))
-                .max()
-                .orElse(0);
-    }
-
-    private int toAcademicStep(int admissionYear, CompletedCourseUploadRowDto row) {
-        Integer year = parseInt(row.year());
-        if (year == null || year < admissionYear) {
-            return 0;
-        }
-
-        int semesterIndex = toRegularSemesterIndex(row.semester());
-        if (semesterIndex == 0) {
-            return 0;
-        }
-
-        return ((year - admissionYear) * 2) + semesterIndex;
-    }
-
-    private int toRegularSemesterIndex(String semesterText) {
-        if (semesterText == null) {
-            return 0;
-        }
-        String normalized = semesterText.trim();
-        if (normalized.contains("2")) {
-            return 2;
-        }
-        if (normalized.contains("1") || normalized.contains("여름")) {
-            return 1;
-        }
-        return 0;
-    }
-
-    private Integer parseInt(String value) {
-        try {
-            return value == null ? null : Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 
     private boolean isArtsCollegeMajor(String major) {

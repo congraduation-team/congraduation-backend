@@ -29,13 +29,21 @@ public class PlannedCourseController {
     }
 
     @GetMapping("/planned-courses")
-    @Operation(summary = "계획 과목 조회", description = "학생의 남은 학기 계획 과목과 학기별 계획 학점을 조회합니다.")
+    @Operation(
+            summary = "계획 과목 조회",
+            description = "학생의 남은 학기 계획 과목과 학기별 계획 학점을 조회합니다. "
+                    + "조회 시 마지막 이수 다음~4-2 빈 학기 카드가 없으면 자동 생성합니다."
+    )
     public ResponseEntity<PlannedCourseListResponseDto> getPlannedCourses(@PathVariable Long studentId) {
         return ResponseEntity.ok(plannedCourseService.getPlannedCourses(studentId));
     }
 
     @PostMapping("/planned-semesters/next")
-    @Operation(summary = "다음 빈 학기 추가", description = "현재까지 완료한 마지막 정규 학기 다음부터 빈 학기를 순차적으로 추가합니다.")
+    @Operation(
+            summary = "다음 빈 학기 추가",
+            description = "count가 1 이하(기본)이면 마지막 이수 다음부터 4-2까지 빈 학기를 모두 확보합니다. "
+                    + "count>1이면 그 개수만큼 순차 추가합니다(최대 8학년)."
+    )
     public ResponseEntity<PlannedCourseListResponseDto> addNextPlannedSemesters(
             @PathVariable Long studentId,
             @RequestBody(required = false) PlannedSemesterCreateRequestDto request

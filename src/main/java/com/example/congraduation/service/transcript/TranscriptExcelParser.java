@@ -48,6 +48,7 @@ public class TranscriptExcelParser {
                 String evaluationMethod = readCell(row, 9, formatter);
                 String grade = readCell(row, 10, formatter);
                 String gradePoint = readCell(row, 11, formatter);
+                String openingDepartmentCode = readCell(row, 12, formatter);
 
                 if (courseCode.isBlank() && courseName.isBlank()) {
                     continue;
@@ -62,19 +63,24 @@ public class TranscriptExcelParser {
                         credit,
                         evaluationMethod,
                         grade,
-                        gradePoint
+                        gradePoint,
+                        openingDepartmentCode.isBlank() ? null : openingDepartmentCode
                 ));
             }
 
             return courses;
         } catch (IOException e) {
-            throw new RuntimeException("엑셀 파싱 중 오류가 발생했습니다.", e);
+            throw new IllegalArgumentException("성적표 엑셀 파싱 중 오류가 발생했습니다: " + e.getMessage(), e);
         }
     }
 
     private void validateFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("업로드된 파일이 없습니다.");
+            throw new IllegalArgumentException("업로드된 파일이 없습니다. multipart file 파트를 확인하세요.");
+        }
+        String name = file.getOriginalFilename();
+        if (name != null && !name.isBlank() && !name.toLowerCase().endsWith(".xlsx")) {
+            throw new IllegalArgumentException("xlsx 파일만 지원합니다: " + name);
         }
     }
 

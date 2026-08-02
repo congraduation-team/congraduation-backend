@@ -13,6 +13,7 @@ import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.repository.plan.PlannedCourseRepository;
 import com.example.congraduation.repository.plan.PlannedSemesterRepository;
 import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PlannedCourseService {
+
+    /** 계획 학기 상한(학년). 초과학년 계획용 여유. */
+    private static final int MAX_PLAN_GRADE_YEAR = 8;
+
+    /** 표준 졸업 로드맵 마지막 순번 (4-2). 남은 학기 카드는 여기까지 채운다. */
+    private static final int STANDARD_GRADUATION_STEP = 8;
 
     private final StudentRepository studentRepository;
     private final PlannedCourseRepository plannedCourseRepository;
@@ -46,10 +53,12 @@ public class PlannedCourseService {
         this.transcriptStorageService = transcriptStorageService;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PlannedCourseListResponseDto getPlannedCourses(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
+        // 마지막 이수 다음 ~ 4-2까지 빈 학기 카드를 항상 확보
+        ensureRemainingSemestersThroughGraduation(student);
         return buildResponse(student, plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId));
     }
 
@@ -127,22 +136,50 @@ public class PlannedCourseService {
     public PlannedCourseListResponseDto addNextPlannedSemesters(Long studentId, int count) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
-        int requestedCount = count <= 0 ? 1 : count;
 
-        List<PlannedSemester> existingSemesters = plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(studentId);
+        // FE는 보통 count=1만 보냄. 기본은 마지막 이수 다음~4-2를 한 번에 채운다.
+        if (count <= 1) {
+            ensureRemainingSemestersThroughGraduation(student);
+            return buildResponse(
+                    student,
+                    plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId)
+            );
+        }
+
+        List<PlannedSemester> existingSemesters = plannedSemesterRepository
+                .findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(studentId);
         int lastStep = Math.max(resolveLastCompletedStep(student), resolveLastPlannedStep(existingSemesters));
-        for (int i = 1; i <= requestedCount; i++) {
+        for (int i = 1; i <= count; i++) {
             int nextStep = lastStep + i;
             int gradeYear = ((nextStep - 1) / 2) + 1;
             int semester = ((nextStep - 1) % 2) + 1;
-            if (gradeYear > 4) {
-                throw new IllegalArgumentException("추가 가능한 학기는 4학년 2학기까지입니다.");
+            if (gradeYear > MAX_PLAN_GRADE_YEAR) {
+                throw new IllegalArgumentException(
+                        "추가 가능한 학기는 " + MAX_PLAN_GRADE_YEAR + "학년 2학기까지입니다.");
             }
-            plannedSemesterRepository.findByStudentIdAndGradeYearAndSemester(studentId, gradeYear, semester)
-                    .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
+            ensurePlannedSemester(student, gradeYear, semester);
         }
 
         return buildResponse(student, plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId));
+    }
+
+    /**
+     * 기이수 순번 다음부터 표준 졸업(4-2)까지 빈 계획 학기를 모두 만든다.
+     * 예: 마지막 이수 3-1 → 3-2, 4-1, 4-2 / 마지막 이수 1-1 → 1-2 … 4-2
+     */
+    private void ensureRemainingSemestersThroughGraduation(Student student) {
+        int lastCompletedStep = resolveLastCompletedStep(student);
+        for (int step = lastCompletedStep + 1; step <= STANDARD_GRADUATION_STEP; step++) {
+            int gradeYear = ((step - 1) / 2) + 1;
+            int semester = ((step - 1) % 2) + 1;
+            ensurePlannedSemester(student, gradeYear, semester);
+        }
+    }
+
+    private void ensurePlannedSemester(Student student, int gradeYear, int semester) {
+        plannedSemesterRepository
+                .findByStudentIdAndGradeYearAndSemester(student.getId(), gradeYear, semester)
+                .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
     }
 
     @Transactional(readOnly = true)
@@ -206,12 +243,58 @@ public class PlannedCourseService {
                 ))
                 .toList();
 
+        StandingSnapshot standing = resolveStandingSnapshot(student);
         return new PlannedCourseListResponseDto(
                 student.getId(),
-                formatSemesterLabel(resolveLastCompletedStep(student)),
+                standing.termKey(),
+                standing.takenYear(),
+                standing.takenSemester(),
+                standing.gradeYear(),
+                standing.overStanding(),
                 formatDecimal(totalCredits),
                 semesters
         );
+    }
+
+    private StandingSnapshot resolveStandingSnapshot(Student student) {
+        int step = resolveLastCompletedStep(student);
+        String termKey = formatSemesterLabel(step);
+        Integer gradeYear = null;
+        boolean overStanding = false;
+        if (termKey != null) {
+            String[] parts = termKey.split("-");
+            gradeYear = Integer.parseInt(parts[0]);
+            overStanding = gradeYear > 4;
+        }
+
+        String takenYear = null;
+        String takenSemester = null;
+        if (transcriptStorageService.hasTranscript(student.getId())) {
+            List<CompletedCourseUploadRowDto> rows =
+                    transcriptStorageService.getLatestTranscriptRows(student.getId());
+            TranscriptStandingMapper mapper =
+                    TranscriptStandingMapper.fromRows(rows, student.getAdmissionYear());
+            int bestStep = 0;
+            for (CompletedCourseUploadRowDto row : rows) {
+                int rowStep = mapper.resolveStep(row.year(), row.semester());
+                if (rowStep > bestStep) {
+                    bestStep = rowStep;
+                    takenYear = row.year();
+                    takenSemester = row.semester();
+                }
+            }
+        }
+
+        return new StandingSnapshot(termKey, takenYear, takenSemester, gradeYear, overStanding);
+    }
+
+    private record StandingSnapshot(
+            String termKey,
+            String takenYear,
+            String takenSemester,
+            Integer gradeYear,
+            boolean overStanding
+    ) {
     }
 
     private PlannedSemester resolvePlannedSemester(Long studentId, PlannedCourseRequestDto request) {
@@ -227,8 +310,8 @@ public class PlannedCourseService {
     }
 
     private Integer requireGradeYear(Integer gradeYear) {
-        if (gradeYear == null || gradeYear < 1 || gradeYear > 4) {
-            throw new IllegalArgumentException("학년은 1~4 사이만 가능합니다.");
+        if (gradeYear == null || gradeYear < 1 || gradeYear > MAX_PLAN_GRADE_YEAR) {
+            throw new IllegalArgumentException("학년은 1~" + MAX_PLAN_GRADE_YEAR + " 사이만 가능합니다.");
         }
         return gradeYear;
     }
@@ -334,15 +417,21 @@ public class PlannedCourseService {
     }
 
     private int resolveLastCompletedStep(Student student) {
+        int fallback = Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
         if (!transcriptStorageService.hasTranscript(student.getId())) {
-            return Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
+            return fallback;
         }
 
-        return transcriptStorageService.getLatestTranscriptRows(student.getId()).stream()
-                .map(row -> toAcademicStep(student, row))
+        List<CompletedCourseUploadRowDto> rows =
+                transcriptStorageService.getLatestTranscriptRows(student.getId());
+        // 달력 상대학년(takenYear−admissionYear+1) 금지. 기이수 정규학기 순번만 사용.
+        TranscriptStandingMapper standing =
+                TranscriptStandingMapper.fromRows(rows, student.getAdmissionYear());
+        return rows.stream()
+                .mapToInt(row -> standing.resolveStep(row.year(), row.semester()))
                 .filter(step -> step > 0)
-                .max(Comparator.naturalOrder())
-                .orElse(Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2));
+                .max()
+                .orElse(fallback);
     }
 
     private int resolveLastPlannedStep(List<PlannedSemester> semesters) {
@@ -350,25 +439,6 @@ public class PlannedCourseService {
                 .map(semester -> toAcademicStep(semester.getGradeYear(), semester.getSemester()))
                 .max(Comparator.naturalOrder())
                 .orElse(0);
-    }
-
-    private int toAcademicStep(Student student, CompletedCourseUploadRowDto row) {
-        Integer year = parseInt(row.year());
-        if (year == null) {
-            return 0;
-        }
-
-        int semesterIndex = toRegularSemesterIndex(row.semester());
-        if (semesterIndex == 0) {
-            return 0;
-        }
-
-        Integer admissionYear = student.getAdmissionYear();
-        if (admissionYear == null || year < admissionYear) {
-            return 0;
-        }
-
-        return ((year - admissionYear) * 2) + semesterIndex;
     }
 
     private int toAcademicStep(Integer gradeYear, Integer semester) {
@@ -386,28 +456,6 @@ public class PlannedCourseService {
         int gradeYear = ((step - 1) / 2) + 1;
         int semester = ((step - 1) % 2) + 1;
         return gradeYear + "-" + semester;
-    }
-
-    private Integer parseInt(String value) {
-        try {
-            return value == null ? null : Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private int toRegularSemesterIndex(String semesterText) {
-        if (semesterText == null) {
-            return 0;
-        }
-        String normalized = semesterText.trim();
-        if (normalized.contains("2")) {
-            return 2;
-        }
-        if (normalized.contains("1") || normalized.contains("여름")) {
-            return 1;
-        }
-        return 0;
     }
 
     private BigDecimal toDecimal(String value) {

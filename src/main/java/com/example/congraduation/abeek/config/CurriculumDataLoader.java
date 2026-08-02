@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.congraduation.abeek.domain.AbeekYearRequirement;
 import com.example.congraduation.abeek.domain.CourseMaster;
+import com.example.congraduation.abeek.domain.CoursePrerequisite;
 import com.example.congraduation.abeek.domain.CurriculumCourse;
 import com.example.congraduation.abeek.domain.enums.*;
 import com.example.congraduation.abeek.repository.AbeekYearRequirementRepository;
 import com.example.congraduation.abeek.repository.CourseMasterRepository;
+import com.example.congraduation.abeek.repository.CoursePrerequisiteRepository;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,18 +30,38 @@ public class CurriculumDataLoader implements CommandLineRunner {
     private final CourseMasterRepository courseMasterRepository;
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final AbeekYearRequirementRepository requirementRepository;
+    private final CoursePrerequisiteRepository prerequisiteRepository;
 
     private final Map<String, CourseMaster> masters = new HashMap<>();
 
     @Override
     @Transactional
     public void run(String... args) {
-        if (requirementRepository.existsByDepartmentCode("CSE")) {
-            return;
+        if (!requirementRepository.existsByDepartmentCode("CSE")) {
+            seedMasters();
+            seedRequirements();
+            seedCurricula();
         }
-        seedMasters();
-        seedRequirements();
-        seedCurricula();
+        // 기존 DB에도 선수과목 간선이 비어 있으면 시드 (CSE JSON 없음)
+        if (prerequisiteRepository.findByDepartmentCodeAndYear("CSE", 2024).isEmpty()) {
+            seedPrerequisites();
+        }
+        // 운영 DB: 세종사회봉사1은 공학인증 필수에서 제외
+        demoteVolunteerFromAbeekRequired();
+    }
+
+    /** 이미 시드된 DB에서 GEN_VOLUNTEER1 REQUIRED → ELECTIVE (2020·2021 CSE) */
+    private void demoteVolunteerFromAbeekRequired() {
+        for (int year : new int[]{2020, 2021}) {
+            curriculumCourseRepository
+                    .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(year, "CSE", "GEN_VOLUNTEER1")
+                    .ifPresent(course -> {
+                        if (course.getRole() == CourseRole.REQUIRED) {
+                            course.setRole(CourseRole.ELECTIVE);
+                            curriculumCourseRepository.save(course);
+                        }
+                    });
+        }
     }
 
     private void seedRequirements() {
@@ -203,7 +226,7 @@ public class CurriculumDataLoader implements CommandLineRunner {
         cc(y, "GEN_WRITE", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_CAREER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_STARTUP1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
-        cc(y, "GEN_VOLUNTEER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
+        // 세종사회봉사1은 공학인증 필수가 아님
         cc(y, "GEN_ENG_LISTEN", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_PHILOSOPHY", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_READ", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-2");
@@ -233,12 +256,13 @@ public class CurriculumDataLoader implements CommandLineRunner {
         cc(y, "GEN_WRITE", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_CAREER_EXP", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_STARTUP1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
-        cc(y, "GEN_VOLUNTEER1", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
+        // 세종사회봉사1은 공학인증 필수가 아님
         cc(y, "GEN_PHILOSOPHY", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_LISTEN", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-2");
         cc(y, "GEN_ENG_READ", 2, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-2");
         cc(y, "GEN_SEMINAR", 1, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
         cc(y, "GEN_WORLD_HIST", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "2-1");
+        // 입학 전 계절학기 이수 가능 (고급프로그래밍입문-P)
         cc(y, "GEN_ADV_PROG_P", 3, 0, DesignLevel.NONE, CourseRole.REQUIRED, "1-1");
 
         bsm(y, "BSM_CALC", 3, "1-1");
@@ -475,5 +499,69 @@ public class CurriculumDataLoader implements CommandLineRunner {
                 .recommendedTerm(term)
                 .newlyIntroducedRequired(false)
                 .build());
+    }
+
+    /**
+     * 컴공 이수체계도 선수/권장 간선 (화살표용).
+     * 연도별로 없는 과목은 FullRoadmapService에서 resolve 실패 시 제외된다.
+     */
+    private void seedPrerequisites() {
+        List<String[]> edges = List.of(
+                // 프로그래밍 → 자료구조 → 알고리즘 → OS → 네트워크
+                arr("MAJ_C", "MAJ_ADV_C", "MANDATORY"),
+                arr("MAJ_ADV_C", "MAJ_DS", "MANDATORY"),
+                arr("MAJ_DS", "MAJ_ALGO", "MANDATORY"),
+                arr("MAJ_ALGO", "MAJ_OS", "MANDATORY"),
+                arr("MAJ_OS", "MAJ_NETWORK", "MANDATORY"),
+                // 디지털 → 컴퓨터구조 → OS
+                arr("MAJ_DIGITAL", "MAJ_ARCH", "MANDATORY"),
+                arr("MAJ_ARCH", "MAJ_OS", "RECOMMENDED"),
+                // 설계 시퀀스
+                arr("MAJ_BASIC_DESIGN", "MAJ_ADV_DESIGN", "MANDATORY"),
+                arr("MAJ_ADV_DESIGN", "MAJ_CAPSTONE", "MANDATORY"),
+                arr("MAJ_BASIC_DESIGN", "MAJ_CAPSTONE", "RECOMMENDED"),
+                arr("MAJ_SE", "MAJ_CAPSTONE", "RECOMMENDED"),
+                // 요소설계/선택
+                arr("MAJ_ADV_C", "MAJ_CPP", "RECOMMENDED"),
+                arr("MAJ_ADV_C", "MAJ_JAVA", "RECOMMENDED"),
+                arr("MAJ_DS", "MAJ_DB", "RECOMMENDED"),
+                arr("MAJ_WEB", "MAJ_WEB_DESIGN", "RECOMMENDED"),
+                arr("MAJ_OS", "MAJ_UNIX", "RECOMMENDED"),
+                arr("MAJ_OS", "MAJ_LINUX", "RECOMMENDED"),
+                arr("MAJ_NETWORK", "MAJ_NET_PROG", "RECOMMENDED"),
+                arr("MAJ_NETWORK", "MAJ_INTEL_NET", "RECOMMENDED"),
+                arr("MAJ_SIGNAL", "MAJ_DSP", "RECOMMENDED"),
+                arr("MAJ_AI", "MAJ_ML", "RECOMMENDED"),
+                arr("MAJ_PL", "MAJ_COMPILER", "RECOMMENDED"),
+                // BSM
+                arr("BSM_CALC", "BSM_EMATH1", "RECOMMENDED"),
+                arr("BSM_CALC1", "BSM_EMATH1", "RECOMMENDED"),
+                arr("BSM_CALC", "BSM_LINEAR_PROG", "RECOMMENDED"),
+                arr("BSM_CALC1", "BSM_LINEAR", "RECOMMENDED")
+        );
+
+        for (int year = 2020; year <= 2026; year++) {
+            for (String[] edge : edges) {
+                upsertPrereq(year, edge[0], edge[1], edge[2]);
+            }
+        }
+    }
+
+    private static String[] arr(String from, String to, String type) {
+        return new String[]{from, to, type};
+    }
+
+    private void upsertPrereq(int year, String from, String to, String type) {
+        CoursePrerequisite prerequisite = prerequisiteRepository
+                .findByDepartmentCodeAndYearAndFromCourseCodeAndToCourseCodeAndType(
+                        "CSE", year, from, to, type)
+                .orElseGet(CoursePrerequisite::new);
+        prerequisite.setDepartmentCode("CSE");
+        prerequisite.setYear(year);
+        prerequisite.setFromCourseCode(from);
+        prerequisite.setToCourseCode(to);
+        prerequisite.setType(type);
+        prerequisite.setNeedsReview(false);
+        prerequisiteRepository.save(prerequisite);
     }
 }

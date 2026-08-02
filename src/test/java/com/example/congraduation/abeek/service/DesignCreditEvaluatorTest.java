@@ -137,6 +137,59 @@ class DesignCreditEvaluatorTest {
         assertThat(result.getRecognizedDesignCredits()).isEqualTo(10.5);
     }
 
+    @Test
+    @DisplayName("기초 전에 들은 고급C·디지털은 제외, 기초와 병수한 DB만 요소로 인정 → 4학점")
+    void elementBeforeBasicExcluded_concurrentDbCounts() {
+        curriculum.put("MAJ_DIGITAL", course("MAJ_DIGITAL", "디지털시스템", DesignLevel.ELEMENT, 1));
+        List<StudentEnrollment> enrollments = List.of(
+                enrollment("MAJ_ADV_C", 1, 2021, 1),
+                enrollment("MAJ_DIGITAL", 1, 2021, 1),
+                enrollment("MAJ_BASIC_DESIGN", 3, 2022, 1),
+                enrollment("MAJ_DB", 1, 2022, 1)
+        );
+
+        DesignEvaluationResult result = evaluator.evaluate(enrollments, curriculum);
+
+        assertThat(result.getRecognizedDesignCredits()).isEqualTo(4);
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("MAJ_ADV_C") && !c.isRecognized());
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("MAJ_DIGITAL") && !c.isRecognized());
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("MAJ_DB") && c.isRecognized());
+        assertThat(result.isHasBasicDesign()).isTrue();
+        assertThat(result.isHasElementDesign()).isTrue();
+        assertThat(result.isHasComprehensiveDesign()).isFalse();
+    }
+
+    @Test
+    @DisplayName("커리큘럼이 기초/종합을 ELEMENT로 오표기해도 과목명으로 단계 보정")
+    void wrongElementLabelStillAppliesSequence() {
+        curriculum.clear();
+        curriculum.put("SW_BASIC", course("SW_BASIC", "SW설계기초(산학프로젝트입문)", DesignLevel.ELEMENT, 3));
+        curriculum.put("SW_EL", course("SW_EL", "데이터베이스", DesignLevel.ELEMENT, 1));
+        curriculum.put("SW_EL2", course("SW_EL2", "오픈소스SW공학", DesignLevel.ELEMENT, 1));
+        curriculum.put("SW_CAP", course("SW_CAP", "Capstone디자인(산학협력프로젝트)", DesignLevel.ELEMENT, 6));
+
+        List<StudentEnrollment> enrollments = List.of(
+                enrollment("SW_EL", 1, 2021, 1),
+                enrollment("SW_BASIC", 3, 2022, 1),
+                enrollment("SW_EL2", 1, 2022, 2),
+                enrollment("SW_CAP", 6, 2024, 1)
+        );
+
+        DesignEvaluationResult result = evaluator.evaluate(enrollments, curriculum);
+
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("SW_BASIC") && c.getDesignLevel() == DesignLevel.BASIC);
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("SW_CAP") && c.getDesignLevel() == DesignLevel.COMPREHENSIVE);
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("SW_EL") && !c.isRecognized());
+        assertThat(result.getRecognizedDesignCredits()).isEqualTo(10); // 3+1+6
+        assertThat(result.isSequenceSatisfied()).isTrue();
+    }
+
     private CurriculumCourse course(String code, String name, DesignLevel level, double design) {
         CourseMaster master = CourseMaster.builder()
                 .courseCode(code)

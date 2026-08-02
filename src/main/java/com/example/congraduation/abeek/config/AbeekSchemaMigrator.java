@@ -28,5 +28,28 @@ public class AbeekSchemaMigrator implements CommandLineRunner {
             // H2 테스트/최초 생성 전이면 무시. Hibernate가 columnDefinition으로 생성한다.
             log.debug("Skip note column migration: {}", ex.getMessage());
         }
+
+        try {
+            Integer count = jdbcTemplate.queryForObject(
+                    "SELECT COUNT(*) FROM information_schema.COLUMNS "
+                            + "WHERE TABLE_SCHEMA = DATABASE() "
+                            + "AND TABLE_NAME = 'completed_courses' "
+                            + "AND COLUMN_NAME = 'opening_department_code'",
+                    Integer.class
+            );
+            if (count == null || count == 0) {
+                jdbcTemplate.execute(
+                        "ALTER TABLE completed_courses ADD COLUMN opening_department_code VARCHAR(20) NULL");
+                log.info("Added completed_courses.opening_department_code");
+            }
+        } catch (Exception ex) {
+            try {
+                jdbcTemplate.execute(
+                        "ALTER TABLE completed_courses ADD COLUMN opening_department_code VARCHAR(20) NULL");
+                log.info("Added completed_courses.opening_department_code (fallback)");
+            } catch (Exception ignored) {
+                log.debug("Skip opening_department_code migration: {}", ex.getMessage());
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ public record EnglishCertificationProgressDto(
         String policyType,
         @Schema(description = "기본 기준 설명", example = "공인영어 기준 점수 또는 Intensive English 이수")
         String primaryRequirement,
-        @Schema(description = "현재 판정 상세", example = "Intensive English 이수로 영어졸업인증이 면제됩니다.")
+        @Schema(description = "현재 판정 상세. 학기 면제 문구의 N학기는 기이수 정규학기 순번(휴학 제외)이며 달력 상대학기가 아님.", example = "7학기 이수 기준으로 영어졸업인증이 면제됩니다.")
         String detail
 ) {
 }
