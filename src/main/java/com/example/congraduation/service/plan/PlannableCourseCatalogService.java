@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,7 +63,9 @@ public class PlannableCourseCatalogService {
             throw new IllegalStateException("적재된 시간표 데이터가 없습니다.");
         }
 
-        List<PlannableCourseDto> courses = deduplicated.values().stream()
+        List<CourseAccumulator> displayAccumulators = mergeForDisplay(deduplicated.values(), referenceDepartmentName);
+
+        List<PlannableCourseDto> courses = displayAccumulators.stream()
                 .filter(accumulator -> matchesKeyword(accumulator, keyword))
                 .filter(accumulator -> matchesTargetGrade(accumulator, targetGrade))
                 .filter(accumulator -> matchesOfferedTerm(accumulator, offeredTerm))
@@ -71,11 +74,11 @@ public class PlannableCourseCatalogService {
                 .filter(accumulator -> matchesCategory(accumulator, category, referenceDepartmentName))
                 .sorted(Comparator
                         .comparing(CourseAccumulator::courseName)
-                        .thenComparing(accumulator -> resolveCategory(accumulator, referenceDepartmentName)))
+                        .thenComparing(CourseAccumulator::category))
                 .map(accumulator -> new PlannableCourseDto(
                         new ArrayList<>(accumulator.courseCodes()),
                         accumulator.courseName(),
-                        resolveCategory(accumulator, referenceDepartmentName),
+                        accumulator.category(),
                         new ArrayList<>(accumulator.departments()),
                         new ArrayList<>(accumulator.targetGrades()),
                         new ArrayList<>(accumulator.credits()),
@@ -84,6 +87,38 @@ public class PlannableCourseCatalogService {
                 .toList();
 
         return new PlannableCourseCatalogResponseDto(courses.size(), courses);
+    }
+
+    private List<CourseAccumulator> mergeForDisplay(
+            Iterable<CourseAccumulator> accumulators,
+            String referenceDepartmentName
+    ) {
+        Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
+        for (CourseAccumulator accumulator : accumulators) {
+            String resolvedCategory = resolveCategory(accumulator, referenceDepartmentName);
+            String displayKey = toDisplayCourseKey(accumulator, resolvedCategory);
+            CourseAccumulator existing = merged.get(displayKey);
+
+            if (existing == null) {
+                merged.put(displayKey, new CourseAccumulator(
+                        new LinkedHashSet<>(accumulator.courseCodes()),
+                        accumulator.courseName(),
+                        resolvedCategory,
+                        new LinkedHashSet<>(accumulator.departments()),
+                        new LinkedHashSet<>(accumulator.targetGrades()),
+                        new LinkedHashSet<>(accumulator.credits()),
+                        new LinkedHashSet<>(accumulator.offeredTerms())
+                ));
+                continue;
+            }
+
+            existing.courseCodes().addAll(accumulator.courseCodes());
+            existing.departments().addAll(accumulator.departments());
+            existing.targetGrades().addAll(accumulator.targetGrades());
+            existing.credits().addAll(accumulator.credits());
+            existing.offeredTerms().addAll(accumulator.offeredTerms());
+        }
+        return new ArrayList<>(merged.values());
     }
 
     private Student resolveStudent(Long studentId) {
@@ -293,6 +328,18 @@ public class PlannableCourseCatalogService {
 
     private String toCourseKey(String courseName, String category) {
         return normalize(courseName) + "|" + normalize(category);
+    }
+
+    private String toDisplayCourseKey(CourseAccumulator accumulator, String resolvedCategory) {
+        String normalizedCodes = accumulator.courseCodes().stream()
+                .map(this::normalizeCourseCode)
+                .filter(code -> !code.isBlank())
+                .sorted()
+                .collect(Collectors.joining("|"));
+        if (!normalizedCodes.isBlank()) {
+            return normalizedCodes + "|" + normalize(resolvedCategory);
+        }
+        return normalize(accumulator.courseName()) + "|" + normalize(resolvedCategory);
     }
 
     private String formatCredit(Double credits) {
