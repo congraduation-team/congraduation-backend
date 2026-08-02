@@ -198,9 +198,12 @@ public class PlannedCourseService {
 
     @Transactional(readOnly = true)
     public List<CompletedCourseUploadRowDto> getProjectedRows(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
+
         return plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId).stream()
                 .map(course -> new CompletedCourseUploadRowDto(
-                        String.valueOf(course.getTargetYear()),
+                        String.valueOf(resolveProjectedCalendarYear(student, course)),
                         course.getTargetSemester() + "학기",
                         course.getCourseCode(),
                         course.getCourseName(),
@@ -211,6 +214,14 @@ public class PlannedCourseService {
                         defaultText(PlannedCourseGradePolicy.toGradePoint(course.getExpectedGrade()), "0")
                 ))
                 .toList();
+    }
+
+    private int resolveProjectedCalendarYear(Student student, PlannedCourse course) {
+        Integer admissionYear = student.getAdmissionYear();
+        if (admissionYear == null) {
+            return course.getTargetYear();
+        }
+        return admissionYear + course.getGradeYear() - 1;
     }
 
     private PlannedCourseListResponseDto buildResponse(Student student, List<PlannedCourse> courses) {
