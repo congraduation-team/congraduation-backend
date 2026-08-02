@@ -28,6 +28,12 @@ public record MajorCreditSummaryDto(
         @Schema(description = "전공선택 진행률(%)", example = "53.85")
         String majorElectiveProgressPercent,
         @Schema(description = "전공기초 이수 학점", example = "6")
-        String earnedMajorFoundationCredits
+        String earnedMajorFoundationCredits,
+        @Schema(description = "전필 이수 과목 수", example = "12")
+        int earnedMajorRequiredCourseCount,
+        @Schema(description = "전선 이수 과목 수", example = "8")
+        int earnedMajorElectiveCourseCount,
+        @Schema(description = "전필+전선(+전기 포함 시 전기) 이수 과목 수(전공합계 과목 수)", example = "20")
+        int earnedMajorCourseCount
 ) {
 }
