@@ -35,7 +35,7 @@ public class AbeekEvaluationDetailResponse {
         private final List<CourseDetailDto> completedCourses;
         /**
          * 미이수 과목 목록.
-         * 인증선택(CERT_ELECTIVE)에서는 더보기용이며, 학수번호 대신 electiveArea를 쓴다.
+         * 인증선택(CERT_ELECTIVE) 더보기: sejongCourseCode(학수번호) + electiveArea(영역).
          */
         private final List<CourseDetailDto> remainingCourses;
         /**
@@ -68,7 +68,7 @@ public class AbeekEvaluationDetailResponse {
         private final String courseCode;
         /**
          * 세종 학수번호 (예: 004310).
-         * 인증선택 남은 과목은 null — electiveArea를 사용.
+         * 카탈로그·강의시간표로 해석하며, 없으면 null.
          */
         private final String sejongCourseCode;
         /**

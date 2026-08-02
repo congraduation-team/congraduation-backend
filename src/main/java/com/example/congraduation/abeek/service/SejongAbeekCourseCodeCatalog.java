@@ -36,6 +36,13 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("009787", "GEN_ADV_PROG_P");
         // 대학영어 (2022~ 전문교양 필수, Listening/Reading 대체)
         map.put("011304", "GEN_UNI_ENG");
+        // 인증선택(균필) 영역 과목
+        map.put("011307", "GEN_WORLD_HIST2"); // 세계사
+        map.put("011305", "GEN_EAST_WEST");   // 동서양의사상과윤리
+        map.put("011312", "GEN_MGMT");        // 경영학
+        map.put("011313", "GEN_ECON");        // 경제학
+        map.put("011316", "GEN_FUSION_ART");  // 융합예술의이해
+        map.put("011317", "GEN_METAVERSE");   // 컴퓨터게임과메타버스
 
         // —— BSM ——
         map.put("006098", "BSM_CALC");

@@ -92,7 +92,21 @@ public class AbeekEvaluationService {
             indexCategory(course, categoryByCode, categoryByGroup, categoryByName);
         }
 
-        int generalCredits = sumCredits(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
+        // 전문교양 중 인증필수만 (예: 24학번 글쓰기·대학영어·서양철학). 인증선택·창업 등은 제외.
+        List<CurriculumCourse> generalRequiredCourses = entranceCourses.stream()
+                .filter(c -> c.getCourseMaster().getCategory() == CourseCategory.GENERAL)
+                .filter(c -> c.getRole() == CourseRole.REQUIRED)
+                .toList();
+        int generalRequiredCredits = generalRequiredCourses.stream()
+                .mapToInt(CurriculumCourse::getCredits)
+                .sum();
+        List<CategoryProgressDto.CompletedCourseDto> generalCompleted =
+                listCompletedMatchingCurriculum(
+                        student, generalRequiredCourses, completedCodes, completedGroups, completedNames);
+        int generalCredits = generalCompleted.stream()
+                .mapToInt(CategoryProgressDto.CompletedCourseDto::getCredits)
+                .sum();
+
         int bsmFromCurriculum = sumCredits(student, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
         int majorFromCurriculum = sumCredits(student, CourseCategory.MAJOR, categoryByCode, categoryByGroup, categoryByName);
 
@@ -110,8 +124,6 @@ public class AbeekEvaluationService {
                 transcriptRows, CourseCategory.BSM, categoryByCode, categoryByGroup, categoryByName);
         int bsmCredits = Math.max(bsmFromCurriculum, bsmFromTranscript);
 
-        List<CategoryProgressDto.CompletedCourseDto> generalCompleted =
-                listCompletedByCategory(student, CourseCategory.GENERAL, categoryByCode, categoryByGroup, categoryByName);
         List<CategoryProgressDto.CompletedCourseDto> bsmCompleted =
                 listBsmCompletedCourses(student, categoryByCode, categoryByGroup, categoryByName, transcriptRows);
         List<CategoryProgressDto.CompletedCourseDto> majorCompleted =
@@ -133,7 +145,7 @@ public class AbeekEvaluationService {
         List<CategoryProgressDto.CompletedCourseDto> allCompleted =
                 listAllCompleted(student, recognizedDesignByCode);
 
-        CategoryProgressDto general = progress("전문교양", generalCredits, effective.getGeneralMinCredits(),
+        CategoryProgressDto general = progress("인증필수", generalCredits, generalRequiredCredits,
                 effective.getGeneralSource(), generalCompleted);
         CategoryProgressDto bsm = progress("BSM", bsmCredits, effective.getBsmMinCredits(),
                 effective.getBsmSource(), bsmCompleted);
@@ -284,7 +296,7 @@ public class AbeekEvaluationService {
         List<AbeekEvaluationDetailResponse.CategoryDetailDto> categories = List.of(
                 buildCategoryDetail(
                         "GENERAL",
-                        "전문교양",
+                        "인증필수",
                         evaluation.getGeneral(),
                         student,
                         entranceCourses,
@@ -529,6 +541,9 @@ public class AbeekEvaluationService {
         List<AbeekEvaluationDetailResponse.CourseDetailDto> completedCourses = student.getEnrollments().stream()
                 .filter(StudentEnrollment::isPassed)
                 .filter(e -> resolveCategory(e.getCourseMaster(), categoryByCode, categoryByGroup, categoryByName) == targetCategory)
+                // 인증필수 카드: 입학연도 REQUIRED 전문교양만 (인증선택·창업 등 제외)
+                .filter(e -> targetCategory != CourseCategory.GENERAL
+                        || resolveRole(e.getCourseMaster(), entranceCourses) == CourseRole.REQUIRED)
                 .sorted(Comparator.comparingInt(StudentEnrollment::getTakenYear)
                         .thenComparingInt(StudentEnrollment::getTakenSemester)
                         .thenComparing(e -> e.getCourseMaster().getName()))
@@ -551,6 +566,12 @@ public class AbeekEvaluationService {
                         .note("이수")
                         .build())
                 .toList();
+
+        // 커리큘럼 인증필수인데 enrollment 역할이 애매해도 이수 목록에 포함
+        if (targetCategory == CourseCategory.GENERAL) {
+            completedCourses = mergeGeneralRequiredCompletedFromCurriculum(
+                    completedCourses, student, entranceCourses, completedCodes, completedGroups, completedNames);
+        }
 
         List<AbeekEvaluationDetailResponse.CourseDetailDto> remainingCourses = entranceCourses.stream()
                 .filter(c -> c.getCourseMaster().getCategory() == targetCategory)
@@ -720,8 +741,7 @@ public class AbeekEvaluationService {
     ) {
         return AbeekEvaluationDetailResponse.CourseDetailDto.builder()
                 .courseCode(courseCode)
-                // 인증선택: 학수번호 대신 영역 표시
-                .sejongCourseCode(null)
+                .sejongCourseCode(resolveSejongCourseCode(courseCode, courseName))
                 .electiveArea(area == null || area == com.example.congraduation.abeek.domain.enums.ElectiveArea.NONE
                         ? null
                         : area.name())
@@ -1093,6 +1113,99 @@ public class AbeekEvaluationService {
                 .sorted(enrollmentOrder())
                 .map(this::toCompletedCourseDto)
                 .toList();
+    }
+
+    /**
+     * 입학연도 커리큘럼에 있는 지정 과목 중 이수한 것만 반환 (인증필수 등).
+     */
+    private List<CategoryProgressDto.CompletedCourseDto> listCompletedMatchingCurriculum(
+            AbeekStudent student,
+            List<CurriculumCourse> curriculumCourses,
+            Set<String> completedCodes,
+            Set<String> completedGroups,
+            Set<String> completedNames
+    ) {
+        List<CategoryProgressDto.CompletedCourseDto> result = new ArrayList<>();
+        Set<String> seen = new LinkedHashSet<>();
+        for (CurriculumCourse course : curriculumCourses) {
+            if (!isCompleted(course.getCourseMaster(), completedCodes, completedGroups, completedNames)) {
+                continue;
+            }
+            String key = course.getCourseMaster().getCourseCode();
+            if (!seen.add(key)) {
+                continue;
+            }
+            StudentEnrollment enrollment = student.getEnrollments().stream()
+                    .filter(StudentEnrollment::isPassed)
+                    .filter(e -> sameCourse(e.getCourseMaster(), course.getCourseMaster()))
+                    .findFirst()
+                    .orElse(null);
+            if (enrollment != null) {
+                result.add(toCompletedCourseDto(enrollment));
+            } else {
+                result.add(CategoryProgressDto.CompletedCourseDto.builder()
+                        .courseCode(course.getCourseMaster().getCourseCode())
+                        .sejongCourseCode(resolveSejongCourseCode(
+                                course.getCourseMaster().getCourseCode(), course.getCourseMaster().getName()))
+                        .courseName(course.getCourseMaster().getName())
+                        .credits(course.getCredits())
+                        .designCredits(0)
+                        .takenYear(null)
+                        .takenSemester(null)
+                        .build());
+            }
+        }
+        return result;
+    }
+
+    private List<AbeekEvaluationDetailResponse.CourseDetailDto> mergeGeneralRequiredCompletedFromCurriculum(
+            List<AbeekEvaluationDetailResponse.CourseDetailDto> fromEnrollments,
+            AbeekStudent student,
+            List<CurriculumCourse> entranceCourses,
+            Set<String> completedCodes,
+            Set<String> completedGroups,
+            Set<String> completedNames
+    ) {
+        Set<String> seen = fromEnrollments.stream()
+                .map(AbeekEvaluationDetailResponse.CourseDetailDto::getCourseCode)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        List<AbeekEvaluationDetailResponse.CourseDetailDto> merged = new ArrayList<>(fromEnrollments);
+        for (CurriculumCourse course : entranceCourses) {
+            if (course.getCourseMaster().getCategory() != CourseCategory.GENERAL
+                    || course.getRole() != CourseRole.REQUIRED) {
+                continue;
+            }
+            if (!isCompleted(course.getCourseMaster(), completedCodes, completedGroups, completedNames)) {
+                continue;
+            }
+            String code = course.getCourseMaster().getCourseCode();
+            if (!seen.add(code)) {
+                continue;
+            }
+            StudentEnrollment enrollment = student.getEnrollments().stream()
+                    .filter(StudentEnrollment::isPassed)
+                    .filter(e -> sameCourse(e.getCourseMaster(), course.getCourseMaster()))
+                    .findFirst()
+                    .orElse(null);
+            merged.add(AbeekEvaluationDetailResponse.CourseDetailDto.builder()
+                    .courseCode(code)
+                    .sejongCourseCode(resolveSejongCourseCode(code, course.getCourseMaster().getName()))
+                    .courseName(course.getCourseMaster().getName())
+                    .category(CourseCategory.GENERAL)
+                    .categoryLabel("인증필수")
+                    .role(CourseRole.REQUIRED)
+                    .roleLabel("인증필수")
+                    .credits(enrollment != null ? enrollment.getCredits() : course.getCredits())
+                    .designCredits(enrollment != null ? enrollment.getDesignCredits() : 0)
+                    .designLevel(course.getDesignLevel())
+                    .completed(true)
+                    .waived(false)
+                    .takenYear(enrollment != null ? enrollment.getTakenYear() : null)
+                    .takenSemester(enrollment != null ? enrollment.getTakenSemester() : null)
+                    .note("이수")
+                    .build());
+        }
+        return merged;
     }
 
     /**
