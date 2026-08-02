@@ -38,13 +38,14 @@ public class PlannableCourseCatalogService {
     }
 
     public PlannableCourseCatalogResponseDto getCatalog() {
-        return getCatalog(null, null, null, null, null, null);
+        return getCatalog(null, null, null, null, null, null, null);
     }
 
     public PlannableCourseCatalogResponseDto getCatalog(
             Long studentId,
             String keyword,
             String targetGrade,
+            Integer semester,
             String offeredTerm,
             String departmentName,
             String category
@@ -54,7 +55,7 @@ public class PlannableCourseCatalogService {
         Set<String> blockedRetakeCourseCodes = resolveBlockedRetakeCourseCodes(student);
 
         Map<String, CourseAccumulator> deduplicated = new LinkedHashMap<>();
-        List<TimetableTermData> terms = resolveTerms(offeredTerm);
+        List<TimetableTermData> terms = resolveTerms(semester, offeredTerm);
         terms.forEach(term -> parseTerm(term, deduplicated));
 
         if (deduplicated.isEmpty()) {
@@ -100,21 +101,30 @@ public class PlannableCourseCatalogService {
         return departmentName;
     }
 
-    private List<TimetableTermData> resolveTerms(String offeredTerm) {
-        if (offeredTerm == null || offeredTerm.isBlank()) {
-            return timetableCatalog.availableTerms();
-        }
-        String[] parts = offeredTerm.trim().split("-");
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("offeredTerm 형식은 YYYY-S 여야 합니다. 예: 2025-2");
-        }
+    private List<TimetableTermData> resolveTerms(Integer semester, String offeredTerm) {
+        if (offeredTerm != null && !offeredTerm.isBlank()) {
+            String[] parts = offeredTerm.trim().split("-");
+            if (parts.length != 2) {
+                throw new IllegalArgumentException("offeredTerm 형식은 YYYY-S 여야 합니다. 예: 2025-2");
+            }
 
-        int termYear = Integer.parseInt(parts[0]);
-        int semester = Integer.parseInt(parts[1]);
-        return List.of(
-                timetableCatalog.findTerm(termYear, semester)
-                        .orElseThrow(() -> new IllegalArgumentException("시간표 데이터 없음: " + offeredTerm))
-        );
+            int termYear = Integer.parseInt(parts[0]);
+            int targetSemester = Integer.parseInt(parts[1]);
+            return List.of(
+                    timetableCatalog.findTerm(termYear, targetSemester)
+                            .orElseThrow(() -> new IllegalArgumentException("시간표 데이터 없음: " + offeredTerm))
+            );
+        }
+        if (semester != null) {
+            if (semester != 1 && semester != 2) {
+                throw new IllegalArgumentException("semester는 1 또는 2만 가능합니다.");
+            }
+            return List.of(
+                    timetableCatalog.latestTermForSemester(semester)
+                            .orElseThrow(() -> new IllegalArgumentException(semester + "학기 시간표 데이터가 없습니다."))
+            );
+        }
+        return timetableCatalog.availableTerms();
     }
 
     private void parseTerm(TimetableTermData term, Map<String, CourseAccumulator> deduplicated) {

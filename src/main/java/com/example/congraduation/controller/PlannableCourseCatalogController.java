@@ -35,6 +35,8 @@ public class PlannableCourseCatalogController {
             @RequestParam(required = false) String keyword,
             @Parameter(description = "대상학년 필터", example = "2")
             @RequestParam(required = false) String targetGrade,
+            @Parameter(description = "검색 대상 학기 번호. 전달하면 최신 해당 학기 시간표를 사용합니다.", example = "1")
+            @RequestParam(required = false) Integer semester,
             @Parameter(description = "개설학기 필터", example = "2025-2")
             @RequestParam(required = false) String offeredTerm,
             @Parameter(description = "개설학과 필터", example = "컴퓨터공학과")
@@ -43,7 +45,15 @@ public class PlannableCourseCatalogController {
             @RequestParam(required = false) String category
     ) {
         return ResponseEntity.ok(
-                plannableCourseCatalogService.getCatalog(studentId, keyword, targetGrade, offeredTerm, departmentName, category)
+                plannableCourseCatalogService.getCatalog(
+                        studentId,
+                        keyword,
+                        targetGrade,
+                        semester,
+                        offeredTerm,
+                        departmentName,
+                        category
+                )
         );
     }
 }
