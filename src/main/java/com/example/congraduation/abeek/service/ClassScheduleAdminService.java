@@ -25,17 +25,20 @@ public class ClassScheduleAdminService {
     private final TimetableCatalog timetableCatalog;
     private final ObjectMapper objectMapper;
     private final Path dataDir;
+    private final Path resourcesDir;
 
     public ClassScheduleAdminService(
             TimetableExcelParser excelParser,
             TimetableCatalog timetableCatalog,
             ObjectMapper objectMapper,
-            @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir
+            @Value("${app.timetable.data-dir:./data/timetable-data}") String dataDir,
+            @Value("${app.timetable.resources-dir:./src/main/resources/timetable-data}") String resourcesDir
     ) {
         this.excelParser = excelParser;
         this.timetableCatalog = timetableCatalog;
         this.objectMapper = objectMapper;
         this.dataDir = Path.of(dataDir);
+        this.resourcesDir = Path.of(resourcesDir);
     }
 
     public AdminUploadResponseDto upload(MultipartFile file, int year, int semester) {
@@ -85,13 +88,57 @@ public class ClassScheduleAdminService {
     }
 
     private void persist(TimetableTermData termData) {
+        String fileName = termData.termYear() + "-" + termData.semester() + ".json";
+        writeJson(dataDir, fileName, termData, true);
+
+        Path resolvedResources = resolveResourcesDir();
+        // 로컬 레포: src/main/resources/timetable-data 에 반드시 기록 (깃허브에 보이는 그 폴더)
+        // 배포 jar만 돌리는 환경에서는 경로가 없어 data-dir만 사용
+        if (resolvedResources != null) {
+            writeJson(resolvedResources, fileName, termData, true);
+        } else {
+            log.warn("timetable resources-dir not found ({}). Wrote only to {}",
+                    resourcesDir.toAbsolutePath(), dataDir.toAbsolutePath());
+        }
+    }
+
+    /**
+     * 설정 경로가 있으면 사용하고, 없으면 현재 작업 디렉터리에서
+     * src/main/resources/timetable-data 를 위로 탐색한다.
+     */
+    private Path resolveResourcesDir() {
+        if (Files.isDirectory(resourcesDir)) {
+            return resourcesDir;
+        }
+        if (Files.isDirectory(resourcesDir.getParent())) {
+            return resourcesDir;
+        }
+        Path cursor = Path.of("").toAbsolutePath().normalize();
+        for (int i = 0; i < 6 && cursor != null; i++) {
+            Path candidate = cursor.resolve("src/main/resources/timetable-data");
+            if (Files.isDirectory(candidate) || Files.isDirectory(candidate.getParent())) {
+                return candidate;
+            }
+            cursor = cursor.getParent();
+        }
+        return null;
+    }
+
+    private void writeJson(Path dir, String fileName, TimetableTermData termData, boolean required) {
         try {
-            Files.createDirectories(dataDir);
-            Path target = dataDir.resolve(termData.termYear() + "-" + termData.semester() + ".json");
+            if (!required && !Files.isDirectory(dir) && !Files.isDirectory(dir.getParent())) {
+                log.debug("Skip timetable resources write; dir missing: {}", dir.toAbsolutePath());
+                return;
+            }
+            Files.createDirectories(dir);
+            Path target = dir.resolve(fileName);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(target.toFile(), termData);
-            log.info("Saved timetable override to {}", target.toAbsolutePath());
+            log.info("Saved timetable to {}", target.toAbsolutePath());
         } catch (IOException e) {
-            throw new IllegalArgumentException("강의시간표 파일 저장 실패: " + e.getMessage(), e);
+            if (required) {
+                throw new IllegalArgumentException("강의시간표 파일 저장 실패: " + e.getMessage(), e);
+            }
+            log.warn("Failed to update timetable resources at {}: {}", dir.toAbsolutePath(), e.getMessage());
         }
     }
 
