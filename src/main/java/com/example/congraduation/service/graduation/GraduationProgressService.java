@@ -206,6 +206,7 @@ public class GraduationProgressService {
                 student.getSecondaryMajor(),
                 graduationEligible,
                 graduationBlockers,
+                simulation == null ? graduationBlockers : simulation.graduationBlockers(),
                 majorTracks,
                 graduationWork,
                 englishCertification,
