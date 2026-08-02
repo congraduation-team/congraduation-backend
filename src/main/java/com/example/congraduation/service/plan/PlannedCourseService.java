@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -177,9 +178,22 @@ public class PlannedCourseService {
     }
 
     private void ensurePlannedSemester(Student student, int gradeYear, int semester) {
-        plannedSemesterRepository
-                .findByStudentIdAndGradeYearAndSemester(student.getId(), gradeYear, semester)
-                .orElseGet(() -> plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester)));
+        findCanonicalPlannedSemester(student.getId(), gradeYear, semester)
+                .orElseGet(() -> createPlannedSemester(student, gradeYear, semester));
+    }
+
+    private PlannedSemester createPlannedSemester(Student student, int gradeYear, int semester) {
+        try {
+            return plannedSemesterRepository.save(PlannedSemester.create(student, gradeYear, semester));
+        } catch (DataIntegrityViolationException ex) {
+            return findCanonicalPlannedSemester(student.getId(), gradeYear, semester)
+                    .orElseThrow(() -> ex);
+        }
+    }
+
+    private Optional<PlannedSemester> findCanonicalPlannedSemester(Long studentId, int gradeYear, int semester) {
+        return plannedSemesterRepository
+                .findTopByStudentIdAndGradeYearAndSemesterOrderByCreatedAtAscIdAsc(studentId, gradeYear, semester);
     }
 
     @Transactional(readOnly = true)
@@ -207,7 +221,7 @@ public class PlannedCourseService {
                 .findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(student.getId());
 
         for (PlannedSemester plannedSemester : plannedSemesters) {
-            semesterMap.put(
+            semesterMap.putIfAbsent(
                     toSemesterKey(plannedSemester.getGradeYear(), plannedSemester.getSemester()),
                     new SemesterAccumulator(plannedSemester.getId(), plannedSemester.getGradeYear(), plannedSemester.getSemester())
             );
@@ -305,7 +319,7 @@ public class PlannedCourseService {
 
         Integer gradeYear = requireGradeYear(request.gradeYear());
         Integer semester = requireSemester(request.semester());
-        return plannedSemesterRepository.findByStudentIdAndGradeYearAndSemester(studentId, gradeYear, semester)
+        return findCanonicalPlannedSemester(studentId, gradeYear, semester)
                 .orElseThrow(() -> new IllegalArgumentException("먼저 해당 빈 학기를 추가해주세요."));
     }
 

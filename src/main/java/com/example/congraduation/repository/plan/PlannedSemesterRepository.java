@@ -11,7 +11,11 @@ public interface PlannedSemesterRepository extends JpaRepository<PlannedSemester
 
     Optional<PlannedSemester> findByIdAndStudentId(Long id, Long studentId);
 
-    Optional<PlannedSemester> findByStudentIdAndGradeYearAndSemester(Long studentId, Integer gradeYear, Integer semester);
+    Optional<PlannedSemester> findTopByStudentIdAndGradeYearAndSemesterOrderByCreatedAtAscIdAsc(
+            Long studentId,
+            Integer gradeYear,
+            Integer semester
+    );
 
     void deleteByIdAndStudentId(Long id, Long studentId);
 }
