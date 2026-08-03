@@ -265,6 +265,48 @@ class PlannableCourseCatalogServiceTest {
                 .containsExactly("자료구조및알고리즘");
     }
 
+    @Test
+    void collapsesDuplicateRowsWithSameCourseCodeAndResolvedCategory() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("009960", ".(산학협력프로젝트)", "전공선택", "컴퓨터공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "지능기전공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "소프트웨어학과")
+                )
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().courseName()).isEqualTo("Capstone디자인(산학협력프로젝트)");
+        assertThat(response.courses().getFirst().category()).isEqualTo("전공선택");
+        assertThat(response.courses().getFirst().courseCodes()).containsExactly("009960");
+        assertThat(response.courses().getFirst().departments())
+                .containsExactlyInAnyOrder("컴퓨터공학과", "지능기전공학과", "소프트웨어학과");
+    }
+
     private TimetableOffering offering(String courseCode, String courseName, String category) {
         return offering(courseCode, courseName, category, "컴퓨터공학과");
     }
