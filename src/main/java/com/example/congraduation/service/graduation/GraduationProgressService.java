@@ -563,7 +563,7 @@ public class GraduationProgressService {
             List<CompletedCourseUploadRowDto> courses,
             DepartmentCurriculumPolicy policy
     ) {
-        if (policy.majorFoundationCredits() != null) {
+        if (hasMajorFoundationRequirement(policy)) {
             return courses;
         }
 
@@ -754,13 +754,17 @@ public class GraduationProgressService {
         );
     }
 
+    private boolean hasMajorFoundationRequirement(DepartmentCurriculumPolicy policy) {
+        return policy.majorFoundationCredits() != null && policy.majorFoundationCredits() > 0;
+    }
+
     private List<CategorySummaryDto> applyMajorFoundationSummary(
             List<CategorySummaryDto> categorySummaries,
             DepartmentCurriculumPolicy policy,
             BigDecimal majorFoundationEarnedCredits,
             List<CategoryCourseDto> majorFoundationCourses
     ) {
-        if (policy.majorFoundationCredits() == null || policy.majorFoundationCredits() <= 0) {
+        if (!hasMajorFoundationRequirement(policy)) {
             return categorySummaries;
         }
 
@@ -944,7 +948,7 @@ public class GraduationProgressService {
             List<CompletedCourseUploadRowDto> completedCourses
     ) {
         BigDecimal earned = creditOf(summaries, "전기", "전공기초");
-        if (policy.majorFoundationCredits() == null || policy.majorFoundationCredits() <= 0) {
+        if (!hasMajorFoundationRequirement(policy)) {
             return earned;
         }
 
@@ -975,7 +979,7 @@ public class GraduationProgressService {
             DepartmentCurriculumPolicy policy,
             List<CompletedCourseUploadRowDto> completedCourses
     ) {
-        if (policy.majorFoundationCredits() == null || policy.majorFoundationCredits() <= 0) {
+        if (!hasMajorFoundationRequirement(policy)) {
             return List.of();
         }
 

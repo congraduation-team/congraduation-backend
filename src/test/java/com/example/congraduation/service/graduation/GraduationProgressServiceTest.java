@@ -243,6 +243,89 @@ class GraduationProgressServiceTest {
     }
 
     @Test
+    void resolvePolicyHasNoMajorFoundationRequirementFor2021To2023ComputerScience() {
+        DepartmentCurriculumPolicyService service = new DepartmentCurriculumPolicyService();
+
+        Student student2021 = Student.create(
+                "21012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2021,
+                "ACTIVE",
+                false
+        );
+        Student student2022 = Student.create(
+                "22012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2022,
+                "ACTIVE",
+                false
+        );
+        Student student2023 = Student.create(
+                "23012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2023,
+                "ACTIVE",
+                false
+        );
+
+        assertEquals(null, service.resolve(student2021).majorFoundationCredits());
+        assertEquals(null, service.resolve(student2022).majorFoundationCredits());
+        assertEquals(null, service.resolve(student2023).majorFoundationCredits());
+    }
+
+    @Test
+    void normalizeCoursesForPolicyTreatsLegacyMajorFoundationAsMajorElectiveWhenRequirementIsAbsent() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "normalizeCoursesForPolicy",
+                List.class,
+                DepartmentCurriculumPolicy.class
+        );
+        method.setAccessible(true);
+
+        DepartmentCurriculumPolicy policy = new DepartmentCurriculumPolicy(
+                "컴퓨터공학과",
+                2023,
+                13,
+                6,
+                15,
+                null,
+                130,
+                72,
+                33,
+                39,
+                Map.of("기필", 15, "전필", 33, "전선", 39)
+        );
+
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2023", "2학기", "007313", "공업수학1", "전기", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2023", "2학기", "009954", "알고리즘및실습", "전필", "3", "GRADE", "A0", "4.0")
+        );
+
+        @SuppressWarnings("unchecked")
+        List<CompletedCourseUploadRowDto> normalized =
+                (List<CompletedCourseUploadRowDto>) method.invoke(service, courses, policy);
+
+        assertEquals("전선", normalized.getFirst().category());
+        assertEquals("전필", normalized.get(1).category());
+    }
+
+    @Test
     void calculateMajorFoundationCreditsCountsOnlyTwoNaturalLifeOptionalCourses() throws Exception {
         GraduationProgressService service = new GraduationProgressService(
                 null,
