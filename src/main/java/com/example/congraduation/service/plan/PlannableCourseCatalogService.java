@@ -231,7 +231,7 @@ public class PlannableCourseCatalogService {
             String resolvedCategory = normalizeDisplayText(offering.category());
 
             CourseAccumulator accumulator = deduplicated.computeIfAbsent(
-                    toCourseKey(offering.courseCode(), courseName, resolvedCategory),
+                    toCourseKey(offering.courseCode(), courseName, resolvedCategory, resolvedDepartment),
                     ignored -> new CourseAccumulator(courseName, resolvedCategory)
             );
             String preferredName = preferCourseName(accumulator.courseName(), courseName);
@@ -245,7 +245,7 @@ public class PlannableCourseCatalogService {
                         accumulator.credits(),
                         accumulator.offeredTerms()
                 );
-                deduplicated.put(toCourseKey(offering.courseCode(), courseName, resolvedCategory), accumulator);
+                deduplicated.put(toCourseKey(offering.courseCode(), courseName, resolvedCategory, resolvedDepartment), accumulator);
             }
             addIfPresent(accumulator.courseCodes(), offering.courseCode());
             accumulator.departments().add(resolvedDepartment);
@@ -396,12 +396,20 @@ public class PlannableCourseCatalogService {
         return isBlank(value) ? "미지정" : value.trim();
     }
 
-    private String toCourseKey(String courseCode, String courseName, String category) {
+    private String toCourseKey(String courseCode, String courseName, String category, String department) {
         String normalizedCode = normalizeCourseCode(courseCode);
+        String normalizedCategory = normalize(category);
+        String normalizedDepartment = normalize(department);
         if (!normalizedCode.isBlank()) {
-            return normalizedCode + "|" + normalize(category);
+            if (isMajorCategory(category) && !normalizedDepartment.isBlank()) {
+                return normalizedCode + "|" + normalizedCategory + "|" + normalizedDepartment;
+            }
+            return normalizedCode + "|" + normalizedCategory;
         }
-        return normalize(courseName) + "|" + normalize(category);
+        if (isMajorCategory(category) && !normalizedDepartment.isBlank()) {
+            return normalize(courseName) + "|" + normalizedCategory + "|" + normalizedDepartment;
+        }
+        return normalize(courseName) + "|" + normalizedCategory;
     }
 
     private String toDisplayCourseKey(CourseAccumulator accumulator, String resolvedCategory) {
