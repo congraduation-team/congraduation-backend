@@ -163,10 +163,12 @@ public class GraduationProgressService {
         SwCodingCertificationProgressDto swCodingCertification =
                 swCodingCertificationService.evaluate(student, completedCourses);
         CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
+        BigDecimal commonLiberalEarnedCredits =
+                calculateCommonLiberalCredits(student, transcriptSummary.categorySummaries(), completedCourses);
         CategoryProgressDto commonLiberalProgress =
-                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.commonLiberalCredits(), "공필", "교필");
+                buildCategoryProgress(commonLiberalEarnedCredits, policy.commonLiberalCredits());
         List<CategoryCourseDto> commonLiberalCourses =
-                extractCategoryCourses(transcriptSummary.categorySummaries(), "공필", "교필");
+                extractCompletedCommonLiberalCourses(student, completedCourses);
         List<RemainingCommonLiberalCourseDto> remainingCommonLiberalRequiredCourses =
                 extractRemainingCommonLiberalRequiredCourses(student, completedCourses);
         List<RequirementCourseDto> remainingMajorRequiredCourses =
@@ -318,7 +320,7 @@ public class GraduationProgressService {
 
         if (requirement.requiredCredits() <= 0 || requirement.requiredAreaCount() <= 0) {
             return new BalancedLiberalEvaluation(
-                    new CategoryProgressDto("0", null, false, null),
+                    new CategoryProgressDto("0", null, true, null),
                     0,
                     0,
                     List.of()
@@ -883,6 +885,44 @@ public class GraduationProgressService {
                 .toList();
     }
 
+    private BigDecimal calculateCommonLiberalCredits(
+            Student student,
+            List<CategorySummaryDto> categorySummaries,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        List<CategoryCourseDto> requiredCourses =
+                balancedLiberalCoursePolicyService.requiredCommonLiberalCourses(student.getAdmissionYear());
+        if (requiredCourses.isEmpty()) {
+            return creditOf(categorySummaries, "공필", "교필");
+        }
+
+        return requiredCourses.stream()
+                .filter(requiredCourse -> hasCompletedEquivalentCommonLiberalCourse(requiredCourse, completedCourses))
+                .map(requiredCourse -> toDecimal(requiredCourse.credit()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private List<CategoryCourseDto> extractCompletedCommonLiberalCourses(
+            Student student,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        List<CategoryCourseDto> requiredCourses =
+                balancedLiberalCoursePolicyService.requiredCommonLiberalCourses(student.getAdmissionYear());
+        if (requiredCourses.isEmpty()) {
+            return List.of();
+        }
+
+        return requiredCourses.stream()
+                .map(requiredCourse -> findCompletedEquivalentCommonLiberalCourse(requiredCourse, completedCourses))
+                .flatMap(java.util.Optional::stream)
+                .map(course -> new CategoryCourseDto(
+                        course.courseCode(),
+                        course.courseName(),
+                        course.credit()
+                ))
+                .toList();
+    }
+
     private List<String> resolveMissingBalancedLiberalAreas(
             Student student,
             List<BalancedLiberalAreaProgressDto> areaProgresses
@@ -925,6 +965,13 @@ public class GraduationProgressService {
             CategoryCourseDto requiredCourse,
             List<CompletedCourseUploadRowDto> completedCourses
     ) {
+        return findCompletedEquivalentCommonLiberalCourse(requiredCourse, completedCourses).isPresent();
+    }
+
+    private java.util.Optional<CompletedCourseUploadRowDto> findCompletedEquivalentCommonLiberalCourse(
+            CategoryCourseDto requiredCourse,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
         Set<String> equivalentNames =
                 balancedLiberalCoursePolicyService.commonLiberalEquivalentNames(requiredCourse.courseCode());
         if (equivalentNames.isEmpty()) {
@@ -938,7 +985,11 @@ public class GraduationProgressService {
         return completedCourses.stream()
                 .map(CompletedCourseUploadRowDto::courseName)
                 .map(this::normalizeCourseName)
-                .anyMatch(normalizedEquivalentNames::contains);
+                .filter(normalizedEquivalentNames::contains)
+                .findFirst()
+                .flatMap(matchedName -> completedCourses.stream()
+                        .filter(course -> normalizeCourseName(course.courseName()).equals(matchedName))
+                        .findFirst());
     }
 
     private BigDecimal calculateMajorFoundationCredits(

@@ -2,6 +2,7 @@ package com.example.congraduation.service.graduation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
@@ -323,6 +324,100 @@ class GraduationProgressServiceTest {
 
         assertEquals("전선", normalized.getFirst().category());
         assertEquals("전필", normalized.get(1).category());
+    }
+
+    @Test
+    void calculateCommonLiberalCreditsCountsEquivalentCourseRegardlessOfCategory() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                new BalancedLiberalCoursePolicyService(),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "calculateCommonLiberalCredits",
+                Student.class,
+                List.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "24012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        List<CategorySummaryDto> summaries = List.of(
+                new CategorySummaryDto("공필", "11", null, false, null, new ArrayList<>())
+        );
+        List<CompletedCourseUploadRowDto> completedCourses = List.of(
+                new CompletedCourseUploadRowDto("2024", "2학기", "GEN001", "취창업과진로설계", "교선", "1", "GRADE", "A0", "4.0")
+        );
+
+        BigDecimal earned = (BigDecimal) method.invoke(service, student, summaries, completedCourses);
+
+        assertEquals(0, new BigDecimal("1").compareTo(earned));
+    }
+
+    @Test
+    void evaluateBalancedLiberalTreats2021StudentAsNotApplicable() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                new BalancedLiberalCoursePolicyService(),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "evaluateBalancedLiberal",
+                Student.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "21012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2021,
+                "ACTIVE",
+                false
+        );
+
+        Object evaluation = method.invoke(service, student, List.of());
+        Method progressMethod = evaluation.getClass().getDeclaredMethod("progress");
+        progressMethod.setAccessible(true);
+        CategoryProgressDto progress = (CategoryProgressDto) progressMethod.invoke(evaluation);
+
+        assertTrue(progress.satisfied());
+        assertEquals(null, progress.requiredCredits());
     }
 
     @Test
