@@ -3,16 +3,21 @@ package com.example.congraduation.service.graduation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
 import com.example.congraduation.dto.graduation.GraduationWorkProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
+import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
+import java.math.BigDecimal;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class GraduationProgressServiceTest {
@@ -66,6 +71,295 @@ class GraduationProgressServiceTest {
         assertEquals(true, commonLiberal.satisfied());
         assertEquals("15", majorFoundation.earnedCredits());
         assertEquals(true, majorFoundation.satisfied());
+    }
+
+    @Test
+    void calculateMajorFoundationCreditsCountsItFoundationCoursesEvenWhenTheyAreMajorRequired() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null,
+                null,
+                null,
+                null,
+                new DepartmentCurriculumPolicyService(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "calculateMajorFoundationCredits",
+                Student.class,
+                DepartmentCurriculumPolicy.class,
+                List.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "24012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2024,
+                "ACTIVE",
+                false
+        );
+        DepartmentCurriculumPolicy policy = new DepartmentCurriculumPolicy(
+                "컴퓨터공학과",
+                2024,
+                13,
+                9,
+                9,
+                15,
+                130,
+                60,
+                21,
+                39,
+                Map.of("전기", 15, "전필", 21, "전선", 39)
+        );
+
+        List<CategorySummaryDto> summaries = List.of(
+                new CategorySummaryDto("전필", "15", null, false, null, new ArrayList<>()),
+                new CategorySummaryDto("전기", "0", null, false, null, new ArrayList<>())
+        );
+        List<CompletedCourseUploadRowDto> completedCourses = List.of(
+                new CompletedCourseUploadRowDto("2024", "1학기", "009912", "C프로그래밍및실습", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2024", "2학기", "009955", "고급C프로그래밍및실습", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2024", "1학기", "007330", "확률및통계", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2024", "2학기", "001725", "선형대수", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2024", "2학기", "007313", "공업수학1", "전필", "3", "GRADE", "A0", "4.0")
+        );
+
+        BigDecimal earned = (BigDecimal) method.invoke(service, student, policy, summaries, completedCourses);
+
+        assertEquals(0, new BigDecimal("15").compareTo(earned));
+    }
+
+    @Test
+    void resolveMajorFoundationCourseRuleReturnsItFoundationSetForComputerScience2024() {
+        DepartmentCurriculumPolicyService service = new DepartmentCurriculumPolicyService();
+        Student student = Student.create(
+                "24012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        DepartmentCurriculumPolicyService.MajorFoundationCourseRule rule =
+                service.resolveMajorFoundationCourseRule(student);
+
+        assertEquals(
+                Set.of("확률및통계", "확률통계및프로그래밍", "C프로그래밍및실습", "고급C프로그래밍및실습", "선형대수", "선형대수및프로그래밍", "공업수학1"),
+                rule.requiredCourseNames()
+        );
+        assertEquals(Set.of(), rule.optionalCourseNames());
+        assertEquals(0, rule.optionalCourseLimit());
+    }
+
+    @Test
+    void resolveMajorFoundationCourseRuleReturnsBusinessHotelSetFor2026() {
+        DepartmentCurriculumPolicyService service = new DepartmentCurriculumPolicyService();
+        Student student = Student.create(
+                "26012345",
+                "테스트",
+                "경영학부",
+                MajorType.SINGLE,
+                null,
+                1,
+                2026,
+                "ACTIVE",
+                false
+        );
+
+        DepartmentCurriculumPolicyService.MajorFoundationCourseRule rule =
+                service.resolveMajorFoundationCourseRule(student);
+
+        assertEquals(Set.of("경영학원론", "경제학원론", "Hospitality경영원론"), rule.requiredCourseNames());
+        assertEquals(Set.of(), rule.optionalCourseNames());
+        assertEquals(0, rule.optionalCourseLimit());
+    }
+
+    @Test
+    void resolveMajorFoundationCourseRuleReturnsNaturalLifeSetFor2026() {
+        DepartmentCurriculumPolicyService service = new DepartmentCurriculumPolicyService();
+        Student student = Student.create(
+                "26022345",
+                "테스트",
+                "화학과",
+                MajorType.SINGLE,
+                null,
+                1,
+                2026,
+                "ACTIVE",
+                false
+        );
+
+        DepartmentCurriculumPolicyService.MajorFoundationCourseRule rule =
+                service.resolveMajorFoundationCourseRule(student);
+
+        assertEquals(
+                Set.of("일반물리학1", "일반화학1", "일반생물학1"),
+                rule.requiredCourseNames()
+        );
+        assertEquals(
+                Set.of("미적분학2", "기초통계학", "기초천문학", "기초생물통계학", "일반물리학2", "일반화학2", "일반생물학2"),
+                rule.optionalCourseNames()
+        );
+        assertEquals(2, rule.optionalCourseLimit());
+    }
+
+    @Test
+    void resolveMajorFoundationCourseRuleReturnsEmptyFor2023ComputerScience() {
+        DepartmentCurriculumPolicyService service = new DepartmentCurriculumPolicyService();
+        Student student = Student.create(
+                "23012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2023,
+                "ACTIVE",
+                false
+        );
+
+        DepartmentCurriculumPolicyService.MajorFoundationCourseRule rule =
+                service.resolveMajorFoundationCourseRule(student);
+
+        assertEquals(Set.of(), rule.requiredCourseNames());
+        assertEquals(Set.of(), rule.optionalCourseNames());
+        assertEquals(0, rule.optionalCourseLimit());
+    }
+
+    @Test
+    void calculateMajorFoundationCreditsCountsOnlyTwoNaturalLifeOptionalCourses() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null,
+                null,
+                null,
+                null,
+                new DepartmentCurriculumPolicyService(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "calculateMajorFoundationCredits",
+                Student.class,
+                DepartmentCurriculumPolicy.class,
+                List.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "26022345",
+                "테스트",
+                "화학과",
+                MajorType.SINGLE,
+                null,
+                1,
+                2026,
+                "ACTIVE",
+                false
+        );
+        DepartmentCurriculumPolicy policy = new DepartmentCurriculumPolicy(
+                "화학과",
+                2026,
+                12,
+                9,
+                9,
+                16,
+                130,
+                60,
+                15,
+                45,
+                Map.of("전기", 16, "전필", 15, "전선", 45)
+        );
+
+        List<CategorySummaryDto> summaries = List.of(
+                new CategorySummaryDto("전필", "0", null, false, null, new ArrayList<>()),
+                new CategorySummaryDto("전기", "0", null, false, null, new ArrayList<>())
+        );
+        List<CompletedCourseUploadRowDto> completedCourses = List.of(
+                new CompletedCourseUploadRowDto("2026", "1학기", "PHY1", "일반물리학1", "전필", "4", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "1학기", "CHEM1", "일반화학1", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "1학기", "BIO1", "일반생물학1", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "PHY2", "일반물리학2", "전필", "4", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "CALC2", "미적분학2", "전필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "STATB", "기초통계학", "전필", "3", "GRADE", "A0", "4.0")
+        );
+
+        BigDecimal earned = (BigDecimal) method.invoke(service, student, policy, summaries, completedCourses);
+
+        assertEquals(0, new BigDecimal("17").compareTo(earned));
+    }
+
+    @Test
+    void buildMajorCreditSummaryExcludesMajorFoundationFromMajorTotal() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = java.util.Arrays.stream(GraduationProgressService.class.getDeclaredMethods())
+                .filter(candidate -> candidate.getName().equals("buildMajorCreditSummary"))
+                .findFirst()
+                .orElseThrow();
+        method.setAccessible(true);
+
+        List<CategorySummaryDto> summaries = List.of(
+                new CategorySummaryDto("전필", "21", null, false, null, new ArrayList<>()),
+                new CategorySummaryDto("전선", "39", null, false, null, new ArrayList<>()),
+                new CategorySummaryDto("전기", "15", null, false, null, new ArrayList<>())
+        );
+
+        com.example.congraduation.dto.transcript.TranscriptSummaryDto transcriptSummary =
+                new com.example.congraduation.dto.transcript.TranscriptSummaryDto(
+                        "120",
+                        "420",
+                        "3.5",
+                        summaries
+                );
+        DepartmentCurriculumPolicy policy = new DepartmentCurriculumPolicy(
+                "컴퓨터공학과",
+                2024,
+                13,
+                9,
+                9,
+                15,
+                130,
+                60,
+                21,
+                39,
+                Map.of("전기", 15, "전필", 21, "전선", 39)
+        );
+
+        MajorCreditSummaryDto result = (MajorCreditSummaryDto) method.invoke(
+                service,
+                transcriptSummary,
+                policy,
+                null,
+                new BigDecimal("15")
+        );
+
+        assertEquals("60", result.earnedMajorCredits());
+        assertEquals("15", result.earnedMajorFoundationCredits());
     }
 
     @Test
