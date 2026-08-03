@@ -129,7 +129,7 @@ class PlannableCourseCatalogServiceTest {
     }
 
     @Test
-    void nonMajorElectiveWithoutOwnMajorEquivalentBecomesLiberalArts() {
+    void crossMajorRequiredAndElectiveBecomeMajorElectiveForAiConvergenceCollegeStudents() {
         TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
         StudentRepository studentRepository = mock(StudentRepository.class);
         TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
@@ -176,13 +176,13 @@ class PlannableCourseCatalogServiceTest {
                 null
         );
 
-        assertThat(response.count()).isEqualTo(2);
+        assertThat(response.count()).isEqualTo(1);
         assertThat(response.courses()).extracting(course -> course.category())
-                .containsExactlyInAnyOrder("전공필수", "교양");
+                .containsExactly("전공선택");
     }
 
     @Test
-    void keepsSameCourseCodeSeparatedWhenResolvedCategoryDiffers() {
+    void crossMajorRequiredWithoutRecognitionPolicyBecomesLiberalArts() {
         TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
         StudentRepository studentRepository = mock(StudentRepository.class);
         TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
@@ -200,7 +200,7 @@ class PlannableCourseCatalogServiceTest {
         Student student = Student.create(
                 "24000001",
                 "테스트학생",
-                "컴퓨터공학과",
+                "경영학부",
                 MajorType.SINGLE,
                 null,
                 3,
@@ -229,9 +229,9 @@ class PlannableCourseCatalogServiceTest {
                 null
         );
 
-        assertThat(response.count()).isEqualTo(2);
+        assertThat(response.count()).isEqualTo(1);
         assertThat(response.courses()).extracting(course -> course.category())
-                .containsExactlyInAnyOrder("전공필수", "교양");
+                .containsExactly("교양");
     }
 
     @Test
@@ -482,7 +482,7 @@ class PlannableCourseCatalogServiceTest {
                 .containsExactly("전공필수");
         assertThat(response.courses()).extracting(course -> course.courseName())
                 .containsOnly("Capstone디자인(산학협력프로젝트)");
-        assertThat(response.courses().get(0).offeredTerms()).containsExactly("2025-2");
+        assertThat(response.courses().getFirst().offeredTerms()).containsExactly("2025-2");
     }
 
     @Test
@@ -535,9 +535,11 @@ class PlannableCourseCatalogServiceTest {
         );
 
         assertThat(response.courses()).extracting(course -> course.courseName())
-                .containsExactlyInAnyOrder("이산수학및프로그래밍", "자기주도창의전공Ⅰ");
+                .containsExactlyInAnyOrder("이산수학및프로그래밍", "알고리즘및실습", "자기주도창의전공Ⅰ");
         assertThat(response.courses()).extracting(course -> course.departments())
-                .allMatch(departments -> departments.contains("컴퓨터공학과") || departments.contains("교양대학"));
+                .allMatch(departments -> departments.contains("컴퓨터공학과")
+                        || departments.contains("AI로봇학과")
+                        || departments.contains("교양대학"));
     }
 
     @Test
@@ -609,6 +611,107 @@ class PlannableCourseCatalogServiceTest {
                 2025,
                 2,
                 List.of(offering("000137", "경영학원론", "전공기초", "경영학부"))
+        );
+
+        Student student = Student.create(
+                "26000001",
+                "테스트학생",
+                "경영학부",
+                MajorType.SINGLE,
+                null,
+                1,
+                2026,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                "경영학원론",
+                null,
+                2,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().category()).isEqualTo("전공기초");
+    }
+
+    @Test
+    void crossMajorFoundationWithoutOwnEquivalentBecomesLiberalArts() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(offering("000137", "경영학원론", "전공기초", "경영학부"))
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2024,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                "경영학원론",
+                null,
+                2,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().category()).isEqualTo("교양");
+    }
+
+    @Test
+    void crossMajorFoundationWithSameOwnCourseCodeStaysMajorFoundation() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(
+                        offering("000137", "경영학원론", "전공기초", "경영학부"),
+                        offering("000137", "경영학원론", "전공기초", "경제학과")
+                )
         );
 
         Student student = Student.create(
