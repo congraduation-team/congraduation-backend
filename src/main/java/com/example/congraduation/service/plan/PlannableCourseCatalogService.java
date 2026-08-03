@@ -63,7 +63,15 @@ public class PlannableCourseCatalogService {
             throw new IllegalStateException("적재된 시간표 데이터가 없습니다.");
         }
 
-        List<CourseAccumulator> displayAccumulators = mergeForDisplay(deduplicated.values(), referenceDepartmentName);
+        Set<String> ownMajorElectiveCourseCodes = resolveOwnMajorElectiveCourseCodes(
+                deduplicated.values(),
+                referenceDepartmentName
+        );
+        List<CourseAccumulator> displayAccumulators = mergeForDisplay(
+                deduplicated.values(),
+                referenceDepartmentName,
+                ownMajorElectiveCourseCodes
+        );
 
         List<CourseAccumulator> filteredAccumulators = displayAccumulators.stream()
                 .filter(accumulator -> matchesKeyword(accumulator, keyword))
@@ -135,11 +143,16 @@ public class PlannableCourseCatalogService {
 
     private List<CourseAccumulator> mergeForDisplay(
             Iterable<CourseAccumulator> accumulators,
-            String referenceDepartmentName
+            String referenceDepartmentName,
+            Set<String> ownMajorElectiveCourseCodes
     ) {
         Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
         for (CourseAccumulator accumulator : accumulators) {
-            String resolvedCategory = resolveCategory(accumulator, referenceDepartmentName);
+            String resolvedCategory = resolveCategory(
+                    accumulator,
+                    referenceDepartmentName,
+                    ownMajorElectiveCourseCodes
+            );
             String displayKey = toDisplayCourseKey(accumulator, resolvedCategory);
             CourseAccumulator existing = merged.get(displayKey);
 
@@ -314,8 +327,7 @@ public class PlannableCourseCatalogService {
             return true;
         }
         String normalizedCategory = normalize(category);
-        String resolvedCategory = resolveCategory(accumulator, departmentName);
-        if (!normalize(resolvedCategory).contains(normalizedCategory)) {
+        if (!normalize(accumulator.category()).contains(normalizedCategory)) {
             return false;
         }
         if (!isMajorElectiveFilter(category)) {
@@ -330,7 +342,11 @@ public class PlannableCourseCatalogService {
         return isStudentMajorDepartment(accumulator, departmentName);
     }
 
-    private String resolveCategory(CourseAccumulator accumulator, String departmentName) {
+    private String resolveCategory(
+            CourseAccumulator accumulator,
+            String departmentName,
+            Set<String> ownMajorElectiveCourseCodes
+    ) {
         String rawCategory = accumulator.category();
         if (!isMajorCategory(rawCategory)) {
             return rawCategory;
@@ -344,7 +360,48 @@ public class PlannableCourseCatalogService {
         if (isStudentMajorDepartment(accumulator, departmentName)) {
             return rawCategory;
         }
+        if (isMajorElectiveCategory(rawCategory)) {
+            if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes)) {
+                return rawCategory;
+            }
+            return "교양";
+        }
         return "전공선택";
+    }
+
+    private Set<String> resolveOwnMajorElectiveCourseCodes(
+            Iterable<CourseAccumulator> accumulators,
+            String departmentName
+    ) {
+        if (departmentName == null || departmentName.isBlank()) {
+            return Set.of();
+        }
+        Set<String> courseCodes = new LinkedHashSet<>();
+        for (CourseAccumulator accumulator : accumulators) {
+            if (!isMajorElectiveCategory(accumulator.category())) {
+                continue;
+            }
+            if (!isStudentMajorDepartment(accumulator, departmentName)) {
+                continue;
+            }
+            accumulator.courseCodes().stream()
+                    .map(this::normalizeCourseCode)
+                    .filter(code -> !code.isBlank())
+                    .forEach(courseCodes::add);
+        }
+        return courseCodes;
+    }
+
+    private boolean hasOwnMajorElectiveEquivalent(
+            CourseAccumulator accumulator,
+            Set<String> ownMajorElectiveCourseCodes
+    ) {
+        if (ownMajorElectiveCourseCodes.isEmpty()) {
+            return false;
+        }
+        return accumulator.courseCodes().stream()
+                .map(this::normalizeCourseCode)
+                .anyMatch(ownMajorElectiveCourseCodes::contains);
     }
 
     private boolean isStudentMajorDepartment(CourseAccumulator accumulator, String departmentName) {
@@ -525,6 +582,10 @@ public class PlannableCourseCatalogService {
     private boolean isMajorElectiveFilter(String category) {
         String normalizedCategory = normalize(category);
         return normalizedCategory.equals("전선") || normalizedCategory.contains("전공선택");
+    }
+
+    private boolean isMajorElectiveCategory(String category) {
+        return isMajorElectiveFilter(category);
     }
 
     private record CourseAccumulator(
