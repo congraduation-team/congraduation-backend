@@ -1,6 +1,7 @@
 package com.example.congraduation.roadmap.service;
 
 import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
+import com.example.congraduation.abeek.timetable.TimetableOffering;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -10,6 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StudentRoadmapCategoryTest {
 
     private final StudentRoadmapService service = new StudentRoadmapService(null, null, null, null, null);
+
+    private static TimetableOffering offering(String openingDepartment, String category, String courseName) {
+        return new TimetableOffering(
+                null, openingDepartment, "000001", "01", courseName, category,
+                "1", 3.0, null, null, null, null, null
+        );
+    }
 
     @Test
     void normalizesLiberalAliasesToGeneralRequired() {
@@ -81,5 +89,28 @@ class StudentRoadmapCategoryTest {
         assertThat(allow.matches("002638", "일반물리학1")).isTrue();
         assertThat(allow.matches(null, "기초미적분학")).isFalse();
         assertThat(allow.matches(null, "일반물리학및실험1")).isFalse();
+    }
+
+    @Test
+    void nonAbeekDoesNotInjectCampusStemFoundation() {
+        Set<String> filmOpenings = Set.of("영화예술학과");
+        TimetableOffering physics = offering("대양휴머니티칼리지", "기초필수", "일반물리학1");
+        TimetableOffering calc = offering("대양휴머니티칼리지", "기초필수", "미적분학1");
+        TimetableOffering filmMajor = offering("영화예술학과", "전공필수", "영화제작실습1");
+
+        assertThat(service.shouldIncludeOffering(physics, filmOpenings, false)).isFalse();
+        assertThat(service.shouldIncludeOffering(calc, filmOpenings, false)).isFalse();
+        assertThat(service.shouldIncludeOffering(filmMajor, filmOpenings, false)).isTrue();
+    }
+
+    @Test
+    void abeekStillInjectsCampusFoundationForBsmFiltering() {
+        Set<String> cseOpenings = Set.of("컴퓨터공학과");
+        TimetableOffering physics = offering("대양휴머니티칼리지", "기초필수", "일반물리학1");
+        TimetableOffering cseMajor = offering("컴퓨터공학과", "전공필수", "자료구조");
+
+        assertThat(service.shouldIncludeOffering(physics, cseOpenings, true)).isTrue();
+        assertThat(service.shouldIncludeOffering(cseMajor, cseOpenings, true)).isTrue();
+        assertThat(service.isCommonRequiredOffering(physics)).isTrue();
     }
 }

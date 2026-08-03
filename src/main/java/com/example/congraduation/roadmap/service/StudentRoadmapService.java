@@ -165,7 +165,9 @@ public class StudentRoadmapService {
         for (TimetableTermData term : sourceTerms) {
             int used = 0;
             for (TimetableOffering offering : term.offerings()) {
-                if (!shouldIncludeOffering(offering, openingNames)) {
+                // 전교 공통 기초필수(미적분·물리 등)는 공학인증(ABEEK) 학과에만 주입.
+                // 영화예술 등 비공학은 개설학과 매칭 과목만 — STEM 기필 미이수 슬롯이 붙지 않게 한다.
+                if (!shouldIncludeOffering(offering, openingNames, abeekTarget)) {
                     continue;
                 }
                 Integer gradeYear = parseGradeYear(offering.gradeYear());
@@ -198,6 +200,10 @@ public class StudentRoadmapService {
         // 학생 로드맵: 교양(GENERAL)은 기이수만. 시간표 공통교양필수 미이수 슬롯 제거.
         if (studentDbId != null) {
             stripIncompleteGeneralCourses(byTermAndCode, completion);
+            if (!abeekTarget) {
+                // 비공학: 공통 STEM 기초필수 미이수는 제거(기이수만 유지)
+                stripIncompleteCommonFoundation(byTermAndCode, completion);
+            }
             // 공학인증 학과: 전교 공통 기초필수(화학2·생물 등) 중 소속 BSM이 아닌 미이수 슬롯 제거
             if (abeekTarget && abeekCode != null && admissionYear != null) {
                 stripIncompleteNonCurriculumBsm(
@@ -358,19 +364,21 @@ public class StudentRoadmapService {
         return false;
     }
 
-    private boolean shouldIncludeOffering(TimetableOffering offering, Set<String> openingNames) {
+    boolean shouldIncludeOffering(TimetableOffering offering, Set<String> openingNames, boolean injectCommonFoundation) {
         if (matchesOpeningDepartment(offering, openingNames)) {
             return true;
         }
-        return isCommonRequiredOffering(offering);
+        // 대양휴머니티칼리지 개설 STEM 기초필수·학문기초는 ABEEK 학과 로드맵에만 공통 주입
+        return injectCommonFoundation && isCommonRequiredOffering(offering);
     }
 
     /**
      * 전학생 공통으로 시간표에서 넣는 것: 기초필수·학문기초만.
      * 교양필수·자기주도창의전공은 기이수(placeCompleted)로만 넣는다.
      * (자기주도 Ⅲ·Ⅳ 등이 1학년 칸에 무분별하게 붙는 것 방지)
+     * 비공학인증 학과에는 주입하지 않는다({@link #shouldIncludeOffering}).
      */
-    private boolean isCommonRequiredOffering(TimetableOffering offering) {
+    boolean isCommonRequiredOffering(TimetableOffering offering) {
         String cat = offering.category() == null ? "" : offering.category().replaceAll("\\s+", "");
         return cat.contains("기초필수") || cat.contains("학문기초");
     }
@@ -400,6 +408,31 @@ public class StudentRoadmapService {
                 String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
                 String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
                 if ("GENERAL".equals(bucket)) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    /**
+     * 비공학인증 학생 로드맵: 전교 공통 기초필수·학문기초 미이수 슬롯을 제거한다.
+     * (영화예술 등에 미적분·일반물리학이 남는 것 방지. 기이수는 placeCompleted로만 유지.)
+     */
+    private void stripIncompleteCommonFoundation(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion
+    ) {
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            var iterator = termMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                if (completion.findByCourseCode(entry.getKey()) != null) {
+                    continue;
+                }
+                AggregatedCourse agg = entry.getValue();
+                String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
+                String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+                if ("BSM".equals(bucket) || "기초필수".equals(displayCategory)) {
                     iterator.remove();
                 }
             }
