@@ -414,7 +414,7 @@ public class PlannableCourseCatalogService {
     ) {
         String rawCategory = accumulator.category();
         if (!isMajorCategory(rawCategory)) {
-            return rawCategory;
+            return normalizeNonMajorCategoryLabel(rawCategory);
         }
         if (isGloballyPlannableCourse(accumulator.courseName())) {
             return normalizeMajorCategoryLabel(rawCategory);
@@ -469,6 +469,14 @@ public class PlannableCourseCatalogService {
             return "전공필수";
         }
         return normalizeMajorCategoryLabel(rawCategory);
+    }
+
+    private String normalizeNonMajorCategoryLabel(String category) {
+        String normalizedCategory = normalize(category);
+        if (normalizedCategory.contains("교양")) {
+            return "교양";
+        }
+        return category;
     }
 
     private Set<String> resolveOwnMajorElectiveCourseCodes(
