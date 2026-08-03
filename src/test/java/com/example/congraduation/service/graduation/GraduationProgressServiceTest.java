@@ -428,6 +428,53 @@ class GraduationProgressServiceTest {
     }
 
     @Test
+    void calculateCommonLiberalCreditsCountsCareerCourse012152Alias() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                new BalancedLiberalCoursePolicyService(),
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "calculateCommonLiberalCredits",
+                Student.class,
+                List.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "24012345",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        List<CategorySummaryDto> summaries = List.of();
+        List<CompletedCourseUploadRowDto> completedCourses = List.of(
+                new CompletedCourseUploadRowDto("2026", "2학기", "012152", "취창업과진로역량개발", "교양", "1", "GRADE", "A0", "4.0")
+        );
+
+        BigDecimal earned = (BigDecimal) method.invoke(service, student, summaries, completedCourses);
+
+        assertEquals(0, new BigDecimal("1").compareTo(earned));
+    }
+
+    @Test
     void evaluateBalancedLiberalTreats2021StudentAsNotApplicable() throws Exception {
         GraduationProgressService service = new GraduationProgressService(
                 null,

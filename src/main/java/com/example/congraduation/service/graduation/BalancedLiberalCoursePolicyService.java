@@ -262,7 +262,7 @@ public class BalancedLiberalCoursePolicyService {
                     "신입생세미나A",
                     "대학생활과진로설계"
             )),
-            Map.entry("GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발")),
+            Map.entry("GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발", "취창업과진로역량개발")),
             Map.entry("GEN_UNIVERSE", Set.of("우주자연인간")),
             Map.entry("GEN_SEMINAR_A", Set.of("신입생세미나", "신입생세미나1", "신입생세미나A", "세종인을위한진로설계")),
             Map.entry("GEN_SEMINAR_B", Set.of("신입생세미나B", "세종인을위한전공탐색"))
