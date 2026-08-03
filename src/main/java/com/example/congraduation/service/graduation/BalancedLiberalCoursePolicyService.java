@@ -31,6 +31,15 @@ public class BalancedLiberalCoursePolicyService {
             new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신1", "1")
     );
 
+    private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2021 = List.of(
+            new CategoryCourseDto("GEN_UNI_ENG_LISTENING_2021", "English Listening Practice 1", "2"),
+            new CategoryCourseDto("GEN_UNI_ENG_READING_2021", "English Reading Practice 1", "2"),
+            new CategoryCourseDto("GEN_WRITE", "문제해결을위한글쓰기와발표", "3"),
+            new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
+            new CategoryCourseDto("GEN_WORLD_HISTORY_LEGACY", "세계사:인간과문명", "3"),
+            new CategoryCourseDto("GEN_CAREER_LEGACY", "대학생활과진로탐색", "1")
+    );
+
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2024_2025 = List.of(
             new CategoryCourseDto("GEN_CAREER_DESIGN", "세종인을위한진로설계", "1"),
             new CategoryCourseDto("GEN_MAJOR_EXPLORATION", "세종인을위한전공탐색", "1"),
@@ -210,10 +219,10 @@ public class BalancedLiberalCoursePolicyService {
             "럭셔리브랜드디자인 융합전공"
     );
 
-    private static final Map<String, Set<String>> COMMON_LIBERAL_EQUIVALENTS = Map.of(
-            "GEN_WRITE", Set.of("쓰기와말하기", "문제해결을위한글쓰기와발표", "비판적사고와창의적글쓰기"),
-            "GEN_PHILOSOPHY", Set.of("사회와가치", "서양철학의이해", "서양철학:쟁점과토론"),
-            "GEN_UNI_ENG", Set.of(
+    private static final Map<String, Set<String>> COMMON_LIBERAL_EQUIVALENTS = Map.ofEntries(
+            Map.entry("GEN_WRITE", Set.of("쓰기와말하기", "문제해결을위한글쓰기와발표", "비판적사고와창의적글쓰기")),
+            Map.entry("GEN_PHILOSOPHY", Set.of("사회와가치", "서양철학의이해", "서양철학:쟁점과토론")),
+            Map.entry("GEN_UNI_ENG", Set.of(
                     "대학영어",
                     "English Listening Practice 1",
                     "English Reading Practice 1",
@@ -223,25 +232,40 @@ public class BalancedLiberalCoursePolicyService {
                     "English Composition 4",
                     "English for Professional Purposes 1",
                     "English for Professional Purposes 2"
-            ),
-            "GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신"),
-            "GEN_MAJOR_EXPLORATION", Set.of(
+            )),
+            Map.entry("GEN_UNI_ENG_LISTENING_2021", Set.of("English Listening Practice 1")),
+            Map.entry("GEN_UNI_ENG_READING_2021", Set.of("English Reading Practice 1")),
+            Map.entry("GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신")),
+            Map.entry("GEN_WORLD_HISTORY_LEGACY", Set.of("세계사:인간과문명", "세계사")),
+            Map.entry("GEN_CAREER_LEGACY", Set.of(
+                    "대학생활과진로탐색",
+                    "대학생활과 진로탐색",
+                    "대학생활과진로설계",
+                    "대학생활과 진로설계",
+                    "대학생활과진로설계1",
+                    "대학생활과 진로설계1",
+                    "신입생세미나1",
+                    "신입생세미나",
+                    "세종인을위한전공탐색",
+                    "세종인을위한진로설계"
+            )),
+            Map.entry("GEN_MAJOR_EXPLORATION", Set.of(
                     "세종인을위한전공탐색",
                     "신입생세미나B",
                     "대학생활과진로탐색",
                     "대학생활과진로설계1"
-            ),
-            "GEN_CAREER_DESIGN", Set.of(
+            )),
+            Map.entry("GEN_CAREER_DESIGN", Set.of(
                     "세종인을위한진로설계",
                     "신입생세미나",
                     "신입생세미나1",
                     "신입생세미나A",
                     "대학생활과진로설계"
-            ),
-            "GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발"),
-            "GEN_UNIVERSE", Set.of("우주자연인간"),
-            "GEN_SEMINAR_A", Set.of("신입생세미나", "신입생세미나1", "신입생세미나A", "세종인을위한진로설계"),
-            "GEN_SEMINAR_B", Set.of("신입생세미나B", "세종인을위한전공탐색")
+            )),
+            Map.entry("GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발")),
+            Map.entry("GEN_UNIVERSE", Set.of("우주자연인간")),
+            Map.entry("GEN_SEMINAR_A", Set.of("신입생세미나", "신입생세미나1", "신입생세미나A", "세종인을위한진로설계")),
+            Map.entry("GEN_SEMINAR_B", Set.of("신입생세미나B", "세종인을위한전공탐색"))
     );
 
     public BalancedLiberalRequirement resolveRequirement(Integer admissionYear) {
@@ -315,6 +339,9 @@ public class BalancedLiberalCoursePolicyService {
         }
         if (year >= 2022) {
             return COMMON_LIBERAL_REQUIRED_2022_2023;
+        }
+        if (year >= 2021) {
+            return COMMON_LIBERAL_REQUIRED_2021;
         }
         return List.of();
     }
