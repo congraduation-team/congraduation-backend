@@ -1,5 +1,6 @@
 package com.example.congraduation.abeek.service;
 
+import com.example.congraduation.abeek.timetable.SelfDirectedCreativeOfferings;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableExcelParser;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
@@ -51,7 +52,7 @@ public class ClassScheduleAdminService {
             throw new IllegalArgumentException("업로드된 파일이 없습니다. multipart file 파트를 확인하세요.");
         }
 
-        List<TimetableOffering> offerings = parseOfferings(file);
+        List<TimetableOffering> offerings = SelfDirectedCreativeOfferings.ensureIncluded(parseOfferings(file));
         TimetableTermData termData = new TimetableTermData(year, semester, offerings);
 
         String fileName = year + "-" + semester + ".json";

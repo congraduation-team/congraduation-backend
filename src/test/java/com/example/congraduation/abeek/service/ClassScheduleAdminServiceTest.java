@@ -2,6 +2,8 @@ package com.example.congraduation.abeek.service;
 
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableExcelParser;
+import com.example.congraduation.abeek.timetable.TimetableOffering;
+import com.example.congraduation.abeek.timetable.TimetableTermData;
 import com.example.congraduation.dto.admin.AdminUploadResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,12 +57,21 @@ class ClassScheduleAdminServiceTest {
 
         AdminUploadResponseDto response = service.upload(file, 2026, 1);
 
-        assertThat(response.count()).isEqualTo(1);
+        // 원본 1 + 자기주도창의 시드 10
+        assertThat(response.count()).isEqualTo(11);
         assertThat(response.year()).isEqualTo(2026);
         assertThat(response.semester()).isEqualTo(1);
         assertThat(response.githubSynced()).isTrue();
         assertThat(response.githubCommitUrl()).contains("github.com");
         assertThat(catalog.findTerm(2026, 1)).isPresent();
+        TimetableTermData saved = catalog.findTerm(2026, 1).orElseThrow();
+        List<String> names = saved.offerings().stream().map(TimetableOffering::courseName).toList();
+        assertThat(names).contains(
+                "알고리즘",
+                "자기주도창의교양Ⅰ",
+                "자기주도창의전공Ⅳ",
+                "자기주도창의전공"
+        );
         assertThat(Files.exists(overrideDir.resolve("2026-1.json"))).isTrue();
         assertThat(Files.exists(resourcesDir.resolve("2026-1.json"))).isTrue();
     }
