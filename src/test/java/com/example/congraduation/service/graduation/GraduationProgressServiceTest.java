@@ -8,14 +8,18 @@ import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
+import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.GraduationWorkProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
+import com.example.congraduation.dto.graduation.RemainingCommonLiberalCourseDto;
+import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
 import java.math.BigDecimal;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -704,5 +708,101 @@ class GraduationProgressServiceTest {
         assertEquals(true, blockers.contains("전공기초 요건을 충족하지 못했습니다."));
         assertFalse(blockers.contains("전기 이수구분 요건을 충족하지 못했습니다."));
         assertEquals(true, blockers.contains("복필 이수구분 요건을 충족하지 못했습니다."));
+    }
+
+    @Test
+    void resolveDisplayValuesUsesSimulationCommonLiberalFieldsWhenSimulationExists() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "resolveDisplayValues",
+                GraduationProgressResponseDto.class,
+                List.class,
+                CategoryProgressDto.class,
+                List.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        CategoryProgressDto currentProgress = new CategoryProgressDto("12", "13", false, "92.31");
+        List<CategoryCourseDto> currentCourses = List.of(new CategoryCourseDto("GEN001", "현재공통교양", "1"));
+        List<RemainingCommonLiberalCourseDto> currentRemaining = List.of(
+                new RemainingCommonLiberalCourseDto(
+                        new CategoryCourseDto("GEN002", "취창업과진로설계", "1"),
+                        List.of()
+                )
+        );
+
+        CategoryProgressDto simulationProgress = new CategoryProgressDto("13", "13", true, "100.00");
+        List<CategoryCourseDto> simulationCourses = List.of(
+                new CategoryCourseDto("GEN900", "취업과진로역량개발", "1")
+        );
+        GraduationProgressResponseDto simulation = new GraduationProgressResponseDto(
+                1L,
+                2024,
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                true,
+                List.of(),
+                List.of("공통교양 요건을 충족했습니다."),
+                List.of(),
+                null,
+                null,
+                null,
+                null,
+                simulationProgress,
+                simulationCourses,
+                List.of(),
+                List.of(),
+                List.of(),
+                null,
+                null,
+                List.of(),
+                List.of(),
+                null,
+                null,
+                List.of(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                List.of(),
+                null,
+                List.of(),
+                null
+        );
+
+        Object displayValues = method.invoke(
+                service,
+                simulation,
+                List.of("공통교양 요건을 충족하지 못했습니다."),
+                currentProgress,
+                currentCourses,
+                currentRemaining
+        );
+
+        Method blockersAccessor = displayValues.getClass().getDeclaredMethod("graduationBlockers");
+        Method progressAccessor = displayValues.getClass().getDeclaredMethod("commonLiberalProgress");
+        Method coursesAccessor = displayValues.getClass().getDeclaredMethod("commonLiberalCourses");
+        Method remainingAccessor = displayValues.getClass().getDeclaredMethod("remainingCommonLiberalRequiredCourses");
+
+        @SuppressWarnings("unchecked")
+        List<String> displayBlockers = (List<String>) blockersAccessor.invoke(displayValues);
+        CategoryProgressDto displayProgress = (CategoryProgressDto) progressAccessor.invoke(displayValues);
+        @SuppressWarnings("unchecked")
+        List<CategoryCourseDto> displayCourses = (List<CategoryCourseDto>) coursesAccessor.invoke(displayValues);
+        @SuppressWarnings("unchecked")
+        List<RemainingCommonLiberalCourseDto> displayRemaining =
+                (List<RemainingCommonLiberalCourseDto>) remainingAccessor.invoke(displayValues);
+
+        assertEquals(List.of("공통교양 요건을 충족했습니다."), displayBlockers);
+        assertEquals(simulationProgress, displayProgress);
+        assertEquals(simulationCourses, displayCourses);
+        assertEquals(Collections.emptyList(), displayRemaining);
     }
 }

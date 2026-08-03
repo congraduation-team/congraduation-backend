@@ -205,6 +205,13 @@ public class GraduationProgressService {
                 categorySummaries
         );
         boolean graduationEligible = graduationBlockers.isEmpty();
+        GraduationDisplayValues displayValues = resolveDisplayValues(
+                simulation,
+                graduationBlockers,
+                commonLiberalProgress,
+                commonLiberalCourses,
+                remainingCommonLiberalRequiredCourses
+        );
 
         return new GraduationProgressResponseDto(
                 student.getId(),
@@ -214,15 +221,15 @@ public class GraduationProgressService {
                 student.getSecondaryMajor(),
                 graduationEligible,
                 graduationBlockers,
-                simulation == null ? graduationBlockers : simulation.graduationBlockers(),
+                displayValues.graduationBlockers(),
                 majorTracks,
                 graduationWork,
                 englishCertification,
                 swCodingCertification,
                 totalCreditsProgress,
-                commonLiberalProgress,
-                commonLiberalCourses,
-                remainingCommonLiberalRequiredCourses,
+                displayValues.commonLiberalProgress(),
+                displayValues.commonLiberalCourses(),
+                displayValues.remainingCommonLiberalRequiredCourses(),
                 remainingMajorRequiredCourses,
                 remainingMajorElectiveCourses,
                 electiveLiberalProgress,
@@ -242,6 +249,29 @@ public class GraduationProgressService {
                 majorCreditSummary,
                 categorySummaries,
                 simulation
+        );
+    }
+
+    private GraduationDisplayValues resolveDisplayValues(
+            GraduationProgressResponseDto simulation,
+            List<String> graduationBlockers,
+            CategoryProgressDto commonLiberalProgress,
+            List<CategoryCourseDto> commonLiberalCourses,
+            List<RemainingCommonLiberalCourseDto> remainingCommonLiberalRequiredCourses
+    ) {
+        if (simulation == null) {
+            return new GraduationDisplayValues(
+                    graduationBlockers,
+                    commonLiberalProgress,
+                    commonLiberalCourses,
+                    remainingCommonLiberalRequiredCourses
+            );
+        }
+        return new GraduationDisplayValues(
+                simulation.displayGraduationBlockers(),
+                simulation.commonLiberalCredits(),
+                simulation.commonLiberalCourses(),
+                simulation.remainingCommonLiberalRequiredCourses()
         );
     }
 
@@ -1408,5 +1438,13 @@ public class GraduationProgressService {
         private int totalCredits() {
             return requiredCredits + electiveCredits;
         }
+    }
+
+    private record GraduationDisplayValues(
+            List<String> graduationBlockers,
+            CategoryProgressDto commonLiberalProgress,
+            List<CategoryCourseDto> commonLiberalCourses,
+            List<RemainingCommonLiberalCourseDto> remainingCommonLiberalRequiredCourses
+    ) {
     }
 }
