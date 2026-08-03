@@ -276,6 +276,44 @@ class PlannableCourseCatalogServiceTest {
     }
 
     @Test
+    void liberalArtsElectiveCategoryIsNormalizedToLiberalArts() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(
+                        offering("009981", "English Listening", "교양선택", "대양휴머니티칼리지")
+                )
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(fall2025));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                null,
+                "English Listening",
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().category()).isEqualTo("교양");
+    }
+
+    @Test
     void repeatedKeywordSearchDoesNotLeakPreviousResults() {
         TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
         StudentRepository studentRepository = mock(StudentRepository.class);
