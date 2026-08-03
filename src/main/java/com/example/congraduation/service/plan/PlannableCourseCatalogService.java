@@ -231,9 +231,22 @@ public class PlannableCourseCatalogService {
             String resolvedCategory = normalizeDisplayText(offering.category());
 
             CourseAccumulator accumulator = deduplicated.computeIfAbsent(
-                    toCourseKey(courseName, resolvedCategory),
+                    toCourseKey(offering.courseCode(), courseName, resolvedCategory),
                     ignored -> new CourseAccumulator(courseName, resolvedCategory)
             );
+            String preferredName = preferCourseName(accumulator.courseName(), courseName);
+            if (!preferredName.equals(accumulator.courseName())) {
+                accumulator = new CourseAccumulator(
+                        accumulator.courseCodes(),
+                        preferredName,
+                        accumulator.category(),
+                        accumulator.departments(),
+                        accumulator.targetGrades(),
+                        accumulator.credits(),
+                        accumulator.offeredTerms()
+                );
+                deduplicated.put(toCourseKey(offering.courseCode(), courseName, resolvedCategory), accumulator);
+            }
             addIfPresent(accumulator.courseCodes(), offering.courseCode());
             accumulator.departments().add(resolvedDepartment);
             addIfPresent(accumulator.targetGrades(), offering.gradeYear());
@@ -383,7 +396,11 @@ public class PlannableCourseCatalogService {
         return isBlank(value) ? "미지정" : value.trim();
     }
 
-    private String toCourseKey(String courseName, String category) {
+    private String toCourseKey(String courseCode, String courseName, String category) {
+        String normalizedCode = normalizeCourseCode(courseCode);
+        if (!normalizedCode.isBlank()) {
+            return normalizedCode + "|" + normalize(category);
+        }
         return normalize(courseName) + "|" + normalize(category);
     }
 

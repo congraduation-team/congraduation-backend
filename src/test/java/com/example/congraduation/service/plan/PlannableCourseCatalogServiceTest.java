@@ -307,6 +307,58 @@ class PlannableCourseCatalogServiceTest {
                 .containsExactlyInAnyOrder("컴퓨터공학과", "지능기전공학과", "소프트웨어학과");
     }
 
+    @Test
+    void collapsesCapstoneIntoOnlyRequiredAndElectiveAcrossTerms() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "컴퓨터공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "소프트웨어학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "지능기전공학과")
+                )
+        );
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("009960", ".(산학협력프로젝트)", "전공필수", "컴퓨터공학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "정보보호학과"),
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공선택", "지능기전공학과")
+                )
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026, fall2025));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                null,
+                "cap",
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.count()).isEqualTo(2);
+        assertThat(response.courses()).extracting(course -> course.category())
+                .containsExactly("전공선택", "전공필수");
+        assertThat(response.courses()).extracting(course -> course.courseName())
+                .containsOnly("Capstone디자인(산학협력프로젝트)");
+        assertThat(response.courses().get(0).offeredTerms()).containsExactlyInAnyOrder("2025-2", "2026-1");
+        assertThat(response.courses().get(1).offeredTerms()).containsExactlyInAnyOrder("2025-2", "2026-1");
+    }
+
     private TimetableOffering offering(String courseCode, String courseName, String category) {
         return offering(courseCode, courseName, category, "컴퓨터공학과");
     }
