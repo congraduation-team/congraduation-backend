@@ -46,7 +46,8 @@ public class BalancedLiberalCoursePolicyService {
             new CategoryCourseDto("GEN_WRITE_2026", "비판적사고와창의적글쓰기", "3"),
             new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
             new CategoryCourseDto("GEN_UNI_ENG", "대학영어", "2"),
-            new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신1", "1"),
+            new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신", "1"),
+            new CategoryCourseDto("GEN_CAREER_JOB", "취업과진로역량개발", "1"),
             new CategoryCourseDto("GEN_MAJOR_EXPLORATION", "세종인을위한전공탐색", "1")
     );
 
@@ -210,15 +211,36 @@ public class BalancedLiberalCoursePolicyService {
     );
 
     private static final Map<String, Set<String>> COMMON_LIBERAL_EQUIVALENTS = Map.of(
-            "GEN_WRITE", Set.of("문제해결을위한글쓰기와발표", "비판적사고와창의적글쓰기"),
-            "GEN_PHILOSOPHY", Set.of("서양철학:쟁점과토론"),
-            "GEN_UNI_ENG", Set.of("대학영어", "English Listening Practice 1", "English Reading Practice 1"),
-            "GEN_STARTUP1", Set.of("창업과기업가정신1"),
-            "GEN_MAJOR_EXPLORATION", Set.of("세종인을위한전공탐색", "대학생활과진로탐색", "대학생활과진로설계1"),
-            "GEN_CAREER_DESIGN", Set.of("세종인을위한진로설계", "신입생세미나A"),
-            "GEN_CAREER_JOB", Set.of("취창업과진로설계"),
+            "GEN_WRITE", Set.of("쓰기와말하기", "문제해결을위한글쓰기와발표", "비판적사고와창의적글쓰기"),
+            "GEN_PHILOSOPHY", Set.of("사회와가치", "서양철학의이해", "서양철학:쟁점과토론"),
+            "GEN_UNI_ENG", Set.of(
+                    "대학영어",
+                    "English Listening Practice 1",
+                    "English Reading Practice 1",
+                    "English Writing 1",
+                    "English Writing 2",
+                    "English Composition 3",
+                    "English Composition 4",
+                    "English for Professional Purposes 1",
+                    "English for Professional Purposes 2"
+            ),
+            "GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신"),
+            "GEN_MAJOR_EXPLORATION", Set.of(
+                    "세종인을위한전공탐색",
+                    "신입생세미나B",
+                    "대학생활과진로탐색",
+                    "대학생활과진로설계1"
+            ),
+            "GEN_CAREER_DESIGN", Set.of(
+                    "세종인을위한진로설계",
+                    "신입생세미나",
+                    "신입생세미나1",
+                    "신입생세미나A",
+                    "대학생활과진로설계"
+            ),
+            "GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발"),
             "GEN_UNIVERSE", Set.of("우주자연인간"),
-            "GEN_SEMINAR_A", Set.of("신입생세미나A", "세종인을위한진로설계"),
+            "GEN_SEMINAR_A", Set.of("신입생세미나", "신입생세미나1", "신입생세미나A", "세종인을위한진로설계"),
             "GEN_SEMINAR_B", Set.of("신입생세미나B", "세종인을위한전공탐색")
     );
 
