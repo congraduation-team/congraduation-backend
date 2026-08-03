@@ -314,7 +314,20 @@ public class PlannableCourseCatalogService {
             return true;
         }
         String normalizedCategory = normalize(category);
-        return normalize(resolveCategory(accumulator, departmentName)).contains(normalizedCategory);
+        String resolvedCategory = resolveCategory(accumulator, departmentName);
+        if (!normalize(resolvedCategory).contains(normalizedCategory)) {
+            return false;
+        }
+        if (!isMajorElectiveFilter(category)) {
+            return true;
+        }
+        if (departmentName == null || departmentName.isBlank()) {
+            return true;
+        }
+        if (isGloballyPlannableCourse(accumulator.courseName())) {
+            return true;
+        }
+        return isStudentMajorDepartment(accumulator, departmentName);
     }
 
     private String resolveCategory(CourseAccumulator accumulator, String departmentName) {
@@ -507,6 +520,11 @@ public class PlannableCourseCatalogService {
     private boolean isGloballyPlannableCourse(String courseName) {
         String normalizedCourseName = normalize(courseName);
         return normalizedCourseName.contains("자기주도창의전공");
+    }
+
+    private boolean isMajorElectiveFilter(String category) {
+        String normalizedCategory = normalize(category);
+        return normalizedCategory.equals("전선") || normalizedCategory.contains("전공선택");
     }
 
     private record CourseAccumulator(

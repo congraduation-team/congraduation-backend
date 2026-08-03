@@ -266,6 +266,57 @@ class PlannableCourseCatalogServiceTest {
     }
 
     @Test
+    void repeatedKeywordSearchDoesNotLeakPreviousResults() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(
+                        offering("009960", "Capstone디자인(산학협력프로젝트)", "전공필수", "컴퓨터공학과"),
+                        offering("009954", "알고리즘및실습", "전공필수", "컴퓨터공학과"),
+                        offering("011495", "알고리즘및실습", "전공선택", "AI로봇학과")
+                )
+        );
+
+        when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto capstoneResponse = service.getCatalog(
+                null,
+                "cap",
+                null,
+                2,
+                null,
+                null,
+                null
+        );
+        PlannableCourseCatalogResponseDto algorithmResponse = service.getCatalog(
+                null,
+                "알고리즘",
+                null,
+                2,
+                null,
+                null,
+                null
+        );
+
+        assertThat(capstoneResponse.courses()).extracting(course -> course.courseName())
+                .containsExactly("Capstone디자인(산학협력프로젝트)");
+        assertThat(algorithmResponse.courses()).extracting(course -> course.courseName())
+                .containsExactly("알고리즘및실습", "알고리즘및실습");
+        assertThat(algorithmResponse.courses()).extracting(course -> course.category())
+                .containsExactly("전공선택", "전공필수");
+    }
+
+    @Test
     void collapsesDuplicateRowsWithSameCourseCodeAndResolvedCategory() {
         TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
         StudentRepository studentRepository = mock(StudentRepository.class);
@@ -415,6 +466,59 @@ class PlannableCourseCatalogServiceTest {
                 .containsOnly("Capstone디자인(산학협력프로젝트)");
         assertThat(response.courses().get(0).offeredTerms()).containsExactly("2025-2");
         assertThat(response.courses().get(1).offeredTerms()).containsExactly("2025-2");
+    }
+
+    @Test
+    void majorElectiveCategoryFilterReturnsOnlyOwnDepartmentElectives() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+
+        TimetableTermData fall2025 = new TimetableTermData(
+                2025,
+                2,
+                List.of(
+                        offering("009955", "이산수학및프로그래밍", "전공선택", "컴퓨터공학과"),
+                        offering("011495", "알고리즘및실습", "전공선택", "AI로봇학과"),
+                        offering("010418", "자기주도창의전공Ⅰ", "전공선택", "교양대학")
+                )
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                null,
+                null,
+                2,
+                null,
+                null,
+                "전공선택"
+        );
+
+        assertThat(response.courses()).extracting(course -> course.courseName())
+                .containsExactlyInAnyOrder("이산수학및프로그래밍", "자기주도창의전공Ⅰ");
+        assertThat(response.courses()).extracting(course -> course.departments())
+                .allMatch(departments -> departments.contains("컴퓨터공학과") || departments.contains("교양대학"));
     }
 
     private TimetableOffering offering(String courseCode, String courseName, String category) {
