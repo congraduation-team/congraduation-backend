@@ -805,4 +805,55 @@ class GraduationProgressServiceTest {
         assertEquals(simulationCourses, displayCourses);
         assertEquals(Collections.emptyList(), displayRemaining);
     }
+
+    @Test
+    void extractCompletedCommonLiberalCoursesSupports2021LegacyPolicy() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, new BalancedLiberalCoursePolicyService(),
+                null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "extractCompletedCommonLiberalCourses",
+                Student.class,
+                List.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "21000001",
+                "송대현",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                4,
+                2021,
+                "ACTIVE",
+                false
+        );
+
+        List<CompletedCourseUploadRowDto> completedCourses = List.of(
+                new CompletedCourseUploadRowDto("2021", "1학기", "ENG101", "English Listening Practice 1", "교필", "2", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "1학기", "ENG102", "English Reading Practice 1", "교필", "2", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "1학기", "GEN201", "문제해결을위한글쓰기와발표", "교필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN202", "서양철학:쟁점과토론", "교필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN203", "세계사:인간과문명", "교필", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN204", "대학생활과진로설계", "교필", "1", "GRADE", "A0", "4.0")
+        );
+
+        @SuppressWarnings("unchecked")
+        List<CategoryCourseDto> result = (List<CategoryCourseDto>) method.invoke(
+                service,
+                student,
+                completedCourses
+        );
+
+        assertEquals(6, result.size());
+        assertTrue(result.stream().anyMatch(course -> "English Listening Practice 1".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "English Reading Practice 1".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "문제해결을위한글쓰기와발표".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "서양철학:쟁점과토론".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "세계사:인간과문명".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "대학생활과진로설계".equals(course.courseName())));
+    }
 }

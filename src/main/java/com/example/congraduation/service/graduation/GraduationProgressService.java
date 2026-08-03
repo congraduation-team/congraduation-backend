@@ -204,7 +204,6 @@ public class GraduationProgressService {
                 graduationWork,
                 categorySummaries
         );
-        boolean graduationEligible = graduationBlockers.isEmpty();
         GraduationDisplayValues displayValues = resolveDisplayValues(
                 simulation,
                 graduationBlockers,
@@ -212,6 +211,8 @@ public class GraduationProgressService {
                 commonLiberalCourses,
                 remainingCommonLiberalRequiredCourses
         );
+        List<String> responseGraduationBlockers = displayValues.graduationBlockers();
+        boolean graduationEligible = responseGraduationBlockers.isEmpty();
 
         return new GraduationProgressResponseDto(
                 student.getId(),
@@ -220,8 +221,8 @@ public class GraduationProgressService {
                 student.getMajorType(),
                 student.getSecondaryMajor(),
                 graduationEligible,
-                graduationBlockers,
-                displayValues.graduationBlockers(),
+                responseGraduationBlockers,
+                responseGraduationBlockers,
                 majorTracks,
                 graduationWork,
                 englishCertification,
