@@ -59,6 +59,9 @@ public class GraduationProgressService {
     private static final List<String> GRADUATION_WORK_KEYWORDS = List.of(
             "졸업작품", "졸업시험", "졸업연주", "졸업전시", "졸업논문", "캡스톤디자인"
     );
+    private static final Set<String> DEDICATED_BLOCKER_CATEGORIES = Set.of(
+            "공필", "교필", "교선", "균필", "기필", "학문기초", "전기", "전공기초", "전필", "전선"
+    );
 
     private final StudentRepository studentRepository;
     private final TranscriptStorageService transcriptStorageService;
@@ -290,6 +293,9 @@ public class GraduationProgressService {
 
         for (CategorySummaryDto categorySummary : categorySummaries) {
             if (categorySummary.requiredCredits() == null || categorySummary.requiredCredits().isBlank()) {
+                continue;
+            }
+            if (DEDICATED_BLOCKER_CATEGORIES.contains(categorySummary.category())) {
                 continue;
             }
             if (!categorySummary.satisfied()) {
@@ -631,15 +637,39 @@ public class GraduationProgressService {
         Map<String, CategorySummaryDto> merged = new LinkedHashMap<>();
 
         for (CategorySummaryDto summary : categorySummaries) {
-            int required = requirements.getOrDefault(summary.category(), 0);
+            String canonicalCategory = canonicalRequirementCategory(summary.category(), requirements);
+            int required = requirements.getOrDefault(canonicalCategory, 0);
             BigDecimal earned = new BigDecimal(summary.earnedCredits());
-            merged.put(summary.category(), new CategorySummaryDto(
-                    summary.category(),
-                    summary.earnedCredits(),
+            CategorySummaryDto existing = merged.get(canonicalCategory);
+
+            if (existing == null) {
+                merged.put(canonicalCategory, new CategorySummaryDto(
+                        canonicalCategory,
+                        summary.earnedCredits(),
+                        formatRequired(required),
+                        isSatisfied(earned, required),
+                        toPercentString(earned, required),
+                        summary.courses()
+                ));
+                continue;
+            }
+
+            BigDecimal mergedEarned = new BigDecimal(existing.earnedCredits()).add(earned);
+            List<CategoryCourseDto> mergedCourses = new ArrayList<>();
+            if (existing.courses() != null) {
+                mergedCourses.addAll(existing.courses());
+            }
+            if (summary.courses() != null) {
+                mergedCourses.addAll(summary.courses());
+            }
+
+            merged.put(canonicalCategory, new CategorySummaryDto(
+                    canonicalCategory,
+                    formatDecimal(mergedEarned),
                     formatRequired(required),
-                    isSatisfied(earned, required),
-                    toPercentString(earned, required),
-                    summary.courses()
+                    isSatisfied(mergedEarned, required),
+                    toPercentString(mergedEarned, required),
+                    mergedCourses
             ));
         }
 
@@ -658,6 +688,19 @@ public class GraduationProgressService {
         }
 
         return new ArrayList<>(merged.values());
+    }
+
+    private String canonicalRequirementCategory(String category, Map<String, Integer> requirements) {
+        if ("교필".equals(category) && requirements.containsKey("공필")) {
+            return "공필";
+        }
+        if ("학문기초".equals(category) && requirements.containsKey("기필")) {
+            return "기필";
+        }
+        if ("전공기초".equals(category) && requirements.containsKey("전기")) {
+            return "전기";
+        }
+        return category;
     }
 
     private BigDecimal creditOf(List<CategorySummaryDto> summaries, String... categories) {
