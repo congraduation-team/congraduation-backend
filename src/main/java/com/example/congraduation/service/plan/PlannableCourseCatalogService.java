@@ -8,6 +8,7 @@ import com.example.congraduation.dto.plan.PlannableCourseCatalogResponseDto;
 import com.example.congraduation.dto.plan.PlannableCourseDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.graduation.DepartmentCurriculumPolicyService;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,18 +25,44 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlannableCourseCatalogService {
 
+    private static final Set<String> AI_CONVERGENCE_COLLEGE_DEPARTMENTS = Set.of(
+            "AI융합전자공학과",
+            "전자정보통신공학과",
+            "AI로봇학과",
+            "반도체시스템공학과",
+            "컴퓨터공학과",
+            "정보보호학과",
+            "소프트웨어학과",
+            "데이터사이언스학과",
+            "콘텐츠소프트웨어학과",
+            "양자지능정보학과",
+            "지능정보융합학과",
+            "지능기전공학부",
+            "지능기전공학과",
+            "인공지능학과",
+            "인공지능데이터사이언스학과",
+            "지능IoT학과",
+            "무인이동체공학전공",
+            "스마트기기공학전공"
+    ).stream()
+            .map(value -> value.replaceAll("\\s+", "").toLowerCase(Locale.ROOT))
+            .collect(Collectors.toUnmodifiableSet());
+
     private final TimetableCatalog timetableCatalog;
     private final StudentRepository studentRepository;
     private final TranscriptStorageService transcriptStorageService;
+    private final DepartmentCurriculumPolicyService departmentCurriculumPolicyService;
 
     public PlannableCourseCatalogService(
             TimetableCatalog timetableCatalog,
             StudentRepository studentRepository,
-            TranscriptStorageService transcriptStorageService
+            TranscriptStorageService transcriptStorageService,
+            DepartmentCurriculumPolicyService departmentCurriculumPolicyService
     ) {
         this.timetableCatalog = timetableCatalog;
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
+        this.departmentCurriculumPolicyService = departmentCurriculumPolicyService;
     }
 
     public PlannableCourseCatalogResponseDto getCatalog() {
@@ -67,10 +94,28 @@ public class PlannableCourseCatalogService {
                 deduplicated.values(),
                 referenceDepartmentName
         );
+        Set<String> ownMajorElectiveCourseNames = resolveOwnMajorElectiveCourseNames(
+                deduplicated.values(),
+                referenceDepartmentName
+        );
+        Set<String> ownMajorRequiredCourseCodes = resolveOwnMajorRequiredCourseCodes(
+                deduplicated.values(),
+                referenceDepartmentName
+        );
+        Set<String> ownMajorFoundationCourseCodes = resolveOwnMajorFoundationCourseCodes(
+                deduplicated.values(),
+                referenceDepartmentName
+        );
+        Set<String> ownMajorFoundationCourseNames = resolveOwnMajorFoundationCourseNames(student);
         List<CourseAccumulator> displayAccumulators = mergeForDisplay(
                 deduplicated.values(),
+                student,
                 referenceDepartmentName,
-                ownMajorElectiveCourseCodes
+                ownMajorRequiredCourseCodes,
+                ownMajorElectiveCourseCodes,
+                ownMajorElectiveCourseNames,
+                ownMajorFoundationCourseCodes,
+                ownMajorFoundationCourseNames
         );
 
         List<CourseAccumulator> filteredAccumulators = displayAccumulators.stream()
@@ -79,7 +124,12 @@ public class PlannableCourseCatalogService {
                 .filter(accumulator -> matchesOfferedTerm(accumulator, offeredTerm))
                 .filter(accumulator -> !isBlockedRetakeCourse(accumulator, blockedRetakeCourseCodes))
                 .filter(accumulator -> matchesDepartment(accumulator, referenceDepartmentName, student != null))
-                .filter(accumulator -> matchesCategory(accumulator, category, referenceDepartmentName))
+                .filter(accumulator -> matchesCategory(
+                        accumulator,
+                        category,
+                        referenceDepartmentName,
+                        ownMajorFoundationCourseNames
+                ))
                 .toList();
 
         List<PlannableCourseDto> courses = collapseDisplayDuplicates(filteredAccumulators).stream()
@@ -143,15 +193,25 @@ public class PlannableCourseCatalogService {
 
     private List<CourseAccumulator> mergeForDisplay(
             Iterable<CourseAccumulator> accumulators,
+            Student student,
             String referenceDepartmentName,
-            Set<String> ownMajorElectiveCourseCodes
+            Set<String> ownMajorRequiredCourseCodes,
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames,
+            Set<String> ownMajorFoundationCourseCodes,
+            Set<String> ownMajorFoundationCourseNames
     ) {
         Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
         for (CourseAccumulator accumulator : accumulators) {
             String resolvedCategory = resolveCategory(
                     accumulator,
+                    student,
                     referenceDepartmentName,
-                    ownMajorElectiveCourseCodes
+                    ownMajorRequiredCourseCodes,
+                    ownMajorElectiveCourseCodes,
+                    ownMajorElectiveCourseNames,
+                    ownMajorFoundationCourseCodes,
+                    ownMajorFoundationCourseNames
             );
             String displayKey = toDisplayCourseKey(accumulator, resolvedCategory);
             CourseAccumulator existing = merged.get(displayKey);
@@ -322,51 +382,93 @@ public class PlannableCourseCatalogService {
                 .anyMatch(department -> department.contains(normalizedDepartment));
     }
 
-    private boolean matchesCategory(CourseAccumulator accumulator, String category, String departmentName) {
+    private boolean matchesCategory(
+            CourseAccumulator accumulator,
+            String category,
+            String departmentName,
+            Set<String> ownMajorFoundationCourseNames
+    ) {
         if (category == null || category.isBlank()) {
             return true;
         }
         String normalizedCategory = normalize(category);
+        if (isMajorFoundationFilter(category)) {
+            return normalize(accumulator.category()).contains(normalizedCategory)
+                    || isDualCountMajorFoundationCourse(accumulator, departmentName, ownMajorFoundationCourseNames);
+        }
         if (!normalize(accumulator.category()).contains(normalizedCategory)) {
             return false;
         }
-        if (!isMajorElectiveFilter(category)) {
-            return true;
-        }
-        if (departmentName == null || departmentName.isBlank()) {
-            return true;
-        }
-        if (isGloballyPlannableCourse(accumulator.courseName())) {
-            return true;
-        }
-        return isStudentMajorDepartment(accumulator, departmentName);
+        return true;
     }
 
     private String resolveCategory(
             CourseAccumulator accumulator,
+            Student student,
             String departmentName,
-            Set<String> ownMajorElectiveCourseCodes
+            Set<String> ownMajorRequiredCourseCodes,
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames,
+            Set<String> ownMajorFoundationCourseCodes,
+            Set<String> ownMajorFoundationCourseNames
     ) {
         String rawCategory = accumulator.category();
         if (!isMajorCategory(rawCategory)) {
             return rawCategory;
         }
         if (isGloballyPlannableCourse(accumulator.courseName())) {
-            return rawCategory;
+            return normalizeMajorCategoryLabel(rawCategory);
         }
         if (departmentName == null || departmentName.isBlank()) {
-            return rawCategory;
+            return normalizeMajorCategoryLabel(rawCategory);
         }
-        if (isStudentMajorDepartment(accumulator, departmentName)) {
-            return rawCategory;
-        }
-        if (isMajorElectiveCategory(rawCategory)) {
-            if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes)) {
-                return rawCategory;
+        if (isMajorRequiredCategory(rawCategory)) {
+            if (isStudentMajorDepartment(accumulator, departmentName)
+                    || hasCourseCodeEquivalent(accumulator, ownMajorRequiredCourseCodes)) {
+                return "전공필수";
+            }
+            if (isRecognizedCrossMajorElective(
+                    accumulator,
+                    rawCategory,
+                    student,
+                    departmentName,
+                    ownMajorElectiveCourseCodes,
+                    ownMajorElectiveCourseNames
+            )) {
+                return "전공선택";
             }
             return "교양";
         }
-        return "전공선택";
+        if (isMajorFoundationOnlyCategory(rawCategory)) {
+            if (isStudentMajorDepartment(accumulator, departmentName)
+                    || hasCourseCodeEquivalent(accumulator, ownMajorFoundationCourseCodes)) {
+                return "전공기초";
+            }
+            return "교양";
+        }
+        if (isMajorElectiveCategory(rawCategory)) {
+            if (isStudentMajorDepartment(accumulator, departmentName)) {
+                return "전공선택";
+            }
+            if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes, ownMajorElectiveCourseNames)) {
+                return "전공선택";
+            }
+            if (isRecognizedCrossMajorElective(
+                    accumulator,
+                    rawCategory,
+                    student,
+                    departmentName,
+                    ownMajorElectiveCourseCodes,
+                    ownMajorElectiveCourseNames
+            )) {
+                return "전공선택";
+            }
+            return "교양";
+        }
+        if (isDualCountMajorFoundationCourse(accumulator, departmentName, ownMajorFoundationCourseNames)) {
+            return "전공필수";
+        }
+        return normalizeMajorCategoryLabel(rawCategory);
     }
 
     private Set<String> resolveOwnMajorElectiveCourseCodes(
@@ -392,16 +494,169 @@ public class PlannableCourseCatalogService {
         return courseCodes;
     }
 
+    private Set<String> resolveOwnMajorElectiveCourseNames(
+            Iterable<CourseAccumulator> accumulators,
+            String departmentName
+    ) {
+        if (departmentName == null || departmentName.isBlank()) {
+            return Set.of();
+        }
+        Set<String> courseNames = new LinkedHashSet<>();
+        for (CourseAccumulator accumulator : accumulators) {
+            if (!isMajorElectiveCategory(accumulator.category())) {
+                continue;
+            }
+            if (!isStudentMajorDepartment(accumulator, departmentName)) {
+                continue;
+            }
+            String normalizedName = normalizeCourseName(accumulator.courseName());
+            if (!normalizedName.isBlank()) {
+                courseNames.add(normalizedName);
+            }
+        }
+        return courseNames;
+    }
+
+    private Set<String> resolveOwnMajorRequiredCourseCodes(
+            Iterable<CourseAccumulator> accumulators,
+            String departmentName
+    ) {
+        return resolveOwnMajorCourseCodesByCategory(accumulators, departmentName, this::isMajorRequiredCategory);
+    }
+
+    private Set<String> resolveOwnMajorFoundationCourseCodes(
+            Iterable<CourseAccumulator> accumulators,
+            String departmentName
+    ) {
+        return resolveOwnMajorCourseCodesByCategory(accumulators, departmentName, this::isMajorFoundationOnlyCategory);
+    }
+
+    private Set<String> resolveOwnMajorCourseCodesByCategory(
+            Iterable<CourseAccumulator> accumulators,
+            String departmentName,
+            java.util.function.Predicate<String> categoryPredicate
+    ) {
+        if (departmentName == null || departmentName.isBlank()) {
+            return Set.of();
+        }
+        Set<String> courseCodes = new LinkedHashSet<>();
+        for (CourseAccumulator accumulator : accumulators) {
+            if (!categoryPredicate.test(accumulator.category())) {
+                continue;
+            }
+            if (!isStudentMajorDepartment(accumulator, departmentName)) {
+                continue;
+            }
+            accumulator.courseCodes().stream()
+                    .map(this::normalizeCourseCode)
+                    .filter(code -> !code.isBlank())
+                    .forEach(courseCodes::add);
+        }
+        return courseCodes;
+    }
+
     private boolean hasOwnMajorElectiveEquivalent(
             CourseAccumulator accumulator,
-            Set<String> ownMajorElectiveCourseCodes
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames
     ) {
-        if (ownMajorElectiveCourseCodes.isEmpty()) {
+        return hasCourseCodeEquivalent(accumulator, ownMajorElectiveCourseCodes)
+                || ownMajorElectiveCourseNames.contains(normalizeCourseName(accumulator.courseName()));
+    }
+
+    private boolean hasCourseCodeEquivalent(
+            CourseAccumulator accumulator,
+            Set<String> ownMajorCourseCodes
+    ) {
+        if (ownMajorCourseCodes.isEmpty()) {
             return false;
         }
         return accumulator.courseCodes().stream()
                 .map(this::normalizeCourseCode)
-                .anyMatch(ownMajorElectiveCourseCodes::contains);
+                .anyMatch(ownMajorCourseCodes::contains);
+    }
+
+    private Set<String> resolveOwnMajorFoundationCourseNames(Student student) {
+        if (student == null) {
+            return Set.of();
+        }
+        DepartmentCurriculumPolicyService.MajorFoundationCourseRule rule =
+                departmentCurriculumPolicyService.resolveMajorFoundationCourseRule(student);
+        Set<String> normalized = new LinkedHashSet<>();
+        rule.requiredCourseNames().forEach(name -> addFoundationAliases(normalized, name));
+        rule.optionalCourseNames().forEach(name -> addFoundationAliases(normalized, name));
+        return normalized;
+    }
+
+    private void addFoundationAliases(Set<String> target, String courseName) {
+        String normalized = normalizeCourseName(courseName);
+        if (normalized.isBlank()) {
+            return;
+        }
+        target.add(normalized);
+        if ("선형대수".equals(courseName)) {
+            target.add(normalizeCourseName("선형대수및프로그래밍"));
+        } else if ("선형대수및프로그래밍".equals(courseName)) {
+            target.add(normalizeCourseName("선형대수"));
+        } else if ("확률및통계".equals(courseName)) {
+            target.add(normalizeCourseName("확률통계및프로그래밍"));
+        } else if ("확률통계및프로그래밍".equals(courseName)) {
+            target.add(normalizeCourseName("확률및통계"));
+        }
+    }
+
+    private boolean isDualCountMajorFoundationCourse(
+            CourseAccumulator accumulator,
+            String departmentName,
+            Set<String> ownMajorFoundationCourseNames
+    ) {
+        if (departmentName == null || departmentName.isBlank()) {
+            return false;
+        }
+        if (!isStudentMajorDepartment(accumulator, departmentName)) {
+            return false;
+        }
+        if (ownMajorFoundationCourseNames.isEmpty()) {
+            return false;
+        }
+        return ownMajorFoundationCourseNames.contains(normalizeCourseName(accumulator.courseName()));
+    }
+
+    private boolean isRecognizedCrossMajorElective(
+            CourseAccumulator accumulator,
+            String rawCategory,
+            Student student,
+            String departmentName,
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames
+    ) {
+        if (student == null) {
+            return false;
+        }
+        if (!isMajorRequiredCategory(rawCategory) && !isMajorElectiveCategory(rawCategory)) {
+            return false;
+        }
+        if (isStudentMajorDepartment(accumulator, departmentName)) {
+            return false;
+        }
+        if (student.getAdmissionYear() < 2024) {
+            return false;
+        }
+        if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes, ownMajorElectiveCourseNames)) {
+            return true;
+        }
+        String normalizedStudentDepartment = normalize(student.getMajor());
+        if (!AI_CONVERGENCE_COLLEGE_DEPARTMENTS.contains(normalizedStudentDepartment)) {
+            return false;
+        }
+        return accumulator.departments().stream()
+                .map(this::normalize)
+                .anyMatch(this::isAiConvergenceCollegeDepartment);
+    }
+
+    private boolean isAiConvergenceCollegeDepartment(String normalizedDepartment) {
+        return AI_CONVERGENCE_COLLEGE_DEPARTMENTS.stream()
+                .anyMatch(normalizedDepartment::contains);
     }
 
     private boolean isStudentMajorDepartment(CourseAccumulator accumulator, String departmentName) {
@@ -464,6 +719,10 @@ public class PlannableCourseCatalogService {
 
     private String normalizeDisplayText(String value) {
         return isBlank(value) ? "미지정" : value.trim();
+    }
+
+    private String normalizeCourseName(String courseName) {
+        return courseName == null ? "" : courseName.replaceAll("\\s+", "");
     }
 
     private String toCourseKey(String courseCode, String courseName, String category, String department) {
@@ -571,7 +830,10 @@ public class PlannableCourseCatalogService {
 
     private boolean isMajorCategory(String category) {
         String normalizedCategory = normalize(category);
-        return normalizedCategory.contains("전공");
+        return normalizedCategory.contains("전공")
+                || normalizedCategory.equals("전필")
+                || normalizedCategory.equals("전선")
+                || normalizedCategory.equals("전기");
     }
 
     private boolean isGloballyPlannableCourse(String courseName) {
@@ -584,8 +846,36 @@ public class PlannableCourseCatalogService {
         return normalizedCategory.equals("전선") || normalizedCategory.contains("전공선택");
     }
 
+    private boolean isMajorFoundationFilter(String category) {
+        String normalizedCategory = normalize(category);
+        return normalizedCategory.equals("전기") || normalizedCategory.contains("전공기초");
+    }
+
     private boolean isMajorElectiveCategory(String category) {
         return isMajorElectiveFilter(category);
+    }
+
+    private boolean isMajorRequiredCategory(String category) {
+        String normalizedCategory = normalize(category);
+        return normalizedCategory.equals("전필") || normalizedCategory.contains("전공필수");
+    }
+
+    private boolean isMajorFoundationOnlyCategory(String category) {
+        String normalizedCategory = normalize(category);
+        return normalizedCategory.equals("전기") || normalizedCategory.contains("전공기초");
+    }
+
+    private String normalizeMajorCategoryLabel(String category) {
+        if (isMajorRequiredCategory(category)) {
+            return "전공필수";
+        }
+        if (isMajorFoundationOnlyCategory(category)) {
+            return "전공기초";
+        }
+        if (isMajorElectiveCategory(category)) {
+            return "전공선택";
+        }
+        return category;
     }
 
     private record CourseAccumulator(
