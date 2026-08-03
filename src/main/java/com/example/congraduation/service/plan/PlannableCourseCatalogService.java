@@ -65,13 +65,16 @@ public class PlannableCourseCatalogService {
 
         List<CourseAccumulator> displayAccumulators = mergeForDisplay(deduplicated.values(), referenceDepartmentName);
 
-        List<PlannableCourseDto> courses = displayAccumulators.stream()
+        List<CourseAccumulator> filteredAccumulators = displayAccumulators.stream()
                 .filter(accumulator -> matchesKeyword(accumulator, keyword))
                 .filter(accumulator -> matchesTargetGrade(accumulator, targetGrade))
                 .filter(accumulator -> matchesOfferedTerm(accumulator, offeredTerm))
                 .filter(accumulator -> !isBlockedRetakeCourse(accumulator, blockedRetakeCourseCodes))
                 .filter(accumulator -> matchesDepartment(accumulator, referenceDepartmentName, student != null))
                 .filter(accumulator -> matchesCategory(accumulator, category, referenceDepartmentName))
+                .toList();
+
+        List<PlannableCourseDto> courses = collapseDisplayDuplicates(filteredAccumulators).stream()
                 .sorted(Comparator
                         .comparing(CourseAccumulator::courseName)
                         .thenComparing(CourseAccumulator::category))
@@ -87,6 +90,47 @@ public class PlannableCourseCatalogService {
                 .toList();
 
         return new PlannableCourseCatalogResponseDto(courses.size(), courses);
+    }
+
+    private List<CourseAccumulator> collapseDisplayDuplicates(List<CourseAccumulator> accumulators) {
+        Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
+        for (CourseAccumulator accumulator : accumulators) {
+            String mergeKey = toDuplicateCollapseKey(accumulator);
+            CourseAccumulator existing = merged.get(mergeKey);
+
+            if (existing == null) {
+                merged.put(mergeKey, new CourseAccumulator(
+                        new LinkedHashSet<>(accumulator.courseCodes()),
+                        accumulator.courseName(),
+                        accumulator.category(),
+                        new LinkedHashSet<>(accumulator.departments()),
+                        new LinkedHashSet<>(accumulator.targetGrades()),
+                        new LinkedHashSet<>(accumulator.credits()),
+                        new LinkedHashSet<>(accumulator.offeredTerms())
+                ));
+                continue;
+            }
+
+            existing.courseCodes().addAll(accumulator.courseCodes());
+            existing.departments().addAll(accumulator.departments());
+            existing.targetGrades().addAll(accumulator.targetGrades());
+            existing.credits().addAll(accumulator.credits());
+            existing.offeredTerms().addAll(accumulator.offeredTerms());
+
+            String preferredName = preferCourseName(existing.courseName(), accumulator.courseName());
+            if (!preferredName.equals(existing.courseName())) {
+                merged.put(mergeKey, new CourseAccumulator(
+                        existing.courseCodes(),
+                        preferredName,
+                        existing.category(),
+                        existing.departments(),
+                        existing.targetGrades(),
+                        existing.credits(),
+                        existing.offeredTerms()
+                ));
+            }
+        }
+        return new ArrayList<>(merged.values());
     }
 
     private List<CourseAccumulator> mergeForDisplay(
@@ -117,6 +161,19 @@ public class PlannableCourseCatalogService {
             existing.targetGrades().addAll(accumulator.targetGrades());
             existing.credits().addAll(accumulator.credits());
             existing.offeredTerms().addAll(accumulator.offeredTerms());
+
+            String preferredName = preferCourseName(existing.courseName(), accumulator.courseName());
+            if (!preferredName.equals(existing.courseName())) {
+                merged.put(displayKey, new CourseAccumulator(
+                        existing.courseCodes(),
+                        preferredName,
+                        existing.category(),
+                        existing.departments(),
+                        existing.targetGrades(),
+                        existing.credits(),
+                        existing.offeredTerms()
+                ));
+            }
         }
         return new ArrayList<>(merged.values());
     }
@@ -340,6 +397,48 @@ public class PlannableCourseCatalogService {
             return normalizedCodes + "|" + normalize(resolvedCategory);
         }
         return normalize(accumulator.courseName()) + "|" + normalize(resolvedCategory);
+    }
+
+    private String toDuplicateCollapseKey(CourseAccumulator accumulator) {
+        String normalizedCodes = accumulator.courseCodes().stream()
+                .map(this::normalizeCourseCode)
+                .filter(code -> !code.isBlank())
+                .sorted()
+                .collect(Collectors.joining("|"));
+        if (!normalizedCodes.isBlank()) {
+            return normalizedCodes + "|" + normalize(accumulator.category());
+        }
+        return normalize(accumulator.courseName()) + "|" + normalize(accumulator.category());
+    }
+
+    private String preferCourseName(String current, String candidate) {
+        if (isBlank(current)) {
+            return candidate;
+        }
+        if (isBlank(candidate)) {
+            return current;
+        }
+
+        int currentScore = courseNameQualityScore(current);
+        int candidateScore = courseNameQualityScore(candidate);
+        if (candidateScore > currentScore) {
+            return candidate;
+        }
+        return current;
+    }
+
+    private int courseNameQualityScore(String value) {
+        String trimmed = value == null ? "" : value.trim();
+        if (trimmed.isBlank()) {
+            return Integer.MIN_VALUE;
+        }
+
+        int score = trimmed.replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}가-힣]", "").length();
+        char firstChar = trimmed.charAt(0);
+        if (Character.isLetterOrDigit(firstChar) || Character.UnicodeScript.of(firstChar) == Character.UnicodeScript.HANGUL) {
+            score += 1000;
+        }
+        return score;
     }
 
     private String formatCredit(Double credits) {
