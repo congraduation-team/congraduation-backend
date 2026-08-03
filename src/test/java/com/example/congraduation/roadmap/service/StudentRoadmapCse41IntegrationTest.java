@@ -13,6 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,11 +73,39 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(names).anyMatch(n -> n.contains("졸업연구및진로1"));
         assertThat(names).anyMatch(n -> n.contains("최신기술콜로키움3"));
 
-        // 입학연도 없이 커리큘럼 preferred가 없으면, 중복 학수번호는 더 이른 칸만 유지
+        // 입학연도 없이 recommendedTerm이 없으면 양학기 개설 과목은 양쪽 칸 유지
         List<String> capstoneTerms = response.getTerms().stream()
                 .filter(t -> t.getCourses().stream().anyMatch(c -> "009960".equals(c.getCourseCode())))
                 .map(StudentRoadmapResponse.TermRoadmapDto::getTermKey)
                 .toList();
-        assertThat(capstoneTerms).hasSize(1);
+        assertThat(capstoneTerms).contains("4-1", "4-2");
+    }
+
+    @Test
+    void cseRoadmapPlacesFallOnlyCoursesInEvenTerms() {
+        StudentRoadmapResponse response = service.getByDepartment("컴퓨터공학과", null);
+
+        Map<String, Set<String>> codesByTerm = response.getTerms().stream()
+                .collect(Collectors.toMap(
+                        StudentRoadmapResponse.TermRoadmapDto::getTermKey,
+                        t -> t.getCourses().stream()
+                                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseCode)
+                                .collect(Collectors.toSet())
+                ));
+
+        assertThat(codesByTerm.get("3-2"))
+                .as("fall-only majors must land in 3-2")
+                .contains("003284", "011920", "011923");
+        assertThat(codesByTerm.get("4-2"))
+                .as("fall-only majors must land in 4-2")
+                .contains("011514", "011926");
+
+        assertThat(codesByTerm.get("3-1")).doesNotContain("003284", "011920", "011923");
+        assertThat(codesByTerm.get("4-1")).doesNotContain("011514", "011926");
+
+        assertThat(codesByTerm.get("3-2")).isNotEmpty();
+        assertThat(codesByTerm.get("4-2")).isNotEmpty();
+        assertThat(codesByTerm.get("1-2")).isNotEmpty();
+        assertThat(codesByTerm.get("2-2")).isNotEmpty();
     }
 }

@@ -20,6 +20,7 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.TermRoadmapD
 import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ import java.util.Set;
  * 이수 여부는 기이수성적 학수번호로 매칭한다.
  * 공학인증 대상 학과면 GENERAL/BSM/MAJOR로 나눠 반환한다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StudentRoadmapService {
@@ -206,9 +208,8 @@ public class StudentRoadmapService {
             }
         }
 
-        // 동일 학수번호가 1·2학기 시간표에 모두 있으면 한 칸만 유지.
-        // 선호 칸: 해당 학과·입학연도 커리큘럼 recommendedTerm (학과마다 Capstone 학기가 다를 수 있음).
-        // 커리큘럼 정보가 없으면 TERM_KEYS 앞쪽(더 이른 칸)을 유지.
+        // 동일 학수번호가 1·2학기 시간표에 모두 있으면, 커리큘럼 recommendedTerm이 있을 때만 한 칸으로 합친다.
+        // (선호 없을 때 이른 칸(*-1)을 강제하면 가을 전용 과목이 3-1/4-1로 밀리고 3-2/4-2가 비게 됨)
         Map<String, String> preferredTermByCode = Map.of();
         if (abeekTarget && abeekCode != null && admissionYear != null) {
             preferredTermByCode = loadPreferredTermBySejongCode(abeekCode, admissionYear);
@@ -263,10 +264,30 @@ public class StudentRoadmapService {
     }
 
     private List<TimetableTermData> resolveSourceTerms() {
-        TimetableTermData spring = latestNonEmptyTermForSemester(1)
-                .orElseThrow(() -> new IllegalArgumentException("1학기 강의시간표 데이터가 없습니다."));
         TimetableTermData fall = latestNonEmptyTermForSemester(2)
                 .orElseThrow(() -> new IllegalArgumentException("2학기 강의시간표 데이터가 없습니다."));
+        TimetableTermData spring = latestNonEmptyTermForSemester(1)
+                .orElseThrow(() -> new IllegalArgumentException("1학기 강의시간표 데이터가 없습니다."));
+
+        // 봄 슬롯이 가을 시간표 복사본이면(잘못된 업로드) 이전 연도 봄을 사용
+        if (TimetableCatalog.isNearDuplicateTerm(spring, fall)) {
+            Optional<TimetableTermData> olderSpring = findOlderDistinctSpring(spring, fall);
+            if (olderSpring.isPresent()) {
+                log.warn(
+                        "Latest spring {}-{} duplicates fall {}-{}; using older spring {}-{}",
+                        spring.termYear(), spring.semester(),
+                        fall.termYear(), fall.semester(),
+                        olderSpring.get().termYear(), olderSpring.get().semester()
+                );
+                spring = olderSpring.get();
+            } else {
+                log.warn(
+                        "Latest spring {}-{} duplicates fall {}-{} and no older distinct spring exists",
+                        spring.termYear(), spring.semester(),
+                        fall.termYear(), fall.semester()
+                );
+            }
+        }
         // 1학기·2학기 모두 사용해 1-1~4-2 채움
         return List.of(spring, fall);
     }
@@ -276,6 +297,19 @@ public class StudentRoadmapService {
         return timetableCatalog.availableTerms().stream()
                 .filter(term -> term.semester() == semester)
                 .filter(term -> term.offerings() != null && !term.offerings().isEmpty())
+                .findFirst();
+    }
+
+    private Optional<TimetableTermData> findOlderDistinctSpring(
+            TimetableTermData badSpring,
+            TimetableTermData fall
+    ) {
+        return timetableCatalog.availableTerms().stream()
+                .filter(term -> term.semester() == 1)
+                .filter(term -> term.offerings() != null && !term.offerings().isEmpty())
+                .filter(term -> term.termYear() != badSpring.termYear()
+                        || term.semester() != badSpring.semester())
+                .filter(term -> !TimetableCatalog.isNearDuplicateTerm(term, fall))
                 .findFirst();
     }
 
@@ -439,13 +473,12 @@ public class StudentRoadmapService {
             }
             String code = entry.getKey();
             String preferred = preferredTermByCode.get(code);
-            String keep = (preferred != null && terms.contains(preferred))
-                    ? preferred
-                    : terms.stream()
-                            .min(Comparator.comparingInt(TERM_KEYS::indexOf))
-                            .orElse(terms.getFirst());
+            // 커리큘럼 권장학기가 있을 때만 한 칸으로 합침. 없으면 개설 학기(1·2) 모두 유지.
+            if (preferred == null || !terms.contains(preferred)) {
+                continue;
+            }
             for (String termKey : terms) {
-                if (!termKey.equals(keep)) {
+                if (!termKey.equals(preferred)) {
                     byTermAndCode.get(termKey).remove(code);
                     // 원본 키가 대소문자/공백 다를 수 있어 스캔 삭제
                     byTermAndCode.get(termKey).entrySet()
