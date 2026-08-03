@@ -102,8 +102,10 @@ class EnglishCertificationServiceTest {
 
         EnglishCertificationProgressDto result = service.evaluate(student, List.of());
 
-        assertTrue(result.primaryRequirement().contains("TOEIC 700"));
-        assertTrue(result.detail().contains("2012~2022학년도 기준 점수"));
+        assertTrue(result.primaryRequirement().contains("TOEIC 700점 이상"));
+        assertTrue(result.primaryRequirement().contains("OPIc Intermediate Low 이상"));
+        assertTrue(result.primaryRequirement().contains("G-TELP Level 2(65점)"));
+        assertTrue(result.detail().contains("2012~2022학년도 기준 점수는 TOEIC 700점 이상"));
     }
 
     @Test
@@ -112,8 +114,22 @@ class EnglishCertificationServiceTest {
 
         EnglishCertificationProgressDto result = service.evaluate(student, List.of());
 
-        assertTrue(result.primaryRequirement().contains("TOEIC 900"));
-        assertTrue(result.detail().contains("영어영문 계열 2023학년도 이후 기준 점수"));
+        assertTrue(result.primaryRequirement().contains("TOEIC 900점 이상"));
+        assertTrue(result.primaryRequirement().contains("OPIc Intermediate Mid 2 이상"));
+        assertTrue(result.primaryRequirement().contains("G-TELP Speaking Level 3"));
+        assertTrue(result.detail().contains("영어영문 계열 2023학년도 이후 기준 점수는 TOEIC 900점 이상"));
+    }
+
+    @Test
+    void showsLegacyEnglishMajorRequirementFor2021Students() {
+        Student student = Student.create("21000001", "테스트", "영어영문학과", MajorType.SINGLE, null, 4, 2021, "ACTIVE", false);
+
+        EnglishCertificationProgressDto result = service.evaluate(student, List.of());
+
+        assertTrue(result.primaryRequirement().contains("TOEIC 800점 이상"));
+        assertTrue(result.primaryRequirement().contains("OPIc Intermediate Mid 1 이상"));
+        assertTrue(result.primaryRequirement().contains("G-TELP Level 2(77점)"));
+        assertTrue(result.detail().contains("영어영문 계열 2012~2022학년도 기준 점수는 TOEIC 800점 이상"));
     }
 
     private static List<CompletedCourseUploadRowDto> regularTermsFrom(int startYear, int count) {
