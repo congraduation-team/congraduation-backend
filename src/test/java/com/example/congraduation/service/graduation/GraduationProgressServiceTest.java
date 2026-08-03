@@ -69,6 +69,34 @@ class GraduationProgressServiceTest {
     }
 
     @Test
+    void buildCategoryProgressTreatsZeroRequirementAsSatisfied() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "buildCategoryProgress",
+                List.class,
+                Integer.class,
+                String[].class
+        );
+        method.setAccessible(true);
+
+        List<CategorySummaryDto> summaries = List.of(
+                new CategorySummaryDto("교선", "0", null, false, null, new ArrayList<>())
+        );
+
+        CategoryProgressDto electiveLiberal = (CategoryProgressDto) method.invoke(
+                service,
+                summaries,
+                0,
+                new String[]{"교선"}
+        );
+
+        assertEquals(true, electiveLiberal.satisfied());
+    }
+
+    @Test
     void applyCategoryRequirementsMergesAliasCategoriesIntoRequiredBucket() throws Exception {
         GraduationProgressService service = new GraduationProgressService(
                 null, null, null, null, null, null, null, null, null, null, null, null

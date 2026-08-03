@@ -1115,7 +1115,7 @@ public class GraduationProgressService {
 
     private boolean isSatisfied(BigDecimal earned, Integer required) {
         if (required == null || required <= 0) {
-            return false;
+            return true;
         }
         return earned.compareTo(BigDecimal.valueOf(required)) >= 0;
     }
