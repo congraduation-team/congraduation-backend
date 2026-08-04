@@ -46,6 +46,7 @@ public class MajorCreditSummaryService {
                 toDouble(requiredCredits.add(electiveCredits)),
                 requiredCount,
                 electiveCount,
+                requiredCount + electiveCount,
                 courses.size()
         );
     }

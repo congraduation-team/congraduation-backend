@@ -1120,107 +1120,302 @@
         "estimatedTerm": "2-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "문제해들들 위한",
-        "to": "글쓰기다 밭=",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "글쓰기다 밭=",
-        "to": "정결과 토트",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정결과 토트",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "Enslish rEadins",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일년수기적문학",
-        "to": "다년수기적문학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인종전공) 필수",
-        "to": "전공과-록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인반문리락 및 실럽_",
-        "to": "일반화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조공학",
-        "to": "강구조공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "강구조공학",
-        "to": "합성구 조설거",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "합성구 조설거",
-        "to": "나 진설트",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "나 진설트",
-        "to": "도무공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초공학",
-        "to": "건설CD",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건설CD",
-        "to": "철단계 축공하",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "유처여학 및 연습",
-        "to": "수처리시스템공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "=장스수",
-        "to": "필수선수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선수",
-        "to": "환경공학 및 실럽",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:51"
+  "scrapedAt": "2026-07-28T19:24:51",
+  "prerequisites": [
+    {
+      "from": "일변수미적분학",
+      "to": "다변수미적분학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "다변수미적분학",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "건설수치해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "소프트웨어기초코딩",
+      "to": "고급프로그래밍입문-P",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "일반물리학및실험 2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반화학",
+      "to": "지구환경과학입문",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "응용역학및연습1",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "유체역학및연습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "환경공학및실험",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "응용역학및연습1",
+      "to": "응용역학및연습2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습1",
+      "to": "토질역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "구조공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "강구조공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "콘크리트공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "재해방지공학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "토질역학",
+      "to": "재해방지공학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "토질역학",
+      "to": "기초공학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "토질역학",
+      "to": "콘크리트공학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초창의설계",
+      "to": "응용역학및연습1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초창의설계",
+      "to": "유체역학및연습",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초창의설계",
+      "to": "환경공학및실험",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초창의설계",
+      "to": "콘크리트공학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "구조공학",
+      "to": "내진설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "강구조공학",
+      "to": "합성구조설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "콘크리트공학",
+      "to": "콘크리트구조설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "재해방지공학",
+      "to": "기초공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "내진설계",
+      "to": "교량공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "콘크리트구조설계",
+      "to": "건설재료시험",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "기초공학",
+      "to": "건설CAD",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설CAD",
+      "to": "첨단계측공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설수치해석",
+      "to": "내진설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "유체역학및연습",
+      "to": "수리학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "수리학",
+      "to": "수처리시스템공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "수리학",
+      "to": "수문학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "수리학",
+      "to": "해안및항만공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "수처리시스템공학",
+      "to": "수문학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "수처리시스템공학",
+      "to": "해안및항만공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "수처리시스템공학",
+      "to": "물재생자원순환",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "수문학",
+      "to": "수자원공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조공학",
+      "to": "건설경영관리",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설경영관리",
+      "to": "내진설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "합성구조설계",
+      "to": "도로공학",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설CAD",
+      "to": "신재생에너지",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설CAD",
+      "to": "건설환경종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "콘크리트공학",
+      "to": "건설환경종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "CIVIL 2020 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "일반물리학및실험1",
+    "응용역학및연습1",
+    "응용역학및연습2",
+    "수리학"
+  ]
 }

@@ -16,6 +16,7 @@ import java.util.Optional;
 public class SejongAbeekCourseCodeCatalog {
 
     private final Map<String, String> sejongToAbeek;
+    private final Map<String, String> abeekToSejong;
 
     public SejongAbeekCourseCodeCatalog() {
         Map<String, String> map = new LinkedHashMap<>();
@@ -30,13 +31,25 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("011110", "GEN_SEMINAR");
         map.put("009489", "GEN_WORLD_HIST");
         map.put("009936", "GEN_TECH_WRITE");
-        map.put("010112", "GEN_GRAD2");
+        map.put("010112", "GEN_GRAD2"); // 졸업연구및진로2
+        map.put("010111", "GEN_GRAD1"); // 졸업연구및진로1
         // 고급프로그래밍입문-P / 이해-P (표기만 다름, 동일 학수번호)
         map.put("009787", "GEN_ADV_PROG_P");
+        // 대학영어 (2022~ 전문교양 필수, Listening/Reading 대체)
+        map.put("011304", "GEN_UNI_ENG");
+        // 인증선택(균필) 영역 과목
+        map.put("011307", "GEN_WORLD_HIST2"); // 세계사
+        map.put("011305", "GEN_EAST_WEST");   // 동서양의사상과윤리
+        map.put("011312", "GEN_MGMT");        // 경영학
+        map.put("011313", "GEN_ECON");        // 경제학
+        map.put("011316", "GEN_FUSION_ART");  // 융합예술의이해
+        map.put("011317", "GEN_METAVERSE");   // 컴퓨터게임과메타버스
 
         // —— BSM ——
-        map.put("006098", "BSM_CALC");
-        map.put("002647", "BSM_PHYS_LAB");
+        map.put("006098", "BSM_CALC");       // 기초미적분학
+        map.put("001357", "BSM_CALC1");      // 미적분학1
+        map.put("002647", "BSM_PHYS_LAB");   // 일반물리학및실험1
+        map.put("002638", "BSM_PHYS");       // 일반물리학1
         map.put("000304", "BSM_EMATH1");
         map.put("009955", "BSM_DISC");
         map.put("009959", "BSM_PROB_PROG"); // 확률통계및프로그래밍(구)
@@ -59,6 +72,15 @@ public class SejongAbeekCourseCodeCatalog {
         map.put("007313", "MAJ_PL");
 
         this.sejongToAbeek = Collections.unmodifiableMap(map);
+        Map<String, String> reverse = new LinkedHashMap<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            reverse.putIfAbsent(entry.getValue(), entry.getKey());
+        }
+        // 구·신 표기 중 신코드 우선
+        reverse.put("BSM_PROB", "007330");
+        reverse.put("BSM_LINEAR", "001725");
+        // BSM_PHYS / BSM_CALC1 은 forward map에서 이미 올바른 세종코드로 들어감
+        this.abeekToSejong = Collections.unmodifiableMap(reverse);
     }
 
     public Optional<String> findAbeekCourseCode(String sejongCourseCode) {
@@ -67,6 +89,15 @@ public class SejongAbeekCourseCodeCatalog {
             return Optional.empty();
         }
         return Optional.ofNullable(sejongToAbeek.get(normalized));
+    }
+
+    /** ABEEK 내부 코드 → 대표 세종 학수번호 */
+    public Optional<String> findSejongCourseCode(String abeekCourseCode) {
+        String normalized = normalize(abeekCourseCode);
+        if (normalized.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(abeekToSejong.get(normalized));
     }
 
     public boolean isKnownSejongCode(String sejongCourseCode) {

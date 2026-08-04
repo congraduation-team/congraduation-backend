@@ -1436,251 +1436,272 @@
         "estimatedTerm": "2-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "문제하 곁들 위한",
-        "to": "글쓰기와 발표",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "글쓰기와 발표",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "서양철학: 잠점과 토",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학: 잠점과 토",
-        "to": "English Listening",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "English Listening",
-        "to": "Practice",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Practice",
-        "to": "English Reading",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수",
-        "to": "MSC/전문교양",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공선택",
-        "to": "인증필스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인증필스",
-        "to": "입종선택",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일변수미적분학",
-        "to": "다변수미적분학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "다변수미적분학",
-        "to": "공업수학/",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학/",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "통계학가 톤",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학및실험",
-        "to": "일반물리학빛 실험2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "드트웨어 기초코딩",
-        "to": "건축디자인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축디자인",
-        "to": "일반화-학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화-학",
-        "to": "건설관리 및 경영",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건설관리 및 경영",
-        "to": "건축시공",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축시공",
-        "to": "건축실무",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학선계인문",
-        "to": "공학기초선계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학선계 A",
-        "to": "공학선계 B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학선계 B",
-        "to": "공학선거",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축일반구조",
-        "to": "특수구조가 론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "특수구조가 론",
-        "to": "건축자로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축환-경가 톤",
-        "to": "건축선비가톤",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축선비가톤",
-        "to": "건축기계선비시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축기계선비시스템",
-        "to": "건축환-경선비하 석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축환-경선비하 석",
-        "to": "건축전기선비시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축전기선비시스템",
-        "to": "건축조명",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축조명",
-        "to": "환경 섬",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "철근근크리트공학",
-        "to": "구조계획 및 선계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조계획 및 선계",
-        "to": "스라트구조가 론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축구조시스템",
-        "to": "구조역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조역학",
-        "to": "구조역학 2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조역학 2",
-        "to": "건축구조하 석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축구조하 석",
-        "to": "철골구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "철골구조",
-        "to": "컴퓨터 구조하 석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "<선계인증조건>",
-        "to": "기초선계 이수 및 종화선계 A,B 중 하나 이수름 필수로 포함하여 선계과목 총 1 2학점 이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "추가 조건들은 인증기준 참고",
-        "to": "반드시 기초선계-오스선계-종하선계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반드시 기초선계-오스선계-종하선계",
-        "to": "순서로 이수 (기초선계와 오소선계 . 오소선계와 종한선계름 같은 학기어 수강하는 것은 가능)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:48"
+  "scrapedAt": "2026-07-28T19:24:48",
+  "prerequisites": [
+    {
+      "from": "일변수미적분학",
+      "to": "다변수미적분학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "다변수미적분학",
+      "to": "공업수학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "일반물리학및실험2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "소프트웨어기초코딩",
+      "to": "고급프로그래밍입문-P",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "공학설계입문",
+      "to": "공학기초설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공학설계입문",
+      "to": "건축환경설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공학기초설계",
+      "to": "건축환경설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경설계",
+      "to": "공학설계A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공학설계A",
+      "to": "공학설계B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "건축개론",
+      "to": "공학설계입문",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축개론",
+      "to": "건축환경개론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축개론",
+      "to": "건축구조시스템",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축디자인",
+      "to": "공학설계입문",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축구조시스템",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "구조역학1",
+      "to": "구조역학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학2",
+      "to": "건축구조해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "건축구조해석",
+      "to": "컴퓨터구조해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학1",
+      "to": "철근콘크리트공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학2",
+      "to": "철근콘크리트설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "철근콘크리트공학",
+      "to": "철근콘크리트설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "철근콘크리트설계",
+      "to": "구조계획및설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조계획및설계",
+      "to": "스마트구조개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축구조해석",
+      "to": "철골구조",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "철골구조",
+      "to": "컴퓨터구조해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경개론",
+      "to": "건축설비개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축설비개론",
+      "to": "건축기계설비시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축기계설비시스템",
+      "to": "건축전기설비시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축기계설비시스템",
+      "to": "건축조명",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축전기설비시스템",
+      "to": "건축환경설비해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경설비해석",
+      "to": "건축조명",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경설계",
+      "to": "건축환경설비해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설관리및경영",
+      "to": "건축시공",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건설관리및경영",
+      "to": "건축법규",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축시공",
+      "to": "건축실무",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축실무",
+      "to": "건설IT",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축일반구조",
+      "to": "건축재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축일반구조",
+      "to": "특수구조개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "건축구조시스템",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "ARCH 2021 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "구조역학1",
+    "건축구조시스템",
+    "건축환경개론",
+    "공학설계입문"
+  ]
 }

@@ -1681,429 +1681,8 @@
         "estimatedTerm": "2-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "글쓰기와발표",
-        "to": "다학영어(2-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "서양철학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학",
-        "to": "교양선택과목 (1 ~4학년)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "교양선택과목 (1 ~4학년)",
-        "to": "우족 3영역 중 2영역에 대해 각 택1 (3학점, 2과목)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "경제와 사회 영역: 경저학, 경영학",
-        "to": "문화와 예술 영역: 컴퓨터거 임5 타버스 음합여 슬의이히",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "프로그라망(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(BSM)",
-        "to": "일반들리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반들리학",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기거 학습가 톤",
-        "to": "기켜 학습(3-",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "강화학습",
-        "to": "(1-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "테이터분석가 톤",
-        "to": "걸티기디어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "걸티기디어",
-        "to": "영상처리(3-1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "영상처리(3-1)",
-        "to": "지능형시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지능형시스템",
-        "to": "(3-1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-1)",
-        "to": "인공지능조적화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능조적화",
-        "to": "특허와창업",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "C프로그라망",
-        "to": "및실(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및실(3-0)",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "자연어처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자연어처리",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "Hurnan",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Hurnan",
-        "to": "Intersecticn(3",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능",
-        "to": "스학2(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "스학2(3-0)",
-        "to": "수치하석(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수치하석(3-0)",
-        "to": "테이터시각화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "테이터시각화",
-        "to": "답러님시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "답러님시스템",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능",
-        "to": "데이터- 이스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터- 이스",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "인공지능홀로키들",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능홀로키들",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "2022년도",
-        "to": "{영역별 필수이수학점?",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "{영역별 필수이수학점?",
-        "to": "전문교양 : 1스학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문교양 : 1스학점 이상",
-        "to": "빚데이터로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "빚데이터로",
-        "to": "신호처리(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신호처리(3-0)",
-        "to": "컴퓨터그라픽스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터그라픽스",
-        "to": "인공지능토안",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능토안",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "스설너 트위=",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "스설너 트위=",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(이수체계도",
-        "to": "ESM(기초수학과학)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "ESM(기초수학과학)",
-        "to": "전공: 60학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공: 60학점 이상",
-        "to": "18학점",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "18학점",
-        "to": "자료구조딪실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료구조딪실습",
-        "to": "알고리증및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "알고리증및",
-        "to": "실습(--D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "실습(--D)",
-        "to": "(3-1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-1)",
-        "to": "운영저제(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "운영저제(3-0)",
-        "to": "(3-1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-1)",
-        "to": "(3-0)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-0)",
-        "to": "및여 측프로적트",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(설계 12학점 이상)",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "컴퓨터구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터구조",
-        "to": "인공지능과",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능과",
-        "to": "ARVR/MR",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "ARVR/MR",
-        "to": "시켜 열데이터",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(3-D)",
-        "to": "(3-D)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필스 고과 열역",
-        "to": "플수 선수과록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "플수 선수과록",
-        "to": "---+ 선택 선수과록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(산학협력 프로적트",
-        "to": "Capstcne디자인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "학점-설거 )",
-        "to": "전문고양",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문고양",
-        "to": "{기즈스학 과학)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "{기즈스학 과학)",
-        "to": "전공(인필)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공(인필)",
-        "to": "전공(인선)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {
       "1-1": 0.0977,
       "1-2": 0.2117,
@@ -2116,5 +1695,176 @@
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:23"
+  "scrapedAt": "2026-07-28T19:25:23",
+  "prerequisites": [
+    {
+      "from": "기초미적분학",
+      "to": "공업수학 1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "C 프로그래밍및실습",
+      "to": "고급 C 프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급 C 프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "C 프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "컴퓨터구조",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "확률통계및프로그래밍",
+      "to": "선형대수및프로그래밍",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기계학습개론",
+      "to": "파이썬기반기계학습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "파이썬기반기계학습",
+      "to": "딥러닝개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "선형대수및프로그래밍",
+      "to": "딥러닝개론",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "선형대수및프로그래밍",
+      "to": "파이썬기반딥러닝",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "파이썬기반기계학습",
+      "to": "파이썬기반딥러닝",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "딥러닝개론",
+      "to": "파이썬기반딥러닝",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "파이썬기반딥러닝",
+      "to": "강화학습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "파이썬기반딥러닝",
+      "to": "딥러닝시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "지능형시스템",
+      "to": "딥러닝시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "인공지능과사이버보안",
+      "to": "인공지능보안",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "데이터베이스",
+      "to": "대용량데이터처리",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공학설계기초 ( 산학프로젝트입문 )",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "영상처리",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "데이터베이스",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "운영체제",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "알고리즘및실습",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "컴퓨터구조",
+      "to": "Capstone 디자인 ( 산학협력프로젝트 )",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "졸업연구및진로 1",
+      "to": "졸업연구및진로 2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "소셜네트워크분석및예측",
+      "to": "빅데이터분석및예측프로젝트",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "C 프로그래밍및실습",
+      "to": "창의 SW 융합노마드",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "AI 2022 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "C 프로그래밍및실습",
+    "고급 C 프로그래밍및실습",
+    "공학설계기초 ( 산학프로젝트입문 )"
+  ]
 }

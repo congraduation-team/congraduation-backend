@@ -1,11 +1,8 @@
 {
-  "departmentCode": "DS",
   "departmentName": "데이터사이언스학",
-  "year": 2024,
-  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_8.html",
   "requirement": {
     "generalMinCredits": 14.0,
-    "bsmMinCredits": 15.0,
+    "bsmMinCredits": 18.0,
     "majorMinCredits": 45.0,
     "designMinCredits": 9.0,
     "totalMinCredits": 74.0,
@@ -14,11 +11,11 @@
         "category": "교양",
         "minCredits": 14.0,
         "designCredits": 0.0,
-        "note": "*인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 ※ 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 ※ 인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수"
+        "note": "인증필수/선택 포함 14학점"
       },
       {
-        "category": "BSM (기초과학 및 수학)",
-        "minCredits": 15.0,
+        "category": "BSM",
+        "minCredits": 18.0,
         "designCredits": 0.0,
         "note": "미적분학1, 일반물리학1, 공업수학1, 통계학개론, 수치해석, 선형대수및프로그래밍"
       },
@@ -26,520 +23,124 @@
         "category": "전공",
         "minCredits": 45.0,
         "designCredits": 9.0,
-        "note": "공학설계기초(산학프로젝트입문), Capstone디자인(산학협력프로젝트) 포함하여 설계학점을 9학점 이상 획득하여야 함 (기초->요소->종합설계 순서로 수강) ※ 설계 교과목 이수 조건 : 기초설계: 공학설계기초(3, 설계 3학점) 요소설계: 고급C프로그래밍및실습(3, 설계 1학점), 문제해결및실습:C++(3, 설계 1학점), 문제해결및실습:JAVA(3, 설계 1학점), K-MOOC:기계학습(3, 설계 1학점), 데이터베이스(3, 설계 1학점), 컴퓨터그래픽스(3, 설계 1학점), 데이터문제해결및실습(3, 설계 1학점) 종합설계: Capstone 디자인(6, 설계 6학점)"
+        "note": "설계 9학점 이상 (기초->요소->종합)"
       },
       {
         "category": "인증최소 이수학점",
         "minCredits": 74.0,
         "designCredits": 9.0,
-        "note": "데이터사이언스학과의 학과 졸업이수학점: 130학점"
+        "note": "졸업 130학점"
       }
     ],
     "rawNotes": [
-      "*인증필수: 문제해결을위한글쓰기와발표, 서양철학:쟁점과토론, 대학영어 *인증필수선택: (역사와사상영역) 세계사, 동서양의사상과윤리 (경제와사회영역) 경제학, 경영학 (문화와예술영역) 컴퓨터게임과메타버스, 융합예술의이해 ※ 인증필수 및 선택교과목 중 2과목 이상을 포함하여 14학점 이상 이수 ※ 인증선택과목은 위 지정 6개 교과목 중 2과목 이상(총 6학점 이상)선택 이수",
+      "인증필수/선택 포함 14학점",
       "미적분학1, 일반물리학1, 공업수학1, 통계학개론, 수치해석, 선형대수및프로그래밍",
-      "공학설계기초(산학프로젝트입문), Capstone디자인(산학협력프로젝트) 포함하여 설계학점을 9학점 이상 획득하여야 함 (기초->요소->종합설계 순서로 수강) ※ 설계 교과목 이수 조건 : 기초설계: 공학설계기초(3, 설계 3학점) 요소설계: 고급C프로그래밍및실습(3, 설계 1학점), 문제해결및실습:C++(3, 설계 1학점), 문제해결및실습:JAVA(3, 설계 1학점), K-MOOC:기계학습(3, 설계 1학점), 데이터베이스(3, 설계 1학점), 컴퓨터그래픽스(3, 설계 1학점), 데이터문제해결및실습(3, 설계 1학점) 종합설계: Capstone 디자인(6, 설계 6학점)",
-      "데이터사이언스학과의 학과 졸업이수학점: 130학점"
+      "설계 9학점 이상 (기초->요소->종합)",
+      "졸업 130학점"
     ],
     "designCourses": {
       "BASIC": [
         {
-          "name": "공학설계기초",
+          "name": "공학설계기초(산학프로젝트입문)",
           "designCredits": 3.0,
-          "raw": "공학설계기초(3, 설계 3학점)"
+          "raw": "공학설계기초(3, 설계3)"
         }
       ],
       "ELEMENT": [
         {
           "name": "고급C프로그래밍및실습",
           "designCredits": 1.0,
-          "raw": "고급C프로그래밍및실습(3, 설계 1학점)"
+          "raw": "고급C(설계1)"
         },
         {
           "name": "문제해결및실습:C++",
           "designCredits": 1.0,
-          "raw": "문제해결및실습:C++(3, 설계 1학점)"
+          "raw": "C++(설계1)"
         },
         {
           "name": "문제해결및실습:JAVA",
           "designCredits": 1.0,
-          "raw": "문제해결및실습:JAVA(3, 설계 1학점)"
+          "raw": "JAVA(설계1)"
         },
         {
           "name": "K-MOOC:기계학습",
           "designCredits": 1.0,
-          "raw": "K-MOOC:기계학습(3, 설계 1학점)"
+          "raw": "K-MOOC:기계학습(설계1)"
         },
         {
           "name": "데이터베이스",
           "designCredits": 1.0,
-          "raw": "데이터베이스(3, 설계 1학점)"
+          "raw": "DB(설계1)"
         },
         {
           "name": "컴퓨터그래픽스",
           "designCredits": 1.0,
-          "raw": "컴퓨터그래픽스(3, 설계 1학점)"
+          "raw": "CG(설계1)"
         },
         {
-          "name": "데이터문제해결및실습",
+          "name": "데이터문제해결및실습1",
           "designCredits": 1.0,
-          "raw": "데이터문제해결및실습(3, 설계 1학점)"
+          "raw": "데이터문제해결(설계1)"
         }
       ],
       "COMPREHENSIVE": [
         {
-          "name": "Capstone 디자인",
+          "name": "Capstone디자인(산학협력프로젝트)",
           "designCredits": 6.0,
-          "raw": "Capstone 디자인(6, 설계 6학점) 데이터사이언스학과의 학과 졸업이수학점: 130학점"
+          "raw": "Capstone(설계6)"
         }
       ]
     },
     "certElective": {
       "minCourses": 2,
       "minCredits": 6,
-      "minAreas": 0
+      "minAreas": 2
     }
   },
   "courses": [
     {
-      "name": "1학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
+      "name": "문제해결을위한글쓰기와발표",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
       "recommendedTerm": "1-1",
       "gradeYear": 1,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "학년 2학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "2학년 1학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "2학년 2학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "3학년 1학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "3학년 2학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "4학년 1학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "4학년 2학기",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "문제히결들",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "서양철학:",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "위한 글쓰기와",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "<2~4학년 지정과목 >",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "정점과 토론",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "역사와 사상: 서계사, 동서양의사상과운리",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "<설계과목 >",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "경제와 사회: 경영학, 경제학",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "대학영어",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "문화와 여술: 컴퓨터게임과메타버스",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "9학점이상 수강해야함",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "(전공학점 # 설계학점)",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "6개 교과목 중 2개 교과목 필수수강",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "공학설계기초 - 요소설계 1과목",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "(각각 다른 영역으로 2개 수감들 권장)",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "Capstone디자인 순으로 수강",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "선현대수 및",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
       "name": "미적분학1",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
       "recommendedTerm": "1-1",
       "gradeYear": 1,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "통계학개론",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "프로그래망",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "전 공합설계 후 요소설계 수강은 설계인정안된",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
       "name": "일반물리학1",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-1",
+      "gradeYear": 1,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "C프로그래밍및실습",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
@@ -547,89 +148,168 @@
       "recommendedTerm": "1-1",
       "gradeYear": 1,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "서양철학:쟁점과토론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "대학영어",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "통계학개론",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
     },
     {
       "name": "공업수학1",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
       "recommendedTerm": "1-2",
       "gradeYear": 1,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "수치하석",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
+      "name": "공학설계기초(산학프로젝트입문)",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
       "category": "MAJOR",
       "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "데이터",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "(프로그래망",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "공학 설계기초",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
+      "designCredits": 3.0,
+      "designLevel": "BASIC",
       "recommendedTerm": "1-2",
       "gradeYear": 1,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "문제히결및",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
+      "name": "고급C프로그래밍및실습",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "1-2",
+      "gradeYear": 1,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "세계사",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "동서양의사상과윤리",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "HISTORY_THOUGHT"
+    },
+    {
+      "name": "경제학",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "경영학",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "ECONOMY_SOCIETY"
+    },
+    {
+      "name": "컴퓨터게임과메타버스",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "융합예술의이해",
+      "roleLabel": "인필",
+      "role": "CERT_ELECTIVE",
+      "category": "GENERAL",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": null,
+      "gradeYear": null,
+      "semester": null,
+      "electiveArea": "CULTURE_ART"
+    },
+    {
+      "name": "자료구조및실습",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
@@ -637,373 +317,37 @@
       "recommendedTerm": "2-1",
       "gradeYear": 2,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "문제히결및",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "K-MOOC:",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "Capstone디자인",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "문제히결",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "고급기계학습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "및 실습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "실습:C -",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "실습;JAVA",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "기계학습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "및 실습1",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "고급 (프로그래",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "자료구조",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "오른소스",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "컴퓨터구조",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "데이터버이스",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "고급데이터처리",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "특허와 창업",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "망 및 실습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "및 실습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "SW개론",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "창의sW",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "알고리증",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-2",
-      "gradeYear": 2,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "컴퓨터",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "데이터사이언스",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
       "name": "데이터분석개론",
-      "roleLabel": "OCR",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "문제해결및실습:C++",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-1",
+      "gradeYear": 2,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "웹프로그래밍",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1012,59 +356,38 @@
       "recommendedTerm": "2-1",
       "gradeYear": 2,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "데이터시각화",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
+      "name": "선형대수및프로그래밍",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "텍스트마이님",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
+      "name": "수치해석",
+      "roleLabel": "인필",
+      "role": "REQUIRED",
+      "category": "GENERAL",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "움합노마드",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "및 실습",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
+      "name": "컴퓨터구조",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
@@ -1072,14 +395,77 @@
       "recommendedTerm": "2-2",
       "gradeYear": 2,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "그래픽스",
-      "roleLabel": "OCR",
+      "name": "알고리즘및실습",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "문제해결및실습:JAVA",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "2-2",
+      "gradeYear": 2,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "K-MOOC:기계학습",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "데이터베이스",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "컴퓨터그래픽스",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-1",
+      "gradeYear": 3,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "운영체제",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
@@ -1087,58 +473,24 @@
       "recommendedTerm": "3-1",
       "gradeYear": 3,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "컴퓨터 정보",
-      "roleLabel": "OCR",
+      "name": "데이터문제해결및실습1",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "3-2",
+      "gradeYear": 3,
+      "semester": 2,
+      "electiveArea": "NONE"
     },
     {
-      "name": "(공)학주저",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "확물통계 및",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "대용량",
-      "roleLabel": "OCR",
+      "name": "오픈소스SW개론",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1147,73 +499,11 @@
       "recommendedTerm": "3-2",
       "gradeYear": 3,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "시계열분석",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "데이터문제히결",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "운영처제",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "프로그래망",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "데이터처리",
-      "roleLabel": "OCR",
+      "name": "데이터시각화",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1222,103 +512,24 @@
       "recommendedTerm": "3-2",
       "gradeYear": 3,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "및 여촉",
-      "roleLabel": "OCR",
+      "name": "대용량데이터처리",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "및 실습2",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "비즈니스",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "졸업연구",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-2",
-      "gradeYear": 4,
-      "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "월프로그래망",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "의사결정분석",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
+      "recommendedTerm": "3-2",
       "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "semester": 2,
+      "electiveArea": "NONE"
     },
     {
       "name": "인공지능",
-      "roleLabel": "OCR",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1327,13 +538,24 @@
       "recommendedTerm": "3-2",
       "gradeYear": 3,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "인렇리전스",
-      "roleLabel": "OCR",
+      "name": "Capstone디자인(산학협력프로젝트)",
+      "roleLabel": "전필",
+      "role": "REQUIRED",
+      "category": "MAJOR",
+      "credits": 6.0,
+      "designCredits": 6.0,
+      "designLevel": "COMPREHENSIVE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급데이터처리",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1342,13 +564,76 @@
       "recommendedTerm": "4-1",
       "gradeYear": 4,
       "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "및 진로2",
-      "roleLabel": "OCR",
+      "name": "텍스트마이닝",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "시계열분석및예측",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "비즈니스인텔리전스",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로1",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-1",
+      "gradeYear": 4,
+      "semester": 1,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "고급기계학습",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 1.0,
+      "designLevel": "ELEMENT",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "특허와창업",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
@@ -1357,177 +642,112 @@
       "recommendedTerm": "4-2",
       "gradeYear": 4,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "파이선들이용한",
-      "roleLabel": "OCR",
+      "name": "데이터사이언스특론",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "졸업연구",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
+      "recommendedTerm": "4-2",
       "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "기계학습개론",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "및 진로1",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "인종필수",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-1",
-      "gradeYear": 1,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "기초설계 /종합설계",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "1-2",
-      "gradeYear": 1,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
     },
     {
-      "name": "요소설계",
-      "roleLabel": "OCR",
+      "name": "데이터문제해결및실습2",
+      "roleLabel": "전선",
       "role": "ELECTIVE",
       "category": "MAJOR",
       "credits": 3.0,
       "designCredits": 0.0,
       "designLevel": "NONE",
-      "recommendedTerm": "2-1",
-      "gradeYear": 2,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "선후수관계",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-1",
-      "gradeYear": 3,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "TPDM박데이터",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
+      "recommendedTerm": "4-2",
       "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "플렉풍경영",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "4-1",
-      "gradeYear": 4,
-      "semester": 1,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
-    },
-    {
-      "name": "기초설계",
-      "roleLabel": "OCR",
-      "role": "ELECTIVE",
-      "category": "MAJOR",
-      "credits": 3.0,
-      "designCredits": 0.0,
-      "designLevel": "NONE",
-      "recommendedTerm": "3-2",
-      "gradeYear": 3,
       "semester": 2,
-      "electiveArea": "NONE",
-      "fromOcr": true,
-      "creditsAssumed": true
+      "electiveArea": "NONE"
+    },
+    {
+      "name": "졸업연구및진로2",
+      "roleLabel": "전선",
+      "role": "ELECTIVE",
+      "category": "MAJOR",
+      "credits": 3.0,
+      "designCredits": 0.0,
+      "designLevel": "NONE",
+      "recommendedTerm": "4-2",
+      "gradeYear": 4,
+      "semester": 2,
+      "electiveArea": "NONE"
     }
   ],
+  "commonMajorPrerequisiteCourseNames": [
+    "C프로그래밍및실습"
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "DS 2024 사용자 제공 이수체계도·요건 반영.",
+  "prerequisites": [
+    {
+      "from": "C프로그래밍및실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "자료구조및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "데이터분석개론",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "자료구조및실습",
+      "to": "알고리즘및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "통계학개론",
+      "to": "K-MOOC:기계학습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "선형대수및프로그래밍",
+      "to": "K-MOOC:기계학습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "데이터문제해결및실습1",
+      "to": "Capstone디자인(산학협력프로젝트)",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "Capstone디자인(산학협력프로젝트)",
+      "to": "고급기계학습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공학설계기초(산학프로젝트입문)",
+      "to": "고급C프로그래밍및실습",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "sourceUrl": "https://abeek.sejong.ac.kr/abeek/program1602_8.html",
   "flowchartImageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20240926_0631_0210001.png",
+  "scrapedAt": "2026-07-28T19:54:48",
   "flowchartOcr": {
     "imageUrl": "https://abeek.sejong.ac.kr/dataview/cmsdir/20240926_0631_0210001.png",
     "needsReview": true,
@@ -2415,396 +1635,11 @@
         "estimatedTerm": "3-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "학년 2학기",
-        "to": "2학년 1학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "2학년 1학기",
-        "to": "2학년 2학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "2학년 2학기",
-        "to": "3학년 1학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3학년 1학기",
-        "to": "3학년 2학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3학년 2학기",
-        "to": "4학년 1학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "4학년 1학기",
-        "to": "4학년 2학기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제히결들",
-        "to": "위한 글쓰기와",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "위한 글쓰기와",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:",
-        "to": "<2~4학년 지정과목 >",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정점과 토론",
-        "to": "역사와 사상: 서계사, 동서양의사상과운리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "대학영어",
-        "to": "경제와 사회: 경영학, 경제학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "경제와 사회: 경영학, 경제학",
-        "to": "문화와 여술: 컴퓨터게임과메타버스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학설계기초 - 요소설계 1과목",
-        "to": "(전공학점 # 설계학점)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "통계학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "통계학개론",
-        "to": "선현대수 및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선현대수 및",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "기초설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "전 공합설계 후 요소설계 수강은 설계인정안된",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학1",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학1",
-        "to": "수치하석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(프로그래망",
-        "to": "공학 설계기초",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학 설계기초",
-        "to": "문제히결및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제히결및",
-        "to": "문제히결및",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제히결및",
-        "to": "K-MOOC:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "K-MOOC:",
-        "to": "문제히결",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제히결",
-        "to": "Capstone디자인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Capstone디자인",
-        "to": "고급기계학습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 실습",
-        "to": "실습:C -",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "실습:C -",
-        "to": "실습;JAVA",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "실습;JAVA",
-        "to": "기계학습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기계학습",
-        "to": "및 실습1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급 (프로그래",
-        "to": "망 및 실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "망 및 실습",
-        "to": "자료구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자료구조",
-        "to": "및 실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 실습",
-        "to": "컴퓨터구조",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터구조",
-        "to": "데이터버이스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터버이스",
-        "to": "오른소스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "오른소스",
-        "to": "SW개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW개론",
-        "to": "고급데이터처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급데이터처리",
-        "to": "특허와 창업",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "창의sW",
-        "to": "알고리증",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터 정보",
-        "to": "움합노마드",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "움합노마드",
-        "to": "데이터분석개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터분석개론",
-        "to": "및 실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 실습",
-        "to": "그래픽스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "그래픽스",
-        "to": "데이터시각화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터시각화",
-        "to": "텍스트마이님",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "확물통계 및",
-        "to": "프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그래망",
-        "to": "운영처제",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "운영처제",
-        "to": "데이터처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터처리",
-        "to": "시계열분석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시계열분석",
-        "to": "및 여촉",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "및 여촉",
-        "to": "데이터문제히결",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터문제히결",
-        "to": "및 실습2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "월프로그래망",
-        "to": "의사결정분석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "의사결정분석",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능",
-        "to": "비즈니스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "비즈니스",
-        "to": "인렇리전스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인렇리전스",
-        "to": "졸업연구",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구",
-        "to": "및 진로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인종필수",
-        "to": "기초설계 /종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계 /종합설계",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "선후수관계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "TPDM박데이터",
-        "to": "플렉풍경영",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
-  "needsReview": true,
-  "scrapedAt": "2026-07-28T19:54:48",
-  "coursesSource": "OCR_SYNTH"
+  "departmentCode": "DS",
+  "year": 2024,
+  "needsReview": false
 }

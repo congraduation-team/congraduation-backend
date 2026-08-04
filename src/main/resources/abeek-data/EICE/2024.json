@@ -1862,341 +1862,139 @@
         "estimatedTerm": "3-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "서양철학 정점과토론",
-        "to": "<24학년 지정과목 >",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "대학영어",
-        "to": "문화와여술:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문화와여술:",
-        "to": "움합여술의이히",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그래망활용",
-        "to": "인공지능과넥데이터",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능과넥데이터",
-        "to": "기초전자물리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급c프로그래망 및 실습",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "선형대수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "물리전자공학",
-        "to": "전자회로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자회로1",
-        "to": "전자회로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자회로2",
-        "to": "전자정보통신공학특강A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자정보통신공학특강A",
-        "to": "전자정보통신공학특강B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기회로",
-        "to": "디지털논리회로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디지털논리회로",
-        "to": "기초설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "고급물리전자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급물리전자",
-        "to": "전자기1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자기1",
-        "to": "양자전자소자공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "양자전자소자공학",
-        "to": "전자기2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자기2",
-        "to": "캠스톤디자인A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "캠스톤디자인A",
-        "to": "캠스튼디자인B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "MATLAB프로그래망",
-        "to": "신호및시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신호및시스템",
-        "to": "기초광학및실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초광학및실험",
-        "to": "전자소자설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자소자설계",
-        "to": "전자회로설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자회로설계",
-        "to": "초고주파공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "초고주파공학",
-        "to": "안테나공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수",
-        "to": "전공 선택",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공 선택",
-        "to": "데이터구조론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터구조론",
-        "to": "전기회로실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기회로실험",
-        "to": "광전자공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "광전자공학",
-        "to": "전자소자공정실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전자소자공정실험",
-        "to": "수치해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수치해석",
-        "to": "LED공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공(설계 과목)",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "객체지향프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "객체지향프로그래망",
-        "to": "정보이론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정보이론",
-        "to": "데이터통신",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터통신",
-        "to": "디스플레이공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디스플레이공학",
-        "to": "음성처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "음성처리",
-        "to": "멀티미디어설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "멀티미디어설계",
-        "to": "차세대이동통신",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "더이터분석과도표작성",
-        "to": "통신이론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "통신이론",
-        "to": "영상처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "영상처리",
-        "to": "무선통신공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "무선통신공학",
-        "to": "광통신시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "자동제어",
-        "to": "디지럴통신시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "디지럴통신시스템",
-        "to": "컴퓨터네트위크",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터네트위크",
-        "to": "광통신공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "광통신공학",
-        "to": "통신시스템설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "통신시스템설계",
-        "to": "K-MOOC",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "반드시 기초설계 -> 요소설계 -> 캠스톤디자인A or B 순으로 이수해야함",
-        "to": "(단, 기초설계 + 요소설계 요소설계 + 캠스톤디자인은 병수수강 가능함)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "랜덤프로세스",
-        "to": "인공지능",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인공지능",
-        "to": "데이터통신설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "데이터통신설계",
-        "to": "마이크로컴퓨터실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "마이크로컴퓨터실험",
-        "to": "디지털제어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "임베디드시스템",
-        "to": "졸업연구및진로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:25:11"
+  "scrapedAt": "2026-07-28T19:25:11",
+  "prerequisites": [
+    {
+      "from": "C프로그래밍및실습",
+      "to": "고급C프로그래밍및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "미적분학1",
+      "to": "전기회로",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "전기회로",
+      "to": "물리전자공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "신호및시스템",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기회로",
+      "to": "전기회로실험",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "신호및시스템",
+      "to": "디지털신호처리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "물리전자공학",
+      "to": "고급물리전자",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로1",
+      "to": "전자회로2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전자기1",
+      "to": "전자기2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "고급C프로그래밍및실습",
+      "to": "데이터구조론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "컴퓨터구조론",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "통신이론",
+      "to": "디지털통신시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "데이터통신",
+      "to": "컴퓨터네트워크",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "데이터통신",
+      "to": "데이터통신설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "전자회로2",
+      "to": "전자회로설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "기초설계",
+      "to": "캡스톤디자인B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "디지털논리회로",
+      "to": "임베디드시스템",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "commonMajorPrerequisiteCourseNames": [
+    "C프로그래밍및실습",
+    "전기회로",
+    "기초설계"
+  ],
+  "prerequisitesNote": "EICE 2024 공식 이수체계도 검수."
 }

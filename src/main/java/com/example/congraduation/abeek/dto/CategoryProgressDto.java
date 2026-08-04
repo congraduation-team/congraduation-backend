@@ -22,6 +22,8 @@ public class CategoryProgressDto {
     @Builder
     public static class CompletedCourseDto {
         private final String courseCode;
+        /** 세종 학수번호. 없으면 null */
+        private final String sejongCourseCode;
         private final String courseName;
         private final int credits;
         private final double designCredits;

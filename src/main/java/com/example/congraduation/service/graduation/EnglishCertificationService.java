@@ -147,14 +147,26 @@ public class EnglishCertificationService {
     private String buildRequirementSummary(boolean optionalPolicy, boolean englishMajor) {
         if (englishMajor) {
             if (optionalPolicy) {
-                return "영어영문 계열 기준: TOEIC 900, TOEFL iBT 91, TEPS 766(뉴텝스 430), OPIc IM2, TOEIC Speaking IM2, G-TELP 2급 90점, G-TELP Speaking Level 3 이상 또는 Intensive English 이수";
+                return "영어영문 계열 기준: TOEIC 900점 이상, TOEFL iBT 91점 이상, "
+                        + "TEPS 766점(뉴텝스 430점) 이상, OPIc Intermediate Mid 2 이상, "
+                        + "TOEIC Speaking Intermediate Mid 2 이상, G-TELP Level 2(90점), "
+                        + "G-TELP Speaking Level 3 또는 Intensive English 이수";
             }
-            return "영어영문 계열 기준: TOEIC 800, TOEFL iBT 91, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점 이상 또는 Intensive English 이수(면제 가능)";
+            return "영어영문 계열 기준: TOEIC 800점 이상, TOEFL iBT 91점 이상, "
+                    + "TEPS 637점(뉴텝스 348점) 이상, OPIc Intermediate Mid 1 이상, "
+                    + "TOEIC Speaking Intermediate Mid 1 이상, G-TELP Level 2(77점) "
+                    + "또는 Intensive English 이수(면제 가능)";
         }
         if (optionalPolicy) {
-            return "일반 기준: TOEIC 800, TOEFL iBT 80, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점, G-TELP Speaking Level 4 이상 또는 Intensive English 이수";
+            return "일반 기준: TOEIC 800점 이상, TOEFL iBT 80점 이상, "
+                    + "TEPS 637점(뉴텝스 348점) 이상, OPIc Intermediate Mid 1 이상, "
+                    + "TOEIC Speaking Intermediate Mid 1 이상, G-TELP Level 2(77점), "
+                    + "G-TELP Speaking Level 4 또는 Intensive English 이수";
         }
-        return "일반 기준: TOEIC 700, TOEFL iBT 80, TEPS 556(뉴텝스 301), OPIc IL, TOEIC Speaking IL, G-TELP 2급 65점 이상 또는 Intensive English 이수(면제 가능)";
+        return "일반 기준: TOEIC 700점 이상, TOEFL iBT 80점 이상, "
+                + "TEPS 556점(뉴텝스 301점) 이상, OPIc Intermediate Low 이상, "
+                + "TOEIC Speaking Intermediate Low 이상, G-TELP Level 2(65점) "
+                + "또는 Intensive English 이수(면제 가능)";
     }
 
     private String buildPendingDetail(
@@ -216,14 +228,24 @@ public class EnglishCertificationService {
     private String buildScoreGuide(boolean optionalPolicy, boolean englishMajor) {
         if (englishMajor) {
             if (optionalPolicy) {
-                return "영어영문 계열 2023학년도 이후 기준 점수는 TOEIC 900, TOEFL iBT 91, TEPS 766(뉴텝스 430), OPIc IM2, TOEIC Speaking IM2, G-TELP 2급 90점, G-TELP Speaking Level 3 이상입니다.";
+                return "영어영문 계열 2023학년도 이후 기준 점수는 TOEIC 900점 이상, TOEFL iBT 91점 이상, "
+                        + "TEPS 766점(뉴텝스 430점) 이상, OPIc Intermediate Mid 2 이상, "
+                        + "TOEIC Speaking Intermediate Mid 2 이상, G-TELP Level 2(90점), "
+                        + "G-TELP Speaking Level 3입니다.";
             }
-            return "영어영문 계열 2012~2022학년도 기준 점수는 TOEIC 800, TOEFL iBT 91, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점 이상입니다.";
+            return "영어영문 계열 2012~2022학년도 기준 점수는 TOEIC 800점 이상, TOEFL iBT 91점 이상, "
+                    + "TEPS 637점(뉴텝스 348점) 이상, OPIc Intermediate Mid 1 이상, "
+                    + "TOEIC Speaking Intermediate Mid 1 이상, G-TELP Level 2(77점)입니다.";
         }
         if (optionalPolicy) {
-            return "2023학년도 이후 기준 점수는 TOEIC 800, TOEFL iBT 80, TEPS 637(뉴텝스 348), OPIc IM1, TOEIC Speaking IM1, G-TELP 2급 77점, G-TELP Speaking Level 4 이상입니다.";
+            return "2023학년도 이후 기준 점수는 TOEIC 800점 이상, TOEFL iBT 80점 이상, "
+                    + "TEPS 637점(뉴텝스 348점) 이상, OPIc Intermediate Mid 1 이상, "
+                    + "TOEIC Speaking Intermediate Mid 1 이상, G-TELP Level 2(77점), "
+                    + "G-TELP Speaking Level 4입니다.";
         }
-        return "2012~2022학년도 기준 점수는 TOEIC 700, TOEFL iBT 80, TEPS 556(뉴텝스 301), OPIc IL, TOEIC Speaking IL, G-TELP 2급 65점 이상입니다.";
+        return "2012~2022학년도 기준 점수는 TOEIC 700점 이상, TOEFL iBT 80점 이상, "
+                + "TEPS 556점(뉴텝스 301점) 이상, OPIc Intermediate Low 이상, "
+                + "TOEIC Speaking Intermediate Low 이상, G-TELP Level 2(65점)입니다.";
     }
 
     private String normalizeMajor(String major) {

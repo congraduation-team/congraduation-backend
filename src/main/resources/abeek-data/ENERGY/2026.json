@@ -1676,291 +1676,8 @@
         "estimatedTerm": "2-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "비판적사고와",
-        "to": "창의적글쓰기",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "창의적글쓰기",
-        "to": "대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "대학영어",
-        "to": "(인종선택과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(인종선택과목",
-        "to": "*지정 균형교양",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*지정 균형교양",
-        "to": "중 2과목 필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정점과토론",
-        "to": "서양철학_",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학_",
-        "to": "문화와예술",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문화와예술",
-        "to": "임과메타버스 흉합예술의이해",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "응용지구전자",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용지구전자",
-        "to": "전기화학공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "고급프로그래",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학1",
-        "to": "일반화학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학1",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학1",
-        "to": "광히방지공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "광히방지공학",
-        "to": "환경지구화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "미적분학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학2",
-        "to": "전산프로그래",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전산프로그래",
-        "to": "핑빛실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "핑빛실습",
-        "to": "차세대에너지",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "차세대에너지",
-        "to": "넥데이터조정",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "넥데이터조정",
-        "to": "이터및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이터및실습",
-        "to": "지하공간설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지하공간설계",
-        "to": "GNSS설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구시스템의",
-        "to": "지질공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지질공학",
-        "to": "수리지질학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수리지질학",
-        "to": "에너지넥데이",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지넥데이",
-        "to": "터시공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*기초설계-요소설계, 또는 요소설계-종",
-        "to": "학기에 동시 수강하는 것은",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지반구조",
-        "to": "심지증영상화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "심지증영상화",
-        "to": "응용원격담사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용원격담사",
-        "to": "심지층에너지",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "지구화학담사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구화학담사",
-        "to": "전산지진학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전산지진학",
-        "to": "에너지자원시로봇",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "MSC : 21학점 이상",
-        "to": "14학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": ": 9학점 이상",
-        "to": ": 45학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": ": 45학점 이상",
-        "to": "기초역학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선후수",
-        "to": "개론및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "개론및실습",
-        "to": "위성원격담사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "위성원격담사",
-        "to": "에너지자원모바",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지자원모바",
-        "to": "일업거발실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "권장선후수",
-        "to": "학심광물기발",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "학심광물기발",
-        "to": "지구속량",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구속량",
-        "to": "신재생에너지",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "신재생에너지",
-        "to": "종합설계A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계A",
-        "to": "종합설계B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학주제(전공)",
-        "to": "설계교과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {
       "2-1": 0.3205,
       "2-2": 0.4392,
@@ -1968,5 +1685,120 @@
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:58"
+  "scrapedAt": "2026-07-28T19:24:58",
+  "prerequisites": [
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반화학1",
+      "to": "지구화학탐사",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "지구화학탐사",
+      "to": "광물암석학및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "지구환경시스템공학",
+      "to": "지질공학및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "지오메카닉스및실험",
+      "to": "에너지환경지오메카닉스및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "디지털자료처리및실습",
+      "to": "전산지진학및실습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "광해방지공학",
+      "to": "환경지구화학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "지구시스템의이해",
+      "to": "열역학",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "지반구조영상화",
+      "to": "지중환경물리탐사",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "지중환경물리탐사",
+      "to": "심지층영상화",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초역학개론",
+      "to": "지오메카닉스및실험",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "차세대에너지공학",
+      "to": "신재생에너지및실습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "종합설계A",
+      "to": "종합설계B",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "ENERGY 2026 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계"
+  ]
 }

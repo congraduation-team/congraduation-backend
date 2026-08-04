@@ -1531,263 +1531,137 @@
         "estimatedTerm": "4-2"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "문제해결올음위한",
-        "to": "글쓰기와발표",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "글쓰기와발표",
-        "to": "쟁점과토론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "쟁점과토론",
-        "to": "서양철학:",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학:",
-        "to": "인종선택 과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(역사와사상 영역) 세계사:인간과 문명 동서양의 운리",
-        "to": "(문화와예술 영역) 컴퓨터게임과 문화 , 현대사회와 다문화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(문화와예술 영역) 컴퓨터게임과 문화 , 현대사회와 다문화",
-        "to": "경제와사회 영역) 경제학 경영학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "선광제련공학개론",
-        "to": "시추공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "시추공학",
-        "to": "에너지경제성평가",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지경제성평가",
-        "to": "인공위성지구물리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "고급프로그래망활용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "고급프로그래망활용",
-        "to": "응용지질학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지질공학 및실습",
-        "to": "전기화학공학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전기화학공학 및실습",
-        "to": "환경지구물리학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경지구물리학",
-        "to": "석유가스생산공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분-학7",
-        "to": "미적분학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학2",
-        "to": "공업수학7",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학7",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학2",
-        "to": "광해방지공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "광해방지공학",
-        "to": "환경지구화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경지구화학",
-        "to": "암반 사면공학 넷실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학7",
-        "to": "일반물리학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학2",
-        "to": "지구화학담사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구화학담사",
-        "to": "광물암석학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "광물암석학 및실습",
-        "to": "구조지질학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조지질학 및실습",
-        "to": "화약발파및터 널굴착",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학",
-        "to": "전산프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지반정보(GS 시스템",
-        "to": "응용원격담사 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "석유가스공학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "저류공학",
-        "to": "수리지 질학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "응용지질학개론 /종합설계A,B",
-        "to": "위성원격 담사개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수로 이수하여야 졸업 가능",
-        "to": "~> 전공선택과목이지만 인종필수이므로",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "권장 선수",
-        "to": "공업역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업역학",
-        "to": "암석역학 및실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "암석역학 및실험",
-        "to": "에너지환경지오메카",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지환경지오메카",
-        "to": "종합설계A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계A",
-        "to": "종합 설계B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지자원경제",
-        "to": "탄성파람사공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "탄성파람사공학",
-        "to": "지구통계학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "X설계과목 이수 순서(필수)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "X설계과목 이수 순서(필수)",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이산자료처리 및실습",
-        "to": "전산지진학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:57"
+  "scrapedAt": "2026-07-28T19:24:57",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학1",
+      "to": "일반물리학2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반화학",
+      "to": "지구화학탐사",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "지구화학탐사",
+      "to": "광물암석학및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "석유가스공학개론",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "석유가스공학개론",
+      "to": "저류공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용지질학개론",
+      "to": "지질공학및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업역학",
+      "to": "암석역학및실험",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "암석역학및실험",
+      "to": "에너지환경지오메카닉스및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "물리탐사공학개론",
+      "to": "전기전자탐사공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기전자탐사공학",
+      "to": "물리탐사모니터링",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산자료처리및실습",
+      "to": "전산지진학및실습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "전산프로그래밍및실습",
+      "to": "지반정보(GIS)시스템및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "광해방지공학",
+      "to": "환경지구화학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계 A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "종합설계 A",
+      "to": "종합설계 B",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "ENERGY 2022 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계"
+  ]
 }

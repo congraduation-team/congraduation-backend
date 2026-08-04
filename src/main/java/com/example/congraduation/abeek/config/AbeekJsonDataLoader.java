@@ -3,6 +3,7 @@ package com.example.congraduation.abeek.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
@@ -23,12 +24,25 @@ import com.example.congraduation.abeek.repository.CoursePrerequisiteRepository;
 import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * src/main/resources/abeek-data/{department}/{year}.json 에서 스크랩한 교육과정을 적재한다.
- * 리소스가 없는 배포본에서는 조용히 종료한다.
+ * <p>
+ * 선수 간선:
+ * <ul>
+ *   <li>루트 {@code prerequisites} 배열이 있으면 검수본으로 보고 해당 학과·연도 간선을 전부 교체한다.</li>
+ *   <li>{@code flowchartOcr.prerequisites}(OCR 휴리스틱)는 적재하지 않는다.</li>
+ * </ul>
+ * 공통선수 영역: {@code commonMajorPrerequisiteCourseNames} → requirement 컬럼.
  */
+@Slf4j
 @Component
 @Order(1)
 @RequiredArgsConstructor
@@ -45,29 +59,37 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Resource[] resources = new PathMatchingResourcePatternResolver()
                 .getResources("classpath*:abeek-data/*/*.json");
+        Set<String> loadedDepartmentYears = new HashSet<>();
         for (Resource resource : resources) {
-            if (!resource.getFilename().equals("_summary.json")) {
-                load(resource);
+            String filename = resource.getFilename();
+            if (filename == null || filename.startsWith("_")) {
+                continue;
             }
+            load(resource, loadedDepartmentYears);
         }
     }
 
-    private void load(Resource resource) throws IOException {
+    private void load(Resource resource, Set<String> loadedDepartmentYears) throws IOException {
         JsonNode root = objectMapper.readTree(resource.getInputStream());
         String departmentCode = text(root, "departmentCode").toUpperCase(Locale.ROOT);
         int year = root.path("year").asInt();
         if (departmentCode.isBlank() || year <= 0 || root.path("requirement").isMissingNode()) {
             return;
         }
+        String deptYearKey = departmentCode + "-" + year;
+        if (!loadedDepartmentYears.add(deptYearKey)) {
+            log.warn("Skipping duplicate ABEEK JSON for {} ({})", deptYearKey, resource);
+            return;
+        }
 
-        upsertRequirement(departmentCode, year, root.path("requirement"));
+        upsertRequirement(departmentCode, year, root.path("requirement"), root);
         for (JsonNode course : root.path("courses")) {
             upsertCourse(departmentCode, year, course);
         }
-        upsertPrerequisites(departmentCode, year, root.path("flowchartOcr"), root.path("needsReview").asBoolean(false));
+        loadCuratedPrerequisites(departmentCode, year, root);
     }
 
-    private void upsertRequirement(String departmentCode, int year, JsonNode node) {
+    private void upsertRequirement(String departmentCode, int year, JsonNode node, JsonNode root) {
         AbeekYearRequirement requirement = requirementRepository
                 .findByDepartmentCodeAndYear(departmentCode, year)
                 .orElseGet(AbeekYearRequirement::new);
@@ -82,7 +104,39 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
         requirement.setCertElectiveMinCredits(cert.path("minCredits").asInt());
         requirement.setCertElectiveMinAreas(cert.path("minAreas").asInt());
         requirement.setNote(notes(node.path("rawNotes")));
+        if (hasCommonMajorNames(root)) {
+            requirement.setCommonMajorPrerequisiteNames(serializeCommonMajorNames(root));
+        }
         requirementRepository.save(requirement);
+    }
+
+    private boolean hasCommonMajorNames(JsonNode root) {
+        JsonNode names = root.get("commonMajorPrerequisiteCourseNames");
+        if (names != null && names.isArray()) {
+            return true;
+        }
+        names = root.get("commonMajorPrerequisites");
+        return names != null && names.isArray();
+    }
+
+    private String serializeCommonMajorNames(JsonNode root) {
+        JsonNode names = root.path("commonMajorPrerequisiteCourseNames");
+        if (!names.isArray()) {
+            names = root.path("commonMajorPrerequisites");
+        }
+        List<String> values = new ArrayList<>();
+        for (JsonNode item : names) {
+            String value = item.asText("").trim();
+            if (!value.isBlank()) {
+                values.add(value);
+            }
+        }
+        try {
+            return objectMapper.writeValueAsString(values);
+        } catch (IOException ex) {
+            log.warn("Failed to serialize commonMajorPrerequisiteCourseNames: {}", ex.getMessage());
+            return null;
+        }
     }
 
     private void upsertCourse(String departmentCode, int year, JsonNode node) {
@@ -117,31 +171,75 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
         curriculumCourseRepository.save(course);
     }
 
-    private void upsertPrerequisites(String departmentCode, int year, JsonNode flowchartOcr, boolean rootNeedsReview) {
-        if (flowchartOcr == null || !flowchartOcr.isObject()) {
+    /**
+     * 루트 {@code prerequisites} 가 배열이면 검수본으로 교체한다.
+     * 키가 없으면(아직 Phase 1 이전 파일) 기존 DB 간선을 건드리지 않고 OCR도 넣지 않는다.
+     */
+    private void loadCuratedPrerequisites(String departmentCode, int year, JsonNode root) {
+        JsonNode curated = root.get("prerequisites");
+        if (curated == null || !curated.isArray()) {
             return;
         }
-        boolean needsReview = flowchartOcr.path("needsReview").asBoolean(rootNeedsReview);
-        for (JsonNode node : flowchartOcr.path("prerequisites")) {
+
+        // delete 직후 flush 없으면 기존 행이 남은 채 insert 되어 UK 충돌이 날 수 있다.
+        prerequisiteRepository.deleteByDepartmentCodeAndYear(departmentCode, year);
+        prerequisiteRepository.flush();
+
+        Set<String> seenEdges = new LinkedHashSet<>();
+        int saved = 0;
+        int skippedDuplicates = 0;
+        for (JsonNode node : curated) {
             String from = text(node, "fromCourseCode", "from");
             String to = text(node, "toCourseCode", "to");
             if (from.isBlank() || to.isBlank()) {
                 continue;
             }
-            String rawType = text(node, "type").toUpperCase(Locale.ROOT);
-            String type = rawType.contains("RECOMMENDED") ? "RECOMMENDED" : "MANDATORY";
-            CoursePrerequisite prerequisite = prerequisiteRepository
+            String type = normalizeEdgeType(text(node, "type"));
+            String edgeKey = prerequisiteEdgeKey(from, to, type);
+            if (!seenEdges.add(edgeKey)) {
+                skippedDuplicates++;
+                continue;
+            }
+            boolean needsReview = node.path("needsReview").asBoolean(false);
+            Optional<CoursePrerequisite> existing = prerequisiteRepository
                     .findByDepartmentCodeAndYearAndFromCourseCodeAndToCourseCodeAndType(
-                            departmentCode, year, from, to, type)
-                    .orElseGet(CoursePrerequisite::new);
-            prerequisite.setDepartmentCode(departmentCode);
-            prerequisite.setYear(year);
-            prerequisite.setFromCourseCode(from);
-            prerequisite.setToCourseCode(to);
-            prerequisite.setType(type);
-            prerequisite.setNeedsReview(needsReview || node.path("needsReview").asBoolean(false));
-            prerequisiteRepository.save(prerequisite);
+                            departmentCode, year, from, to, type);
+            if (existing.isPresent()) {
+                CoursePrerequisite prerequisite = existing.get();
+                prerequisite.setNeedsReview(needsReview);
+                prerequisiteRepository.save(prerequisite);
+            } else {
+                prerequisiteRepository.save(CoursePrerequisite.builder()
+                        .departmentCode(departmentCode)
+                        .year(year)
+                        .fromCourseCode(from)
+                        .toCourseCode(to)
+                        .type(type)
+                        .needsReview(needsReview)
+                        .build());
+            }
+            saved++;
         }
+        if (skippedDuplicates > 0) {
+            log.warn("Skipped {} duplicate curated prerequisite edges for {}/{}",
+                    skippedDuplicates, departmentCode, year);
+        }
+        log.info("Loaded curated prerequisites {}/{}: {} edges", departmentCode, year, saved);
+    }
+
+    static String prerequisiteEdgeKey(String fromCourseCode, String toCourseCode, String type) {
+        return fromCourseCode + '\0' + toCourseCode + '\0' + type;
+    }
+
+    static String normalizeEdgeType(String rawType) {
+        if (rawType == null || rawType.isBlank()) {
+            return "MANDATORY";
+        }
+        String upper = rawType.toUpperCase(Locale.ROOT);
+        if (upper.contains("RECOMMENDED") || upper.contains("DASH") || upper.contains("DOT")) {
+            return "RECOMMENDED";
+        }
+        return "MANDATORY";
     }
 
     private int number(JsonNode node, String field) {

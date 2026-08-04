@@ -36,6 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
+### Runtime timetable overrides (admin upload) ###
+/data/timetable-data/
+
 ### Python ###
 __pycache__/
 *.py[cod]

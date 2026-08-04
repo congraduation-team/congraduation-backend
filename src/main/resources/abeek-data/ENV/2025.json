@@ -1289,321 +1289,8 @@
         "estimatedTerm": "4-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "글쓰기와발표",
-        "to": "서양철학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학",
-        "to": "대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "2) 경제와사회",
-        "to": "3) 문화와예술",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3) 문화와예술",
-        "to": "1) 역사와사상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "1) 역사와사상",
-        "to": "경영학 경제학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "경영학 경제학",
-        "to": "세계사 동서양의사상과운리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "세계사 동서양의사상과운리",
-        "to": "컴퓨터게임과메타버스 움합예술의이해",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학1",
-        "to": "공업수학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "일반물리학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학1",
-        "to": "일반화학1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반화학1",
-        "to": "고급프로그래망활용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*기초설계",
-        "to": "틀 반드시 준수하여 이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "틀 반드시 준수하여 이수",
-        "to": "요소설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "요소설계",
-        "to": "종합설계의 순서",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종합설계의 순서",
-        "to": "기초창의설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초창의설계",
-        "to": "환경통계학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경통계학",
-        "to": "환경화학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경화학",
-        "to": "토양지하수환 경학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "토양지하수환 경학",
-        "to": "종합설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "정(병수수강 허용)",
-        "to": "*기초설계 + 요소설계,",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*기초설계 + 요소설계,",
-        "to": "설계틀 같은 학기에 동시 수강하는 것은 인",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계틀 같은 학기에 동시 수강하는 것은 인",
-        "to": "또는 요소설계 + 종합",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "또는 요소설계 + 종합",
-        "to": "수질관리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "수질관리",
-        "to": "*대기오염방지공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*대기오염방지공학",
-        "to": "온실가스관리및분석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "온실가스관리및분석",
-        "to": "환경에너지전문가",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경에너지전문가",
-        "to": "과정연습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "과정연습",
-        "to": "환경영향평가",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "프로그램 인종 최소의수학점",
-        "to": "*대기환경및기후",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "*대기환경및기후",
-        "to": "환경유체역학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경유체역학",
-        "to": "환경바이오공학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경바이오공학",
-        "to": "환경원격담사",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경원격담사",
-        "to": "졸업논문연구",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업논문연구",
-        "to": "환경에너지세미나",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3. 전공",
-        "to": "1. 전문교양",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "1. 전문교양",
-        "to": "2. MSC : 18학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "2. MSC : 18학점 이상",
-        "to": "14학점 이상",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "14학점 이상",
-        "to": "45학점 이상(설계 9 포함)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "추가 조건들은 인종기준 참고",
-        "to": "4. 설계 : 9학점(지정설계 교과목 필수 이수)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "4. 설계 : 9학점(지정설계 교과목 필수 이수)",
-        "to": "환경공학개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경공학개론",
-        "to": "환경데이터처리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경데이터처리",
-        "to": "환경해양학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경해양학",
-        "to": "환경생태학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경생태학",
-        "to": "졸업연구딪진로1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구딪진로1",
-        "to": "환경기기분석및실험",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "필수선후수",
-        "to": "권장선후수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "권장선후수",
-        "to": "신재생에너지",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "환경생물기초",
-        "to": "하페수처리및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문교양필수",
-        "to": "설계교과목",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "설계교과목",
-        "to": "기상대기과학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기상대기과학",
-        "to": "폐기물관리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "MSC필수",
-        "to": "전공필수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {
       "1-2": 0.2185,
       "2-1": 0.3382,
@@ -1615,5 +1302,116 @@
     }
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:55"
+  "scrapedAt": "2026-07-28T19:24:55",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "공업수학1",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초창의설계",
+      "to": "환경통계학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "환경공학개론",
+      "to": "환경데이터처리",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "환경통계학",
+      "to": "환경화학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "연료및연소공학",
+      "to": "대기오염방지공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "환경유체역학",
+      "to": "환경바이오공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "환경화학",
+      "to": "상수처리및수질분석실험",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "대기오염방지공학",
+      "to": "온실가스관리및분석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "환경바이오공학",
+      "to": "환경원격탐사",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "대기환경및기후변화",
+      "to": "연료및연소공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기상대기과학",
+      "to": "폐기물관리",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "온실가스관리및분석",
+      "to": "토양지하수환경학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "상수처리및수질분석실험",
+      "to": "환경에너지전문가과정연습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "상수처리및수질분석실험",
+      "to": "환경기기분석및실험",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초창의설계",
+      "to": "종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "환경영향평가",
+      "to": "종합설계",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초창의설계",
+    "환경공학개론",
+    "미적분학1"
+  ],
+  "prerequisitesNote": "ENV 2025 공식 이수체계도 검수."
 }

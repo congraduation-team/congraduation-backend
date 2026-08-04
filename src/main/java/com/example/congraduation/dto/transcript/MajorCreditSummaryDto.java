@@ -14,7 +14,9 @@ public record MajorCreditSummaryDto(
         int requiredMajorCourseCount,
         @Schema(description = "전선으로 집계된 과목 수", example = "8")
         int electiveMajorCourseCount,
-        @Schema(description = "집계에 사용된 전체 이수 과목 수", example = "40")
+        @Schema(description = "전필+전선 이수 과목 수(전공합계 과목 수)", example = "20")
+        int totalMajorCourseCount,
+        @Schema(description = "성적표 전체 행 수(참고)", example = "40")
         int totalCourseCount
 ) {
 }

@@ -1,0 +1,17 @@
+{
+  "_comment": "CSE prerequisites are seeded by CurriculumDataLoader (not this file). Reference of curated edges after Phase3.",
+  "departmentCode": "CSE",
+  "years": "2020-2026",
+  "sourcePages": {
+    "2020": "https://abeek.sejong.ac.kr/abeek/program0302_7.html",
+    "2021": "https://abeek.sejong.ac.kr/abeek/program0302_8.html",
+    "2022": "https://abeek.sejong.ac.kr/abeek/program0302_9.html",
+    "2023": "https://abeek.sejong.ac.kr/abeek/program0302_10.html",
+    "2024": "https://abeek.sejong.ac.kr/abeek/program0302_11.html",
+    "2025": "https://abeek.sejong.ac.kr/abeek/program0302_12.html",
+    "2026": "https://abeek.sejong.ac.kr/abeek/program0302_13.html"
+  },
+  "commonMajorPrerequisiteCourseNames": ["C프로그래밍및실습"],
+  "edgeCountShared": 33,
+  "note": "실선=MANDATORY, 점선=RECOMMENDED. needsReview=true 는 교차/저해상도 재확인 권장."
+}

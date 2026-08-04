@@ -1452,281 +1452,230 @@
         "estimatedTerm": "2-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "글쓰기와 발표",
-        "to": "문제해결을 위한",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문제해결을 위한",
-        "to": "서양철학: 쟁점과 토",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "서양철학: 쟁점과 토",
-        "to": "대학영어",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "대학영어",
-        "to": "<2~4학년 지정과목>",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "<2~4학년 지정과목>",
-        "to": "역사와 사상: 세계사 , 동서양의사상과운리",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "역사와 사상: 세계사 , 동서양의사상과운리",
-        "to": "문화와 예술: 컴퓨터게임과메 타버스 , 움합예술의 이해",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문화와 예술: 컴퓨터게임과메 타버스 , 움합예술의 이해",
-        "to": "경제와 사회: 경영학 , 경제학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공필수",
-        "to": "MSC/전문교양",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "6개 교과목 중 2개 교과목 필수수강",
-        "to": "(각각 다른 영역으로 2개 수강올 권장)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공선택",
-        "to": "인종선택",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "인종선택",
-        "to": "인종필수)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "미적분학2",
-        "to": "공업수학",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공업수학",
-        "to": "공업수학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "SW기초코딩",
-        "to": "일반물리학7",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "일반물리학7",
-        "to": "고급프로그래망활용",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축디지털설계",
-        "to": "건설관리 및 경영",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건설관리 및 경영",
-        "to": "건축시공",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축시공",
-        "to": "건축실무",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축기 초설계 3(3)",
-        "to": "건축공학시",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축공학시",
-        "to": "3(3)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3(3)",
-        "to": "공학설계 A",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학설계 A",
-        "to": "3(3)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3(3)",
-        "to": "공학설계 B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "공학설계 B",
-        "to": "공학설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "311.5)",
-        "to": "건축환경설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축환경설계",
-        "to": "특수구조개록",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축일반구조",
-        "to": "건축재료",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축환경개론",
-        "to": "건축설비개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축설비개론",
-        "to": "3(1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3(1",
-        "to": "건축기계설비시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축기계설비시스템",
-        "to": "건축조명 3(1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축조명 3(1)",
-        "to": "건축전기설비시스템",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축전기설비시스템",
-        "to": "구조계획 및 설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조계획 및 설계",
-        "to": "건축환경설비해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축환경설비해석",
-        "to": "환경 설비",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축구 조시스템 3(1)",
-        "to": "구조역학 1",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조역학 1",
-        "to": "구조역학2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조역학2",
-        "to": "3(1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3(1)",
-        "to": "건축구조해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "건축구조해석",
-        "to": "3(1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "3(1)",
-        "to": "철골구조 3(1)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "철골구조 3(1)",
-        "to": "컴퓨터 구조해석",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "컴퓨터 구조해석",
-        "to": "스마트구조개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "졸업연구및진로1",
-        "to": "졸업연구및진로2",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "추가 조건들은 인증기준 참고",
-        "to": "~기초설계 이수 및 종합설계 A,B 중 하나 이수름 필수로 포함하여 설계과목 총 9학점 이수",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:50"
+  "scrapedAt": "2026-07-28T19:24:50",
+  "prerequisites": [
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축기초설계",
+      "to": "건축환경설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "건축환경설계",
+      "to": "공학설계A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "공학설계A",
+      "to": "공학설계B",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "건축구조시스템",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "구조역학1",
+      "to": "구조역학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학2",
+      "to": "건축구조해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "건축구조해석",
+      "to": "컴퓨터구조해석",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학1",
+      "to": "철근콘크리트공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조역학2",
+      "to": "철근콘크리트설계",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "철근콘크리트공학",
+      "to": "철근콘크리트설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "철근콘크리트설계",
+      "to": "구조계획및설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조계획및설계",
+      "to": "스마트구조개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축구조해석",
+      "to": "철골구조",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "철골구조",
+      "to": "컴퓨터구조해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경개론",
+      "to": "건축설비개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축설비개론",
+      "to": "건축기계설비시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축기계설비시스템",
+      "to": "건축전기설비시스템",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축기계설비시스템",
+      "to": "건축조명",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축전기설비시스템",
+      "to": "건축환경설비해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경설비해석",
+      "to": "건축조명",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축환경설계",
+      "to": "건축환경설비해석",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건설관리및경영",
+      "to": "건축시공",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건설관리및경영",
+      "to": "건축법규",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축시공",
+      "to": "건축실무",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축실무",
+      "to": "건설IT",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축일반구조",
+      "to": "건축재료",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건축일반구조",
+      "to": "특수구조개론",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "건설관리및경영",
+      "to": "건축공학 AI",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    },
+    {
+      "from": "건축기초설계",
+      "to": "구조역학1",
+      "type": "MANDATORY",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "ARCH 2025 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "구조역학1",
+    "건축구조시스템",
+    "건축환경개론",
+    "건축기초설계"
+  ]
 }

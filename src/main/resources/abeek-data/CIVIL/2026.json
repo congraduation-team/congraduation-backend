@@ -1106,53 +1106,140 @@
         "estimatedTerm": "2-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "사와 사상; 동서양의 사상과문리, 세계사",
-        "to": "<2~4학년 지점과목>",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "문화와 예술",
-        "to": "울합예 숲의미해 , 컴퓨터게임과메타버스",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전문설거",
-        "to": "요소설거",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "구조공화",
-        "to": "강구조공화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "강구조공화",
-        "to": "합성구조설거",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초공화",
-        "to": "도로공화",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "(종합선거)",
-        "to": "스마트시티프로적트",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
-  "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:53"
+  "needsReview": false,
+  "scrapedAt": "2026-07-28T19:24:53",
+  "prerequisites": [
+    {
+      "from": "일반물리학1",
+      "to": "응용역학및연습1",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학1",
+      "to": "유체역학및연습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습1",
+      "to": "응용역학및연습2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "구조공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "콘크리트공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "구조공학",
+      "to": "내진설계",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초공학",
+      "to": "도로공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "기초창의설계",
+      "to": "스마트시티프로젝트(종합설계)",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학1",
+      "to": "미적분학2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "미적분학2",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "SW기초코딩",
+      "to": "고급프로그래밍활용",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "응용역학및연습2",
+      "to": "강구조공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "구조공학",
+      "to": "콘크리트구조설계",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "토질역학",
+      "to": "기초공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "내진설계",
+      "to": "교량공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "유체역학및연습",
+      "to": "수리학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "수리학",
+      "to": "해안및항만공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "환경공학및실험",
+      "to": "스마트수처리시스템공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "도시수문학",
+      "to": "도시수재해공학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "CIVIL 2026 사용자 제공 이수체계도 반영.",
+  "commonMajorPrerequisiteCourseNames": [
+    "일반물리학1",
+    "응용역학및연습1",
+    "응용역학및연습2",
+    "수리학"
+  ]
 }

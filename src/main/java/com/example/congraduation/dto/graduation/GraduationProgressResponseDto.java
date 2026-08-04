@@ -61,6 +61,10 @@ public record GraduationProgressResponseDto(
         List<BalancedLiberalAreaProgressDto> balancedLiberalAreaProgresses,
         @Schema(description = "기초필수(학문기초) 진행도")
         CategoryProgressDto academicFoundationCredits,
+        @Schema(description = "학문기초 이수 과목 목록")
+        List<CategoryCourseDto> academicFoundationCourses,
+        @Schema(description = "남은 학문기초 필수 과목 목록")
+        List<RequirementCourseDto> remainingAcademicFoundationRequiredCourses,
         @Schema(description = "전공기초 진행도")
         CategoryProgressDto majorFoundationCredits,
         @Schema(description = "평균 평점", example = "3.24")

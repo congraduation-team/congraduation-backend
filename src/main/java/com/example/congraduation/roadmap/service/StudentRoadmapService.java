@@ -1,6 +1,10 @@
 package com.example.congraduation.roadmap.service;
 
+import com.example.congraduation.abeek.domain.CurriculumCourse;
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 import com.example.congraduation.abeek.service.AbeekDepartmentCatalog;
+import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
@@ -16,11 +20,13 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.TermRoadmapD
 import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -35,6 +41,7 @@ import java.util.Set;
  * 이수 여부는 기이수성적 학수번호로 매칭한다.
  * 공학인증 대상 학과면 GENERAL/BSM/MAJOR로 나눠 반환한다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StudentRoadmapService {
@@ -46,6 +53,8 @@ public class StudentRoadmapService {
     private final TimetableCatalog timetableCatalog;
     private final AbeekDepartmentCatalog departmentCatalog;
     private final TranscriptStorageService transcriptStorageService;
+    private final CurriculumCourseRepository curriculumCourseRepository;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     /**
      * 최신 강의시간표 기준 전 학과(개설학과) 목록. 학과명은 한글.
@@ -189,7 +198,23 @@ public class StudentRoadmapService {
         // 학생 로드맵: 교양(GENERAL)은 기이수만. 시간표 공통교양필수 미이수 슬롯 제거.
         if (studentDbId != null) {
             stripIncompleteGeneralCourses(byTermAndCode, completion);
+            // 공학인증 학과: 전교 공통 기초필수(화학2·생물 등) 중 소속 BSM이 아닌 미이수 슬롯 제거
+            if (abeekTarget && abeekCode != null && admissionYear != null) {
+                stripIncompleteNonCurriculumBsm(
+                        byTermAndCode,
+                        completion,
+                        loadAbeekBsmAllowlist(abeekCode, admissionYear)
+                );
+            }
         }
+
+        // 동일 학수번호가 1·2학기 시간표에 모두 있으면, 커리큘럼 recommendedTerm이 있을 때만 한 칸으로 합친다.
+        // (선호 없을 때 이른 칸(*-1)을 강제하면 가을 전용 과목이 3-1/4-1로 밀리고 3-2/4-2가 비게 됨)
+        Map<String, String> preferredTermByCode = Map.of();
+        if (abeekTarget && abeekCode != null && admissionYear != null) {
+            preferredTermByCode = loadPreferredTermBySejongCode(abeekCode, admissionYear);
+        }
+        dedupeIncompleteCourseCodesAcrossTerms(byTermAndCode, completion, preferredTermByCode);
 
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
@@ -239,12 +264,53 @@ public class StudentRoadmapService {
     }
 
     private List<TimetableTermData> resolveSourceTerms() {
-        TimetableTermData spring = timetableCatalog.latestTermForSemester(1)
-                .orElseThrow(() -> new IllegalArgumentException("1학기 강의시간표 데이터가 없습니다."));
-        TimetableTermData fall = timetableCatalog.latestTermForSemester(2)
+        TimetableTermData fall = latestNonEmptyTermForSemester(2)
                 .orElseThrow(() -> new IllegalArgumentException("2학기 강의시간표 데이터가 없습니다."));
+        TimetableTermData spring = latestNonEmptyTermForSemester(1)
+                .orElseThrow(() -> new IllegalArgumentException("1학기 강의시간표 데이터가 없습니다."));
+
+        // 봄 슬롯이 가을 시간표 복사본이면(잘못된 업로드) 이전 연도 봄을 사용
+        if (TimetableCatalog.isNearDuplicateTerm(spring, fall)) {
+            Optional<TimetableTermData> olderSpring = findOlderDistinctSpring(spring, fall);
+            if (olderSpring.isPresent()) {
+                log.warn(
+                        "Latest spring {}-{} duplicates fall {}-{}; using older spring {}-{}",
+                        spring.termYear(), spring.semester(),
+                        fall.termYear(), fall.semester(),
+                        olderSpring.get().termYear(), olderSpring.get().semester()
+                );
+                spring = olderSpring.get();
+            } else {
+                log.warn(
+                        "Latest spring {}-{} duplicates fall {}-{} and no older distinct spring exists",
+                        spring.termYear(), spring.semester(),
+                        fall.termYear(), fall.semester()
+                );
+            }
+        }
         // 1학기·2학기 모두 사용해 1-1~4-2 채움
         return List.of(spring, fall);
+    }
+
+    /** offerings가 비어 있지 않은 최신 학기 시간표 */
+    private Optional<TimetableTermData> latestNonEmptyTermForSemester(int semester) {
+        return timetableCatalog.availableTerms().stream()
+                .filter(term -> term.semester() == semester)
+                .filter(term -> term.offerings() != null && !term.offerings().isEmpty())
+                .findFirst();
+    }
+
+    private Optional<TimetableTermData> findOlderDistinctSpring(
+            TimetableTermData badSpring,
+            TimetableTermData fall
+    ) {
+        return timetableCatalog.availableTerms().stream()
+                .filter(term -> term.semester() == 1)
+                .filter(term -> term.offerings() != null && !term.offerings().isEmpty())
+                .filter(term -> term.termYear() != badSpring.termYear()
+                        || term.semester() != badSpring.semester())
+                .filter(term -> !TimetableCatalog.isNearDuplicateTerm(term, fall))
+                .findFirst();
     }
 
     private Set<String> openingNamesFor(
@@ -338,6 +404,128 @@ public class StudentRoadmapService {
                 }
             }
         }
+    }
+
+    /**
+     * 공학인증 학과 로드맵에서, 전교 공통 기초필수·학문기초로 들어온 미이수 과목 중
+     * 해당 입학연도 ABEEK BSM 커리큘럼에 없는 것(예: 컴공의 미적분학2·일반화학1·일반생물학)을 제거한다.
+     */
+    private void stripIncompleteNonCurriculumBsm(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            AbeekBsmAllowlist allowlist
+    ) {
+        if (allowlist.isEmpty()) {
+            return;
+        }
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            var iterator = termMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AggregatedCourse> entry = iterator.next();
+                if (completion.findByCourseCode(entry.getKey()) != null) {
+                    continue;
+                }
+                AggregatedCourse agg = entry.getValue();
+                String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
+                String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+                if (!"BSM".equals(bucket) && !"기초필수".equals(displayCategory)) {
+                    continue;
+                }
+                if (!allowlist.matches(agg.courseCode, agg.courseName)) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    /**
+     * 미이수 과목이 여러 학기 칸에 같은 학수번호로 중복되면
+     * (예: Capstone이 1·2학기 시간표에 모두 gy=4) 한 칸만 남긴다.
+     * 커리큘럼 recommendedTerm이 있으면 그 칸을 우선하고, 없으면 TERM_KEYS 앞쪽을 유지한다.
+     */
+    private void dedupeIncompleteCourseCodesAcrossTerms(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            Map<String, String> preferredTermByCode
+    ) {
+        Map<String, List<String>> termsByCode = new LinkedHashMap<>();
+        for (String termKey : TERM_KEYS) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(termKey);
+            if (termMap == null || termMap.isEmpty()) {
+                continue;
+            }
+            for (String code : termMap.keySet()) {
+                if (code == null || code.isBlank()) {
+                    continue;
+                }
+                if (completion.findByCourseCode(code) != null) {
+                    continue;
+                }
+                String normalized = code.trim().toUpperCase(Locale.ROOT);
+                termsByCode.computeIfAbsent(normalized, ignored -> new ArrayList<>()).add(termKey);
+            }
+        }
+
+        for (Map.Entry<String, List<String>> entry : termsByCode.entrySet()) {
+            List<String> terms = entry.getValue();
+            if (terms.size() <= 1) {
+                continue;
+            }
+            String code = entry.getKey();
+            String preferred = preferredTermByCode.get(code);
+            // 커리큘럼 권장학기가 있을 때만 한 칸으로 합침. 없으면 개설 학기(1·2) 모두 유지.
+            if (preferred == null || !terms.contains(preferred)) {
+                continue;
+            }
+            for (String termKey : terms) {
+                if (!termKey.equals(preferred)) {
+                    byTermAndCode.get(termKey).remove(code);
+                    // 원본 키가 대소문자/공백 다를 수 있어 스캔 삭제
+                    byTermAndCode.get(termKey).entrySet()
+                            .removeIf(e -> e.getKey() != null
+                                    && e.getKey().trim().equalsIgnoreCase(code));
+                }
+            }
+        }
+    }
+
+    /** ABEEK 커리큘럼 recommendedTerm → 세종 학수번호 기준 선호 학기 칸. */
+    private Map<String, String> loadPreferredTermBySejongCode(String departmentCode, int curriculumYear) {
+        Map<String, String> preferred = new HashMap<>();
+        List<CurriculumCourse> courses =
+                curriculumCourseRepository.findByDepartmentCodeAndCurriculumYear(departmentCode, curriculumYear);
+        for (CurriculumCourse course : courses) {
+            if (course.getCourseMaster() == null) {
+                continue;
+            }
+            String term = normalizeRecommendedTerm(course.getRecommendedTerm());
+            if (term == null) {
+                continue;
+            }
+            String abeekCode = course.getCourseMaster().getCourseCode();
+            sejongAbeekCourseCodeCatalog.findSejongCourseCode(abeekCode).ifPresent(sejong ->
+                    preferred.putIfAbsent(sejong.trim().toUpperCase(Locale.ROOT), term)
+            );
+        }
+        return preferred;
+    }
+
+    private static String normalizeRecommendedTerm(String recommendedTerm) {
+        if (recommendedTerm == null || recommendedTerm.isBlank()) {
+            return null;
+        }
+        String value = recommendedTerm.trim().replace('－', '-');
+        if (TERM_KEYS.contains(value)) {
+            return value;
+        }
+        return null;
+    }
+
+    static String normalizeCourseName(String name) {
+        if (name == null || name.isBlank()) {
+            return "";
+        }
+        return name.replaceAll("\\s+", "");
     }
 
     /**
@@ -735,6 +923,92 @@ public class StudentRoadmapService {
 
         String courseName() {
             return courseName;
+        }
+    }
+
+    private AbeekBsmAllowlist loadAbeekBsmAllowlist(String departmentCode, int curriculumYear) {
+        Set<String> names = new HashSet<>();
+        Set<String> codes = new HashSet<>();
+        List<CurriculumCourse> courses =
+                curriculumCourseRepository.findByDepartmentCodeAndCurriculumYear(departmentCode, curriculumYear);
+        for (CurriculumCourse course : courses) {
+            if (course.getCourseMaster() == null
+                    || course.getCourseMaster().getCategory() != CourseCategory.BSM) {
+                continue;
+            }
+            String name = normalizeCourseName(course.getCourseMaster().getName());
+            if (!name.isBlank()) {
+                names.add(name);
+                addBsmNameAliases(names, name);
+            }
+            String code = course.getCourseMaster().getCourseCode();
+            if (code != null && !code.isBlank()) {
+                String upper = code.trim().toUpperCase(Locale.ROOT);
+                codes.add(upper);
+                addBsmCodeAliases(codes, upper);
+            }
+        }
+        return new AbeekBsmAllowlist(names, codes, sejongAbeekCourseCodeCatalog);
+    }
+
+    /**
+     * Incomplete 슬롯용 표기 alias.
+     * 구·신 과목명(확률/선형대수)만 허용한다.
+     * 기초미적분학↔미적분학1, 일반물리학및실험1↔일반물리학1 은 다른 과목(학수번호도 다름)이므로
+     * incomplete allowlist에 넣지 않는다. (CSE 2021에 전교 공통 미적분학1·일반물리학1이 남는 문제 방지)
+     */
+    private static void addBsmNameAliases(Set<String> names, String name) {
+        if (name.equals("선형대수")) {
+            names.add("선형대수및프로그래밍");
+        } else if (name.equals("선형대수및프로그래밍")) {
+            names.add("선형대수");
+        } else if (name.equals("확률및통계")) {
+            names.add("확률통계및프로그래밍");
+        } else if (name.equals("확률통계및프로그래밍")) {
+            names.add("확률및통계");
+        }
+    }
+
+    private static void addBsmCodeAliases(Set<String> codes, String code) {
+        if (code.equals("BSM_PROB") || code.equals("BSM_PROB_PROG")) {
+            codes.add("BSM_PROB");
+            codes.add("BSM_PROB_PROG");
+        } else if (code.equals("BSM_LINEAR") || code.equals("BSM_LINEAR_PROG")) {
+            codes.add("BSM_LINEAR");
+            codes.add("BSM_LINEAR_PROG");
+        }
+    }
+
+    /**
+     * ABEEK BSM 허용 과목(이름·내부코드). 미적분학1 ≠ 미적분학2 처럼 번호가 다른 과목은 별개로 취급.
+     */
+    static final class AbeekBsmAllowlist {
+        private final Set<String> names;
+        private final Set<String> codes;
+        private final SejongAbeekCourseCodeCatalog catalog;
+
+        AbeekBsmAllowlist(Set<String> names, Set<String> codes, SejongAbeekCourseCodeCatalog catalog) {
+            this.names = names;
+            this.codes = codes;
+            this.catalog = catalog;
+        }
+
+        boolean isEmpty() {
+            return names.isEmpty() && codes.isEmpty();
+        }
+
+        boolean matches(String sejongCourseCode, String courseName) {
+            String normName = normalizeCourseName(courseName);
+            if (!normName.isBlank() && names.contains(normName)) {
+                return true;
+            }
+            if (catalog != null) {
+                Optional<String> abeek = catalog.findAbeekCourseCode(sejongCourseCode);
+                if (abeek.isPresent() && codes.contains(abeek.get().toUpperCase(Locale.ROOT))) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

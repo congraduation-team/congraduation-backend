@@ -1286,95 +1286,137 @@
         "estimatedTerm": "1-1"
       }
     ],
-    "prerequisites": [
-      {
-        "from": "Erglish Listerirg",
-        "to": "Fractoce",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "Fractoce",
-        "to": "Erglish Listerirg",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "소프트웨어기초",
-        "to": "그급프로그래망",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "그급프로그래망",
-        "to": "입문-C",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구화락람사",
-        "to": "구조지질학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "기초설계",
-        "to": "석유가스공각개론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "물리람사모니터림",
-        "to": "지진및지질재해론",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "종랍설계4",
-        "to": "종랍 설계B",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "에너지자원경제",
-        "to": "지구통계락",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "지구통계락",
-        "to": "설계과목은 반드시",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "이산자로저리및실습",
-        "to": "전산지진학 및실습",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전산지진학 및실습",
-        "to": "순으로 이수해야 함",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공주제",
-        "to": "전공설계",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      },
-      {
-        "from": "전공설계",
-        "to": "(요소설계)",
-        "type": "RECOMMENDED_OCR_HEURISTIC",
-        "needsReview": true
-      }
-    ],
-    "note": "OCR 기반 초안. 선수과목(화살표)은 자동 검출이 불완전하므로 검수 필요.",
+    "prerequisites": [],
+    "note": "선수 간선은 루트 prerequisites 사용.",
     "termLabelPositions": {}
   },
   "needsReview": true,
-  "scrapedAt": "2026-07-28T19:24:56"
+  "scrapedAt": "2026-07-28T19:24:56",
+  "prerequisites": [
+    {
+      "from": "일변수미적분학",
+      "to": "다변수미적분학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "다변수미적분학",
+      "to": "공업수학1",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "일반물리학및실험1",
+      "to": "일반물리학및실험2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "소프트웨어기초코딩",
+      "to": "고급프로그래밍입문-C",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "공업수학1",
+      "to": "공업수학2",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "일반화학1",
+      "to": "지구화학탐사",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "지구화학탐사",
+      "to": "광물암석학및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "석유가스공학개론",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "석유가스공학개론",
+      "to": "저류공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "응용지질학개론",
+      "to": "지질공학및실습",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "공업역학",
+      "to": "암석역학및실험",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "암석역학및실험",
+      "to": "에너지환경지오메카닉스및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "물리탐사공학개론",
+      "to": "전기전자탐사공학",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "전기전자탐사공학",
+      "to": "물리탐사모니터링",
+      "type": "MANDATORY",
+      "needsReview": false
+    },
+    {
+      "from": "이산자료처리및실습",
+      "to": "전산지진학및실습",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "전산프로그래밍및실습",
+      "to": "지반정보(GIS)시스템및실습",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "광해방지공학",
+      "to": "환경지구화학",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "졸업연구및진로1",
+      "to": "졸업연구및진로2",
+      "type": "RECOMMENDED",
+      "needsReview": false
+    },
+    {
+      "from": "기초설계",
+      "to": "종합설계 A",
+      "type": "MANDATORY",
+      "needsReview": true
+    },
+    {
+      "from": "종합설계 A",
+      "to": "종합설계 B",
+      "type": "RECOMMENDED",
+      "needsReview": true
+    }
+  ],
+  "prerequisitesSource": "CURATED_OFFICIAL_FLOWCHART",
+  "prerequisitesNote": "ENERGY 2020 공식 이수체계도 검수(Phase4).",
+  "commonMajorPrerequisiteCourseNames": [
+    "기초설계"
+  ]
 }

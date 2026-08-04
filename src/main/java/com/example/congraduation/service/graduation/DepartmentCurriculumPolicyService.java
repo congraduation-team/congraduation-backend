@@ -2,15 +2,119 @@ package com.example.congraduation.service.graduation;
 
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.exception.DepartmentPolicyNotConfiguredException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DepartmentCurriculumPolicyService {
 
     private static final Map<String, DepartmentCurriculumPolicy> POLICIES = loadPolicies();
+    private static final Set<String> BUSINESS_HOTEL_MAJOR_FOUNDATION_DEPARTMENTS = Set.of(
+            "경영학부",
+            "경제학과",
+            "호텔관광경영학전공",
+            "외식경영학전공"
+    );
+    private static final Set<String> BUSINESS_HOTEL_MAJOR_FOUNDATION_COURSES = Set.of(
+            "경영학원론",
+            "경제학원론",
+            "Hospitality경영원론"
+    );
+    private static final Set<String> NATURAL_LIFE_MAJOR_FOUNDATION_DEPARTMENTS = Set.of(
+            "물리천문학과",
+            "화학과",
+            "식품생명공학전공",
+            "바이오융합공학전공",
+            "바이오산업자원공학전공",
+            "스마트생명산업융합학과"
+    );
+    private static final Set<String> NATURAL_LIFE_MAJOR_FOUNDATION_REQUIRED_COURSES = Set.of(
+            "일반물리학1",
+            "일반화학1",
+            "일반생물학1"
+    );
+    private static final Set<String> NATURAL_LIFE_MAJOR_FOUNDATION_OPTIONAL_COURSES_2024_2026 = Set.of(
+            "미적분학2",
+            "기초통계학",
+            "기초천문학",
+            "기초생물통계학",
+            "일반물리학2",
+            "일반화학2",
+            "일반생물학2"
+    );
+    private static final Set<String> IT_MAJOR_FOUNDATION_DEPARTMENTS_2024 = Set.of(
+            "전자정보통신공학과",
+            "반도체시스템공학과",
+            "컴퓨터공학과",
+            "정보보호학과",
+            "소프트웨어학과",
+            "AI로봇학과",
+            "인공지능데이터사이언스학과"
+    );
+    private static final Set<String> IT_MAJOR_FOUNDATION_DEPARTMENTS_2025_2026 = Set.of(
+            "AI융합전자공학과",
+            "반도체시스템공학과",
+            "컴퓨터공학과",
+            "정보보호학과",
+            "양자지능정보학과",
+            "AI로봇학과",
+            "인공지능데이터사이언스학과",
+            "지능정보융합학과",
+            "콘텐츠소프트웨어학과"
+    );
+    private static final Set<String> IT_MAJOR_FOUNDATION_COURSES = Set.of(
+            "확률및통계",
+            "확률통계및프로그래밍",
+            "C프로그래밍및실습",
+            "고급C프로그래밍및실습",
+            "선형대수",
+            "선형대수및프로그래밍",
+            "공업수학1"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_COMMON_DEPARTMENTS = Set.of(
+            "건축공학과",
+            "건설환경공학과",
+            "환경에너지공간융합학과",
+            "환경융합공학과",
+            "지구자원시스템공학과",
+            "에너지자원공학과",
+            "기계공학과",
+            "우주항공공학전공",
+            "지능형드론융합전공",
+            "항공시스템공학전공",
+            "나노신소재공학과",
+            "양자원자력공학과"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_COMMON_COURSES = Set.of(
+            "공업수학1",
+            "공업수학2",
+            "일반물리학1",
+            "일반화학1"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_ARCHITECTURE_DEPARTMENTS = Set.of("건축학과");
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_ARCHITECTURE_COURSES = Set.of(
+            "통계학개론",
+            "일반물리학1",
+            "일반화학1"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_2024_2025_DEPARTMENTS = Set.of(
+            "국방시스템공학과",
+            "항공시스템공학전공"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_2026_DEPARTMENTS = Set.of(
+            "국방AI융합시스템공학과",
+            "항공시스템공학전공"
+    );
+    private static final Set<String> ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_COURSES = Set.of(
+            "공업수학1",
+            "공업수학2",
+            "일반물리학1",
+            "일반물리학2"
+    );
 
     private static final String POLICY_DATA = """
             2021|국어국문학과|14|0|0|-|60|15|45|130
@@ -368,6 +472,84 @@ public class DepartmentCurriculumPolicyService {
         }
 
         return policy;
+    }
+
+    public MajorFoundationCourseRule resolveMajorFoundationCourseRule(Student student) {
+        if (student == null || student.getAdmissionYear() == null) {
+            return MajorFoundationCourseRule.none();
+        }
+
+        String departmentKey = normalizeMajor(student.getMajor());
+        int admissionYear = student.getAdmissionYear();
+
+        if (admissionYear <= 2023) {
+            return MajorFoundationCourseRule.none();
+        }
+
+        if (BUSINESS_HOTEL_MAJOR_FOUNDATION_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(BUSINESS_HOTEL_MAJOR_FOUNDATION_COURSES);
+        }
+
+        if (NATURAL_LIFE_MAJOR_FOUNDATION_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.requiredWithOptionalPool(
+                    NATURAL_LIFE_MAJOR_FOUNDATION_REQUIRED_COURSES,
+                    NATURAL_LIFE_MAJOR_FOUNDATION_OPTIONAL_COURSES_2024_2026,
+                    2
+            );
+        }
+
+        if (admissionYear == 2024 && IT_MAJOR_FOUNDATION_DEPARTMENTS_2024.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(IT_MAJOR_FOUNDATION_COURSES);
+        }
+
+        if (admissionYear >= 2025 && IT_MAJOR_FOUNDATION_DEPARTMENTS_2025_2026.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(IT_MAJOR_FOUNDATION_COURSES);
+        }
+
+        if (ENGINEERING_MAJOR_FOUNDATION_ARCHITECTURE_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(ENGINEERING_MAJOR_FOUNDATION_ARCHITECTURE_COURSES);
+        }
+
+        if (admissionYear >= 2026 && ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_2026_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_COURSES);
+        }
+
+        if (admissionYear >= 2024 && admissionYear <= 2025
+                && ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_2024_2025_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(ENGINEERING_MAJOR_FOUNDATION_DEFENSE_AIR_COURSES);
+        }
+
+        if (ENGINEERING_MAJOR_FOUNDATION_COMMON_DEPARTMENTS.contains(departmentKey)) {
+            return MajorFoundationCourseRule.required(ENGINEERING_MAJOR_FOUNDATION_COMMON_COURSES);
+        }
+
+        return MajorFoundationCourseRule.none();
+    }
+
+    public record MajorFoundationCourseRule(
+            Set<String> requiredCourseNames,
+            Set<String> optionalCourseNames,
+            int optionalCourseLimit
+    ) {
+        static MajorFoundationCourseRule none() {
+            return new MajorFoundationCourseRule(Set.of(), Set.of(), 0);
+        }
+
+        static MajorFoundationCourseRule required(Set<String> requiredCourseNames) {
+            return new MajorFoundationCourseRule(Set.copyOf(requiredCourseNames), Set.of(), 0);
+        }
+
+        static MajorFoundationCourseRule requiredWithOptionalPool(
+                Set<String> requiredCourseNames,
+                Set<String> optionalCourseNames,
+                int optionalCourseLimit
+        ) {
+            return new MajorFoundationCourseRule(
+                    Set.copyOf(requiredCourseNames),
+                    Set.copyOf(optionalCourseNames),
+                    optionalCourseLimit
+            );
+        }
     }
 
     private static Map<String, DepartmentCurriculumPolicy> loadPolicies() {
