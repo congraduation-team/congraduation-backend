@@ -41,6 +41,9 @@ public class SejongEnglishCertificationService {
         String examType = text(titleBox, ".b-exam");
         String score = text(titleBox, ".b-score");
         String submitDate = text(titleBox, ".b-submit-date");
+        if (!hasSubmissionEvidence(titleBox, status, examType, score, submitDate)) {
+            return SejongEnglishCertificationResponseDto.notSubmitted();
+        }
         boolean certified = isCertified(status);
 
         return new SejongEnglishCertificationResponseDto(
@@ -52,6 +55,28 @@ public class SejongEnglishCertificationService {
                 emptyToNull(submitDate),
                 buildDetail(certified, status, examType, score, submitDate)
         );
+    }
+
+    private boolean hasSubmissionEvidence(
+            Element titleBox,
+            String status,
+            String examType,
+            String score,
+            String submitDate
+    ) {
+        if (hasText(status) || hasText(examType) || hasText(score) || hasText(submitDate)) {
+            return true;
+        }
+
+        Element trigger = titleBox.selectFirst(".b-title[data-app-id], .js-popup-open[data-app-id]");
+        if (trigger != null) {
+            String appId = trigger.attr("data-app-id");
+            if (appId != null && !appId.isBlank()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isCertified(String status) {
@@ -120,6 +145,10 @@ public class SejongEnglishCertificationService {
 
     private String emptyToNull(String value) {
         return value == null || value.isBlank() ? null : value.trim();
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 
     private String normalize(String value) {

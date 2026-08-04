@@ -33,6 +33,33 @@ class SejongEnglishCertificationServiceTest {
     }
 
     @Test
+    void parseCertificationStatusIgnoresEmptyTemplateBox() {
+        String html = """
+                <html>
+                <body>
+                  <div class="b-title-box">
+                    <a class="b-title js-popup-open" data-popup-type="english-register-popup" href="javascript:void(0);"></a>
+                    <div class="b-m-con">
+                      <span class="b-major"></span>
+                      <span class="b-student-id"></span>
+                      <span class="b-exam"></span>
+                      <span class="b-score"></span>
+                      <span class="b-submit-date"></span>
+                      <span class="b-status"></span>
+                    </div>
+                  </div>
+                </body>
+                </html>
+                """;
+
+        SejongEnglishCertificationResponseDto result = service.parseCertificationStatus(html);
+
+        assertFalse(result.submitted());
+        assertFalse(result.certified());
+        assertEquals("NOT_SUBMITTED", result.status());
+    }
+
+    @Test
     void parseCertificationStatusParsesApprovedSubmission() {
         String html = """
                 <html>
