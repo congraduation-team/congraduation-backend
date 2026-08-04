@@ -19,14 +19,24 @@ public class SejongProfileService {
 
     private static final String CLASSIC_INDEX_URL =
             "https://classic.sejong.ac.kr/classic/index.do";
-    private static final String PROFILE_URL =
+    private static final String READING_STATUS_URL =
             "https://classic.sejong.ac.kr/classic/reading/status.do";
+    private static final String ENGLISH_CERTIFICATION_URL =
+            "https://classic.sejong.ac.kr/classic/english/certification-status.do";
 
     public SejongProfileResponseDto fetchUserProfile(SejongSession session) {
         return parseProfileFromHtml(fetchReadingStatusPageHtml(session));
     }
 
     public String fetchReadingStatusPageHtml(SejongSession session) {
+        return fetchClassicPageHtml(session, READING_STATUS_URL, "세종 프로필 조회");
+    }
+
+    public String fetchEnglishCertificationPageHtml(SejongSession session) {
+        return fetchClassicPageHtml(session, ENGLISH_CERTIFICATION_URL, "세종 영어인증 조회");
+    }
+
+    private String fetchClassicPageHtml(SejongSession session, String targetUrl, String description) {
         if (session == null) {
             throw new IllegalArgumentException("세종 로그인 세션이 비어 있습니다.");
         }
@@ -41,7 +51,7 @@ public class SejongProfileService {
         bootstrapCommand.add(CLASSIC_INDEX_URL);
         SejongCurlSupport.executeDiscardBody(bootstrapCommand, "세종 classic 인덱스 세션 준비");
 
-        String html = requestProfileHtml(session, CLASSIC_INDEX_URL, MAX_PROFILE_ATTEMPTS);
+        String html = requestPageHtml(session, targetUrl, CLASSIC_INDEX_URL, MAX_PROFILE_ATTEMPTS, description);
         if (html.contains("로그인") || html.contains("세종대학교 포털")) {
             throw new IllegalStateException("SSO 인증 실패: 로그인 페이지가 반환되었습니다.");
         }
@@ -49,7 +59,13 @@ public class SejongProfileService {
         return html;
     }
 
-    private String requestProfileHtml(SejongSession session, String referer, int remainingAttempts) {
+    private String requestPageHtml(
+            SejongSession session,
+            String targetUrl,
+            String referer,
+            int remainingAttempts,
+            String description
+    ) {
         if (remainingAttempts <= 0) {
             throw new IllegalStateException("세종 프로필 조회 리다이렉트 한도를 초과했습니다.");
         }
@@ -61,11 +77,11 @@ public class SejongProfileService {
             throw new RuntimeException("세종 프로필 조회 헤더 파일 생성에 실패했습니다.", e);
         }
 
-        List<String> command = buildProfileCommand(session, referer);
+        List<String> command = buildPageCommand(session, targetUrl, referer);
         SejongCurlSupport.CurlExchange exchange = SejongCurlSupport.executeWithHeaders(
                 command,
                 headerFilePath,
-                "세종 프로필 조회"
+                description
         );
 
         log.info(
@@ -75,7 +91,7 @@ public class SejongProfileService {
                 remainingAttempts
         );
 
-        String redirectUrl = SejongCurlSupport.resolveRedirectUrl(PROFILE_URL, exchange.location());
+        String redirectUrl = SejongCurlSupport.resolveRedirectUrl(targetUrl, exchange.location());
         if (redirectUrl == null || redirectUrl.isBlank()) {
             if (exchange.statusCode() >= 400) {
                 throw new IllegalStateException("세종 프로필 조회 실패: HTTP " + exchange.statusCode());
@@ -93,15 +109,15 @@ public class SejongProfileService {
             gatewayCommand.add("--header");
             gatewayCommand.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
             gatewayCommand.add(redirectUrl);
-            SejongCurlSupport.executeDiscardBody(gatewayCommand, "세종 프로필 조회 SSO 게이트 통과");
+            SejongCurlSupport.executeDiscardBody(gatewayCommand, description + " SSO 게이트 통과");
 
-            return requestProfileHtml(session, CLASSIC_INDEX_URL, remainingAttempts - 1);
+            return requestPageHtml(session, targetUrl, CLASSIC_INDEX_URL, remainingAttempts - 1, description);
         }
 
         throw new IllegalStateException("예상하지 못한 세종 프로필 리다이렉트가 발생했습니다: " + redirectUrl);
     }
 
-    private List<String> buildProfileCommand(SejongSession session, String referer) {
+    private List<String> buildPageCommand(SejongSession session, String targetUrl, String referer) {
         List<String> command = SejongCurlSupport.baseCurlCommand(session.cookieJarPath());
         command.add("--header");
         command.add("Referer: " + referer);
@@ -109,7 +125,7 @@ public class SejongProfileService {
         command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
         command.add("--header");
         command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-        command.add(PROFILE_URL);
+        command.add(targetUrl);
         return command;
     }
 

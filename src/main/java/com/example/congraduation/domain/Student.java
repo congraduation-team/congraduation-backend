@@ -55,6 +55,27 @@ public class Student {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    private boolean englishCertificationSubmitted;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    private boolean englishCertificationCertified;
+
+    @Column(length = 50)
+    private String englishCertificationStatus;
+
+    @Column(length = 100)
+    private String englishCertificationExamType;
+
+    @Column(length = 100)
+    private String englishCertificationScore;
+
+    @Column(length = 50)
+    private String englishCertificationSubmittedAt;
+
+    @Column
+    private LocalDateTime englishCertificationCrawledAt;
+
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<StudentMajorTrack> majorTracks = new ArrayList<>();
 
@@ -129,6 +150,23 @@ public class Student {
         this.secondaryMajor = secondaryMajor;
     }
 
+    public void updateEnglishCertificationInfo(
+            boolean submitted,
+            boolean certified,
+            String status,
+            String examType,
+            String score,
+            String submittedAt
+    ) {
+        this.englishCertificationSubmitted = submitted;
+        this.englishCertificationCertified = certified;
+        this.englishCertificationStatus = status;
+        this.englishCertificationExamType = examType;
+        this.englishCertificationScore = score;
+        this.englishCertificationSubmittedAt = submittedAt;
+        this.englishCertificationCrawledAt = LocalDateTime.now();
+    }
+
     public void replaceMajorTracks(List<StudentMajorTrack> tracks) {
         this.majorTracks.clear();
         for (StudentMajorTrack track : tracks) {
@@ -183,6 +221,34 @@ public class Student {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public boolean isEnglishCertificationSubmitted() {
+        return englishCertificationSubmitted;
+    }
+
+    public boolean isEnglishCertificationCertified() {
+        return englishCertificationCertified;
+    }
+
+    public String getEnglishCertificationStatus() {
+        return englishCertificationStatus;
+    }
+
+    public String getEnglishCertificationExamType() {
+        return englishCertificationExamType;
+    }
+
+    public String getEnglishCertificationScore() {
+        return englishCertificationScore;
+    }
+
+    public String getEnglishCertificationSubmittedAt() {
+        return englishCertificationSubmittedAt;
+    }
+
+    public LocalDateTime getEnglishCertificationCrawledAt() {
+        return englishCertificationCrawledAt;
     }
 
     public List<StudentMajorTrack> getMajorTracks() {

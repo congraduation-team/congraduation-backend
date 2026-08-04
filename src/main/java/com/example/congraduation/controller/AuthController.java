@@ -31,6 +31,10 @@ public class AuthController {
     ) {
         SejongStudentLoginResult loginResult = sejongStudentLoginService.login(loginRequestDto);
         Student student = loginResult.student();
-        return ResponseEntity.ok(StudentLoginResponseDto.from(student, loginResult.readingStatus()));
+        return ResponseEntity.ok(StudentLoginResponseDto.from(
+                student,
+                loginResult.readingStatus(),
+                loginResult.englishCertification()
+        ));
     }
 }
