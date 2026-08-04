@@ -39,6 +39,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,6 +69,7 @@ public class GraduationProgressService {
     private final TranscriptSummaryCalculator transcriptSummaryCalculator;
     private final PlannedCourseService plannedCourseService;
     private final DepartmentCurriculumPolicyService policyService;
+    private final AcademicFoundationCoursePolicyService academicFoundationCoursePolicyService;
     private final CurriculumQueryService curriculumQueryService;
     private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
     private final DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService;
@@ -76,7 +78,7 @@ public class GraduationProgressService {
     private final SwCodingCertificationService swCodingCertificationService;
     private final EnglishCertificationService englishCertificationService;
 
-    public GraduationProgressService(
+    GraduationProgressService(
             StudentRepository studentRepository,
             TranscriptStorageService transcriptStorageService,
             TranscriptSummaryCalculator transcriptSummaryCalculator,
@@ -90,11 +92,45 @@ public class GraduationProgressService {
             SwCodingCertificationService swCodingCertificationService,
             EnglishCertificationService englishCertificationService
     ) {
+        this(
+                studentRepository,
+                transcriptStorageService,
+                transcriptSummaryCalculator,
+                plannedCourseService,
+                policyService,
+                null,
+                curriculumQueryService,
+                balancedLiberalCoursePolicyService,
+                doubleMajorRequiredCoursePolicyService,
+                doubleMajorGraduationRequirementService,
+                minorTrackProgressService,
+                swCodingCertificationService,
+                englishCertificationService
+        );
+    }
+
+    @Autowired
+    public GraduationProgressService(
+            StudentRepository studentRepository,
+            TranscriptStorageService transcriptStorageService,
+            TranscriptSummaryCalculator transcriptSummaryCalculator,
+            PlannedCourseService plannedCourseService,
+            DepartmentCurriculumPolicyService policyService,
+            AcademicFoundationCoursePolicyService academicFoundationCoursePolicyService,
+            CurriculumQueryService curriculumQueryService,
+            BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService,
+            DoubleMajorRequiredCoursePolicyService doubleMajorRequiredCoursePolicyService,
+            DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService,
+            MinorTrackProgressService minorTrackProgressService,
+            SwCodingCertificationService swCodingCertificationService,
+            EnglishCertificationService englishCertificationService
+    ) {
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
         this.transcriptSummaryCalculator = transcriptSummaryCalculator;
         this.plannedCourseService = plannedCourseService;
         this.policyService = policyService;
+        this.academicFoundationCoursePolicyService = academicFoundationCoursePolicyService;
         this.curriculumQueryService = curriculumQueryService;
         this.balancedLiberalCoursePolicyService = balancedLiberalCoursePolicyService;
         this.doubleMajorRequiredCoursePolicyService = doubleMajorRequiredCoursePolicyService;
@@ -151,6 +187,8 @@ public class GraduationProgressService {
         BalancedLiberalEvaluation balancedLiberalEvaluation = evaluateBalancedLiberal(student, completedCourses);
         MajorTrackCreditPolicy primaryMajorPolicy = resolvePrimaryMajorPolicy(student);
         Map<String, Integer> categoryRequirements = resolveCategoryRequirements(policy, primaryMajorPolicy);
+        AcademicFoundationCoursePolicyService.AcademicFoundationEvaluation academicFoundationEvaluation =
+                evaluateAcademicFoundation(student, policy, transcriptSummary.categorySummaries(), completedCourses);
         BigDecimal majorFoundationEarnedCredits =
                 calculateMajorFoundationCredits(student, policy, transcriptSummary.categorySummaries(), completedCourses);
         List<CategoryCourseDto> majorFoundationCourses =
@@ -177,8 +215,13 @@ public class GraduationProgressService {
                 extractRemainingMajorElectiveCourses(student, completedCourses);
         CategoryProgressDto electiveLiberalProgress =
                 buildCategoryProgress(transcriptSummary.categorySummaries(), 0, "교선");
-        CategoryProgressDto academicFoundationProgress =
-                buildCategoryProgress(transcriptSummary.categorySummaries(), policy.academicFoundationCredits(), "기필", "학문기초");
+        CategoryProgressDto academicFoundationProgress = buildCategoryProgress(
+                academicFoundationEvaluation.earnedCredits(),
+                academicFoundationEvaluation.requiredCredits()
+        );
+        List<CategoryCourseDto> academicFoundationCourses = academicFoundationEvaluation.completedCourses();
+        List<RequirementCourseDto> remainingAcademicFoundationRequiredCourses =
+                academicFoundationEvaluation.remainingCourses();
         CategoryProgressDto majorFoundationProgress = buildCategoryProgress(
                 majorFoundationEarnedCredits,
                 isDoubleMajorStudent(student) ? null : policy.majorFoundationCredits()
@@ -187,6 +230,11 @@ public class GraduationProgressService {
                 buildMajorCreditSummary(transcriptSummary, policy, primaryMajorPolicy, majorFoundationEarnedCredits);
         List<CategorySummaryDto> categorySummaries =
                 applyCategoryRequirements(transcriptSummary.categorySummaries(), categoryRequirements);
+        categorySummaries = applyAcademicFoundationSummary(
+                categorySummaries,
+                academicFoundationProgress,
+                academicFoundationCourses
+        );
         categorySummaries = applyMajorFoundationSummary(categorySummaries, policy, majorFoundationEarnedCredits, majorFoundationCourses);
         List<String> missingBalancedLiberalAreas =
                 resolveMissingBalancedLiberalAreas(student, balancedLiberalEvaluation.areaProgresses());
@@ -241,6 +289,8 @@ public class GraduationProgressService {
                 balancedLiberalEvaluation.completedAreaCount(),
                 balancedLiberalEvaluation.areaProgresses(),
                 academicFoundationProgress,
+                academicFoundationCourses,
+                remainingAcademicFoundationRequiredCourses,
                 majorFoundationProgress,
                 calculateAverageGradePoint(evaluationCourses),
                 calculateMajorGradePoint(evaluationCourses),
@@ -789,6 +839,71 @@ public class GraduationProgressService {
 
     private boolean hasMajorFoundationRequirement(DepartmentCurriculumPolicy policy) {
         return policy.majorFoundationCredits() != null && policy.majorFoundationCredits() > 0;
+    }
+
+    private AcademicFoundationCoursePolicyService.AcademicFoundationEvaluation evaluateAcademicFoundation(
+            Student student,
+            DepartmentCurriculumPolicy policy,
+            List<CategorySummaryDto> summaries,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        if (academicFoundationCoursePolicyService != null) {
+            AcademicFoundationCoursePolicyService.AcademicFoundationEvaluation evaluation =
+                    academicFoundationCoursePolicyService.evaluate(student, completedCourses);
+            if (evaluation.policyApplied()) {
+                return evaluation;
+            }
+        }
+
+        return new AcademicFoundationCoursePolicyService.AcademicFoundationEvaluation(
+                false,
+                creditOf(summaries, "기필", "학문기초"),
+                policy.academicFoundationCredits(),
+                extractCategoryCourses(summaries, "기필", "학문기초"),
+                List.of()
+        );
+    }
+
+    private List<CategorySummaryDto> applyAcademicFoundationSummary(
+            List<CategorySummaryDto> categorySummaries,
+            CategoryProgressDto academicFoundationProgress,
+            List<CategoryCourseDto> academicFoundationCourses
+    ) {
+        List<CategorySummaryDto> updated = new ArrayList<>();
+        boolean replaced = false;
+        for (CategorySummaryDto summary : categorySummaries) {
+            if (!"기필".equals(summary.category()) && !"학문기초".equals(summary.category())) {
+                updated.add(summary);
+                continue;
+            }
+
+            if (replaced) {
+                continue;
+            }
+
+            updated.add(new CategorySummaryDto(
+                    "기필",
+                    academicFoundationProgress.earnedCredits(),
+                    academicFoundationProgress.requiredCredits(),
+                    academicFoundationProgress.satisfied(),
+                    academicFoundationProgress.progressPercent(),
+                    academicFoundationCourses
+            ));
+            replaced = true;
+        }
+
+        if (!replaced && academicFoundationProgress.requiredCredits() != null) {
+            updated.add(new CategorySummaryDto(
+                    "기필",
+                    academicFoundationProgress.earnedCredits(),
+                    academicFoundationProgress.requiredCredits(),
+                    academicFoundationProgress.satisfied(),
+                    academicFoundationProgress.progressPercent(),
+                    academicFoundationCourses
+            ));
+        }
+
+        return List.copyOf(updated);
     }
 
     private List<CategorySummaryDto> applyMajorFoundationSummary(
