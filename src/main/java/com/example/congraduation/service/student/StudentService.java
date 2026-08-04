@@ -3,6 +3,7 @@ package com.example.congraduation.service.student;
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.domain.StudentMajorTrack;
+import com.example.congraduation.dto.sejong.SejongEnglishCertificationResponseDto;
 import com.example.congraduation.dto.student.StudentMajorTrackUpdateRequestDto;
 import com.example.congraduation.dto.student.StudentMajorTrackRequestDto;
 import com.example.congraduation.dto.sejong.SejongProfileResponseDto;
@@ -45,6 +46,22 @@ public class StudentService {
                                 false
                         )
                 ));
+    }
+
+    @Transactional
+    public void updateEnglishCertification(Student student, SejongEnglishCertificationResponseDto englishCertification) {
+        if (student == null || englishCertification == null) {
+            return;
+        }
+
+        student.updateEnglishCertificationInfo(
+                englishCertification.submitted(),
+                englishCertification.certified(),
+                englishCertification.status(),
+                englishCertification.examType(),
+                englishCertification.score(),
+                englishCertification.submitDate()
+        );
     }
 
     private Student updateStudent(Student student, SejongProfileResponseDto profile, Integer admissionYear) {

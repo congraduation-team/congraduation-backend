@@ -83,6 +83,17 @@ public class EnglishCertificationService {
             );
         }
 
+        if (student.isEnglishCertificationCertified()) {
+            return new EnglishCertificationProgressDto(
+                    true,
+                    true,
+                    "CERTIFIED",
+                    optionalPolicy ? "OPTIONAL" : "REQUIRED",
+                    requirement,
+                    buildCertifiedDetail(student)
+            );
+        }
+
         // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
         int completedRegularSemesters = TranscriptStandingMapper.countDistinctRegularTerms(
                 courses,
@@ -110,7 +121,8 @@ public class EnglishCertificationService {
                         optionalPolicy,
                         englishMajor,
                         completedRegularSemesters,
-                        requiredSemestersForExemption
+                        requiredSemestersForExemption,
+                        student
                 )
         );
     }
@@ -149,17 +161,56 @@ public class EnglishCertificationService {
             boolean optionalPolicy,
             boolean englishMajor,
             int completedRegularSemesters,
-            int requiredSemestersForExemption
+            int requiredSemestersForExemption,
+            Student student
     ) {
         String scoreGuide = buildScoreGuide(optionalPolicy, englishMajor);
+        String crawledStatus = buildCrawledStatus(student);
         String progress = "현재 기이수 정규학기 " + completedRegularSemesters + "학기"
                 + " / 학기 면제 기준 " + requiredSemestersForExemption + "학기. ";
         if (optionalPolicy) {
-            return progress + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+            return progress + crawledStatus + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                     + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
         }
-        return progress + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
+        return progress + crawledStatus + scoreGuide + " 현재는 공인영어 점수 데이터가 없어 시험 통과 여부를 확인하지 못했습니다. "
                 + "대체인정 기준으로는 Intensive English 이수 여부만 판정 중이며, 편입/외국인/재외국민 등 입학전형 기반 면제는 현재 확인할 수 없습니다.";
+    }
+
+    private String buildCertifiedDetail(Student student) {
+        StringBuilder detail = new StringBuilder("세종 영어인증 사이트에서 인증 완료로 확인되었습니다.");
+        if (student.getEnglishCertificationExamType() != null && !student.getEnglishCertificationExamType().isBlank()) {
+            detail.append(" 시험: ").append(student.getEnglishCertificationExamType().trim()).append(".");
+        }
+        if (student.getEnglishCertificationScore() != null && !student.getEnglishCertificationScore().isBlank()) {
+            detail.append(" 점수: ").append(student.getEnglishCertificationScore().trim()).append(".");
+        }
+        if (student.getEnglishCertificationSubmittedAt() != null && !student.getEnglishCertificationSubmittedAt().isBlank()) {
+            detail.append(" 제출일: ").append(student.getEnglishCertificationSubmittedAt().trim()).append(".");
+        }
+        return detail.toString();
+    }
+
+    private String buildCrawledStatus(Student student) {
+        if ("UNAVAILABLE".equalsIgnoreCase(student.getEnglishCertificationStatus())) {
+            return "세종 영어인증 사이트 조회에 실패해 크롤링 결과를 반영하지 못했습니다. ";
+        }
+        if (!student.isEnglishCertificationSubmitted()) {
+            return "세종 영어인증 사이트 기준 제출 내역이 없습니다. ";
+        }
+
+        StringBuilder detail = new StringBuilder("세종 영어인증 사이트 제출 상태는 ");
+        detail.append(student.getEnglishCertificationStatus() == null || student.getEnglishCertificationStatus().isBlank()
+                ? "확인 중"
+                : student.getEnglishCertificationStatus().trim());
+        if (student.getEnglishCertificationExamType() != null && !student.getEnglishCertificationExamType().isBlank()) {
+            detail.append(" (").append(student.getEnglishCertificationExamType().trim());
+            if (student.getEnglishCertificationScore() != null && !student.getEnglishCertificationScore().isBlank()) {
+                detail.append(" ").append(student.getEnglishCertificationScore().trim());
+            }
+            detail.append(")");
+        }
+        detail.append(". ");
+        return detail.toString();
     }
 
     private String buildScoreGuide(boolean optionalPolicy, boolean englishMajor) {
