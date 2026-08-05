@@ -8,6 +8,7 @@ import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.congraduation.service.student.StudentService;
+import com.example.congraduation.service.stats.SiteStatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,19 +22,22 @@ public class SejongStudentLoginService {
     private final SejongReadingStatusService sejongReadingStatusService;
     private final SejongEnglishCertificationService sejongEnglishCertificationService;
     private final StudentService studentService;
+    private final SiteStatsService siteStatsService;
 
     public SejongStudentLoginService(
             SejongAuthService sejongAuthService,
             SejongProfileService sejongProfileService,
             SejongReadingStatusService sejongReadingStatusService,
             SejongEnglishCertificationService sejongEnglishCertificationService,
-            StudentService studentService
+            StudentService studentService,
+            SiteStatsService siteStatsService
     ) {
         this.sejongAuthService = sejongAuthService;
         this.sejongProfileService = sejongProfileService;
         this.sejongReadingStatusService = sejongReadingStatusService;
         this.sejongEnglishCertificationService = sejongEnglishCertificationService;
         this.studentService = studentService;
+        this.siteStatsService = siteStatsService;
     }
 
     @Transactional
@@ -46,6 +50,7 @@ public class SejongStudentLoginService {
             Student student = studentService.findOrCreate(profile);
             SejongEnglishCertificationResponseDto englishCertification = fetchEnglishCertification(session);
             studentService.updateEnglishCertification(student, englishCertification);
+            siteStatsService.recordStudentVisit(student.getId());
             return new SejongStudentLoginResult(student, readingStatus, englishCertification);
         } finally {
             session.cleanup();
