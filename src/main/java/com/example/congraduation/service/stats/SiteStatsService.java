@@ -12,6 +12,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,11 @@ public class SiteStatsService {
     private final TranscriptUploadRepository transcriptUploadRepository;
     private final Clock clock;
 
+    /**
+     * Spring 주입용. Clock은 빈이 아니므로 2-arg만 @Autowired로 고정한다.
+     * (3-arg 테스트 생성자가 있으면 Spring이 Clock 빈을 찾다 기동 실패할 수 있음)
+     */
+    @Autowired
     public SiteStatsService(
             SiteVisitRepository siteVisitRepository,
             TranscriptUploadRepository transcriptUploadRepository
@@ -31,6 +37,7 @@ public class SiteStatsService {
         this(siteVisitRepository, transcriptUploadRepository, Clock.system(ZONE));
     }
 
+    /** 단위 테스트용. Spring 컨테이너에서는 사용하지 않는다. */
     SiteStatsService(
             SiteVisitRepository siteVisitRepository,
             TranscriptUploadRepository transcriptUploadRepository,
