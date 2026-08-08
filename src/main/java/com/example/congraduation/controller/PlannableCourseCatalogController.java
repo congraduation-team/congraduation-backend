@@ -1,7 +1,9 @@
 package com.example.congraduation.controller;
 
+import com.example.congraduation.auth.AuthenticatedStudentResolver;
 import com.example.congraduation.dto.plan.PlannableCourseCatalogResponseDto;
 import com.example.congraduation.service.plan.PlannableCourseCatalogService;
+import jakarta.servlet.http.HttpServletRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,9 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlannableCourseCatalogController {
 
     private final PlannableCourseCatalogService plannableCourseCatalogService;
+    private final AuthenticatedStudentResolver authenticatedStudentResolver;
 
-    public PlannableCourseCatalogController(PlannableCourseCatalogService plannableCourseCatalogService) {
+    public PlannableCourseCatalogController(
+            PlannableCourseCatalogService plannableCourseCatalogService,
+            AuthenticatedStudentResolver authenticatedStudentResolver
+    ) {
         this.plannableCourseCatalogService = plannableCourseCatalogService;
+        this.authenticatedStudentResolver = authenticatedStudentResolver;
     }
 
     @GetMapping
@@ -42,11 +49,16 @@ public class PlannableCourseCatalogController {
             @Parameter(description = "개설학과 필터", example = "컴퓨터공학과")
             @RequestParam(required = false) String departmentName,
             @Parameter(description = "이수구분 필터", example = "전공필수")
-            @RequestParam(required = false) String category
+            @RequestParam(required = false) String category,
+            HttpServletRequest httpServletRequest
     ) {
+        Long effectiveStudentId = authenticatedStudentResolver.resolveStudentIdForOptionalScopedRequest(
+                httpServletRequest,
+                studentId
+        );
         return ResponseEntity.ok(
                 plannableCourseCatalogService.getCatalog(
-                        studentId,
+                        effectiveStudentId,
                         keyword,
                         targetGrade,
                         semester,

@@ -1,5 +1,7 @@
 package com.example.congraduation.service.sejong;
 
+import com.example.congraduation.auth.JwtService;
+import com.example.congraduation.auth.JwtService.JwtTokenDto;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.sejong.SejongEnglishCertificationResponseDto;
 import com.example.congraduation.dto.sejong.SejongLoginRequestDto;
@@ -21,19 +23,22 @@ public class SejongStudentLoginService {
     private final SejongReadingStatusService sejongReadingStatusService;
     private final SejongEnglishCertificationService sejongEnglishCertificationService;
     private final StudentService studentService;
+    private final JwtService jwtService;
 
     public SejongStudentLoginService(
             SejongAuthService sejongAuthService,
             SejongProfileService sejongProfileService,
             SejongReadingStatusService sejongReadingStatusService,
             SejongEnglishCertificationService sejongEnglishCertificationService,
-            StudentService studentService
+            StudentService studentService,
+            JwtService jwtService
     ) {
         this.sejongAuthService = sejongAuthService;
         this.sejongProfileService = sejongProfileService;
         this.sejongReadingStatusService = sejongReadingStatusService;
         this.sejongEnglishCertificationService = sejongEnglishCertificationService;
         this.studentService = studentService;
+        this.jwtService = jwtService;
     }
 
     @Transactional
@@ -47,7 +52,8 @@ public class SejongStudentLoginService {
             studentService.updateClassicReadingCertification(student, readingStatus);
             SejongEnglishCertificationResponseDto englishCertification = fetchEnglishCertification(session);
             studentService.updateEnglishCertification(student, englishCertification);
-            return new SejongStudentLoginResult(student, readingStatus, englishCertification);
+            JwtTokenDto jwtToken = jwtService.issueToken(student);
+            return new SejongStudentLoginResult(student, readingStatus, englishCertification, jwtToken);
         } finally {
             session.cleanup();
         }

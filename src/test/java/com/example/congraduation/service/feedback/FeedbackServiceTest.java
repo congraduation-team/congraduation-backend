@@ -73,7 +73,7 @@ class FeedbackServiceTest {
                 null,
                 null,
                 null
-        ));
+        ), 1L);
 
         assertThat(created.type()).isEqualTo(FeedbackType.BUG);
         assertThat(created.status()).isEqualTo(FeedbackStatus.OPEN);
@@ -137,7 +137,7 @@ class FeedbackServiceTest {
     void createRejectsBlankTitle() {
         assertThatThrownBy(() -> feedbackService.create(new CreateFeedbackRequestDto(
                 FeedbackType.BUG, "  ", "내용", 1L, null, null, null
-        ))).isInstanceOf(IllegalArgumentException.class)
+        ), 1L)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("title");
     }
 
@@ -153,10 +153,18 @@ class FeedbackServiceTest {
 
         feedbackService.create(new CreateFeedbackRequestDto(
                 FeedbackType.INQUIRY, "문의", "내용입니다", 1L, null, null, null
-        ));
+        ), 1L);
 
         assertThat(captor.getValue().getStatus()).isEqualTo(FeedbackStatus.OPEN);
         assertThat(captor.getValue().getType()).isEqualTo(FeedbackType.INQUIRY);
+    }
+
+    @Test
+    void createRejectsMismatchedStudentId() {
+        assertThatThrownBy(() -> feedbackService.create(new CreateFeedbackRequestDto(
+                FeedbackType.BUG, "제목", "내용", 2L, null, null, null
+        ), 1L)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("studentId");
     }
 
     private static void setId(Object entity, Long id) {
