@@ -27,7 +27,7 @@ public class FeedbackService {
     }
 
     @Transactional
-    public FeedbackResponseDto create(CreateFeedbackRequestDto request) {
+    public FeedbackResponseDto create(CreateFeedbackRequestDto request, Long authenticatedStudentId) {
         if (request == null) {
             throw new IllegalArgumentException("요청 본문이 비어 있습니다.");
         }
@@ -42,18 +42,25 @@ public class FeedbackService {
         String studentName = blankToNull(request.studentName());
         String major = blankToNull(request.major());
 
-        if (request.studentId() != null) {
-            student = studentRepository.findById(request.studentId())
-                    .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다: " + request.studentId()));
-            if (studentNo == null) {
-                studentNo = student.getStudentNo();
-            }
-            if (studentName == null) {
-                studentName = student.getName();
-            }
-            if (major == null) {
-                major = student.getMajor();
-            }
+        if (authenticatedStudentId == null) {
+            throw new IllegalArgumentException("인증된 학생 정보가 없습니다.");
+        }
+
+        if (request.studentId() != null && !authenticatedStudentId.equals(request.studentId())) {
+            throw new IllegalArgumentException("요청 본문의 studentId는 로그인한 사용자와 같아야 합니다.");
+        }
+
+        student = studentRepository.findById(authenticatedStudentId)
+                .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다: " + authenticatedStudentId));
+
+        if (studentNo == null) {
+            studentNo = student.getStudentNo();
+        }
+        if (studentName == null) {
+            studentName = student.getName();
+        }
+        if (major == null) {
+            major = student.getMajor();
         }
 
         Feedback saved = feedbackRepository.save(

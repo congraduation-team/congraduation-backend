@@ -1,6 +1,7 @@
 package com.example.congraduation.dto.auth;
 
 import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.auth.JwtService.JwtTokenDto;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.sejong.SejongEnglishCertificationResponseDto;
 import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
@@ -22,6 +23,9 @@ public class StudentLoginResponseDto {
     private boolean admin;
     private SejongReadingStatusResponseDto readingStatus;
     private SejongEnglishCertificationResponseDto englishCertification;
+    private String accessToken;
+    private String tokenType;
+    private Long tokenExpiresAt;
 
     public StudentLoginResponseDto(
             Long id,
@@ -36,7 +40,10 @@ public class StudentLoginResponseDto {
             String status,
             boolean admin,
             SejongReadingStatusResponseDto readingStatus,
-            SejongEnglishCertificationResponseDto englishCertification
+            SejongEnglishCertificationResponseDto englishCertification,
+            String accessToken,
+            String tokenType,
+            Long tokenExpiresAt
     ) {
         this.id = id;
         this.studentNo = studentNo;
@@ -51,12 +58,16 @@ public class StudentLoginResponseDto {
         this.admin = admin;
         this.readingStatus = readingStatus;
         this.englishCertification = englishCertification;
+        this.accessToken = accessToken;
+        this.tokenType = tokenType;
+        this.tokenExpiresAt = tokenExpiresAt;
     }
 
     public static StudentLoginResponseDto from(
             Student student,
             SejongReadingStatusResponseDto readingStatus,
-            SejongEnglishCertificationResponseDto englishCertification
+            SejongEnglishCertificationResponseDto englishCertification,
+            JwtTokenDto jwtToken
     ) {
         return new StudentLoginResponseDto(
                 student.getId(),
@@ -73,12 +84,15 @@ public class StudentLoginResponseDto {
                 student.getStatus(),
                 student.isAdmin(),
                 readingStatus,
-                englishCertification
+                englishCertification,
+                jwtToken == null ? null : jwtToken.accessToken(),
+                jwtToken == null ? null : jwtToken.tokenType(),
+                jwtToken == null ? null : jwtToken.expiresAt()
         );
     }
 
     public static StudentLoginResponseDto from(Student student) {
-        return from(student, null, null);
+        return from(student, null, null, null);
     }
 
     public Long getId() {
@@ -131,5 +145,17 @@ public class StudentLoginResponseDto {
 
     public SejongEnglishCertificationResponseDto getEnglishCertification() {
         return englishCertification;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public Long getTokenExpiresAt() {
+        return tokenExpiresAt;
     }
 }
