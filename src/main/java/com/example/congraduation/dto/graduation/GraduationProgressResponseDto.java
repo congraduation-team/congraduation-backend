@@ -31,6 +31,8 @@ public record GraduationProgressResponseDto(
         GraduationWorkProgressDto graduationWork,
         @Schema(description = "영어졸업인증 진행도")
         EnglishCertificationProgressDto englishCertification,
+        @Schema(description = "고전독서인증 진행도")
+        ClassicReadingCertificationProgressDto classicReadingCertification,
         @Schema(description = "SW코딩졸업인증 진행도")
         SwCodingCertificationProgressDto swCodingCertification,
         @Schema(description = "총 이수학점 진행도")
