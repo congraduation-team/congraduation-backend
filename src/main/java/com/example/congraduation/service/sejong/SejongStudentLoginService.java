@@ -44,6 +44,7 @@ public class SejongStudentLoginService {
             SejongProfileResponseDto profile = sejongProfileService.parseProfileFromHtml(html);
             SejongReadingStatusResponseDto readingStatus = sejongReadingStatusService.parseReadingStatus(html);
             Student student = studentService.findOrCreate(profile);
+            studentService.updateClassicReadingCertification(student, readingStatus);
             SejongEnglishCertificationResponseDto englishCertification = fetchEnglishCertification(session);
             studentService.updateEnglishCertification(student, englishCertification);
             return new SejongStudentLoginResult(student, readingStatus, englishCertification);

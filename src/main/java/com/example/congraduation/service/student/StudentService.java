@@ -4,6 +4,7 @@ import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.domain.StudentMajorTrack;
 import com.example.congraduation.dto.sejong.SejongEnglishCertificationResponseDto;
+import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
 import com.example.congraduation.dto.student.StudentMajorTrackUpdateRequestDto;
 import com.example.congraduation.dto.student.StudentMajorTrackRequestDto;
 import com.example.congraduation.dto.sejong.SejongProfileResponseDto;
@@ -61,6 +62,20 @@ public class StudentService {
                 englishCertification.examType(),
                 englishCertification.score(),
                 englishCertification.submitDate()
+        );
+    }
+
+    @Transactional
+    public void updateClassicReadingCertification(Student student, SejongReadingStatusResponseDto readingStatus) {
+        if (student == null || readingStatus == null) {
+            return;
+        }
+
+        student.updateClassicReadingCertificationInfo(
+                readingStatus.completed(),
+                readingStatus.totalCompletedCount(),
+                readingStatus.totalCertifiedCount(),
+                readingStatus.totalRequiredCount()
         );
     }
 

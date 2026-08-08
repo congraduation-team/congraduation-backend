@@ -8,6 +8,7 @@ import com.example.congraduation.domain.Student;
 import com.example.congraduation.domain.StudentMajorTrack;
 import com.example.congraduation.dto.plan.PlannedCourseListResponseDto;
 import com.example.congraduation.dto.graduation.BalancedLiberalAreaProgressDto;
+import com.example.congraduation.dto.graduation.ClassicReadingCertificationProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
 import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
@@ -77,6 +78,7 @@ public class GraduationProgressService {
     private final MinorTrackProgressService minorTrackProgressService;
     private final SwCodingCertificationService swCodingCertificationService;
     private final EnglishCertificationService englishCertificationService;
+    private final ClassicReadingCertificationService classicReadingCertificationService;
 
     GraduationProgressService(
             StudentRepository studentRepository,
@@ -105,7 +107,8 @@ public class GraduationProgressService {
                 doubleMajorGraduationRequirementService,
                 minorTrackProgressService,
                 swCodingCertificationService,
-                englishCertificationService
+                englishCertificationService,
+                new ClassicReadingCertificationService()
         );
     }
 
@@ -123,7 +126,8 @@ public class GraduationProgressService {
             DoubleMajorGraduationRequirementService doubleMajorGraduationRequirementService,
             MinorTrackProgressService minorTrackProgressService,
             SwCodingCertificationService swCodingCertificationService,
-            EnglishCertificationService englishCertificationService
+            EnglishCertificationService englishCertificationService,
+            ClassicReadingCertificationService classicReadingCertificationService
     ) {
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
@@ -138,6 +142,7 @@ public class GraduationProgressService {
         this.minorTrackProgressService = minorTrackProgressService;
         this.swCodingCertificationService = swCodingCertificationService;
         this.englishCertificationService = englishCertificationService;
+        this.classicReadingCertificationService = classicReadingCertificationService;
     }
 
     @Transactional(readOnly = true)
@@ -198,6 +203,8 @@ public class GraduationProgressService {
         GraduationWorkProgressDto graduationWork = buildGraduationWorkProgress(student, completedCourses);
         EnglishCertificationProgressDto englishCertification =
                 englishCertificationService.evaluate(student, completedCourses);
+        ClassicReadingCertificationProgressDto classicReadingCertification =
+                classicReadingCertificationService.evaluate(student, completedCourses);
         SwCodingCertificationProgressDto swCodingCertification =
                 swCodingCertificationService.evaluate(student, completedCourses);
         CreditProgressDto totalCreditsProgress = buildCreditProgress(transcriptSummary.totalCredits(), policy.graduationCredits());
@@ -250,6 +257,10 @@ public class GraduationProgressService {
                 majorCreditSummary,
                 majorTracks,
                 graduationWork,
+                student,
+                englishCertification,
+                classicReadingCertification,
+                swCodingCertification,
                 categorySummaries
         );
         GraduationDisplayValues displayValues = resolveDisplayValues(
@@ -274,6 +285,7 @@ public class GraduationProgressService {
                 majorTracks,
                 graduationWork,
                 englishCertification,
+                classicReadingCertification,
                 swCodingCertification,
                 totalCreditsProgress,
                 displayValues.commonLiberalProgress(),
@@ -336,6 +348,10 @@ public class GraduationProgressService {
             MajorCreditSummaryDto majorCreditSummary,
             List<MajorTrackProgressDto> majorTracks,
             GraduationWorkProgressDto graduationWork,
+            Student student,
+            EnglishCertificationProgressDto englishCertification,
+            ClassicReadingCertificationProgressDto classicReadingCertification,
+            SwCodingCertificationProgressDto swCodingCertification,
             List<CategorySummaryDto> categorySummaries
     ) {
         Set<String> blockers = new LinkedHashSet<>();
@@ -371,6 +387,13 @@ public class GraduationProgressService {
             blockers.add("졸업작품(시험) 요건을 충족하지 못했습니다.");
         }
 
+        blockers.addAll(buildCertificationBlockers(
+                student,
+                englishCertification,
+                classicReadingCertification,
+                swCodingCertification
+        ));
+
         for (MajorTrackProgressDto majorTrack : majorTracks) {
             if (isDoubleMajorType(majorTrack.trackType()) && "IN_PROGRESS".equalsIgnoreCase(majorTrack.status())) {
                 blockers.add(majorTrack.department() + " 복수전공 요건을 충족하지 못했습니다.");
@@ -390,6 +413,69 @@ public class GraduationProgressService {
         }
 
         return new ArrayList<>(blockers);
+    }
+
+    private List<String> buildCertificationBlockers(
+            Student student,
+            EnglishCertificationProgressDto englishCertification,
+            ClassicReadingCertificationProgressDto classicReadingCertification,
+            SwCodingCertificationProgressDto swCodingCertification
+    ) {
+        if (student == null) {
+            return List.of();
+        }
+
+        int admissionYear = student.getAdmissionYear() == null ? 0 : student.getAdmissionYear();
+        if (admissionYear >= 2023) {
+            int satisfiedCount = 0;
+            if (englishCertification != null && englishCertification.satisfied()) {
+                satisfiedCount++;
+            }
+            if (classicReadingCertification != null && classicReadingCertification.satisfied()) {
+                satisfiedCount++;
+            }
+            if (swCodingCertification != null && swCodingCertification.satisfied()) {
+                satisfiedCount++;
+            }
+
+            if (isArtsCollegeMajor(student.getMajor())) {
+                return satisfiedCount >= 1
+                        ? List.of()
+                        : List.of("고전독서인증/SW코딩인증 중 1개 이상 충족해야 합니다.");
+            }
+
+            return satisfiedCount >= 2
+                    ? List.of()
+                    : List.of("영어/고전독서/SW코딩인증 중 2개 이상 충족해야 합니다.");
+        }
+
+        List<String> blockers = new ArrayList<>();
+        if (englishCertification != null && englishCertification.applicable() && !englishCertification.satisfied()) {
+            blockers.add("영어졸업인증 요건을 충족하지 못했습니다.");
+        }
+        if (classicReadingCertification != null
+                && classicReadingCertification.applicable()
+                && !classicReadingCertification.satisfied()) {
+            blockers.add("고전독서인증 요건을 충족하지 못했습니다.");
+        }
+        return blockers;
+    }
+
+    private boolean isArtsCollegeMajor(String major) {
+        String normalizedMajor = major == null ? "" : major.trim();
+        return Set.of(
+                "회화과",
+                "패션디자인학과",
+                "음악과",
+                "체육학과",
+                "무용과",
+                "영화예술학과",
+                "디자인이노베이션전공",
+                "만화애니메이션텍전공",
+                "영상디자인 융합전공",
+                "뉴미디어퍼포먼스 융합전공",
+                "럭셔리브랜드디자인 융합전공"
+        ).contains(normalizedMajor);
     }
 
     private BalancedLiberalEvaluation evaluateBalancedLiberal(

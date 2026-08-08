@@ -76,6 +76,21 @@ public class Student {
     @Column
     private LocalDateTime englishCertificationCrawledAt;
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    private boolean classicReadingCertified;
+
+    @Column
+    private Integer classicReadingCompletedCount;
+
+    @Column
+    private Integer classicReadingCertifiedCount;
+
+    @Column
+    private Integer classicReadingRequiredCount;
+
+    @Column
+    private LocalDateTime classicReadingCrawledAt;
+
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<StudentMajorTrack> majorTracks = new ArrayList<>();
 
@@ -167,6 +182,19 @@ public class Student {
         this.englishCertificationCrawledAt = LocalDateTime.now();
     }
 
+    public void updateClassicReadingCertificationInfo(
+            boolean certified,
+            Integer completedCount,
+            Integer certifiedCount,
+            Integer requiredCount
+    ) {
+        this.classicReadingCertified = certified;
+        this.classicReadingCompletedCount = completedCount;
+        this.classicReadingCertifiedCount = certifiedCount;
+        this.classicReadingRequiredCount = requiredCount;
+        this.classicReadingCrawledAt = LocalDateTime.now();
+    }
+
     public void replaceMajorTracks(List<StudentMajorTrack> tracks) {
         this.majorTracks.clear();
         for (StudentMajorTrack track : tracks) {
@@ -249,6 +277,26 @@ public class Student {
 
     public LocalDateTime getEnglishCertificationCrawledAt() {
         return englishCertificationCrawledAt;
+    }
+
+    public boolean isClassicReadingCertified() {
+        return classicReadingCertified;
+    }
+
+    public Integer getClassicReadingCompletedCount() {
+        return classicReadingCompletedCount;
+    }
+
+    public Integer getClassicReadingCertifiedCount() {
+        return classicReadingCertifiedCount;
+    }
+
+    public Integer getClassicReadingRequiredCount() {
+        return classicReadingRequiredCount;
+    }
+
+    public LocalDateTime getClassicReadingCrawledAt() {
+        return classicReadingCrawledAt;
     }
 
     public List<StudentMajorTrack> getMajorTracks() {

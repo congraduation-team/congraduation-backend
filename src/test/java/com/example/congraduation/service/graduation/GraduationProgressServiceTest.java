@@ -6,13 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
+import com.example.congraduation.dto.graduation.ClassicReadingCertificationProgressDto;
 import com.example.congraduation.dto.graduation.CategoryProgressDto;
 import com.example.congraduation.dto.graduation.CreditProgressDto;
+import com.example.congraduation.dto.graduation.EnglishCertificationProgressDto;
 import com.example.congraduation.dto.graduation.GraduationProgressResponseDto;
 import com.example.congraduation.dto.graduation.GraduationWorkProgressDto;
 import com.example.congraduation.dto.graduation.MajorCreditSummaryDto;
 import com.example.congraduation.dto.graduation.MajorTrackProgressDto;
 import com.example.congraduation.dto.graduation.RemainingCommonLiberalCourseDto;
+import com.example.congraduation.dto.graduation.SwCodingCertificationProgressDto;
 import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.CategorySummaryDto;
@@ -715,6 +718,10 @@ class GraduationProgressServiceTest {
                 MajorCreditSummaryDto.class,
                 List.class,
                 GraduationWorkProgressDto.class,
+                Student.class,
+                EnglishCertificationProgressDto.class,
+                ClassicReadingCertificationProgressDto.class,
+                SwCodingCertificationProgressDto.class,
                 List.class
         );
         method.setAccessible(true);
@@ -730,6 +737,26 @@ class GraduationProgressServiceTest {
         );
         GraduationWorkProgressDto graduationWork = new GraduationWorkProgressDto(
                 false, false, "NOT_APPLICABLE", "NOT_REQUIRED", "해당 없음"
+        );
+        Student student = Student.create(
+                "21000001",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                4,
+                2021,
+                "ACTIVE",
+                false
+        );
+        EnglishCertificationProgressDto englishCertification = new EnglishCertificationProgressDto(
+                false, true, "EXEMPTED", "EXEMPT", "영어 기준", "면제"
+        );
+        ClassicReadingCertificationProgressDto classicReadingCertification = new ClassicReadingCertificationProgressDto(
+                false, true, "EXEMPTED", "EXEMPT", "고전 기준", "고전특강 이수", "면제"
+        );
+        SwCodingCertificationProgressDto swCodingCertification = new SwCodingCertificationProgressDto(
+                false, false, "NOT_APPLICABLE", "NONE", "해당 없음", null, null, "해당 없음"
         );
         List<CategorySummaryDto> categorySummaries = List.of(
                 new CategorySummaryDto("전기", "6", "9", false, "66.67", new ArrayList<>()),
@@ -749,6 +776,10 @@ class GraduationProgressServiceTest {
                 majorCreditSummary,
                 List.<MajorTrackProgressDto>of(),
                 graduationWork,
+                student,
+                englishCertification,
+                classicReadingCertification,
+                swCodingCertification,
                 categorySummaries
         );
 
@@ -796,6 +827,7 @@ class GraduationProgressServiceTest {
                 List.of(),
                 List.of("공통교양 요건을 충족했습니다."),
                 List.of(),
+                null,
                 null,
                 null,
                 null,
@@ -904,5 +936,91 @@ class GraduationProgressServiceTest {
         assertTrue(result.stream().anyMatch(course -> "서양철학:쟁점과토론".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "세계사:인간과문명".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "대학생활과진로설계".equals(course.courseName())));
+    }
+
+    @Test
+    void buildCertificationBlockersRequiresTwoCertificationsFor2023Students() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "buildCertificationBlockers",
+                Student.class,
+                EnglishCertificationProgressDto.class,
+                ClassicReadingCertificationProgressDto.class,
+                SwCodingCertificationProgressDto.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "24000001",
+                "테스트",
+                "경영학부",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        EnglishCertificationProgressDto english = new EnglishCertificationProgressDto(
+                true, false, "IN_PROGRESS", "OPTIONAL", "영어 기준", "미충족"
+        );
+        ClassicReadingCertificationProgressDto classic = new ClassicReadingCertificationProgressDto(
+                true, true, "COMPLETED", "OPTIONAL", "고전 기준", "고전특강 이수", "충족"
+        );
+        SwCodingCertificationProgressDto sw = new SwCodingCertificationProgressDto(
+                true, false, "IN_PROGRESS", "NON_MAJOR", "2개 이상", "TOSC", "코딩과스토리텔링", "미충족"
+        );
+
+        @SuppressWarnings("unchecked")
+        List<String> result = (List<String>) method.invoke(service, student, english, classic, sw);
+
+        assertEquals(List.of("영어/고전독서/SW코딩인증 중 2개 이상 충족해야 합니다."), result);
+    }
+
+    @Test
+    void buildCertificationBlockersAllowsArtsStudentsWithClassicOnlyAfter2023() throws Exception {
+        GraduationProgressService service = new GraduationProgressService(
+                null, null, null, null, null, null, null, null, null, null, null, null
+        );
+
+        Method method = GraduationProgressService.class.getDeclaredMethod(
+                "buildCertificationBlockers",
+                Student.class,
+                EnglishCertificationProgressDto.class,
+                ClassicReadingCertificationProgressDto.class,
+                SwCodingCertificationProgressDto.class
+        );
+        method.setAccessible(true);
+
+        Student student = Student.create(
+                "24000002",
+                "테스트",
+                "영화예술학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        EnglishCertificationProgressDto english = new EnglishCertificationProgressDto(
+                false, true, "EXEMPTED", "OPTIONAL", "영어 기준", "면제"
+        );
+        ClassicReadingCertificationProgressDto classic = new ClassicReadingCertificationProgressDto(
+                true, true, "CERTIFIED", "OPTIONAL", "고전 기준", "고전특강 이수", "충족"
+        );
+        SwCodingCertificationProgressDto sw = new SwCodingCertificationProgressDto(
+                true, false, "IN_PROGRESS", "NON_MAJOR", "1개 이상", "TOSC", "코딩과스토리텔링", "미충족"
+        );
+
+        @SuppressWarnings("unchecked")
+        List<String> result = (List<String>) method.invoke(service, student, english, classic, sw);
+
+        assertEquals(List.of(), result);
     }
 }
