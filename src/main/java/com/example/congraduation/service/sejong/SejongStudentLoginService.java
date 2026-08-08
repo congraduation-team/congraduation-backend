@@ -10,6 +10,7 @@ import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.congraduation.service.student.StudentService;
+import com.example.congraduation.service.stats.SiteStatsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class SejongStudentLoginService {
     private final SejongEnglishCertificationService sejongEnglishCertificationService;
     private final StudentService studentService;
     private final JwtService jwtService;
+    private final SiteStatsService siteStatsService;
 
     public SejongStudentLoginService(
             SejongAuthService sejongAuthService,
@@ -31,7 +33,8 @@ public class SejongStudentLoginService {
             SejongReadingStatusService sejongReadingStatusService,
             SejongEnglishCertificationService sejongEnglishCertificationService,
             StudentService studentService,
-            JwtService jwtService
+            JwtService jwtService,
+            SiteStatsService siteStatsService
     ) {
         this.sejongAuthService = sejongAuthService;
         this.sejongProfileService = sejongProfileService;
@@ -39,6 +42,7 @@ public class SejongStudentLoginService {
         this.sejongEnglishCertificationService = sejongEnglishCertificationService;
         this.studentService = studentService;
         this.jwtService = jwtService;
+        this.siteStatsService = siteStatsService;
     }
 
     @Transactional
@@ -52,6 +56,7 @@ public class SejongStudentLoginService {
             studentService.updateClassicReadingCertification(student, readingStatus);
             SejongEnglishCertificationResponseDto englishCertification = fetchEnglishCertification(session);
             studentService.updateEnglishCertification(student, englishCertification);
+            siteStatsService.recordStudentVisit(student.getId());
             JwtTokenDto jwtToken = jwtService.issueToken(student);
             return new SejongStudentLoginResult(student, readingStatus, englishCertification, jwtToken);
         } finally {
