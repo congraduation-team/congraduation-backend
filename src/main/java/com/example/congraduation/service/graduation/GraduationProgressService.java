@@ -151,7 +151,7 @@ public class GraduationProgressService {
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
 
         List<CompletedCourseUploadRowDto> courses = transcriptStorageService.getLatestTranscriptRows(studentId);
-        PlannedCourseListResponseDto plannedCourses = plannedCourseService.getPlannedCourses(studentId);
+        PlannedCourseListResponseDto plannedCourses = plannedCourseService.getPlannedCoursesForReadOnly(studentId);
         List<CompletedCourseUploadRowDto> projectedCourses = plannedCourseService.getProjectedRows(studentId);
         DepartmentCurriculumPolicy policy = policyService.resolve(student);
         List<CompletedCourseUploadRowDto> normalizedCourses = normalizeCoursesForPolicy(courses, policy);

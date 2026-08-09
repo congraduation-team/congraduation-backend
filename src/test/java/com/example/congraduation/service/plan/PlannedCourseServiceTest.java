@@ -2,6 +2,7 @@ package com.example.congraduation.service.plan;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,6 +74,82 @@ class PlannedCourseServiceTest {
         assertTrue(result.semesters().isEmpty());
         assertEquals("0", result.totalPlannedCredits());
         verify(plannedSemesterRepository, never()).save(org.mockito.ArgumentMatchers.any());
+    }
+
+    @Test
+    void getPlannedCoursesForReadOnlyDoesNotCreateSemestersEvenWhenTranscriptExists() {
+        PlannedCourseService service = new PlannedCourseService(
+                studentRepository,
+                plannedCourseRepository,
+                plannedSemesterRepository,
+                transcriptStorageService
+        );
+
+        Student student = Student.create(
+                "24012357",
+                "김정현",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+        assignId(student, 1L);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+        when(plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+
+        PlannedCourseListResponseDto result = service.getPlannedCoursesForReadOnly(1L);
+
+        assertTrue(result.semesters().isEmpty());
+        assertEquals("0", result.totalPlannedCredits());
+        verify(plannedSemesterRepository, never()).save(org.mockito.ArgumentMatchers.any());
+    }
+
+    @Test
+    void getPlannedCoursesStillCreatesSemestersWhenTranscriptExists() {
+        PlannedCourseService service = new PlannedCourseService(
+                studentRepository,
+                plannedCourseRepository,
+                plannedSemesterRepository,
+                transcriptStorageService
+        );
+
+        Student student = Student.create(
+                "24012357",
+                "김정현",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+        assignId(student, 1L);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(transcriptStorageService.hasTranscript(1L)).thenReturn(true);
+        when(plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+        when(plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+        when(plannedSemesterRepository.findTopByStudentIdAndGradeYearAndSemesterOrderByCreatedAtAscIdAsc(
+                org.mockito.ArgumentMatchers.eq(1L),
+                org.mockito.ArgumentMatchers.anyInt(),
+                org.mockito.ArgumentMatchers.anyInt()
+        )).thenReturn(Optional.empty());
+        when(plannedSemesterRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        service.getPlannedCourses(1L);
+
+        verify(transcriptStorageService, atLeastOnce()).hasTranscript(1L);
+        verify(plannedSemesterRepository, atLeastOnce()).save(org.mockito.ArgumentMatchers.any());
     }
 
     @Test

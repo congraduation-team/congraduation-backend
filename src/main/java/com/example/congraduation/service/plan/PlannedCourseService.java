@@ -56,11 +56,20 @@ public class PlannedCourseService {
 
     @Transactional
     public PlannedCourseListResponseDto getPlannedCourses(Long studentId) {
+        return getPlannedCourses(studentId, true);
+    }
+
+    @Transactional(readOnly = true)
+    public PlannedCourseListResponseDto getPlannedCoursesForReadOnly(Long studentId) {
+        return getPlannedCourses(studentId, false);
+    }
+
+    private PlannedCourseListResponseDto getPlannedCourses(Long studentId, boolean autoCreateRemainingSemesters) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
         // 성적표가 없는 사용자는 조회만 허용하고, 빈 계획 학기 자동 생성은 하지 않는다.
         // 그렇지 않으면 졸업요건 첫 진입 시 read-only DB에서도 쓰기 쿼리가 발생할 수 있다.
-        if (transcriptStorageService.hasTranscript(studentId)) {
+        if (autoCreateRemainingSemesters && transcriptStorageService.hasTranscript(studentId)) {
             // 마지막 이수 다음 ~ 4-2까지 빈 학기 카드를 항상 확보
             ensureRemainingSemestersThroughGraduation(student);
         }
