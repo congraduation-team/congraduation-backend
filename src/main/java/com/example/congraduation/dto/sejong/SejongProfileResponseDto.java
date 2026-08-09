@@ -6,15 +6,23 @@ public class SejongProfileResponseDto {
     private String studentId;
     private String name;
     private Integer gradeLevel;
+    private Integer completedSemesterCount;
 
     public SejongProfileResponseDto() {
     }
 
-    public SejongProfileResponseDto(String major, String studentId, String name, String gradeLevel) {
+    public SejongProfileResponseDto(
+            String major,
+            String studentId,
+            String name,
+            String gradeLevel,
+            String completedSemesterCount
+    ) {
         this.major = major;
         this.studentId = studentId;
         this.name = name;
         this.gradeLevel = extractNumber(gradeLevel);
+        this.completedSemesterCount = extractNumber(completedSemesterCount);
     }
 
     private Integer extractNumber(String value) {
@@ -60,5 +68,13 @@ public class SejongProfileResponseDto {
 
     public void setGradeLevel(Integer gradeLevel) {
         this.gradeLevel = gradeLevel;
+    }
+
+    public Integer getCompletedSemesterCount() {
+        return completedSemesterCount;
+    }
+
+    public void setCompletedSemesterCount(Integer completedSemesterCount) {
+        this.completedSemesterCount = completedSemesterCount;
     }
 }

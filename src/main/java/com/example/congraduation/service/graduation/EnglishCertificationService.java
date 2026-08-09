@@ -94,11 +94,7 @@ public class EnglishCertificationService {
             );
         }
 
-        // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
-        int completedRegularSemesters = TranscriptStandingMapper.countDistinctRegularTerms(
-                courses,
-                student.getAdmissionYear()
-        );
+        int completedRegularSemesters = resolveCompletedRegularSemesters(student, courses);
         int requiredSemestersForExemption = "건축학과".equals(major) ? 12 : 10;
         if (completedRegularSemesters >= requiredSemestersForExemption) {
             return new EnglishCertificationProgressDto(
@@ -125,6 +121,15 @@ public class EnglishCertificationService {
                         student
                 )
         );
+    }
+
+    private int resolveCompletedRegularSemesters(Student student, List<CompletedCourseUploadRowDto> courses) {
+        if (student.getCompletedSemesterCount() != null && student.getCompletedSemesterCount() > 0) {
+            return student.getCompletedSemesterCount();
+        }
+
+        // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
+        return TranscriptStandingMapper.countDistinctRegularTerms(courses, student.getAdmissionYear());
     }
 
     private boolean hasCompletedIntensiveEnglish(List<CompletedCourseUploadRowDto> courses) {

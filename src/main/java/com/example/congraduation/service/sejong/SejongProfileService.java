@@ -136,11 +136,12 @@ public class SejongProfileService {
         String studentId = document.select("th:contains(학번) + td").text().trim();
         String name = document.select("th:contains(이름) + td").text().trim();
         String gradeLevel = document.select("th:contains(학년) + td").text().trim();
+        String completedSemesterCount = document.select("th:contains(이수 학기) + td").text().trim();
 
         if (major.isBlank() || studentId.isBlank() || name.isBlank() || gradeLevel.isBlank()) {
             throw new IllegalStateException("세종 프로필 파싱 중 필수 데이터가 누락되었습니다.");
         }
 
-        return new SejongProfileResponseDto(major, studentId, name, gradeLevel);
+        return new SejongProfileResponseDto(major, studentId, name, gradeLevel, completedSemesterCount);
     }
 }

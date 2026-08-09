@@ -84,6 +84,22 @@ class EnglishCertificationServiceTest {
     }
 
     @Test
+    void usesSejongCompletedSemesterCountBeforeTranscriptStanding() {
+        Student student = Student.create("21011620", "송대현", "컴퓨터공학과", MajorType.SINGLE, null, 4, 10, 2021, "ACTIVE", false);
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                row("2021", "1학기", "A"),
+                row("2021", "2학기", "B"),
+                row("2024", "1학기", "C")
+        );
+
+        EnglishCertificationProgressDto result = service.evaluate(student, courses);
+
+        assertTrue(result.satisfied());
+        assertEquals("EXEMPTED", result.status());
+        assertTrue(result.detail().contains("10학기 이수"));
+    }
+
+    @Test
     void doesNotExemptWhenCalendarLooksLongButStandingTermsAreFew() {
         // 2021입학 · 2026-1만 있으면 달력으로는 11학기지만, 실제 정규학기는 7개(휴학 건너뜀)
         Student student = Student.create("21011620", "송대현", "컴퓨터공학과", MajorType.SINGLE, null, 4, 2021, "ACTIVE", false);

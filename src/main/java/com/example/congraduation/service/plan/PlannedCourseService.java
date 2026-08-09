@@ -446,7 +446,9 @@ public class PlannedCourseService {
     }
 
     private int resolveLastCompletedStep(Student student) {
-        int fallback = Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
+        int fallback = student.getCompletedSemesterCount() != null
+                ? Math.max(0, Math.min(student.getCompletedSemesterCount(), 8))
+                : Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
         if (!transcriptStorageService.hasTranscript(student.getId())) {
             return fallback;
         }
