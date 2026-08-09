@@ -1,5 +1,7 @@
 package com.example.congraduation.exception;
 
+import com.example.congraduation.auth.JwtAuthenticationException;
+import com.example.congraduation.auth.JwtAuthorizationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleIllegalState(IllegalStateException e) {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                 .body(new ApiErrorResponse("SEJONG_INTEGRATION_FAILED", e.getMessage()));
+    }
+
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<ApiErrorResponse> handleJwtAuthentication(JwtAuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiErrorResponse("UNAUTHORIZED", e.getMessage()));
+    }
+
+    @ExceptionHandler(JwtAuthorizationException.class)
+    public ResponseEntity<ApiErrorResponse> handleJwtAuthorization(JwtAuthorizationException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiErrorResponse("FORBIDDEN", e.getMessage()));
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
