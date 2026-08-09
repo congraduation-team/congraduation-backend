@@ -47,7 +47,7 @@ class ClassicReadingCertificationServiceTest {
 
         assertTrue(result.satisfied());
         assertEquals("CERTIFIED", result.status());
-        assertTrue(result.detail().contains("인증 10권 / 필요 10권"));
+        assertEquals("고전독서인증이 인증되었습니다.", result.detail());
     }
 
     @Test
