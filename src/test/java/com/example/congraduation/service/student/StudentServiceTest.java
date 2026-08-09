@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
+import com.example.congraduation.dto.sejong.SejongReadingStatusResponseDto;
 import com.example.congraduation.dto.student.StudentMajorTrackRequestDto;
 import com.example.congraduation.dto.student.StudentMajorTrackUpdateRequestDto;
 import com.example.congraduation.repository.student.StudentRepository;
@@ -17,6 +18,44 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class StudentServiceTest {
+
+    @Test
+    void updateClassicReadingCertificationAggregatesAreaCounts() {
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        MajorCatalogService majorCatalogService = new MajorCatalogService();
+        StudentService service = new StudentService(studentRepository, majorCatalogService);
+
+        Student student = Student.create(
+                "24000001",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "ACTIVE",
+                false
+        );
+
+        SejongReadingStatusResponseDto readingStatus = new SejongReadingStatusResponseDto(
+                true,
+                "현재 고전독서인증 완료!",
+                "고전독서인증 현황",
+                "고전독서인증이 인증되었습니다.",
+                List.of(
+                        new SejongReadingStatusResponseDto.AreaStatusDto("서양의 역사와 사상", 5, 4, 4, true),
+                        new SejongReadingStatusResponseDto.AreaStatusDto("동양의 역사와 사상", 3, 2, 2, true),
+                        new SejongReadingStatusResponseDto.AreaStatusDto("동·서양의 문학", 2, 3, 3, true),
+                        new SejongReadingStatusResponseDto.AreaStatusDto("과학 사상", 1, 1, 1, true)
+                )
+        );
+
+        service.updateClassicReadingCertification(student, readingStatus);
+
+        assertEquals(11, student.getClassicReadingCompletedCount());
+        assertEquals(10, student.getClassicReadingCertifiedCount());
+        assertEquals(10, student.getClassicReadingRequiredCount());
+    }
 
     @Test
     void updateMajorTrackIgnoresSingleTrackFromFrontendPayload() {
