@@ -71,11 +71,21 @@ public class StudentService {
             return;
         }
 
+        int completedCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::completedCount)
+                .sum();
+        int certifiedCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::certifiedCount)
+                .sum();
+        int requiredCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::requiredCount)
+                .sum();
+
         student.updateClassicReadingCertificationInfo(
                 readingStatus.completed(),
-                readingStatus.totalCompletedCount(),
-                readingStatus.totalCertifiedCount(),
-                readingStatus.totalRequiredCount()
+                completedCount,
+                certifiedCount,
+                requiredCount
         );
     }
 
