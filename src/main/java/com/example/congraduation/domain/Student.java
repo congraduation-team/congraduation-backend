@@ -44,6 +44,9 @@ public class Student {
     private Integer gradeLevel;
 
     @Column
+    private Integer completedSemesterCount;
+
+    @Column
     private Integer admissionYear;
 
     @Column(length = 20)
@@ -104,6 +107,7 @@ public class Student {
             MajorType majorType,
             String secondaryMajor,
             Integer gradeLevel,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status,
             boolean admin,
@@ -115,6 +119,7 @@ public class Student {
         this.majorType = majorType;
         this.secondaryMajor = secondaryMajor;
         this.gradeLevel = gradeLevel;
+        this.completedSemesterCount = completedSemesterCount;
         this.admissionYear = admissionYear;
         this.status = status;
         this.admin = admin;
@@ -128,6 +133,7 @@ public class Student {
             MajorType majorType,
             String secondaryMajor,
             Integer gradeLevel,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status,
             boolean admin
@@ -139,6 +145,7 @@ public class Student {
                 majorType,
                 secondaryMajor,
                 gradeLevel,
+                completedSemesterCount,
                 admissionYear,
                 status,
                 admin,
@@ -146,16 +153,43 @@ public class Student {
         );
     }
 
+    public static Student create(
+            String studentNo,
+            String name,
+            String major,
+            MajorType majorType,
+            String secondaryMajor,
+            Integer gradeLevel,
+            Integer admissionYear,
+            String status,
+            boolean admin
+    ) {
+        return create(
+                studentNo,
+                name,
+                major,
+                majorType,
+                secondaryMajor,
+                gradeLevel,
+                null,
+                admissionYear,
+                status,
+                admin
+        );
+    }
+
     public void updateAcademicInfo(
             String name,
             String major,
             Integer gradeLevel,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status
     ) {
         this.name = name;
         this.major = major;
         this.gradeLevel = gradeLevel;
+        this.completedSemesterCount = completedSemesterCount;
         this.admissionYear = admissionYear;
         this.status = status;
     }
@@ -233,6 +267,10 @@ public class Student {
 
     public Integer getGradeLevel() {
         return gradeLevel;
+    }
+
+    public Integer getCompletedSemesterCount() {
+        return completedSemesterCount;
     }
 
     public Integer getAdmissionYear() {

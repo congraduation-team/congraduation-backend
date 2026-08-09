@@ -42,6 +42,7 @@ public class StudentService {
                                 MajorType.SINGLE,
                                 null,
                                 profile.getGradeLevel(),
+                                profile.getCompletedSemesterCount(),
                                 admissionYear,
                                 "ACTIVE",
                                 false
@@ -94,6 +95,7 @@ public class StudentService {
                 profile.getName(),
                 profile.getMajor(),
                 profile.getGradeLevel(),
+                profile.getCompletedSemesterCount(),
                 admissionYear,
                 student.getStatus() == null ? "ACTIVE" : student.getStatus()
         );
