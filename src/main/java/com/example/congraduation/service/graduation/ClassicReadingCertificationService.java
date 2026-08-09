@@ -108,15 +108,7 @@ public class ClassicReadingCertificationService {
     }
 
     private String buildCertifiedDetail(Student student) {
-        StringBuilder detail = new StringBuilder("세종 고전독서인증 사이트에서 완료로 확인되었습니다.");
-        if (student.getClassicReadingCertifiedCount() != null && student.getClassicReadingRequiredCount() != null) {
-            detail.append(" 인증 ").append(student.getClassicReadingCertifiedCount())
-                    .append("권 / 필요 ").append(student.getClassicReadingRequiredCount()).append("권.");
-        }
-        if (student.getClassicReadingCompletedCount() != null) {
-            detail.append(" 독후감 제출 ").append(student.getClassicReadingCompletedCount()).append("권.");
-        }
-        return detail.toString();
+        return "고전독서인증이 인증되었습니다.";
     }
 
     private String buildPendingDetail(boolean optionalPolicy, Student student) {
