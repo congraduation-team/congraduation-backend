@@ -97,4 +97,18 @@ class TranscriptSummaryCalculatorTest {
                 .orElseThrow()
                 .earnedCredits());
     }
+
+    @Test
+    void summarizeTreatsLiberalSelectionVariantsAsElectiveLiberal() {
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2026", "2학기", "L101", "고전특강", "교양선택1", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2026", "2학기", "L102", "현대사회와윤리", "교양선택2", "3", "GRADE", "A0", "4.0")
+        );
+
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals(1, summary.categorySummaries().size());
+        assertEquals("교선", summary.categorySummaries().getFirst().category());
+        assertEquals("4", summary.categorySummaries().getFirst().earnedCredits());
+    }
 }

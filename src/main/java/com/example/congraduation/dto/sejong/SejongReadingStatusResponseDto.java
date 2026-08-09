@@ -11,16 +11,10 @@ public record SejongReadingStatusResponseDto(
         String title,
         @Schema(description = "상단 부제목", example = "고전독서인증 현황")
         String subtitle,
-        @Schema(description = "하단 안내 문구", example = "고전독서인증을 모두 완료하였습니다.")
+        @Schema(description = "하단 안내 문구", example = "고전독서인증이 인증되었습니다.")
         String message,
         @Schema(description = "영역별 인증 현황")
-        List<AreaStatusDto> areas,
-        @Schema(description = "총 이수 권수", example = "12")
-        int totalCompletedCount,
-        @Schema(description = "총 인증 권수", example = "12")
-        int totalCertifiedCount,
-        @Schema(description = "총 필요 권수", example = "10")
-        int totalRequiredCount
+        List<AreaStatusDto> areas
 ) {
 
     @Schema(description = "영역별 고전독서 인증 현황")

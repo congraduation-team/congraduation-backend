@@ -130,8 +130,11 @@ public class TranscriptSummaryCalculator {
         }
 
         String normalized = category.trim();
+        if ("교양".equals(normalized) || normalized.startsWith("교양선택")) {
+            return "교선";
+        }
+
         return switch (normalized) {
-            case "교양", "교양선택" -> "교선";
             case "공통교양필수", "공통교양" -> "공필";
             case "균형교양" -> "균필";
             case "전공필수" -> "전필";

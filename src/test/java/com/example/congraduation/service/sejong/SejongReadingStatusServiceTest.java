@@ -33,14 +33,12 @@ class SejongReadingStatusServiceTest {
 
         assertTrue(result.completed());
         assertEquals("현재 고전독서인증 완료!", result.title());
+        assertEquals("고전독서인증이 인증되었습니다.", result.message());
         assertEquals(4, result.areas().size());
         assertEquals("서양의 역사와 사상", result.areas().getFirst().name());
         assertEquals(5, result.areas().getFirst().completedCount());
         assertEquals(5, result.areas().getFirst().certifiedCount());
         assertEquals(4, result.areas().getFirst().requiredCount());
-        assertEquals(12, result.totalCompletedCount());
-        assertEquals(12, result.totalCertifiedCount());
-        assertEquals(10, result.totalRequiredCount());
     }
 
     @Test
