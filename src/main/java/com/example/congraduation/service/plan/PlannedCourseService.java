@@ -306,11 +306,13 @@ public class PlannedCourseService {
             int bestStep = 0;
             for (CompletedCourseUploadRowDto row : rows) {
                 int rowStep = mapper.resolveStep(row.year(), row.semester());
-                if (rowStep > bestStep) {
-                    bestStep = rowStep;
-                    takenYear = row.year();
-                    takenSemester = row.semester();
+                // official 이수 학기가 있으면 그 순번 이하만 마지막 이수 달력학기로 본다.
+                if (rowStep <= 0 || rowStep > step || rowStep <= bestStep) {
+                    continue;
                 }
+                bestStep = rowStep;
+                takenYear = row.year();
+                takenSemester = row.semester();
             }
         }
 
@@ -446,9 +448,13 @@ public class PlannedCourseService {
     }
 
     private int resolveLastCompletedStep(Student student) {
-        int fallback = student.getCompletedSemesterCount() != null
-                ? Math.max(0, Math.min(student.getCompletedSemesterCount(), 8))
-                : Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
+        // classic "이수 학기"가 있으면 최우선. 군E러닝 등으로 기이수 학기 라벨이 부풀어도 보정한다.
+        Integer officialCompletedSemesters = student.getCompletedSemesterCount();
+        if (officialCompletedSemesters != null && officialCompletedSemesters >= 0) {
+            return officialCompletedSemesters;
+        }
+
+        int fallback = Math.max(0, ((student.getGradeLevel() == null ? 1 : student.getGradeLevel()) - 1) * 2);
         if (!transcriptStorageService.hasTranscript(student.getId())) {
             return fallback;
         }
