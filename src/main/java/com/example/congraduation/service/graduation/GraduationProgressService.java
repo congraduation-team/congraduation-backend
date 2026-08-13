@@ -151,7 +151,8 @@ public class GraduationProgressService {
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
 
         List<CompletedCourseUploadRowDto> courses = transcriptStorageService.getLatestTranscriptRows(studentId);
-        PlannedCourseListResponseDto plannedCourses = plannedCourseService.getPlannedCourses(studentId);
+        // read-only 트랜잭션에서는 계획 학기 자동 생성(write)을 하지 않는다.
+        PlannedCourseListResponseDto plannedCourses = plannedCourseService.listPlannedCourses(studentId);
         List<CompletedCourseUploadRowDto> projectedCourses = plannedCourseService.getProjectedRows(studentId);
         DepartmentCurriculumPolicy policy = policyService.resolve(student);
         List<CompletedCourseUploadRowDto> normalizedCourses = normalizeCoursesForPolicy(courses, policy);
@@ -1436,7 +1437,11 @@ public class GraduationProgressService {
         if (category == null) {
             return false;
         }
-        return LIBERAL_GPA_CATEGORIES.contains(category.trim());
+        String normalized = category.trim();
+        if (normalized.startsWith("교양선택") || normalized.startsWith("교선")) {
+            return true;
+        }
+        return LIBERAL_GPA_CATEGORIES.contains(normalized);
     }
 
     private boolean isDoubleMajorCategory(String category) {

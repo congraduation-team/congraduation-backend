@@ -111,4 +111,20 @@ class TranscriptSummaryCalculatorTest {
         assertEquals("교선", summary.categorySummaries().getFirst().category());
         assertEquals("4", summary.categorySummaries().getFirst().earnedCredits());
     }
+
+    @Test
+    void summarizeTreatsNumberedElectiveLiberalAliasesAsElectiveLiberal() {
+        // 21학번 기이수 등: 교선1/교선2 로 찍히는 경우
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2021", "1학기", "L101", "고전특강", "교선1", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "L102", "현대사회와윤리", "교선2", "3", "GRADE", "B0", "3.0"),
+                new CompletedCourseUploadRowDto("2022", "1학기", "L103", "교양", "교선", "2", "GRADE", "A0", "4.0")
+        );
+
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals(1, summary.categorySummaries().size());
+        assertEquals("교선", summary.categorySummaries().getFirst().category());
+        assertEquals("6", summary.categorySummaries().getFirst().earnedCredits());
+    }
 }

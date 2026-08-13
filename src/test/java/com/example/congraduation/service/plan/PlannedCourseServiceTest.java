@@ -76,6 +76,42 @@ class PlannedCourseServiceTest {
     }
 
     @Test
+    void listPlannedCoursesNeverCreatesSemestersEvenWhenTranscriptExists() {
+        PlannedCourseService service = new PlannedCourseService(
+                studentRepository,
+                plannedCourseRepository,
+                plannedSemesterRepository,
+                transcriptStorageService
+        );
+
+        Student student = Student.create(
+                "24012357",
+                "김정현",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+        assignId(student, 1L);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+        when(plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of());
+
+        when(transcriptStorageService.hasTranscript(1L)).thenReturn(true);
+
+        PlannedCourseListResponseDto result = service.listPlannedCourses(1L);
+
+        assertTrue(result.semesters().isEmpty());
+        verify(plannedSemesterRepository, never()).save(org.mockito.ArgumentMatchers.any());
+    }
+
+    @Test
     void projectedRowsUseCalendarYearDerivedFromAdmissionYearAndGradeYear() {
         PlannedCourseService service = new PlannedCourseService(
                 studentRepository,

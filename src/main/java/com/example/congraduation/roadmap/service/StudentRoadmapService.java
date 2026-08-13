@@ -701,7 +701,7 @@ public class StudentRoadmapService {
         String name = courseName == null ? "" : courseName.replaceAll("\\s+", "");
 
         if (cat.contains("교양필수") || cat.equals("교필") || cat.equals("공필") || cat.contains("중핵필수")
-                || cat.equals("교선") || cat.contains("교양선택")
+                || cat.startsWith("교선") || cat.contains("교양선택")
                 || cat.equals("균필") || cat.contains("균형")
                 || cat.equals("일선") || cat.contains("일반선택") || cat.contains("자유선택")) {
             return "교양필수";
@@ -759,7 +759,7 @@ public class StudentRoadmapService {
         }
         if ("교양필수".equals(cat) || cat.contains("교필") || cat.contains("공필")
                 || cat.contains("전문교양") || cat.contains("중핵")
-                || cat.equals("교선") || cat.contains("교양선택")
+                || cat.startsWith("교선") || cat.contains("교양선택")
                 || cat.equals("균필") || cat.contains("균형")
                 || cat.equals("일선") || cat.contains("일반선택") || cat.contains("자유선택")
                 || cat.contains("교양") || cat.contains("공통")) {

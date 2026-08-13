@@ -130,7 +130,10 @@ public class TranscriptSummaryCalculator {
         }
 
         String normalized = category.trim();
-        if ("교양".equals(normalized) || normalized.startsWith("교양선택")) {
+        // 기이수: 교양선택1/2, 교선1/2 등 → 교선으로 통일
+        if ("교양".equals(normalized)
+                || normalized.startsWith("교양선택")
+                || normalized.startsWith("교선")) {
             return "교선";
         }
 
