@@ -64,6 +64,51 @@ public class GraduationProgressService {
     private static final Set<String> DEDICATED_BLOCKER_CATEGORIES = Set.of(
             "공필", "교필", "교선", "균필", "기필", "학문기초", "전기", "전공기초", "전필", "전선"
     );
+    /** 국방시스템공학과(국방AI융합시스템공학과) 주전공의 복수전공 가능학과 */
+    private static final Set<String> DEFENSE_PRIMARY_ALLOWED_DOUBLE_MAJORS = Set.of(
+            "국어국문학과",
+            "영어데이터융합전공",
+            "영어영문학전공",
+            "국제일본학전공",
+            "일어일문학전공",
+            "중국통상학전공",
+            "역사학과",
+            "교육학과",
+            "행정학과",
+            "미디어커뮤니케이션학과",
+            "경영학부",
+            "경영학전공",
+            "경제학과",
+            "경제통상학과",
+            "수학통계학과",
+            "물리천문학과",
+            "화학과",
+            "식품생명공학전공",
+            "바이오융합공학전공",
+            "바이오산업자원공학전공",
+            "AI융합전자공학과",
+            "전자정보통신공학과",
+            "컴퓨터공학과",
+            "정보보호학과",
+            "콘텐츠소프트웨어학과",
+            "소프트웨어학과",
+            "인공지능데이터사이언스학과",
+            "AI로봇학과",
+            "디자인이노베이션전공",
+            "건축공학과",
+            "건설환경공학과",
+            "에너지자원공학과",
+            "나노신소재공학과",
+            "기계공학과",
+            "기계공학전공",
+            "양자원자력공학과",
+            "환경융합공학과",
+            "환경에너지공간융합학과",
+            "우주항공공학전공",
+            "지능정보융합학과",
+            "지능IoT학과",
+            "지능IOT학과"
+    );
 
     private final StudentRepository studentRepository;
     private final TranscriptStorageService transcriptStorageService;
@@ -581,6 +626,28 @@ public class GraduationProgressService {
             List<CategorySummaryDto> categorySummaries,
             List<CompletedCourseUploadRowDto> courses
     ) {
+        String primary = normalizeMajor(student.getMajor());
+        String secondary = normalizeMajor(track.getDepartmentCode());
+        if (isDefensePrimaryRestricted(primary) && !isAllowedDoubleMajorForDefensePrimary(secondary)) {
+            return new MajorTrackProgressDto(
+                    track.getTrackType(),
+                    track.getDepartmentCode(),
+                    new CreditProgressDto("0", "39", false, "0"),
+                    new CreditProgressDto("0", "15", false, "0"),
+                    new CreditProgressDto("0", "24", false, "0"),
+                    new MajorTrackRequiredCourseProgressDto(false, null, null, false, List.of(), List.of()),
+                    new DoubleMajorGraduationRequirementProgressDto(
+                            true,
+                            false,
+                            "IN_PROGRESS",
+                            primary + " 주전공은 " + secondary + "로의 복수전공이 허용 목록에 없습니다. 수강편람의 복수전공 가능학과를 확인하세요."
+                    ),
+                    "복필/복선",
+                    "IN_PROGRESS",
+                    primary + " 주전공은 " + secondary + "로의 복수전공이 허용 목록에 없습니다. 수강편람의 복수전공 가능학과를 확인하세요."
+            );
+        }
+
         MajorTrackCreditPolicy policy = resolveDoubleMajorPolicy(student, track);
         BigDecimal required = creditOf(categorySummaries, "복필", "복수전필", "복전필");
         BigDecimal elective = creditOf(categorySummaries, "복선", "복수전선", "복전선");
@@ -631,6 +698,14 @@ public class GraduationProgressService {
         );
     }
 
+    private boolean isDefensePrimaryRestricted(String primaryMajor) {
+        return "국방시스템공학과".equals(primaryMajor) || "국방AI융합시스템공학과".equals(primaryMajor);
+    }
+
+    private boolean isAllowedDoubleMajorForDefensePrimary(String secondaryMajor) {
+        return DEFENSE_PRIMARY_ALLOWED_DOUBLE_MAJORS.contains(secondaryMajor);
+    }
+
     private MajorTrackCreditPolicy resolveDoubleMajorPolicy(Student student, StudentMajorTrack track) {
         String secondary = normalizeMajor(track.getDepartmentCode());
         int admissionYear = student.getAdmissionYear() == null ? 0 : student.getAdmissionYear();
@@ -672,8 +747,9 @@ public class GraduationProgressService {
             return new MajorTrackCreditPolicy(38, 11);
         }
 
+        // 수강편람/학사표: 국방시스템공학과 주전공 복수 시 전필24 + 전선21 = 45
         if ("국방AI융합시스템공학과".equals(primary) || "국방시스템공학과".equals(primary)) {
-            return new MajorTrackCreditPolicy(39, 6);
+            return new MajorTrackCreditPolicy(24, 21);
         }
 
         return new MajorTrackCreditPolicy(15, 24);
@@ -1463,9 +1539,11 @@ public class GraduationProgressService {
     private boolean isDoubleMajorGraduationRequirementSatisfied(
             DoubleMajorGraduationRequirementProgressDto graduationRequirement
     ) {
+        // GUIDANCE/NOT_REQUIRED는 자동 차단하지 않고 안내만 한다.
+        // IN_PROGRESS(졸작 미확인 등)는 satisfied 플래그를 그대로 따른다.
         return graduationRequirement.satisfied()
                 || "NOT_REQUIRED".equalsIgnoreCase(graduationRequirement.status())
-                || "MANUAL_CHECK_REQUIRED".equalsIgnoreCase(graduationRequirement.status());
+                || "GUIDANCE".equalsIgnoreCase(graduationRequirement.status());
     }
 
     private String resolveDoubleMajorTrackStatus(
@@ -1475,8 +1553,8 @@ public class GraduationProgressService {
         if (trackSatisfied) {
             return "COMPLETED";
         }
-        if ("MANUAL_CHECK_REQUIRED".equalsIgnoreCase(graduationRequirement.status())) {
-            return "MANUAL_CHECK_REQUIRED";
+        if ("GUIDANCE".equalsIgnoreCase(graduationRequirement.status())) {
+            return "GUIDANCE";
         }
         return "IN_PROGRESS";
     }
