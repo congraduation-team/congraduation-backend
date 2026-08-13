@@ -17,7 +17,7 @@ class DoubleMajorGraduationRequirementServiceTest {
     private final DoubleMajorGraduationRequirementService service = new DoubleMajorGraduationRequirementService();
 
     @Test
-    void marksDesignInnovationAsNotRequiringDoubleMajorGraduationWork() {
+    void marksDesignInnovationAsGuidanceWithoutGraduationWork() {
         Student student = Student.create("24000001", "테스트", "컴퓨터공학과", MajorType.DOUBLE, null, 3, 2024, "ACTIVE", false);
         StudentMajorTrack track = StudentMajorTrack.create(MajorType.DOUBLE_MAJOR, "디자인이노베이션전공", null, false);
 
@@ -25,7 +25,8 @@ class DoubleMajorGraduationRequirementServiceTest {
 
         assertFalse(result.required());
         assertTrue(result.satisfied());
-        assertEquals("NOT_REQUIRED", result.status());
+        assertEquals("GUIDANCE", result.status());
+        assertTrue(result.detail().contains("주임교수 상담"));
     }
 
     @Test
@@ -52,7 +53,7 @@ class DoubleMajorGraduationRequirementServiceTest {
     }
 
     @Test
-    void marksArtsToArtsCaseAsManualCheckWhenNoGraduationWorkIsFound() {
+    void guidesArtsToArtsSubstituteWhenGraduationWorkMissing() {
         Student student = Student.create("24000001", "테스트", "음악과", MajorType.DOUBLE, null, 3, 2024, "ACTIVE", false);
         StudentMajorTrack track = StudentMajorTrack.create(MajorType.DOUBLE_MAJOR, "영화예술학과", null, false);
 
@@ -60,6 +61,36 @@ class DoubleMajorGraduationRequirementServiceTest {
 
         assertTrue(result.required());
         assertFalse(result.satisfied());
-        assertEquals("MANUAL_CHECK_REQUIRED", result.status());
+        assertEquals("IN_PROGRESS", result.status());
+        assertTrue(result.detail().contains("지정 전공선택 3학점"));
+        assertTrue(result.detail().contains("학과 상담"));
+    }
+
+    @Test
+    void guidesMangaSubstituteWhenGraduationWorkMissing() {
+        Student student = Student.create("24000001", "테스트", "컴퓨터공학과", MajorType.DOUBLE, null, 3, 2024, "ACTIVE", false);
+        StudentMajorTrack track = StudentMajorTrack.create(MajorType.DOUBLE_MAJOR, "만화애니메이션텍전공", null, false);
+
+        DoubleMajorGraduationRequirementProgressDto result = service.evaluate(student, track, List.of());
+
+        assertTrue(result.required());
+        assertFalse(result.satisfied());
+        assertEquals("IN_PROGRESS", result.status());
+        assertTrue(result.detail().contains("지정 전공선택 3학점"));
+    }
+
+    @Test
+    void guidesIoTExchangeMicrodegreeSeparatelyFromSharedCourses() {
+        Student student = Student.create("24000001", "테스트", "컴퓨터공학과", MajorType.DOUBLE, null, 3, 2024, "ACTIVE", false);
+        StudentMajorTrack track = StudentMajorTrack.create(MajorType.DOUBLE_MAJOR, "지능IoT학과", null, false);
+
+        DoubleMajorGraduationRequirementProgressDto result = service.evaluate(student, track, List.of());
+
+        assertTrue(result.required());
+        assertTrue(result.satisfied());
+        assertEquals("GUIDANCE", result.status());
+        assertTrue(result.detail().contains("교류형"));
+        assertTrue(result.detail().contains("공유형"));
+        assertTrue(result.detail().contains("9~12"));
     }
 }
