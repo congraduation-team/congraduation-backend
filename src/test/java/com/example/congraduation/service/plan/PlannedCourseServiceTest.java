@@ -138,11 +138,11 @@ class PlannedCourseServiceTest {
                 MajorType.SINGLE,
                 null,
                 3,
+                5,
                 2023,
                 "재학",
                 false
         );
-        student.updateAcademicInfo("김정현", "컴퓨터공학과", 3, 5, 2023, "재학");
         assignId(student, 1L);
 
         List<CompletedCourseUploadRowDto> rows = List.of(

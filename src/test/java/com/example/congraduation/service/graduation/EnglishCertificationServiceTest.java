@@ -86,8 +86,9 @@ class EnglishCertificationServiceTest {
     @Test
     void officialCompletedSemestersPreventsFalseExemptionFromInflatedTranscript() {
         // 기이수는 10학기로 보이지만 classic 이수 학기는 9 → 면제되면 안 됨
-        Student student = Student.create("17000002", "테스트", "경영학부", MajorType.SINGLE, null, 5, 2017, "ACTIVE", false);
-        student.updateAcademicInfo("테스트", "경영학부", 5, 9, 2017, "ACTIVE");
+        Student student = Student.create(
+                "17000002", "테스트", "경영학부", MajorType.SINGLE, null, 5, 9, 2017, "ACTIVE", false
+        );
         List<CompletedCourseUploadRowDto> courses = regularTermsFrom(2017, 10);
 
         EnglishCertificationProgressDto result = service.evaluate(student, courses);
@@ -95,6 +96,24 @@ class EnglishCertificationServiceTest {
         assertFalse(result.satisfied());
         assertEquals("IN_PROGRESS", result.status());
         assertTrue(result.detail().contains("9학기"));
+    }
+
+    @Test
+    void usesSejongCompletedSemesterCountBeforeTranscriptStanding() {
+        Student student = Student.create(
+                "21011620", "송대현", "컴퓨터공학과", MajorType.SINGLE, null, 4, 10, 2021, "ACTIVE", false
+        );
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                row("2021", "1학기", "A"),
+                row("2021", "2학기", "B"),
+                row("2024", "1학기", "C")
+        );
+
+        EnglishCertificationProgressDto result = service.evaluate(student, courses);
+
+        assertTrue(result.satisfied());
+        assertEquals("EXEMPTED", result.status());
+        assertTrue(result.detail().contains("10학기 이수"));
     }
 
     @Test

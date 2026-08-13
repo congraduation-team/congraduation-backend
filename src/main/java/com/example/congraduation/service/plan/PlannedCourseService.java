@@ -449,7 +449,7 @@ public class PlannedCourseService {
 
     private int resolveLastCompletedStep(Student student) {
         // classic "이수 학기"가 있으면 최우선. 군E러닝 등으로 기이수 학기 라벨이 부풀어도 보정한다.
-        Integer officialCompletedSemesters = student.getCompletedSemesters();
+        Integer officialCompletedSemesters = student.getCompletedSemesterCount();
         if (officialCompletedSemesters != null && officialCompletedSemesters >= 0) {
             return officialCompletedSemesters;
         }

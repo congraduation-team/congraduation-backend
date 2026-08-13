@@ -34,28 +34,20 @@ public class StudentService {
 
         return studentRepository.findByStudentNo(studentNo)
                 .map(student -> updateStudent(student, profile, admissionYear))
-                .orElseGet(() -> {
-                    Student created = Student.create(
-                            studentNo,
-                            profile.getName(),
-                            profile.getMajor(),
-                            MajorType.SINGLE,
-                            null,
-                            profile.getGradeLevel(),
-                            admissionYear,
-                            "ACTIVE",
-                            false
-                    );
-                    created.updateAcademicInfo(
-                            profile.getName(),
-                            profile.getMajor(),
-                            profile.getGradeLevel(),
-                            profile.getCompletedSemesters(),
-                            admissionYear,
-                            "ACTIVE"
-                    );
-                    return studentRepository.save(created);
-                });
+                .orElseGet(() -> studentRepository.save(
+                        Student.create(
+                                studentNo,
+                                profile.getName(),
+                                profile.getMajor(),
+                                MajorType.SINGLE,
+                                null,
+                                profile.getGradeLevel(),
+                                profile.getCompletedSemesterCount(),
+                                admissionYear,
+                                "ACTIVE",
+                                false
+                        )
+                ));
     }
 
     @Transactional
@@ -80,11 +72,21 @@ public class StudentService {
             return;
         }
 
+        int completedCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::completedCount)
+                .sum();
+        int certifiedCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::certifiedCount)
+                .sum();
+        int requiredCount = readingStatus.areas().stream()
+                .mapToInt(SejongReadingStatusResponseDto.AreaStatusDto::requiredCount)
+                .sum();
+
         student.updateClassicReadingCertificationInfo(
                 readingStatus.completed(),
-                readingStatus.totalCompletedCount(),
-                readingStatus.totalCertifiedCount(),
-                readingStatus.totalRequiredCount()
+                completedCount,
+                certifiedCount,
+                requiredCount
         );
     }
 
@@ -93,7 +95,7 @@ public class StudentService {
                 profile.getName(),
                 profile.getMajor(),
                 profile.getGradeLevel(),
-                profile.getCompletedSemesters(),
+                profile.getCompletedSemesterCount(),
                 admissionYear,
                 student.getStatus() == null ? "ACTIVE" : student.getStatus()
         );

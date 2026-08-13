@@ -94,7 +94,6 @@ public class EnglishCertificationService {
             );
         }
 
-        // classic "이수 학기" 우선. 없으면 기이수 정규학기 수(휴학 연도 제외). 달력식 금지.
         int completedRegularSemesters = resolveCompletedRegularSemesters(student, courses);
         int requiredSemestersForExemption = "건축학과".equals(major) ? 12 : 10;
         if (completedRegularSemesters >= requiredSemestersForExemption) {
@@ -122,6 +121,15 @@ public class EnglishCertificationService {
                         student
                 )
         );
+    }
+
+    private int resolveCompletedRegularSemesters(Student student, List<CompletedCourseUploadRowDto> courses) {
+        if (student.getCompletedSemesterCount() != null && student.getCompletedSemesterCount() > 0) {
+            return student.getCompletedSemesterCount();
+        }
+
+        // 입학 이후 실제 이수한 정규학기 수(휴학 연도 제외). 달력 (연도차×2+학기) 금지.
+        return TranscriptStandingMapper.countDistinctRegularTerms(courses, student.getAdmissionYear());
     }
 
     private boolean hasCompletedIntensiveEnglish(List<CompletedCourseUploadRowDto> courses) {
@@ -243,14 +251,6 @@ public class EnglishCertificationService {
         return "2012~2022학년도 기준 점수는 TOEIC 700점 이상, TOEFL iBT 80점 이상, "
                 + "TEPS 556점(뉴텝스 301점) 이상, OPIc Intermediate Low 이상, "
                 + "TOEIC Speaking Intermediate Low 이상, G-TELP Level 2(65점)입니다.";
-    }
-
-    private int resolveCompletedRegularSemesters(Student student, List<CompletedCourseUploadRowDto> courses) {
-        Integer officialCompletedSemesters = student.getCompletedSemesters();
-        if (officialCompletedSemesters != null && officialCompletedSemesters >= 0) {
-            return officialCompletedSemesters;
-        }
-        return TranscriptStandingMapper.countDistinctRegularTerms(courses, student.getAdmissionYear());
     }
 
     private String normalizeMajor(String major) {

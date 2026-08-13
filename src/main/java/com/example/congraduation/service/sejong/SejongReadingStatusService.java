@@ -63,20 +63,14 @@ public class SejongReadingStatusService {
             throw new IllegalStateException("고전독서 인증 현황 영역 데이터가 비어 있습니다.");
         }
 
-        int totalCompletedCount = areas.stream().mapToInt(AreaStatusDto::completedCount).sum();
-        int totalCertifiedCount = areas.stream().mapToInt(AreaStatusDto::certifiedCount).sum();
-        int totalRequiredCount = areas.stream().mapToInt(AreaStatusDto::requiredCount).sum();
         boolean completed = areas.stream().allMatch(AreaStatusDto::satisfied);
 
         return new SejongReadingStatusResponseDto(
                 completed,
                 completed ? "현재 고전독서인증 완료!" : "현재 고전독서인증 진행 중",
                 DEFAULT_SUBTITLE,
-                completed ? "고전독서인증을 모두 완료하였습니다." : "고전독서인증이 아직 남아 있습니다.",
-                List.copyOf(areas),
-                totalCompletedCount,
-                totalCertifiedCount,
-                totalRequiredCount
+                completed ? "고전독서인증이 인증되었습니다." : "고전독서인증이 아직 남아 있습니다.",
+                List.copyOf(areas)
         );
     }
 

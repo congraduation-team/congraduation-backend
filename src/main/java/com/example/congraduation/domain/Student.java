@@ -43,12 +43,8 @@ public class Student {
     @Column(nullable = false)
     private Integer gradeLevel;
 
-    /**
-     * 세종 classic 프로필의 "이수 학기" (정규 이수학기 수).
-     * 기이수 엑셀의 학기 라벨보다 우선하는 standing 기준값.
-     */
     @Column
-    private Integer completedSemesters;
+    private Integer completedSemesterCount;
 
     @Column
     private Integer admissionYear;
@@ -111,6 +107,7 @@ public class Student {
             MajorType majorType,
             String secondaryMajor,
             Integer gradeLevel,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status,
             boolean admin,
@@ -122,6 +119,7 @@ public class Student {
         this.majorType = majorType;
         this.secondaryMajor = secondaryMajor;
         this.gradeLevel = gradeLevel;
+        this.completedSemesterCount = completedSemesterCount;
         this.admissionYear = admissionYear;
         this.status = status;
         this.admin = admin;
@@ -135,6 +133,7 @@ public class Student {
             MajorType majorType,
             String secondaryMajor,
             Integer gradeLevel,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status,
             boolean admin
@@ -146,6 +145,7 @@ public class Student {
                 majorType,
                 secondaryMajor,
                 gradeLevel,
+                completedSemesterCount,
                 admissionYear,
                 status,
                 admin,
@@ -153,30 +153,43 @@ public class Student {
         );
     }
 
-    public void updateAcademicInfo(
+    public static Student create(
+            String studentNo,
             String name,
             String major,
+            MajorType majorType,
+            String secondaryMajor,
             Integer gradeLevel,
             Integer admissionYear,
-            String status
+            String status,
+            boolean admin
     ) {
-        updateAcademicInfo(name, major, gradeLevel, null, admissionYear, status);
+        return create(
+                studentNo,
+                name,
+                major,
+                majorType,
+                secondaryMajor,
+                gradeLevel,
+                null,
+                admissionYear,
+                status,
+                admin
+        );
     }
 
     public void updateAcademicInfo(
             String name,
             String major,
             Integer gradeLevel,
-            Integer completedSemesters,
+            Integer completedSemesterCount,
             Integer admissionYear,
             String status
     ) {
         this.name = name;
         this.major = major;
         this.gradeLevel = gradeLevel;
-        if (completedSemesters != null) {
-            this.completedSemesters = completedSemesters;
-        }
+        this.completedSemesterCount = completedSemesterCount;
         this.admissionYear = admissionYear;
         this.status = status;
     }
@@ -256,8 +269,8 @@ public class Student {
         return gradeLevel;
     }
 
-    public Integer getCompletedSemesters() {
-        return completedSemesters;
+    public Integer getCompletedSemesterCount() {
+        return completedSemesterCount;
     }
 
     public Integer getAdmissionYear() {
