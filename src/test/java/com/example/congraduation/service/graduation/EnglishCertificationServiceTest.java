@@ -84,6 +84,20 @@ class EnglishCertificationServiceTest {
     }
 
     @Test
+    void officialCompletedSemestersPreventsFalseExemptionFromInflatedTranscript() {
+        // 기이수는 10학기로 보이지만 classic 이수 학기는 9 → 면제되면 안 됨
+        Student student = Student.create("17000002", "테스트", "경영학부", MajorType.SINGLE, null, 5, 2017, "ACTIVE", false);
+        student.updateAcademicInfo("테스트", "경영학부", 5, 9, 2017, "ACTIVE");
+        List<CompletedCourseUploadRowDto> courses = regularTermsFrom(2017, 10);
+
+        EnglishCertificationProgressDto result = service.evaluate(student, courses);
+
+        assertFalse(result.satisfied());
+        assertEquals("IN_PROGRESS", result.status());
+        assertTrue(result.detail().contains("9학기"));
+    }
+
+    @Test
     void doesNotExemptWhenCalendarLooksLongButStandingTermsAreFew() {
         // 2021입학 · 2026-1만 있으면 달력으로는 11학기지만, 실제 정규학기는 7개(휴학 건너뜀)
         Student student = Student.create("21011620", "송대현", "컴퓨터공학과", MajorType.SINGLE, null, 4, 2021, "ACTIVE", false);

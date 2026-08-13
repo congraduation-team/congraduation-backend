@@ -132,15 +132,16 @@ public class SejongProfileService {
     public SejongProfileResponseDto parseProfileFromHtml(String html) {
         Document document = Jsoup.parse(html);
 
-        String major = document.select("th:contains(학과명) + td").text().trim();
-        String studentId = document.select("th:contains(학번) + td").text().trim();
-        String name = document.select("th:contains(이름) + td").text().trim();
-        String gradeLevel = document.select("th:contains(학년) + td").text().trim();
+        String major = document.select("th:containsOwn(학과명) + td").text().trim();
+        String studentId = document.select("th:containsOwn(학번) + td").text().trim();
+        String name = document.select("th:containsOwn(이름) + td").text().trim();
+        String gradeLevel = document.select("th:containsOwn(학년) + td").text().trim();
+        String completedSemesters = document.select("th:containsOwn(이수 학기) + td").text().trim();
 
         if (major.isBlank() || studentId.isBlank() || name.isBlank() || gradeLevel.isBlank()) {
             throw new IllegalStateException("세종 프로필 파싱 중 필수 데이터가 누락되었습니다.");
         }
 
-        return new SejongProfileResponseDto(major, studentId, name, gradeLevel);
+        return new SejongProfileResponseDto(major, studentId, name, gradeLevel, completedSemesters);
     }
 }

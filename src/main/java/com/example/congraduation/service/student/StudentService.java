@@ -34,19 +34,28 @@ public class StudentService {
 
         return studentRepository.findByStudentNo(studentNo)
                 .map(student -> updateStudent(student, profile, admissionYear))
-                .orElseGet(() -> studentRepository.save(
-                        Student.create(
-                                studentNo,
-                                profile.getName(),
-                                profile.getMajor(),
-                                MajorType.SINGLE,
-                                null,
-                                profile.getGradeLevel(),
-                                admissionYear,
-                                "ACTIVE",
-                                false
-                        )
-                ));
+                .orElseGet(() -> {
+                    Student created = Student.create(
+                            studentNo,
+                            profile.getName(),
+                            profile.getMajor(),
+                            MajorType.SINGLE,
+                            null,
+                            profile.getGradeLevel(),
+                            admissionYear,
+                            "ACTIVE",
+                            false
+                    );
+                    created.updateAcademicInfo(
+                            profile.getName(),
+                            profile.getMajor(),
+                            profile.getGradeLevel(),
+                            profile.getCompletedSemesters(),
+                            admissionYear,
+                            "ACTIVE"
+                    );
+                    return studentRepository.save(created);
+                });
     }
 
     @Transactional
@@ -84,6 +93,7 @@ public class StudentService {
                 profile.getName(),
                 profile.getMajor(),
                 profile.getGradeLevel(),
+                profile.getCompletedSemesters(),
                 admissionYear,
                 student.getStatus() == null ? "ACTIVE" : student.getStatus()
         );

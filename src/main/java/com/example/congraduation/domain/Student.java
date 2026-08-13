@@ -43,6 +43,13 @@ public class Student {
     @Column(nullable = false)
     private Integer gradeLevel;
 
+    /**
+     * 세종 classic 프로필의 "이수 학기" (정규 이수학기 수).
+     * 기이수 엑셀의 학기 라벨보다 우선하는 standing 기준값.
+     */
+    @Column
+    private Integer completedSemesters;
+
     @Column
     private Integer admissionYear;
 
@@ -153,9 +160,23 @@ public class Student {
             Integer admissionYear,
             String status
     ) {
+        updateAcademicInfo(name, major, gradeLevel, null, admissionYear, status);
+    }
+
+    public void updateAcademicInfo(
+            String name,
+            String major,
+            Integer gradeLevel,
+            Integer completedSemesters,
+            Integer admissionYear,
+            String status
+    ) {
         this.name = name;
         this.major = major;
         this.gradeLevel = gradeLevel;
+        if (completedSemesters != null) {
+            this.completedSemesters = completedSemesters;
+        }
         this.admissionYear = admissionYear;
         this.status = status;
     }
@@ -233,6 +254,10 @@ public class Student {
 
     public Integer getGradeLevel() {
         return gradeLevel;
+    }
+
+    public Integer getCompletedSemesters() {
+        return completedSemesters;
     }
 
     public Integer getAdmissionYear() {

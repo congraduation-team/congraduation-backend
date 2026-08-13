@@ -18,6 +18,7 @@ public class StudentLoginResponseDto {
     private String secondaryMajor;
     private List<StudentMajorTrackResponseDto> tracks;
     private Integer gradeLevel;
+    private Integer completedSemesters;
     private Integer admissionYear;
     private String status;
     private boolean admin;
@@ -36,6 +37,7 @@ public class StudentLoginResponseDto {
             String secondaryMajor,
             List<StudentMajorTrackResponseDto> tracks,
             Integer gradeLevel,
+            Integer completedSemesters,
             Integer admissionYear,
             String status,
             boolean admin,
@@ -53,6 +55,7 @@ public class StudentLoginResponseDto {
         this.secondaryMajor = secondaryMajor;
         this.tracks = tracks;
         this.gradeLevel = gradeLevel;
+        this.completedSemesters = completedSemesters;
         this.admissionYear = admissionYear;
         this.status = status;
         this.admin = admin;
@@ -80,6 +83,7 @@ public class StudentLoginResponseDto {
                         .map(StudentMajorTrackResponseDto::from)
                         .toList(),
                 student.getGradeLevel(),
+                student.getCompletedSemesters(),
                 student.getAdmissionYear(),
                 student.getStatus(),
                 student.isAdmin(),
@@ -125,6 +129,10 @@ public class StudentLoginResponseDto {
 
     public Integer getGradeLevel() {
         return gradeLevel;
+    }
+
+    public Integer getCompletedSemesters() {
+        return completedSemesters;
     }
 
     public Integer getAdmissionYear() {
