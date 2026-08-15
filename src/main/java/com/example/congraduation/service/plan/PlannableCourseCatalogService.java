@@ -3,7 +3,9 @@ package com.example.congraduation.service.plan;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
+import com.example.congraduation.domain.MajorType;
 import com.example.congraduation.domain.Student;
+import com.example.congraduation.domain.StudentMajorTrack;
 import com.example.congraduation.dto.plan.PlannableCourseCatalogResponseDto;
 import com.example.congraduation.dto.plan.PlannableCourseDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
@@ -422,10 +424,14 @@ public class PlannableCourseCatalogService {
         if (departmentName == null || departmentName.isBlank()) {
             return normalizeMajorCategoryLabel(rawCategory);
         }
+        List<String> doubleMajorDepartments = resolveDoubleMajorDepartments(student);
         if (isMajorRequiredCategory(rawCategory)) {
             if (isStudentMajorDepartment(accumulator, departmentName)
                     || hasCourseCodeEquivalent(accumulator, ownMajorRequiredCourseCodes)) {
                 return "전공필수";
+            }
+            if (belongsToAnyDepartment(accumulator, doubleMajorDepartments)) {
+                return "복필";
             }
             if (isRecognizedCrossMajorElective(
                     accumulator,
@@ -444,6 +450,10 @@ public class PlannableCourseCatalogService {
                     || hasCourseCodeEquivalent(accumulator, ownMajorFoundationCourseCodes)) {
                 return "전공기초";
             }
+            // 복수전공 학과의 전공기초는 복선으로 합산해 시뮬레이션에 반영한다.
+            if (belongsToAnyDepartment(accumulator, doubleMajorDepartments)) {
+                return "복선";
+            }
             return "교양";
         }
         if (isMajorElectiveCategory(rawCategory)) {
@@ -452,6 +462,9 @@ public class PlannableCourseCatalogService {
             }
             if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes, ownMajorElectiveCourseNames)) {
                 return "전공선택";
+            }
+            if (belongsToAnyDepartment(accumulator, doubleMajorDepartments)) {
+                return "복선";
             }
             if (isRecognizedCrossMajorElective(
                     accumulator,
@@ -469,6 +482,38 @@ public class PlannableCourseCatalogService {
             return "전공필수";
         }
         return normalizeMajorCategoryLabel(rawCategory);
+    }
+
+    private List<String> resolveDoubleMajorDepartments(Student student) {
+        if (student == null) {
+            return List.of();
+        }
+        LinkedHashSet<String> departments = new LinkedHashSet<>();
+        if (isDoubleMajorType(student.getMajorType()) && !isBlank(student.getSecondaryMajor())) {
+            departments.add(student.getSecondaryMajor().trim());
+        }
+        for (StudentMajorTrack track : student.getMajorTracks()) {
+            if (track == null
+                    || !isDoubleMajorType(track.getTrackType())
+                    || isBlank(track.getDepartmentCode())) {
+                continue;
+            }
+            departments.add(track.getDepartmentCode().trim());
+        }
+        return List.copyOf(departments);
+    }
+
+    private boolean isDoubleMajorType(MajorType majorType) {
+        return majorType == MajorType.DOUBLE || majorType == MajorType.DOUBLE_MAJOR;
+    }
+
+    private boolean belongsToAnyDepartment(CourseAccumulator accumulator, List<String> departmentNames) {
+        for (String departmentName : departmentNames) {
+            if (isStudentMajorDepartment(accumulator, departmentName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String normalizeNonMajorCategoryLabel(String category) {
