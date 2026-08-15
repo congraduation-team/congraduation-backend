@@ -142,6 +142,8 @@ public class TranscriptSummaryCalculator {
             case "균형교양" -> "균필";
             case "전공필수" -> "전필";
             case "전공선택" -> "전선";
+            case "복수전공필수", "복수전필", "복전필" -> "복필";
+            case "복수전공선택", "복수전선", "복전선" -> "복선";
             default -> normalized;
         };
     }

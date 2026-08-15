@@ -127,4 +127,33 @@ class TranscriptSummaryCalculatorTest {
         assertEquals("교선", summary.categorySummaries().getFirst().category());
         assertEquals("6", summary.categorySummaries().getFirst().earnedCredits());
     }
+
+    @Test
+    void summarizeNormalizesDoubleMajorCategoryAliases() {
+        List<CompletedCourseUploadRowDto> courses = List.of(
+                new CompletedCourseUploadRowDto("2024", "1학기", "000137", "경영학원론", "복수전공필수", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2024", "2학기", "000210", "마케팅원론", "복수전공선택", "3", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2025", "1학기", "000300", "재무관리", "복필", "3", "GRADE", "B0", "3.0")
+        );
+
+        TranscriptSummaryDto summary = calculator.summarize(courses);
+
+        assertEquals(2, summary.categorySummaries().size());
+        assertEquals(
+                "6",
+                summary.categorySummaries().stream()
+                        .filter(item -> "복필".equals(item.category()))
+                        .findFirst()
+                        .orElseThrow()
+                        .earnedCredits()
+        );
+        assertEquals(
+                "3",
+                summary.categorySummaries().stream()
+                        .filter(item -> "복선".equals(item.category()))
+                        .findFirst()
+                        .orElseThrow()
+                        .earnedCredits()
+        );
+    }
 }

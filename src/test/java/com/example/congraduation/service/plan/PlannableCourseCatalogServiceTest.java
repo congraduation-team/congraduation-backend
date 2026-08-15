@@ -841,6 +841,124 @@ class PlannableCourseCatalogServiceTest {
         assertThat(response.courses().getFirst().category()).isEqualTo("전공필수");
     }
 
+    @Test
+    void doubleMajorDepartmentRequiredAndElectiveBecomeBokpilBokseon() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(
+                        offering("000137", "경영학원론", "전공필수", "경영학부"),
+                        offering("000210", "마케팅원론", "전공선택", "경영학부"),
+                        offering("009960", "타과캡스톤", "전공필수", "소프트웨어학과")
+                )
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.DOUBLE_MAJOR,
+                "경영학부",
+                3,
+                2023,
+                "재학",
+                false
+        );
+        student.addMajorTrack(com.example.congraduation.domain.StudentMajorTrack.create(
+                MajorType.DOUBLE_MAJOR,
+                "경영학부",
+                null,
+                false
+        ));
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.courses())
+                .filteredOn(course -> "경영학원론".equals(course.courseName()))
+                .extracting(course -> course.category())
+                .containsExactly("복필");
+        assertThat(response.courses())
+                .filteredOn(course -> "마케팅원론".equals(course.courseName()))
+                .extracting(course -> course.category())
+                .containsExactly("복선");
+        assertThat(response.courses())
+                .filteredOn(course -> "타과캡스톤".equals(course.courseName()))
+                .extracting(course -> course.category())
+                .containsExactly("교양");
+    }
+
+    @Test
+    void doubleMajorDepartmentFoundationBecomesBokseon() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(offering("007768", "경제수학", "전공기초", "경제학과"))
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.DOUBLE_MAJOR,
+                "경제학과",
+                3,
+                2023,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertThat(response.courses()).extracting(course -> course.category())
+                .containsExactly("복선");
+    }
+
     private TimetableOffering offering(String courseCode, String courseName, String category) {
         return offering(courseCode, courseName, category, "컴퓨터공학과");
     }
