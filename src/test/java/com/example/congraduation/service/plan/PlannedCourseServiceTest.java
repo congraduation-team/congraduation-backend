@@ -225,6 +225,73 @@ class PlannedCourseServiceTest {
                 .save(org.mockito.ArgumentMatchers.any(PlannedSemester.class));
     }
 
+    @Test
+    void excludesLastCompletedSemesterFromPlannedResponseAndProjection() {
+        PlannedCourseService service = new PlannedCourseService(
+                studentRepository,
+                plannedCourseRepository,
+                plannedSemesterRepository,
+                transcriptStorageService
+        );
+
+        Student student = Student.create(
+                "24012357",
+                "김정현",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                5,
+                2023,
+                "재학",
+                false
+        );
+        assignId(student, 1L);
+
+        PlannedSemester completedSemester = planned(student, 3, 1);
+        PlannedSemester remainingSemester = planned(student, 3, 2);
+        PlannedCourse staleCourse = PlannedCourse.create(
+                student,
+                completedSemester,
+                3,
+                1,
+                "999001",
+                "이미이수한학기과목",
+                "전선",
+                "3",
+                "A0"
+        );
+        PlannedCourse futureCourse = PlannedCourse.create(
+                student,
+                remainingSemester,
+                3,
+                2,
+                "999002",
+                "남은학기과목",
+                "전선",
+                "3",
+                "A0"
+        );
+        assignId(staleCourse, 11L);
+        assignId(futureCourse, 12L);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(transcriptStorageService.hasTranscript(1L)).thenReturn(false);
+        when(plannedSemesterRepository.findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of(completedSemester, remainingSemester));
+        when(plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(1L))
+                .thenReturn(List.of(staleCourse, futureCourse));
+
+        PlannedCourseListResponseDto result = service.listPlannedCourses(1L);
+        List<CompletedCourseUploadRowDto> projected = service.getProjectedRows(1L);
+
+        assertEquals(1, result.semesters().size());
+        assertEquals(3, result.semesters().getFirst().gradeYear());
+        assertEquals(2, result.semesters().getFirst().semester());
+        assertEquals(1, projected.size());
+        assertEquals("남은학기과목", projected.getFirst().courseName());
+    }
+
     private static PlannedSemester planned(Student student, int gradeYear, int semester) {
         PlannedSemester plannedSemester = PlannedSemester.create(student, gradeYear, semester);
         assignId(plannedSemester, (long) (gradeYear * 10 + semester));

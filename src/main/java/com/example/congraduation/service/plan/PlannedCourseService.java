@@ -216,8 +216,10 @@ public class PlannedCourseService {
     public List<CompletedCourseUploadRowDto> getProjectedRows(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
+        int lastCompletedStep = resolveLastCompletedStep(student);
 
         return plannedCourseRepository.findAllByStudentIdOrderByTargetYearAscTargetSemesterAscCreatedAtAsc(studentId).stream()
+                .filter(course -> toAcademicStep(course.getGradeYear(), course.getSemester()) > lastCompletedStep)
                 .map(course -> new CompletedCourseUploadRowDto(
                         String.valueOf(resolveProjectedCalendarYear(student, course)),
                         course.getTargetSemester() + "학기",
@@ -244,10 +246,15 @@ public class PlannedCourseService {
         Map<String, SemesterAccumulator> semesterMap = new LinkedHashMap<>();
         BigDecimal totalCredits = BigDecimal.ZERO;
         Map<String, CompletedCourseUploadRowDto> transcriptCourseMap = resolveTranscriptCourseMap(student.getId());
+        int lastCompletedStep = resolveLastCompletedStep(student);
         List<PlannedSemester> plannedSemesters = plannedSemesterRepository
                 .findAllByStudentIdOrderByGradeYearAscSemesterAscCreatedAtAsc(student.getId());
 
         for (PlannedSemester plannedSemester : plannedSemesters) {
+            // 이미 이수한 학기(마지막 이수 학기 포함)는 졸업 시뮬레이션/계획 카드에 내리지 않는다.
+            if (toAcademicStep(plannedSemester.getGradeYear(), plannedSemester.getSemester()) <= lastCompletedStep) {
+                continue;
+            }
             semesterMap.putIfAbsent(
                     toSemesterKey(plannedSemester.getGradeYear(), plannedSemester.getSemester()),
                     new SemesterAccumulator(plannedSemester.getId(), plannedSemester.getGradeYear(), plannedSemester.getSemester())
@@ -255,6 +262,9 @@ public class PlannedCourseService {
         }
 
         for (PlannedCourse course : courses) {
+            if (toAcademicStep(course.getGradeYear(), course.getSemester()) <= lastCompletedStep) {
+                continue;
+            }
             String key = toSemesterKey(course.getGradeYear(), course.getSemester());
             SemesterAccumulator accumulator = semesterMap.computeIfAbsent(
                     key,
