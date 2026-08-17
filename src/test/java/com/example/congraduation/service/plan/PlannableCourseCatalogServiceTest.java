@@ -2,9 +2,16 @@ package com.example.congraduation.service.plan;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.domain.enums.CourseRole;
+import com.example.congraduation.abeek.dto.CurriculumCourseDto;
+import com.example.congraduation.abeek.service.CurriculumQueryService;
+import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
@@ -41,7 +48,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(1)).thenReturn(Optional.of(spring2026));
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026, fall2025));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -79,7 +86,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.findTerm(2025, 2)).thenReturn(Optional.of(fall2025));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -108,7 +115,7 @@ class PlannableCourseCatalogServiceTest {
         TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
         DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -159,7 +166,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -212,7 +219,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -253,7 +260,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -292,7 +299,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.availableTerms()).thenReturn(List.of(fall2025));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -332,7 +339,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -385,7 +392,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -438,7 +445,7 @@ class PlannableCourseCatalogServiceTest {
 
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026, fall2025));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -498,7 +505,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -555,7 +562,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -612,7 +619,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -666,7 +673,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -715,7 +722,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -767,7 +774,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -819,7 +826,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.latestTermForSemester(2)).thenReturn(Optional.of(fall2025));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -854,7 +861,7 @@ class PlannableCourseCatalogServiceTest {
                 List.of(
                         offering("000137", "경영학원론", "전공필수", "경영학부"),
                         offering("000210", "마케팅원론", "전공선택", "경영학부"),
-                        offering("009960", "타과캡스톤", "전공필수", "소프트웨어학과")
+                        offering("009960", "타과캡스톤", "전공필수", "건축공학과")
                 )
         );
 
@@ -879,7 +886,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -938,7 +945,7 @@ class PlannableCourseCatalogServiceTest {
         when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
-        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+        PlannableCourseCatalogService service = newService(
                 timetableCatalog,
                 studentRepository,
                 transcriptStorageService,
@@ -957,6 +964,178 @@ class PlannableCourseCatalogServiceTest {
 
         assertThat(response.courses()).extracting(course -> course.category())
                 .containsExactly("복선");
+    }
+
+    @Test
+    void curriculumRequiredOverridesTimetableElectiveToMajorRequired() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+        CurriculumQueryService curriculumQueryService = mock(CurriculumQueryService.class);
+
+        TimetableTermData fall2026 = new TimetableTermData(
+                2026,
+                2,
+                List.of(
+                        offering("003278", "컴퓨터구조", "전공선택", "컴퓨터공학과"),
+                        offering("003278", "컴퓨터구조", "전공필수", "소프트웨어학과")
+                )
+        );
+
+        Student student = Student.create(
+                "24000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2024,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(fall2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(curriculumQueryService.getCurriculum("CSE", 2024)).thenReturn(List.of(
+                CurriculumCourseDto.builder()
+                        .departmentCode("CSE")
+                        .curriculumYear(2024)
+                        .courseCode("MAJ_ARCH")
+                        .courseName("컴퓨터구조")
+                        .category(CourseCategory.MAJOR)
+                        .role(CourseRole.REQUIRED)
+                        .credits(3)
+                        .build()
+        ));
+
+        PlannableCourseCatalogService service = new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService,
+                curriculumQueryService,
+                new SejongAbeekCourseCodeCatalog()
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L, null, null, null, null, null, null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().category()).isEqualTo("전공필수");
+        assertThat(response.courses().getFirst().departments())
+                .containsExactlyInAnyOrder("컴퓨터공학과", "소프트웨어학과");
+    }
+
+    @Test
+    void personalizedCatalogCollapsesOwnElectiveAcrossDepartmentsIntoOneElectiveCard() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData fall2026 = new TimetableTermData(
+                2026,
+                2,
+                List.of(
+                        offering("003278", "컴퓨터구조", "전공선택", "컴퓨터공학과"),
+                        offering("003278", "컴퓨터구조", "전공필수", "소프트웨어학과"),
+                        offering("003278", "컴퓨터구조", "전공선택", "정보보호학과")
+                )
+        );
+
+        Student student = Student.create(
+                "23000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2023,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(fall2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = newService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L, null, null, null, null, null, null
+        );
+
+        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.courses().getFirst().category()).isEqualTo("전공선택");
+        assertThat(response.courses().getFirst().departments())
+                .containsExactlyInAnyOrder("컴퓨터공학과", "소프트웨어학과", "정보보호학과");
+    }
+
+    @Test
+    void sameCollegeCrossMajorStaysMajorElectiveFor2023AiConvergenceStudents() {
+        TimetableCatalog timetableCatalog = mock(TimetableCatalog.class);
+        StudentRepository studentRepository = mock(StudentRepository.class);
+        TranscriptStorageService transcriptStorageService = mock(TranscriptStorageService.class);
+        DepartmentCurriculumPolicyService departmentCurriculumPolicyService = new DepartmentCurriculumPolicyService();
+
+        TimetableTermData spring2026 = new TimetableTermData(
+                2026,
+                1,
+                List.of(offering("009960", "타과전공", "전공선택", "소프트웨어학과"))
+        );
+
+        Student student = Student.create(
+                "23000001",
+                "테스트학생",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2023,
+                "재학",
+                false
+        );
+
+        when(timetableCatalog.availableTerms()).thenReturn(List.of(spring2026));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        PlannableCourseCatalogService service = newService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService
+        );
+
+        PlannableCourseCatalogResponseDto response = service.getCatalog(
+                1L, null, null, null, null, null, null
+        );
+
+        assertThat(response.courses()).extracting(course -> course.category())
+                .containsExactly("전공선택");
+    }
+
+    private PlannableCourseCatalogService newService(
+            TimetableCatalog timetableCatalog,
+            StudentRepository studentRepository,
+            TranscriptStorageService transcriptStorageService,
+            DepartmentCurriculumPolicyService departmentCurriculumPolicyService
+    ) {
+        CurriculumQueryService curriculumQueryService = mock(CurriculumQueryService.class);
+        when(curriculumQueryService.getCurriculum(anyString(), anyInt())).thenReturn(List.of());
+        return new PlannableCourseCatalogService(
+                timetableCatalog,
+                studentRepository,
+                transcriptStorageService,
+                departmentCurriculumPolicyService,
+                curriculumQueryService,
+                new SejongAbeekCourseCodeCatalog()
+        );
     }
 
     private TimetableOffering offering(String courseCode, String courseName, String category) {
