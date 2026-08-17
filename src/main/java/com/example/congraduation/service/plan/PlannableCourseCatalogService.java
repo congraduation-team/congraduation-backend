@@ -1,5 +1,10 @@
 package com.example.congraduation.service.plan;
 
+import com.example.congraduation.abeek.domain.enums.CourseCategory;
+import com.example.congraduation.abeek.domain.enums.CourseRole;
+import com.example.congraduation.abeek.dto.CurriculumCourseDto;
+import com.example.congraduation.abeek.service.CurriculumQueryService;
+import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
@@ -54,17 +59,23 @@ public class PlannableCourseCatalogService {
     private final StudentRepository studentRepository;
     private final TranscriptStorageService transcriptStorageService;
     private final DepartmentCurriculumPolicyService departmentCurriculumPolicyService;
+    private final CurriculumQueryService curriculumQueryService;
+    private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
 
     public PlannableCourseCatalogService(
             TimetableCatalog timetableCatalog,
             StudentRepository studentRepository,
             TranscriptStorageService transcriptStorageService,
-            DepartmentCurriculumPolicyService departmentCurriculumPolicyService
+            DepartmentCurriculumPolicyService departmentCurriculumPolicyService,
+            CurriculumQueryService curriculumQueryService,
+            SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog
     ) {
         this.timetableCatalog = timetableCatalog;
         this.studentRepository = studentRepository;
         this.transcriptStorageService = transcriptStorageService;
         this.departmentCurriculumPolicyService = departmentCurriculumPolicyService;
+        this.curriculumQueryService = curriculumQueryService;
+        this.sejongAbeekCourseCodeCatalog = sejongAbeekCourseCodeCatalog;
     }
 
     public PlannableCourseCatalogResponseDto getCatalog() {
@@ -109,6 +120,7 @@ public class PlannableCourseCatalogService {
                 referenceDepartmentName
         );
         Set<String> ownMajorFoundationCourseNames = resolveOwnMajorFoundationCourseNames(student);
+        CurriculumRequiredIndex curriculumRequired = resolveCurriculumRequiredIndex(student);
         List<CourseAccumulator> displayAccumulators = mergeForDisplay(
                 deduplicated.values(),
                 student,
@@ -117,7 +129,8 @@ public class PlannableCourseCatalogService {
                 ownMajorElectiveCourseCodes,
                 ownMajorElectiveCourseNames,
                 ownMajorFoundationCourseCodes,
-                ownMajorFoundationCourseNames
+                ownMajorFoundationCourseNames,
+                curriculumRequired
         );
 
         List<CourseAccumulator> filteredAccumulators = displayAccumulators.stream()
@@ -134,7 +147,15 @@ public class PlannableCourseCatalogService {
                 ))
                 .toList();
 
-        List<PlannableCourseDto> courses = collapseDisplayDuplicates(filteredAccumulators).stream()
+        List<PlannableCourseDto> courses = collapseDisplayDuplicates(
+                filteredAccumulators,
+                student,
+                curriculumRequired,
+                ownMajorRequiredCourseCodes,
+                ownMajorElectiveCourseCodes,
+                ownMajorElectiveCourseNames,
+                ownMajorFoundationCourseCodes
+        ).stream()
                 .sorted(Comparator
                         .comparing(CourseAccumulator::courseName)
                         .thenComparing(CourseAccumulator::category))
@@ -152,11 +173,30 @@ public class PlannableCourseCatalogService {
         return new PlannableCourseCatalogResponseDto(courses.size(), courses);
     }
 
-    private List<CourseAccumulator> collapseDisplayDuplicates(List<CourseAccumulator> accumulators) {
+    private List<CourseAccumulator> collapseDisplayDuplicates(
+            List<CourseAccumulator> accumulators,
+            Student student,
+            CurriculumRequiredIndex curriculumRequired,
+            Set<String> ownMajorRequiredCourseCodes,
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames,
+            Set<String> ownMajorFoundationCourseCodes
+    ) {
+        boolean personalized = student != null;
         Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
+        Map<String, LinkedHashSet<String>> categoriesByKey = new LinkedHashMap<>();
+
         for (CourseAccumulator accumulator : accumulators) {
-            String mergeKey = toDuplicateCollapseKey(accumulator);
+            String mergeKey = personalized
+                    ? toCourseIdentityKey(accumulator)
+                    : toDuplicateCollapseKey(accumulator);
             CourseAccumulator existing = merged.get(mergeKey);
+
+            if (personalized) {
+                categoriesByKey
+                        .computeIfAbsent(mergeKey, ignored -> new LinkedHashSet<>())
+                        .add(accumulator.category());
+            }
 
             if (existing == null) {
                 merged.put(mergeKey, new CourseAccumulator(
@@ -190,7 +230,77 @@ public class PlannableCourseCatalogService {
                 ));
             }
         }
-        return new ArrayList<>(merged.values());
+
+        if (!personalized) {
+            return new ArrayList<>(merged.values());
+        }
+
+        List<CourseAccumulator> result = new ArrayList<>();
+        for (Map.Entry<String, CourseAccumulator> entry : merged.entrySet()) {
+            CourseAccumulator existing = entry.getValue();
+            Set<String> candidateCategories = categoriesByKey.getOrDefault(
+                    entry.getKey(),
+                    new LinkedHashSet<>(List.of(existing.category()))
+            );
+            String preferredCategory = preferStudentFacingCategory(
+                    existing,
+                    candidateCategories,
+                    curriculumRequired,
+                    ownMajorRequiredCourseCodes,
+                    ownMajorElectiveCourseCodes,
+                    ownMajorElectiveCourseNames,
+                    ownMajorFoundationCourseCodes
+            );
+            result.add(new CourseAccumulator(
+                    existing.courseCodes(),
+                    existing.courseName(),
+                    preferredCategory,
+                    existing.departments(),
+                    existing.targetGrades(),
+                    existing.credits(),
+                    existing.offeredTerms()
+            ));
+        }
+        return result;
+    }
+
+    private String preferStudentFacingCategory(
+            CourseAccumulator course,
+            Set<String> candidateCategories,
+            CurriculumRequiredIndex curriculumRequired,
+            Set<String> ownMajorRequiredCourseCodes,
+            Set<String> ownMajorElectiveCourseCodes,
+            Set<String> ownMajorElectiveCourseNames,
+            Set<String> ownMajorFoundationCourseCodes
+    ) {
+        if (matchesCurriculumRequired(course, curriculumRequired)
+                || hasCourseCodeEquivalent(course, ownMajorRequiredCourseCodes)) {
+            return "전공필수";
+        }
+        if (hasCourseCodeEquivalent(course, ownMajorFoundationCourseCodes)) {
+            return "전공기초";
+        }
+        if (hasOwnMajorElectiveEquivalent(course, ownMajorElectiveCourseCodes, ownMajorElectiveCourseNames)) {
+            return "전공선택";
+        }
+        return candidateCategories.stream()
+                .max(Comparator.comparingInt(this::categoryPriority))
+                .orElse(course.category());
+    }
+
+    private int categoryPriority(String category) {
+        if (category == null) {
+            return 0;
+        }
+        return switch (category) {
+            case "전공필수" -> 60;
+            case "복필" -> 50;
+            case "전공기초" -> 40;
+            case "전공선택" -> 30;
+            case "복선" -> 20;
+            case "교양" -> 10;
+            default -> 0;
+        };
     }
 
     private List<CourseAccumulator> mergeForDisplay(
@@ -201,7 +311,8 @@ public class PlannableCourseCatalogService {
             Set<String> ownMajorElectiveCourseCodes,
             Set<String> ownMajorElectiveCourseNames,
             Set<String> ownMajorFoundationCourseCodes,
-            Set<String> ownMajorFoundationCourseNames
+            Set<String> ownMajorFoundationCourseNames,
+            CurriculumRequiredIndex curriculumRequired
     ) {
         Map<String, CourseAccumulator> merged = new LinkedHashMap<>();
         for (CourseAccumulator accumulator : accumulators) {
@@ -213,7 +324,8 @@ public class PlannableCourseCatalogService {
                     ownMajorElectiveCourseCodes,
                     ownMajorElectiveCourseNames,
                     ownMajorFoundationCourseCodes,
-                    ownMajorFoundationCourseNames
+                    ownMajorFoundationCourseNames,
+                    curriculumRequired
             );
             String displayKey = toDisplayCourseKey(accumulator, resolvedCategory);
             CourseAccumulator existing = merged.get(displayKey);
@@ -412,7 +524,8 @@ public class PlannableCourseCatalogService {
             Set<String> ownMajorElectiveCourseCodes,
             Set<String> ownMajorElectiveCourseNames,
             Set<String> ownMajorFoundationCourseCodes,
-            Set<String> ownMajorFoundationCourseNames
+            Set<String> ownMajorFoundationCourseNames,
+            CurriculumRequiredIndex curriculumRequired
     ) {
         String rawCategory = accumulator.category();
         if (!isMajorCategory(rawCategory)) {
@@ -420,6 +533,10 @@ public class PlannableCourseCatalogService {
         }
         if (isGloballyPlannableCourse(accumulator.courseName())) {
             return normalizeMajorCategoryLabel(rawCategory);
+        }
+        // 교과과정(수강편람) 전공필수면 시간표 이수구분보다 우선한다.
+        if (matchesCurriculumRequired(accumulator, curriculumRequired)) {
+            return "전공필수";
         }
         if (departmentName == null || departmentName.isBlank()) {
             return normalizeMajorCategoryLabel(rawCategory);
@@ -482,6 +599,84 @@ public class PlannableCourseCatalogService {
             return "전공필수";
         }
         return normalizeMajorCategoryLabel(rawCategory);
+    }
+
+    private CurriculumRequiredIndex resolveCurriculumRequiredIndex(Student student) {
+        if (student == null || student.getAdmissionYear() == null) {
+            return CurriculumRequiredIndex.empty();
+        }
+        String departmentCode = resolveCurriculumDepartmentCode(student.getMajor());
+        if (departmentCode == null) {
+            return CurriculumRequiredIndex.empty();
+        }
+        List<CurriculumCourseDto> curriculumCourses;
+        try {
+            curriculumCourses = curriculumQueryService.getCurriculum(departmentCode, student.getAdmissionYear());
+        } catch (RuntimeException ignored) {
+            return CurriculumRequiredIndex.empty();
+        }
+        Set<String> requiredNames = new LinkedHashSet<>();
+        Set<String> requiredAbeekCodes = new LinkedHashSet<>();
+        for (CurriculumCourseDto course : curriculumCourses) {
+            if (course == null || course.getRole() != CourseRole.REQUIRED) {
+                continue;
+            }
+            if (course.getCategory() != CourseCategory.MAJOR) {
+                continue;
+            }
+            String normalizedName = normalizeCourseName(course.getCourseName());
+            if (!normalizedName.isBlank()) {
+                requiredNames.add(normalizedName);
+            }
+            if (course.getCourseCode() != null && !course.getCourseCode().isBlank()) {
+                requiredAbeekCodes.add(course.getCourseCode().trim());
+            }
+        }
+        return new CurriculumRequiredIndex(requiredNames, requiredAbeekCodes);
+    }
+
+    private boolean matchesCurriculumRequired(
+            CourseAccumulator accumulator,
+            CurriculumRequiredIndex curriculumRequired
+    ) {
+        if (curriculumRequired == null || curriculumRequired.isEmpty()) {
+            return false;
+        }
+        String normalizedName = normalizeCourseName(accumulator.courseName());
+        if (!normalizedName.isBlank() && curriculumRequired.requiredNames().contains(normalizedName)) {
+            return true;
+        }
+        for (String courseCode : accumulator.courseCodes()) {
+            String abeekCode = sejongAbeekCourseCodeCatalog.findAbeekCourseCode(courseCode).orElse(null);
+            if (abeekCode != null && curriculumRequired.requiredAbeekCodes().contains(abeekCode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String resolveCurriculumDepartmentCode(String major) {
+        if (major == null || major.isBlank()) {
+            return null;
+        }
+        return switch (major.replaceAll("\\s+", "")) {
+            case "컴퓨터공학과" -> "CSE";
+            case "소프트웨어학과" -> "SW";
+            case "건설환경공학과" -> "CIVIL";
+            case "데이터사이언스학과", "인공지능데이터사이언스학과" -> "DS";
+            case "전자정보통신공학과" -> "EICE";
+            case "정보보호학과" -> "SEC";
+            case "양자원자력공학과" -> "NUCLEAR";
+            case "나노신소재공학과" -> "NANO";
+            case "기계공학과" -> "MECH";
+            case "건축공학과" -> "ARCH";
+            case "우주항공공학전공" -> "AERO";
+            case "환경에너지공간융합학과" -> "ENV";
+            case "AI로봇학과" -> "AIROBOT";
+            case "인공지능학과" -> "AI";
+            case "지구자원시스템공학과" -> "ENERGY";
+            default -> null;
+        };
     }
 
     private List<String> resolveDoubleMajorDepartments(Student student) {
@@ -692,12 +887,11 @@ public class PlannableCourseCatalogService {
         if (isStudentMajorDepartment(accumulator, departmentName)) {
             return false;
         }
-        if (student.getAdmissionYear() < 2024) {
-            return false;
-        }
+        // 내 학과 전선과 동일 학수번호/과목명이면 학번 무관 전선 인정
         if (hasOwnMajorElectiveEquivalent(accumulator, ownMajorElectiveCourseCodes, ownMajorElectiveCourseNames)) {
             return true;
         }
+        // 수강편람: 인공지능융합대학 소속은 동일 단과대 타과 전공(필/선)을 전선으로 인정 (학번 제한 없음)
         String normalizedStudentDepartment = normalize(student.getMajor());
         if (!AI_CONVERGENCE_COLLEGE_DEPARTMENTS.contains(normalizedStudentDepartment)) {
             return false;
@@ -806,16 +1000,21 @@ public class PlannableCourseCatalogService {
         return normalize(accumulator.courseName()) + "|" + normalize(resolvedCategory);
     }
 
-    private String toDuplicateCollapseKey(CourseAccumulator accumulator) {
+    private String toCourseIdentityKey(CourseAccumulator accumulator) {
         String normalizedCodes = accumulator.courseCodes().stream()
                 .map(this::normalizeCourseCode)
                 .filter(code -> !code.isBlank())
                 .sorted()
                 .collect(Collectors.joining("|"));
         if (!normalizedCodes.isBlank()) {
-            return normalizedCodes + "|" + normalize(accumulator.category());
+            return normalizedCodes;
         }
-        return normalize(accumulator.courseName()) + "|" + normalize(accumulator.category());
+        return normalize(accumulator.courseName());
+    }
+
+    private String toDuplicateCollapseKey(CourseAccumulator accumulator) {
+        String identity = toCourseIdentityKey(accumulator);
+        return identity + "|" + normalize(accumulator.category());
     }
 
     private String preferCourseName(String current, String candidate) {
@@ -929,6 +1128,19 @@ public class PlannableCourseCatalogService {
             return "전공선택";
         }
         return category;
+    }
+
+    private record CurriculumRequiredIndex(
+            Set<String> requiredNames,
+            Set<String> requiredAbeekCodes
+    ) {
+        private static CurriculumRequiredIndex empty() {
+            return new CurriculumRequiredIndex(Set.of(), Set.of());
+        }
+
+        private boolean isEmpty() {
+            return requiredNames.isEmpty() && requiredAbeekCodes.isEmpty();
+        }
     }
 
     private record CourseAccumulator(
