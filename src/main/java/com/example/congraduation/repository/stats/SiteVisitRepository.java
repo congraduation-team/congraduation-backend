@@ -11,18 +11,29 @@ public interface SiteVisitRepository extends JpaRepository<SiteVisit, Long> {
 
     Optional<SiteVisit> findByVisitorKeyAndVisitDate(String visitorKey, LocalDate visitDate);
 
-    long countByVisitDate(LocalDate visitDate);
+    @Query("""
+            select count(v)
+            from SiteVisit v
+            where v.visitDate = :visitDate
+              and v.visitorKey like 'student:%'
+            """)
+    long countLoggedInByVisitDate(@Param("visitDate") LocalDate visitDate);
 
     @Query("""
             select count(distinct v.visitorKey)
             from SiteVisit v
             where v.visitDate >= :fromDate and v.visitDate <= :toDate
+              and v.visitorKey like 'student:%'
             """)
-    long countDistinctVisitorKeyBetween(
+    long countDistinctLoggedInVisitorKeyBetween(
             @Param("fromDate") LocalDate fromDate,
             @Param("toDate") LocalDate toDate
     );
 
-    @Query("select count(distinct v.visitorKey) from SiteVisit v")
-    long countDistinctVisitorKey();
+    @Query("""
+            select count(distinct v.visitorKey)
+            from SiteVisit v
+            where v.visitorKey like 'student:%'
+            """)
+    long countDistinctLoggedInVisitorKey();
 }
