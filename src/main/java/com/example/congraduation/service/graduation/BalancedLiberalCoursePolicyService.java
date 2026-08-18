@@ -21,8 +21,8 @@ public class BalancedLiberalCoursePolicyService {
     private static final String AREA_FUSION = "융합과창의";
 
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2022_2023 = List.of(
-            new CategoryCourseDto("GEN_SEMINAR_A", "신입생세미나A", "1"),
-            new CategoryCourseDto("GEN_SEMINAR_B", "신입생세미나B", "1"),
+            new CategoryCourseDto("GEN_SEMINAR_A", "세종인을위한진로설계", "1"),
+            new CategoryCourseDto("GEN_SEMINAR_B", "세종인을위한전공탐색", "1"),
             new CategoryCourseDto("GEN_WRITE", "문제해결을위한글쓰기와발표", "3"),
             new CategoryCourseDto("GEN_UNIVERSE", "우주자연인간", "1"),
             new CategoryCourseDto("GEN_CAREER_JOB", "취창업과진로설계", "1"),
@@ -37,7 +37,7 @@ public class BalancedLiberalCoursePolicyService {
             new CategoryCourseDto("GEN_WRITE", "문제해결을위한글쓰기와발표", "3"),
             new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
             new CategoryCourseDto("GEN_WORLD_HISTORY_LEGACY", "세계사:인간과문명", "3"),
-            new CategoryCourseDto("GEN_CAREER_LEGACY", "대학생활과진로탐색", "1")
+            new CategoryCourseDto("GEN_CAREER_LEGACY", "세종인을위한전공탐색", "1")
     );
 
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2024_2025 = List.of(
@@ -66,7 +66,7 @@ public class BalancedLiberalCoursePolicyService {
             Map.entry("GEN_SEMINAR_B", "1-2"),
             Map.entry("GEN_CAREER_DESIGN", "1-1"),
             Map.entry("GEN_MAJOR_EXPLORATION", "1-2"),
-            Map.entry("GEN_CAREER_LEGACY", "1-1"),
+            Map.entry("GEN_CAREER_LEGACY", "1-2"),
             Map.entry("GEN_WRITE", "1-1"),
             Map.entry("GEN_WRITE_2026", "1-1"),
             Map.entry("GEN_PHILOSOPHY", "1-2"),
@@ -257,35 +257,13 @@ public class BalancedLiberalCoursePolicyService {
             Map.entry("GEN_UNI_ENG_READING_2021", Set.of("English Reading Practice 1")),
             Map.entry("GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신")),
             Map.entry("GEN_WORLD_HISTORY_LEGACY", Set.of("세계사:인간과문명", "세계사")),
-            Map.entry("GEN_CAREER_LEGACY", Set.of(
-                    "대학생활과진로탐색",
-                    "대학생활과 진로탐색",
-                    "대학생활과진로설계",
-                    "대학생활과 진로설계",
-                    "대학생활과진로설계1",
-                    "대학생활과 진로설계1",
-                    "신입생세미나1",
-                    "신입생세미나",
-                    "세종인을위한전공탐색",
-                    "세종인을위한진로설계"
-            )),
-            Map.entry("GEN_MAJOR_EXPLORATION", Set.of(
-                    "세종인을위한전공탐색",
-                    "신입생세미나B",
-                    "대학생활과진로탐색",
-                    "대학생활과진로설계1"
-            )),
-            Map.entry("GEN_CAREER_DESIGN", Set.of(
-                    "세종인을위한진로설계",
-                    "신입생세미나",
-                    "신입생세미나1",
-                    "신입생세미나A",
-                    "대학생활과진로설계"
-            )),
+            Map.entry("GEN_CAREER_LEGACY", LiberalCourseRenameEquivalence.majorExplorationNames()),
+            Map.entry("GEN_MAJOR_EXPLORATION", LiberalCourseRenameEquivalence.majorExplorationNames()),
+            Map.entry("GEN_CAREER_DESIGN", LiberalCourseRenameEquivalence.careerDesignNames()),
             Map.entry("GEN_CAREER_JOB", Set.of("취창업과진로설계", "취업과진로역량개발", "취창업과진로역량개발")),
             Map.entry("GEN_UNIVERSE", Set.of("우주자연인간")),
-            Map.entry("GEN_SEMINAR_A", Set.of("신입생세미나", "신입생세미나1", "신입생세미나A", "세종인을위한진로설계")),
-            Map.entry("GEN_SEMINAR_B", Set.of("신입생세미나B", "세종인을위한전공탐색"))
+            Map.entry("GEN_SEMINAR_A", LiberalCourseRenameEquivalence.careerDesignNames()),
+            Map.entry("GEN_SEMINAR_B", LiberalCourseRenameEquivalence.majorExplorationNames())
     );
 
     public BalancedLiberalRequirement resolveRequirement(Integer admissionYear) {

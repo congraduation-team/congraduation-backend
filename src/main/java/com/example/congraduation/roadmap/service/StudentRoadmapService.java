@@ -581,7 +581,7 @@ public class StudentRoadmapService {
                         byTermAndCode,
                         termKey,
                         code,
-                        slot.courseName(),
+                        resolveInjectedCourseName(hint, slot.courseName()),
                         "기초필수",
                         hint != null ? hint.credits() : parseCredits(slot.credit())
                 );
@@ -619,7 +619,7 @@ public class StudentRoadmapService {
                     byTermAndCode,
                     termKey,
                     code,
-                    required.courseName(),
+                    resolveInjectedCourseName(hint, required.courseName()),
                     "교양필수",
                     hint != null ? hint.credits() : parseCredits(required.credit())
             );
@@ -715,6 +715,13 @@ public class StudentRoadmapService {
     private String resolveInjectedCourseCode(TimetableOffering hint, String fallback) {
         if (hint != null && hint.courseCode() != null && !hint.courseCode().isBlank()) {
             return hint.courseCode().trim();
+        }
+        return fallback == null ? "" : fallback.trim();
+    }
+
+    private String resolveInjectedCourseName(TimetableOffering hint, String fallback) {
+        if (hint != null && hint.courseName() != null && !hint.courseName().isBlank()) {
+            return hint.courseName().trim();
         }
         return fallback == null ? "" : fallback.trim();
     }

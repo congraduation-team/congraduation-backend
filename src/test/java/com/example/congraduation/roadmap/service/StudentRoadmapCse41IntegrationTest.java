@@ -255,4 +255,67 @@ class StudentRoadmapCse41IntegrationTest {
                 .filteredOn(c -> "기초미적분학".equals(c.getCourseName()))
                 .noneMatch(StudentRoadmapResponse.RoadmapCourseDto::isCompleted);
     }
+
+    @Test
+    void renamedCommonLiberalCoursesUseCurrentTimetableNames() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        TimetableCatalog catalog = new TimetableCatalog(objectMapper, emptyOverrideDir.toString());
+        org.springframework.test.util.ReflectionTestUtils.invokeMethod(catalog, "load");
+
+        Student student2021 = Student.create(
+                "21010001",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                3,
+                2021,
+                "ACTIVE",
+                false
+        );
+        org.springframework.test.util.ReflectionTestUtils.setField(student2021, "id", 21L);
+        Student student2022 = Student.create(
+                "22010002",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2022,
+                "ACTIVE",
+                false
+        );
+        org.springframework.test.util.ReflectionTestUtils.setField(student2022, "id", 22L);
+
+        TranscriptStorageService transcripts = mock(TranscriptStorageService.class);
+        org.mockito.Mockito.when(transcripts.getStudentOrThrow(21L)).thenReturn(student2021);
+        org.mockito.Mockito.when(transcripts.getLatestTranscriptRows(21L)).thenReturn(List.of());
+        org.mockito.Mockito.when(transcripts.getStudentOrThrow(22L)).thenReturn(student2022);
+        org.mockito.Mockito.when(transcripts.getLatestTranscriptRows(22L)).thenReturn(List.of());
+
+        StudentRoadmapService loggedInService = new StudentRoadmapService(
+                catalog,
+                new AbeekDepartmentCatalog(),
+                transcripts,
+                mock(CurriculumCourseRepository.class),
+                new SejongAbeekCourseCodeCatalog(),
+                new AcademicFoundationCoursePolicyService(),
+                new BalancedLiberalCoursePolicyService()
+        );
+
+        Set<String> names2021 = loggedInService.getByStudent(21L).getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+        Set<String> names2022 = loggedInService.getByStudent(22L).getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+
+        assertThat(names2021).anyMatch(n -> n != null && n.contains("세종인을위한전공탐색"));
+        assertThat(names2021).noneMatch(n -> n != null && n.contains("대학생활과진로탐색"));
+        assertThat(names2022).anyMatch(n -> n != null && n.contains("세종인을위한진로설계"));
+        assertThat(names2022).anyMatch(n -> n != null && n.contains("세종인을위한전공탐색"));
+        assertThat(names2022).noneMatch(n -> n != null && n.contains("신입생세미나"));
+    }
 }

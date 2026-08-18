@@ -26,6 +26,16 @@ class RoadmapCourseCodeEquivalenceTest {
     }
 
     @Test
+    void treatsSeminarAndCampusLifeRenamesAsEquivalent() {
+        assertThat(RoadmapCourseCodeEquivalence.canonical("011110"))
+                .isEqualTo(RoadmapCourseCodeEquivalence.canonical("011614"));
+        assertThat(RoadmapCourseCodeEquivalence.canonical("011182"))
+                .isEqualTo(RoadmapCourseCodeEquivalence.canonical("011839"));
+        assertThat(RoadmapCourseCodeEquivalence.canonical("011110"))
+                .isNotEqualTo(RoadmapCourseCodeEquivalence.canonical("011182"));
+    }
+
+    @Test
     void unknownCodeIsOnlyItself() {
         assertThat(RoadmapCourseCodeEquivalence.equivalentsIncludingSelf("000304"))
                 .containsExactly(RoadmapCourseCodeEquivalence.normalize("000304"));

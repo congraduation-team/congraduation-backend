@@ -213,6 +213,7 @@ public class CurriculumDataLoader implements CommandLineRunner {
         m("GEN_WRITE_2026", "비판적사고와창의적글쓰기", CourseCategory.GENERAL, "GEN_WRITE", ElectiveArea.NONE);
         m("GEN_CAREER1", "대학생활과진로설계1", CourseCategory.GENERAL, "GEN_CAREER1", ElectiveArea.NONE);
         m("GEN_CAREER_EXP", "대학생활과진로탐색", CourseCategory.GENERAL, "GEN_CAREER1", ElectiveArea.NONE);
+        m("GEN_MAJOR_EXPLORATION", "세종인을위한전공탐색", CourseCategory.GENERAL, "GEN_CAREER1", ElectiveArea.NONE);
         m("GEN_STARTUP1", "창업과기업가정신1", CourseCategory.GENERAL, "GEN_STARTUP1", ElectiveArea.NONE);
         m("GEN_VOLUNTEER1", "세종사회봉사1", CourseCategory.GENERAL, "GEN_VOLUNTEER1", ElectiveArea.NONE);
         m("GEN_ENG_LISTEN", "English Listening Practice 1", CourseCategory.GENERAL, "GEN_ENG", ElectiveArea.NONE);
@@ -227,6 +228,7 @@ public class CurriculumDataLoader implements CommandLineRunner {
         m("GEN_METAVERSE", "컴퓨터게임과메타버스", CourseCategory.GENERAL, "GEN_METAVERSE", ElectiveArea.CULTURE_ART);
         m("GEN_FUSION_ART", "융합예술의이해", CourseCategory.GENERAL, "GEN_FUSION_ART", ElectiveArea.CULTURE_ART);
         m("GEN_SEMINAR", "신입생세미나", CourseCategory.GENERAL, "GEN_SEMINAR", ElectiveArea.NONE);
+        m("GEN_CAREER_DESIGN", "세종인을위한진로설계", CourseCategory.GENERAL, "GEN_SEMINAR", ElectiveArea.NONE);
         m("GEN_ADV_PROG_P", "고급프로그래밍입문-P", CourseCategory.GENERAL, "GEN_ADV_PROG_P", ElectiveArea.NONE);
         m("GEN_JOB", "취업역량개발론", CourseCategory.GENERAL, "GEN_JOB", ElectiveArea.NONE);
         m("GEN_TECH_WRITE", "Technical Writing 기초", CourseCategory.GENERAL, "GEN_TECH_WRITE", ElectiveArea.NONE);

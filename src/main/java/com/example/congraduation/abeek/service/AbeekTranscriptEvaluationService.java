@@ -14,6 +14,7 @@ import com.example.congraduation.abeek.repository.CurriculumCourseRepository;
 import com.example.congraduation.abeek.repository.StudentEnrollmentRepository;
 import com.example.congraduation.domain.Student;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
+import com.example.congraduation.service.graduation.LiberalCourseRenameEquivalence;
 import com.example.congraduation.service.transcript.TranscriptExcelParser;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
@@ -523,6 +524,12 @@ public class AbeekTranscriptEvaluationService {
             putPreferMajor(index, normalizeCourseName("고급프로그래밍이해P"), master);
             putPreferMajor(index, normalizeCourseName("고급프로그래밍이해"), master);
         }
+        for (String alias : LiberalCourseRenameEquivalence.familyOf(master.getName())) {
+            String aliasKey = normalizeCourseName(alias);
+            if (!aliasKey.isBlank()) {
+                putPreferMajor(index, aliasKey, master);
+            }
+        }
     }
 
     /** 동명일 때 MAJOR를 우선하되, 이미 BSM으로 잡힌 이름은 덮어쓰지 않는다. */
@@ -677,6 +684,12 @@ public class AbeekTranscriptEvaluationService {
             }
             if (adv != null) {
                 return Optional.of(adv);
+            }
+        }
+        for (String alias : LiberalCourseRenameEquivalence.familyOf(probe)) {
+            CourseMaster renamed = index.get(normalizeCourseName(alias));
+            if (renamed != null) {
+                return Optional.of(renamed);
             }
         }
         if (!majorLike) {

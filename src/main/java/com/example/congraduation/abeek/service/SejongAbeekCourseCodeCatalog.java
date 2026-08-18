@@ -24,11 +24,13 @@ public class SejongAbeekCourseCodeCatalog {
         // —— 전문교양 ——
         map.put("009067", "GEN_WRITE");
         map.put("011182", "GEN_CAREER_EXP");
+        map.put("011839", "GEN_CAREER_EXP"); // 세종인을위한전공탐색 (대학생활과진로탐색 개편)
         map.put("009045", "GEN_STARTUP1");
         map.put("010352", "GEN_ENG_LISTEN");
         map.put("010354", "GEN_ENG_READ");
         map.put("009068", "GEN_PHILOSOPHY");
         map.put("011110", "GEN_SEMINAR");
+        map.put("011614", "GEN_SEMINAR"); // 세종인을위한진로설계 (신입생세미나 개편)
         map.put("009489", "GEN_WORLD_HIST");
         map.put("009936", "GEN_TECH_WRITE");
         map.put("010112", "GEN_GRAD2"); // 졸업연구및진로2
