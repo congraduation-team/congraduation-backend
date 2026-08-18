@@ -2,6 +2,7 @@ package com.example.congraduation.roadmap.service;
 
 import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.service.graduation.AcademicFoundationCoursePolicyService;
+import com.example.congraduation.service.graduation.BalancedLiberalCoursePolicyService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -11,7 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StudentRoadmapCategoryTest {
 
     private final StudentRoadmapService service = new StudentRoadmapService(
-            null, null, null, null, null, new AcademicFoundationCoursePolicyService()
+            null, null, null, null, null,
+            new AcademicFoundationCoursePolicyService(),
+            new BalancedLiberalCoursePolicyService()
     );
 
     @Test

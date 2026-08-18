@@ -9,6 +9,7 @@ import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.abeek.timetable.TimetableOffering;
 import com.example.congraduation.abeek.timetable.TimetableTermData;
 import com.example.congraduation.domain.Student;
+import com.example.congraduation.dto.transcript.CategoryCourseDto;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.exception.TranscriptNotFoundException;
 import com.example.congraduation.roadmap.dto.RoadmapDepartmentDto;
@@ -18,6 +19,8 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.RoadmapSumma
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.SourceTermDto;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse.TermRoadmapDto;
 import com.example.congraduation.service.graduation.AcademicFoundationCoursePolicyService;
+import com.example.congraduation.service.graduation.AcademicFoundationCoursePolicyService.RequiredFoundationSlot;
+import com.example.congraduation.service.graduation.BalancedLiberalCoursePolicyService;
 import com.example.congraduation.service.transcript.TranscriptStandingMapper;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +60,7 @@ public class StudentRoadmapService {
     private final CurriculumCourseRepository curriculumCourseRepository;
     private final SejongAbeekCourseCodeCatalog sejongAbeekCourseCodeCatalog;
     private final AcademicFoundationCoursePolicyService academicFoundationCoursePolicyService;
+    private final BalancedLiberalCoursePolicyService balancedLiberalCoursePolicyService;
 
     /**
      * 최신 강의시간표 기준 전 학과(개설학과) 목록. 학과명은 한글.
@@ -208,9 +212,9 @@ public class StudentRoadmapService {
         // 기이수: 입학 이후 정규학기 순번으로 재배치. 학기 없으면 넣지 않음.
         placeCompletedCoursesByStanding(byTermAndCode, completion, admissionYear);
 
-        // 학생 로드맵: 교양(GENERAL)은 기이수만. 시간표 공통교양필수 미이수 슬롯 제거.
+        // 학생 로드맵: 교양(GENERAL)은 기이수만. 입학연도 공필·학문기초 필수는 미이수여도 유지.
         if (studentDbId != null) {
-            stripIncompleteGeneralCourses(byTermAndCode, completion);
+            stripIncompleteGeneralCourses(byTermAndCode, completion, admissionYear);
         }
         // 공학인증 학과: 전교 공통 기초필수 중 소속 BSM이 아닌 미이수 슬롯 제거
         // (입학연도 없으면 최신 커리큘럼 기준으로 걸러 음악과 등이 아닌 컴공 학과 조회에도 화학·생물이 안 남게 한다)
@@ -224,6 +228,15 @@ public class StudentRoadmapService {
         } else {
             stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
         }
+
+        // 시간표에 없거나 교양 미이수로 걸러진 공통교양·학문기초 필수 과목은 빈 칸으로 다시 넣는다.
+        injectRequiredIncompleteSlots(
+                byTermAndCode,
+                departmentName,
+                foundationYear,
+                completion,
+                sourceTerms
+        );
 
         // 동일 학수번호가 1·2학기 시간표에 모두 있으면, 커리큘럼 recommendedTerm이 있을 때만 한 칸으로 합친다.
         // (선호 없을 때 이른 칸(*-1)을 강제하면 가을 전용 과목이 3-1/4-1로 밀리고 3-2/4-2가 비게 됨)
@@ -248,7 +261,9 @@ public class StudentRoadmapService {
             // 교양 행: 전공·BSM이 아닌 기이수 (공필/교선/균필 등)
             List<RoadmapCourseDto> general = filterBucket(courses, "GENERAL");
             if (studentDbId != null) {
-                general = general.stream().filter(RoadmapCourseDto::isCompleted).toList();
+                general = general.stream()
+                        .filter(course -> course.isCompleted() || "교양필수".equals(course.getCategory()))
+                        .toList();
             }
             categories.put("GENERAL", general);
             categories.put("FOUNDATION", filterByDisplayCategory(courses, "기초필수"));
@@ -413,12 +428,17 @@ public class StudentRoadmapService {
 
     /**
      * 학생 로드맵에서 미이수 교양(GENERAL) 시간표 슬롯을 제거한다.
-     * English Listening/Reading 등 공통 교양필수가 미이수로 남는 것을 막는다.
+     * English Listening/Reading 등 입학연도 공필이 아닌 교양은 미이수로 남기지 않는다.
+     * 입학연도 공통교양 필수(공필)는 들어야 하므로 유지한다.
      */
     private void stripIncompleteGeneralCourses(
             Map<String, Map<String, AggregatedCourse>> byTermAndCode,
-            CompletionIndex completion
+            CompletionIndex completion,
+            Integer admissionYear
     ) {
+        Set<String> requiredCommonNames = balancedLiberalCoursePolicyService == null
+                ? Set.of()
+                : balancedLiberalCoursePolicyService.requiredCommonLiberalNormalizedNames(admissionYear);
         for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
             var iterator = termMap.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -435,9 +455,13 @@ public class StudentRoadmapService {
                 }
                 String displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
                 String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
-                if ("GENERAL".equals(bucket)) {
-                    iterator.remove();
+                if (!"GENERAL".equals(bucket)) {
+                    continue;
                 }
+                if (requiredCommonNames.contains(name.toLowerCase(Locale.ROOT))) {
+                    continue;
+                }
+                iterator.remove();
             }
         }
     }
@@ -503,6 +527,201 @@ public class StudentRoadmapService {
                 }
             }
         }
+    }
+
+    /**
+     * 수강편람 기준 미이수 공통교양·학문기초 필수를 권장학기 칸에 넣는다.
+     * 시간표 개설학과가 대양휴머니티칼리지인 코딩·대학영어 등이 학과 로드맵에서 빠지는 것을 막는다.
+     */
+    private void injectRequiredIncompleteSlots(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            String departmentName,
+            int foundationYear,
+            CompletionIndex completion,
+            List<TimetableTermData> sourceTerms
+    ) {
+        Map<String, TimetableOffering> offeringByName = indexOfferingsByNormalizedName(sourceTerms);
+        Set<String> existingNames = collectNormalizedCourseNames(byTermAndCode);
+        Set<String> existingCodes = collectNormalizedCourseCodes(byTermAndCode);
+
+        if (academicFoundationCoursePolicyService != null) {
+            List<RequiredFoundationSlot> remaining = academicFoundationCoursePolicyService.remainingRequiredSlots(
+                    departmentName,
+                    foundationYear,
+                    completion.rows()
+            );
+            for (RequiredFoundationSlot slot : remaining) {
+                if (roadmapAlreadyHasAliases(existingNames, slot.equivalentNames(), slot.courseName())) {
+                    continue;
+                }
+                TimetableOffering hint = findOfferingHint(offeringByName, slot.equivalentNames(), slot.courseName());
+                String code = resolveInjectedCourseCode(hint, "REQ-AF-" + normalizeCourseName(slot.courseName()));
+                if (code.isBlank() || existingCodes.contains(normalizeCourseCode(code))) {
+                    continue;
+                }
+                String termKey = resolveInjectedTermKey(slot.recommendedTerm());
+                putInjectedCourse(
+                        byTermAndCode,
+                        termKey,
+                        code,
+                        slot.courseName(),
+                        "기초필수",
+                        hint != null ? hint.credits() : parseCredits(slot.credit())
+                );
+                existingCodes.add(normalizeCourseCode(code));
+                existingNames.add(normalizeCourseName(slot.courseName()).toLowerCase(Locale.ROOT));
+                for (String alias : slot.equivalentNames()) {
+                    existingNames.add(normalizeCourseName(alias).toLowerCase(Locale.ROOT));
+                }
+            }
+        }
+
+        if (balancedLiberalCoursePolicyService == null) {
+            return;
+        }
+        for (CategoryCourseDto required : balancedLiberalCoursePolicyService.requiredCommonLiberalCourses(foundationYear)) {
+            if (balancedLiberalCoursePolicyService.hasCompletedEquivalent(required, completion.rows())) {
+                continue;
+            }
+            Set<String> aliases = new LinkedHashSet<>(
+                    balancedLiberalCoursePolicyService.commonLiberalEquivalentNames(required.courseCode())
+            );
+            aliases.add(required.courseName());
+            if (roadmapAlreadyHasAliases(existingNames, aliases, required.courseName())) {
+                continue;
+            }
+            TimetableOffering hint = findOfferingHint(offeringByName, aliases, required.courseName());
+            String code = resolveInjectedCourseCode(hint, required.courseCode());
+            if (code == null || code.isBlank() || existingCodes.contains(normalizeCourseCode(code))) {
+                continue;
+            }
+            String termKey = resolveInjectedTermKey(
+                    balancedLiberalCoursePolicyService.recommendedTermForCommonLiberal(required.courseCode())
+            );
+            putInjectedCourse(
+                    byTermAndCode,
+                    termKey,
+                    code,
+                    required.courseName(),
+                    "교양필수",
+                    hint != null ? hint.credits() : parseCredits(required.credit())
+            );
+            existingCodes.add(normalizeCourseCode(code));
+            existingNames.add(normalizeCourseName(required.courseName()).toLowerCase(Locale.ROOT));
+            for (String alias : aliases) {
+                existingNames.add(normalizeCourseName(alias).toLowerCase(Locale.ROOT));
+            }
+        }
+    }
+
+    private Map<String, TimetableOffering> indexOfferingsByNormalizedName(List<TimetableTermData> sourceTerms) {
+        Map<String, TimetableOffering> byName = new LinkedHashMap<>();
+        if (sourceTerms == null) {
+            return byName;
+        }
+        for (TimetableTermData term : sourceTerms) {
+            if (term.offerings() == null) {
+                continue;
+            }
+            for (TimetableOffering offering : term.offerings()) {
+                String key = normalizeCourseName(offering.courseName()).toLowerCase(Locale.ROOT);
+                if (!key.isBlank()) {
+                    byName.putIfAbsent(key, offering);
+                }
+            }
+        }
+        return byName;
+    }
+
+    private Set<String> collectNormalizedCourseNames(Map<String, Map<String, AggregatedCourse>> byTermAndCode) {
+        Set<String> names = new HashSet<>();
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            for (AggregatedCourse course : termMap.values()) {
+                String name = normalizeCourseName(course.courseName()).toLowerCase(Locale.ROOT);
+                if (!name.isBlank()) {
+                    names.add(name);
+                }
+            }
+        }
+        return names;
+    }
+
+    private Set<String> collectNormalizedCourseCodes(Map<String, Map<String, AggregatedCourse>> byTermAndCode) {
+        Set<String> codes = new HashSet<>();
+        for (Map<String, AggregatedCourse> termMap : byTermAndCode.values()) {
+            for (String code : termMap.keySet()) {
+                String normalized = normalizeCourseCode(code);
+                if (!normalized.isBlank()) {
+                    codes.add(normalized);
+                }
+            }
+        }
+        return codes;
+    }
+
+    private boolean roadmapAlreadyHasAliases(Set<String> existingNames, Set<String> aliases, String courseName) {
+        if (existingNames.contains(normalizeCourseName(courseName).toLowerCase(Locale.ROOT))) {
+            return true;
+        }
+        if (aliases == null) {
+            return false;
+        }
+        for (String alias : aliases) {
+            if (existingNames.contains(normalizeCourseName(alias).toLowerCase(Locale.ROOT))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private TimetableOffering findOfferingHint(
+            Map<String, TimetableOffering> offeringByName,
+            Set<String> aliases,
+            String courseName
+    ) {
+        TimetableOffering hit = offeringByName.get(normalizeCourseName(courseName).toLowerCase(Locale.ROOT));
+        if (hit != null) {
+            return hit;
+        }
+        if (aliases == null) {
+            return null;
+        }
+        for (String alias : aliases) {
+            hit = offeringByName.get(normalizeCourseName(alias).toLowerCase(Locale.ROOT));
+            if (hit != null) {
+                return hit;
+            }
+        }
+        return null;
+    }
+
+    private String resolveInjectedCourseCode(TimetableOffering hint, String fallback) {
+        if (hint != null && hint.courseCode() != null && !hint.courseCode().isBlank()) {
+            return hint.courseCode().trim();
+        }
+        return fallback == null ? "" : fallback.trim();
+    }
+
+    private String resolveInjectedTermKey(String recommendedTerm) {
+        if (recommendedTerm != null && TERM_KEYS.contains(recommendedTerm.trim())) {
+            return recommendedTerm.trim();
+        }
+        return "1-1";
+    }
+
+    private void putInjectedCourse(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            String termKey,
+            String courseCode,
+            String courseName,
+            String category,
+            Double credits
+    ) {
+        Map<String, AggregatedCourse> termMap = byTermAndCode.get(termKey);
+        if (termMap == null) {
+            return;
+        }
+        termMap.putIfAbsent(courseCode, AggregatedCourse.fromCompleted(courseCode, courseName, category, credits));
     }
 
     /**
@@ -814,7 +1033,12 @@ public class StudentRoadmapService {
                 || n.contains("일반물리")
                 || n.contains("물리학및실험")
                 || n.contains("일반화학")
-                || n.contains("일반생물");
+                || n.contains("일반생물")
+                || n.contains("컴퓨터사고")
+                || n.contains("전산개론")
+                || n.contains("인공지능과빅데이터")
+                || n.contains("SW기초코딩")
+                || n.contains("고급프로그래밍활용");
     }
 
     /**

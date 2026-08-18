@@ -52,12 +52,31 @@ public class BalancedLiberalCoursePolicyService {
         );
 
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2026 = List.of(
+            new CategoryCourseDto("GEN_CAREER_DESIGN", "세종인을위한진로설계", "1"),
+            new CategoryCourseDto("GEN_MAJOR_EXPLORATION", "세종인을위한전공탐색", "1"),
             new CategoryCourseDto("GEN_WRITE_2026", "비판적사고와창의적글쓰기", "3"),
             new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
             new CategoryCourseDto("GEN_UNI_ENG", "대학영어", "2"),
             new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신", "1"),
-            new CategoryCourseDto("GEN_CAREER_JOB", "취업과진로역량개발", "1"),
-            new CategoryCourseDto("GEN_MAJOR_EXPLORATION", "세종인을위한전공탐색", "1")
+            new CategoryCourseDto("GEN_CAREER_JOB", "취업과진로역량개발", "1")
+    );
+
+    private static final Map<String, String> COMMON_LIBERAL_RECOMMENDED_TERM = Map.ofEntries(
+            Map.entry("GEN_SEMINAR_A", "1-1"),
+            Map.entry("GEN_SEMINAR_B", "1-2"),
+            Map.entry("GEN_CAREER_DESIGN", "1-1"),
+            Map.entry("GEN_MAJOR_EXPLORATION", "1-2"),
+            Map.entry("GEN_CAREER_LEGACY", "1-1"),
+            Map.entry("GEN_WRITE", "1-1"),
+            Map.entry("GEN_WRITE_2026", "1-1"),
+            Map.entry("GEN_PHILOSOPHY", "1-2"),
+            Map.entry("GEN_UNI_ENG", "1-1"),
+            Map.entry("GEN_UNI_ENG_LISTENING_2021", "1-1"),
+            Map.entry("GEN_UNI_ENG_READING_2021", "1-2"),
+            Map.entry("GEN_UNIVERSE", "1-2"),
+            Map.entry("GEN_STARTUP1", "2-1"),
+            Map.entry("GEN_CAREER_JOB", "3-1"),
+            Map.entry("GEN_WORLD_HISTORY_LEGACY", "1-2")
     );
 
     private static final Map<String, List<CategoryCourseDto>> BALANCED_LIBERAL_AREA_CATALOG_2022_2025 = Map.of(
@@ -221,6 +240,7 @@ public class BalancedLiberalCoursePolicyService {
 
     private static final Map<String, Set<String>> COMMON_LIBERAL_EQUIVALENTS = Map.ofEntries(
             Map.entry("GEN_WRITE", Set.of("쓰기와말하기", "문제해결을위한글쓰기와발표", "비판적사고와창의적글쓰기")),
+            Map.entry("GEN_WRITE_2026", Set.of("비판적사고와창의적글쓰기", "문제해결을위한글쓰기와발표", "쓰기와말하기")),
             Map.entry("GEN_PHILOSOPHY", Set.of("사회와가치", "서양철학의이해", "서양철학:쟁점과토론")),
             Map.entry("GEN_UNI_ENG", Set.of(
                     "대학영어",
@@ -364,8 +384,62 @@ public class BalancedLiberalCoursePolicyService {
         return COMMON_LIBERAL_EQUIVALENTS.getOrDefault(courseCode, Set.of());
     }
 
+    public String recommendedTermForCommonLiberal(String courseCode) {
+        if (courseCode == null || courseCode.isBlank()) {
+            return "1-1";
+        }
+        return COMMON_LIBERAL_RECOMMENDED_TERM.getOrDefault(courseCode, "1-1");
+    }
+
+    public boolean hasCompletedEquivalent(
+            CategoryCourseDto requiredCourse,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        if (requiredCourse == null) {
+            return false;
+        }
+        Set<String> equivalentNames = commonLiberalEquivalentNames(requiredCourse.courseCode());
+        if (equivalentNames.isEmpty()) {
+            equivalentNames = Set.of(requiredCourse.courseName());
+        }
+        Set<String> normalizedEquivalentNames = new LinkedHashSet<>();
+        for (String name : equivalentNames) {
+            String normalized = comparableCourseName(name);
+            if (!normalized.isBlank()) {
+                normalizedEquivalentNames.add(normalized);
+            }
+        }
+        normalizedEquivalentNames.add(comparableCourseName(requiredCourse.courseName()));
+
+        List<CompletedCourseUploadRowDto> completed =
+                completedCourses == null ? List.of() : completedCourses;
+        return completed.stream()
+                .map(CompletedCourseUploadRowDto::courseName)
+                .map(this::comparableCourseName)
+                .anyMatch(normalizedEquivalentNames::contains);
+    }
+
+    public Set<String> requiredCommonLiberalNormalizedNames(Integer admissionYear) {
+        Set<String> names = new LinkedHashSet<>();
+        for (CategoryCourseDto course : requiredCommonLiberalCourses(admissionYear)) {
+            names.add(comparableCourseName(course.courseName()));
+            for (String alias : commonLiberalEquivalentNames(course.courseCode())) {
+                String normalized = comparableCourseName(alias);
+                if (!normalized.isBlank()) {
+                    names.add(normalized);
+                }
+            }
+        }
+        names.remove("");
+        return Set.copyOf(names);
+    }
+
     public String normalizeCourseName(String courseName) {
         return courseName == null ? "" : courseName.trim();
+    }
+
+    private String comparableCourseName(String courseName) {
+        return courseName == null ? "" : courseName.replaceAll("\\s+", "").trim().toLowerCase();
     }
 
     private String resolveExcludedArea(Student student) {

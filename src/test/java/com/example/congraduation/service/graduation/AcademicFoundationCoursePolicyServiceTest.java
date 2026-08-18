@@ -119,4 +119,22 @@ class AcademicFoundationCoursePolicyServiceTest {
         assertFalse(service.matchesRequiredCourse("일반물리학2", "영화예술학과", 2026));
         assertTrue(service.matchesRequiredCourse("미적분학1", "컴퓨터공학과", 2026));
     }
+
+    @Test
+    void remainingRequiredSlotsForMusic2026AreCodingAndAi() {
+        List<AcademicFoundationCoursePolicyService.RequiredFoundationSlot> remaining =
+                service.remainingRequiredSlots("음악과", 2026, List.of());
+
+        assertEquals(2, remaining.size());
+        assertTrue(remaining.stream().anyMatch(slot -> "컴퓨터사고기반기초코딩".equals(slot.courseName())));
+        assertTrue(remaining.stream().anyMatch(slot -> "인공지능과빅데이터".equals(slot.courseName())));
+
+        List<CompletedCourseUploadRowDto> completed = List.of(
+                new CompletedCourseUploadRowDto("2026", "1학기", "011297", "전산개론-O", "학문기초", "3", "GRADE", "A0", "4.0")
+        );
+        List<AcademicFoundationCoursePolicyService.RequiredFoundationSlot> afterAlias =
+                service.remainingRequiredSlots("음악과", 2026, completed);
+        assertEquals(1, afterAlias.size());
+        assertEquals("인공지능과빅데이터", afterAlias.getFirst().courseName());
+    }
 }
