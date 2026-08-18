@@ -108,4 +108,15 @@ class AcademicFoundationCoursePolicyServiceTest {
         assertEquals(1, evaluation.remainingCourses().size());
         assertEquals("인공지능과빅데이터", evaluation.remainingCourses().getFirst().courseName());
     }
+
+    @Test
+    void music2026AcademicFoundationIsCodingAndAiNotPhysics() {
+        assertTrue(service.matchesRequiredCourse("컴퓨터사고기반기초코딩", "음악과", 2026));
+        assertTrue(service.matchesRequiredCourse("전산개론-O", "음악과", 2026));
+        assertTrue(service.matchesRequiredCourse("인공지능과빅데이터", "음악과", 2026));
+        assertFalse(service.matchesRequiredCourse("일반물리학2", "음악과", 2026));
+        assertFalse(service.matchesRequiredCourse("미적분학1", "음악과", 2026));
+        assertFalse(service.matchesRequiredCourse("일반물리학2", "영화예술학과", 2026));
+        assertTrue(service.matchesRequiredCourse("미적분학1", "컴퓨터공학과", 2026));
+    }
 }
