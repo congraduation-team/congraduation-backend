@@ -201,4 +201,58 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(names).anyMatch(n -> n != null && n.contains("비판적사고와창의적글쓰기"));
         assertThat(names).noneMatch(n -> n != null && (n.contains("English Listening") || n.contains("일반물리")));
     }
+
+    @Test
+    void cseStudentViewingMusicSeesMusicFoundationNotOwnCalc() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        TimetableCatalog catalog = new TimetableCatalog(objectMapper, emptyOverrideDir.toString());
+        org.springframework.test.util.ReflectionTestUtils.invokeMethod(catalog, "load");
+
+        Student student = Student.create(
+                "22010001",
+                "테스트",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                2,
+                2022,
+                "ACTIVE",
+                false
+        );
+        org.springframework.test.util.ReflectionTestUtils.setField(student, "id", 1L);
+
+        TranscriptStorageService transcripts = mock(TranscriptStorageService.class);
+        org.mockito.Mockito.when(transcripts.getStudentOrThrow(1L)).thenReturn(student);
+        org.mockito.Mockito.when(transcripts.getLatestTranscriptRows(1L)).thenReturn(List.of(
+                new com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto(
+                        "2022", "1학기", "006098", "기초미적분학", "학문기초", "3", "GRADE", "A0", "4.0")
+        ));
+
+        StudentRoadmapService loggedInService = new StudentRoadmapService(
+                catalog,
+                new AbeekDepartmentCatalog(),
+                transcripts,
+                mock(CurriculumCourseRepository.class),
+                new SejongAbeekCourseCodeCatalog(),
+                new AcademicFoundationCoursePolicyService(),
+                new BalancedLiberalCoursePolicyService()
+        );
+
+        StudentRoadmapResponse response = loggedInService.getByDepartment("음악과", 1L);
+        List<StudentRoadmapResponse.RoadmapCourseDto> courses = response.getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .toList();
+
+        assertThat(courses)
+                .filteredOn(c -> c.getCourseName() != null && c.getCourseName().contains("컴퓨터사고기반기초코딩"))
+                .isNotEmpty()
+                .allMatch(c -> "기초필수".equals(c.getCategory()) && !c.isCompleted());
+        assertThat(courses)
+                .filteredOn(c -> c.getCourseName() != null && c.getCourseName().contains("인공지능과빅데이터"))
+                .isNotEmpty()
+                .allMatch(c -> "기초필수".equals(c.getCategory()));
+        assertThat(courses)
+                .filteredOn(c -> "기초미적분학".equals(c.getCourseName()))
+                .noneMatch(StudentRoadmapResponse.RoadmapCourseDto::isCompleted);
+    }
 }
