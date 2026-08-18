@@ -26,7 +26,7 @@ public class SiteStatsController {
     @GetMapping("/summary")
     @Operation(
             summary = "방문·실사용 통계 조회",
-            description = "당일/월/누적 순 방문자 수와 기이수 업로드 실사용자 수를 반환합니다. (Asia/Seoul)"
+            description = "당일/월/누적 로그인 순 방문자 수와 기이수 업로드 실사용자 수를 반환합니다. (Asia/Seoul)"
     )
     public SiteStatsResponseDto summary() {
         return siteStatsService.getSummary();
@@ -36,15 +36,14 @@ public class SiteStatsController {
     @Operation(
             summary = "방문 기록",
             description = """
-                    페이지 진입 시 호출합니다.
-                    - 로그인 전: visitorKey(브라우저 고정 UUID) 권장
-                    - 로그인 후: studentId 전달 (student:{id}로 집계, 로그인 API에서도 자동 기록)
-                    같은 방문자는 하루 1회만 순 방문으로 집계됩니다.
+                    로그인 사용자 방문 기록용입니다. studentId가 있을 때만 집계합니다.
+                    student:{id}로 저장되며, 로그인 API에서도 자동 기록됩니다.
+                    같은 학생은 하루 1회만 순 방문으로 집계됩니다.
                     """
     )
     public RecordVisitResponseDto recordVisit(@RequestBody(required = false) RecordVisitRequestDto request) {
-        if (request == null) {
-            throw new IllegalArgumentException("visitorKey 또는 studentId 중 하나는 필수입니다.");
+        if (request == null || request.studentId() == null) {
+            return new RecordVisitResponseDto("", false);
         }
         return siteStatsService.recordVisit(request.visitorKey(), request.studentId());
     }
