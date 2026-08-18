@@ -163,6 +163,68 @@ public class AcademicFoundationCoursePolicyService {
         return requiredCourseNames(major, admissionYear).contains(normalized);
     }
 
+    /**
+     * 아직 이수하지 않은 학과별 학문기초 필수 과목. 로드맵 빈 칸 주입에 사용한다.
+     */
+    public List<RequiredFoundationSlot> remainingRequiredSlots(
+            String major,
+            Integer admissionYear,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return List.of();
+        }
+
+        List<CompletedCourseUploadRowDto> completed =
+                completedCourses == null ? List.of() : completedCourses;
+        Set<String> consumedCourseKeys = new LinkedHashSet<>();
+        List<RequiredFoundationSlot> remaining = new ArrayList<>();
+
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            CompletedCourseUploadRowDto matched = findMatchedCourse(
+                    courseRequirement.equivalentNames(),
+                    completed,
+                    consumedCourseKeys
+            );
+            if (matched == null) {
+                remaining.add(new RequiredFoundationSlot(
+                        courseRequirement.courseName(),
+                        courseRequirement.credit(),
+                        courseRequirement.recommendedTerm(),
+                        Set.copyOf(courseRequirement.equivalentNames())
+                ));
+                continue;
+            }
+            consumedCourseKeys.add(uniqueCourseKey(matched));
+        }
+
+        for (AlternativeRequirement alternativeRequirement : requirement.alternativeRequirements()) {
+            List<CompletedCourseUploadRowDto> matchedOptions = findMatchedAlternativeCourses(
+                    alternativeRequirement,
+                    completed,
+                    consumedCourseKeys
+            );
+            matchedOptions.forEach(course -> consumedCourseKeys.add(uniqueCourseKey(course)));
+            int missingCount = Math.max(0, alternativeRequirement.requiredCount() - matchedOptions.size());
+            if (missingCount <= 0) {
+                continue;
+            }
+            Set<String> aliases = new LinkedHashSet<>();
+            aliases.add(alternativeRequirement.displayName());
+            for (List<String> option : alternativeRequirement.options()) {
+                aliases.addAll(option);
+            }
+            remaining.add(new RequiredFoundationSlot(
+                    alternativeRequirement.displayName(),
+                    alternativeRequirement.credit(),
+                    alternativeRequirement.recommendedTerm(),
+                    Set.copyOf(aliases)
+            ));
+        }
+        return List.copyOf(remaining);
+    }
+
     private AcademicFoundationRequirement resolveRequirement(String major, Integer admissionYear) {
         if (admissionYear == null || major == null || major.isBlank()) {
             return null;
@@ -1114,6 +1176,14 @@ public class AcademicFoundationCoursePolicyService {
         private static AcademicFoundationEvaluation empty() {
             return new AcademicFoundationEvaluation(false, BigDecimal.ZERO, null, List.of(), List.of());
         }
+    }
+
+    public record RequiredFoundationSlot(
+            String courseName,
+            String credit,
+            String recommendedTerm,
+            Set<String> equivalentNames
+    ) {
     }
 
     private record AcademicFoundationRequirement(
