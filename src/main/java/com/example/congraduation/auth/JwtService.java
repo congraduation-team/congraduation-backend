@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.HexFormat;
+import java.util.UUID;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,16 +22,19 @@ public class JwtService {
 
     private final byte[] secretKeyBytes;
     private final long expirationSeconds;
+    private final JwtRevocationStore jwtRevocationStore;
 
     public JwtService(
             @Value("${app.jwt.secret:change-this-jwt-secret-for-production-minimum-32-bytes}") String secret,
-            @Value("${app.jwt.expiration-seconds:43200}") long expirationSeconds
+            @Value("${app.jwt.expiration-seconds:43200}") long expirationSeconds,
+            JwtRevocationStore jwtRevocationStore
     ) {
         if (secret == null || secret.trim().length() < 32) {
             throw new IllegalArgumentException("app.jwt.secret must be at least 32 characters.");
         }
         this.secretKeyBytes = secret.getBytes(StandardCharsets.UTF_8);
         this.expirationSeconds = expirationSeconds;
+        this.jwtRevocationStore = jwtRevocationStore;
     }
 
     public JwtTokenDto issueToken(Student student) {
@@ -43,6 +48,7 @@ public class JwtService {
                 + "\"sub\":" + student.getId() + ","
                 + "\"studentNo\":\"" + escapeJson(student.getStudentNo()) + "\","
                 + "\"admin\":" + student.isAdmin() + ","
+                + "\"jti\":\"" + UUID.randomUUID() + "\","
                 + "\"iat\":" + issuedAt.getEpochSecond() + ","
                 + "\"exp\":" + expiresAt.getEpochSecond()
                 + "}";
@@ -57,6 +63,41 @@ public class JwtService {
     }
 
     public AuthenticatedStudent parseToken(String token) {
+        ParsedJwt parsedJwt = parseSignedToken(token);
+        if (jwtRevocationStore.isRevoked(parsedJwt.tokenHash())) {
+            throw new JwtAuthenticationException("로그아웃된 JWT 토큰입니다.");
+        }
+        return parsedJwt.student();
+    }
+
+    public void revokeToken(String token) {
+        ParsedJwt parsedJwt = parseSignedToken(token);
+        jwtRevocationStore.revoke(
+                parsedJwt.tokenHash(),
+                parsedJwt.student().studentId(),
+                Instant.ofEpochSecond(parsedJwt.expiresAtEpochSecond())
+        );
+    }
+
+    public String getTokenType() {
+        return TOKEN_TYPE;
+    }
+
+    public record JwtTokenDto(
+            String accessToken,
+            String tokenType,
+            long expiresAt
+    ) {
+    }
+
+    private record ParsedJwt(
+            AuthenticatedStudent student,
+            long expiresAtEpochSecond,
+            String tokenHash
+    ) {
+    }
+
+    private ParsedJwt parseSignedToken(String token) {
         if (token == null || token.isBlank()) {
             throw new JwtAuthenticationException("JWT 토큰이 비어 있습니다.");
         }
@@ -81,22 +122,24 @@ public class JwtService {
             throw new JwtAuthenticationException("JWT 토큰이 만료되었습니다.");
         }
 
-        return new AuthenticatedStudent(
-                extractLong(payloadJson, "sub"),
-                extractString(payloadJson, "studentNo"),
-                extractBoolean(payloadJson, "admin")
+        return new ParsedJwt(
+                new AuthenticatedStudent(
+                        extractLong(payloadJson, "sub"),
+                        extractString(payloadJson, "studentNo"),
+                        extractBoolean(payloadJson, "admin")
+                ),
+                expiration,
+                hashToken(token)
         );
     }
 
-    public String getTokenType() {
-        return TOKEN_TYPE;
-    }
-
-    public record JwtTokenDto(
-            String accessToken,
-            String tokenType,
-            long expiresAt
-    ) {
+    private String hashToken(String token) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return HexFormat.of().formatHex(digest.digest(token.getBytes(StandardCharsets.UTF_8)));
+        } catch (Exception e) {
+            throw new IllegalStateException("JWT 토큰 해시 생성에 실패했습니다.", e);
+        }
     }
 
     private String sign(String signingInput) {
