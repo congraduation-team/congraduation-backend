@@ -26,6 +26,10 @@ final class RoadmapCourseCodeEquivalence {
         link(toCanonical, members, "009959", "007330");
         // 선형대수및프로그래밍(구) ↔ 선형대수(신)
         link(toCanonical, members, "009961", "001725");
+        // 신입생세미나 ↔ 세종인을위한진로설계
+        link(toCanonical, members, "011110", "011614");
+        // 대학생활과진로탐색 ↔ 세종인을위한전공탐색
+        link(toCanonical, members, "011182", "011839");
 
         TO_CANONICAL = Collections.unmodifiableMap(toCanonical);
         Map<String, Set<String>> frozen = new LinkedHashMap<>();

@@ -13,6 +13,7 @@ import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.dto.transcript.CompletedCourseUploadRowDto;
 import com.example.congraduation.dto.transcript.MajorCreditSummaryDto;
 import com.example.congraduation.repository.student.StudentRepository;
+import com.example.congraduation.service.graduation.LiberalCourseRenameEquivalence;
 import com.example.congraduation.service.transcript.MajorCreditSummaryService;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 
@@ -971,6 +972,10 @@ public class AbeekEvaluationService {
         if (isAdvancedProgrammingIntroName(normalized)) {
             return completedNames.stream().anyMatch(this::isAdvancedProgrammingIntroName);
         }
+        if (!LiberalCourseRenameEquivalence.familyOf(master.getName()).isEmpty()) {
+            return completedNames.stream()
+                    .anyMatch(name -> LiberalCourseRenameEquivalence.sameFamily(master.getName(), name));
+        }
         return false;
     }
 
@@ -1048,6 +1053,13 @@ public class AbeekEvaluationService {
             names.add(normalizeCourseName("고급프로그래밍이해P"));
             names.add(normalizeCourseName("고급프로그래밍이해"));
         }
+        for (String alias : LiberalCourseRenameEquivalence.familyOf(rawName)) {
+            String aliasNormalized = normalizeCourseName(alias);
+            if (!aliasNormalized.isBlank()) {
+                names.add(aliasNormalized);
+                names.add(aliasNormalized.replace("-", ""));
+            }
+        }
     }
 
     private boolean namesMatchForCompletion(String left, String right) {
@@ -1064,6 +1076,13 @@ public class AbeekEvaluationService {
         }
         if (isAdvancedProgrammingIntroName(a) && isAdvancedProgrammingIntroName(b)) {
             return true;
+        }
+        if (LiberalCourseRenameEquivalence.sameFamily(a, b)) {
+            return true;
+        }
+        if (!LiberalCourseRenameEquivalence.familyOf(a).isEmpty()
+                || !LiberalCourseRenameEquivalence.familyOf(b).isEmpty()) {
+            return false;
         }
         return a.contains(b) || b.contains(a);
     }

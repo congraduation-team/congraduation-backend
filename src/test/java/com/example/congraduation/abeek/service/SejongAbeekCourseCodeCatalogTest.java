@@ -20,6 +20,10 @@ class SejongAbeekCourseCodeCatalogTest {
         assertThat(catalog.findSejongCourseCode("BSM_CALC1")).contains("001357");
         assertThat(catalog.findSejongCourseCode("BSM_PHYS")).contains("002638");
         assertThat(catalog.findAbeekCourseCode("011304")).contains("GEN_UNI_ENG");
+        assertThat(catalog.findAbeekCourseCode("011614")).contains("GEN_SEMINAR");
+        assertThat(catalog.findAbeekCourseCode("011839")).contains("GEN_CAREER_EXP");
+        assertThat(catalog.findAbeekCourseCode("011110")).contains("GEN_SEMINAR");
+        assertThat(catalog.findAbeekCourseCode("011182")).contains("GEN_CAREER_EXP");
         assertThat(catalog.findSejongCourseCode("GEN_UNI_ENG")).contains("011304");
         assertThat(catalog.findSejongCourseCode("GEN_MGMT")).contains("011312");
         assertThat(catalog.findSejongCourseCode("GEN_FUSION_ART")).contains("011316");
