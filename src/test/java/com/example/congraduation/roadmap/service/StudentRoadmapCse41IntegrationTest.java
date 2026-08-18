@@ -5,6 +5,7 @@ import com.example.congraduation.abeek.service.AbeekDepartmentCatalog;
 import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
 import com.example.congraduation.abeek.timetable.TimetableCatalog;
 import com.example.congraduation.roadmap.dto.StudentRoadmapResponse;
+import com.example.congraduation.service.graduation.AcademicFoundationCoursePolicyService;
 import com.example.congraduation.service.transcript.TranscriptStorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,8 @@ class StudentRoadmapCse41IntegrationTest {
                 new AbeekDepartmentCatalog(),
                 mock(TranscriptStorageService.class),
                 mock(CurriculumCourseRepository.class),
-                new SejongAbeekCourseCodeCatalog()
+                new SejongAbeekCourseCodeCatalog(),
+                new AcademicFoundationCoursePolicyService()
         );
     }
 
@@ -107,5 +109,21 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(codesByTerm.get("4-2")).isNotEmpty();
         assertThat(codesByTerm.get("1-2")).isNotEmpty();
         assertThat(codesByTerm.get("2-2")).isNotEmpty();
+    }
+
+    @Test
+    void nonAbeekDepartmentsDoNotGetSchoolWideStemFoundation() {
+        for (String department : List.of("음악과", "영화예술학과", "회화과", "무용과")) {
+            StudentRoadmapResponse response = service.getByDepartment(department, null);
+            Set<String> names = response.getTerms().stream()
+                    .flatMap(t -> t.getCourses().stream())
+                    .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                    .collect(Collectors.toSet());
+
+            assertThat(names)
+                    .as(department + " must not include school-wide STEM 학문기초")
+                    .noneMatch(n -> n != null && (n.contains("일반물리") || n.contains("미적분")
+                            || n.contains("일반화학") || n.contains("일반생물") || n.contains("공업수학")));
+        }
     }
 }

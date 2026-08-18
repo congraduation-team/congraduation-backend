@@ -1,6 +1,7 @@
 package com.example.congraduation.roadmap.service;
 
 import com.example.congraduation.abeek.service.SejongAbeekCourseCodeCatalog;
+import com.example.congraduation.service.graduation.AcademicFoundationCoursePolicyService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -9,14 +10,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StudentRoadmapCategoryTest {
 
-    private final StudentRoadmapService service = new StudentRoadmapService(null, null, null, null, null);
+    private final StudentRoadmapService service = new StudentRoadmapService(
+            null, null, null, null, null, new AcademicFoundationCoursePolicyService()
+    );
 
     @Test
-    void normalizesLiberalAliasesToGeneralRequired() {
+    void normalizesLiberalAliasesToDistinctCategories() {
         assertThat(service.normalizeDisplayCategory("공필", "글쓰기")).isEqualTo("교양필수");
-        assertThat(service.normalizeDisplayCategory("교선", "교양선택과목")).isEqualTo("교양필수");
-        assertThat(service.normalizeDisplayCategory("균필", "균형교양")).isEqualTo("교양필수");
-        assertThat(service.normalizeDisplayCategory("교양", "일반교양")).isEqualTo("교양필수");
+        assertThat(service.normalizeDisplayCategory("공통교양필수", "대학영어")).isEqualTo("교양필수");
+        assertThat(service.normalizeDisplayCategory("교양필수", "서양철학:쟁점과토론")).isEqualTo("교양필수");
+        assertThat(service.normalizeDisplayCategory("교선", "교양선택과목")).isEqualTo("교양선택");
+        assertThat(service.normalizeDisplayCategory("교양선택", "영화의이해")).isEqualTo("교양선택");
+        assertThat(service.normalizeDisplayCategory("균필", "균형교양")).isEqualTo("균형교양");
+        assertThat(service.normalizeDisplayCategory("균형교양필수", "세계사")).isEqualTo("균형교양");
+        assertThat(service.normalizeDisplayCategory("교양", "일반교양")).isEqualTo("교양선택");
+        assertThat(service.normalizeDisplayCategory("학문기초교양필수", "미적분학1")).isEqualTo("기초필수");
+        assertThat(service.normalizeDisplayCategory("기초필수", "일반물리학2")).isEqualTo("기초필수");
     }
 
     @Test

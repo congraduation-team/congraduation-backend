@@ -132,17 +132,49 @@ public class AcademicFoundationCoursePolicyService {
     }
 
     private AcademicFoundationRequirement resolveRequirement(Student student) {
-        if (student.getAdmissionYear() == null) {
+        if (student == null) {
+            return null;
+        }
+        return resolveRequirement(student.getMajor(), student.getAdmissionYear());
+    }
+
+    public Set<String> requiredCourseNames(String major, Integer admissionYear) {
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return Set.of();
+        }
+        Set<String> names = new LinkedHashSet<>();
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            names.addAll(normalizeAliases(courseRequirement.equivalentNames()));
+        }
+        for (AlternativeRequirement alternativeRequirement : requirement.alternativeRequirements()) {
+            for (List<String> option : alternativeRequirement.options()) {
+                names.addAll(normalizeAliases(Set.copyOf(option)));
+            }
+        }
+        return Set.copyOf(names);
+    }
+
+    public boolean matchesRequiredCourse(String courseName, String major, Integer admissionYear) {
+        String normalized = normalizeCourseName(courseName);
+        if (normalized.isBlank()) {
+            return false;
+        }
+        return requiredCourseNames(major, admissionYear).contains(normalized);
+    }
+
+    private AcademicFoundationRequirement resolveRequirement(String major, Integer admissionYear) {
+        if (admissionYear == null || major == null || major.isBlank()) {
             return null;
         }
 
         Map<String, AcademicFoundationRequirement> requirements =
-                REQUIREMENTS_BY_YEAR.get(student.getAdmissionYear());
+                REQUIREMENTS_BY_YEAR.get(admissionYear);
         if (requirements == null) {
             return null;
         }
 
-        return requirements.get(normalizeMajor(student.getMajor()));
+        return requirements.get(normalizeMajor(major));
     }
 
     private static Map<Integer, Map<String, AcademicFoundationRequirement>> loadRequirements() {
