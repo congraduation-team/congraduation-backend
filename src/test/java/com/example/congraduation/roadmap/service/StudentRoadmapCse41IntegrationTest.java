@@ -346,8 +346,9 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(names).anyMatch(n -> n != null && n.contains("SW기초코딩"));
         assertThat(names).anyMatch(n -> n != null && n.contains("고급프로그래밍활용"));
         assertThat(names).anyMatch(n -> n != null && n.contains("미적분학1"));
-        assertThat(names).anyMatch(n -> n != null && n.contains("공업수학1"));
-        assertThat(names).anyMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("공업수학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반물리"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반화학"));
         assertThat(names).noneMatch(n -> n != null && n.contains("사회과학수학"));
         assertThat(names).noneMatch(n -> n != null && n.contains("일반생물"));
         assertThat(names).noneMatch(n -> n != null && n.contains("컴퓨터사고기반기초코딩"));
@@ -355,5 +356,39 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(names).noneMatch(n -> n != null && n.contains("프로그래밍활용-C"));
         assertThat(names).noneMatch(n -> n != null && n.contains("통계학개론"));
         assertThat(names).noneMatch(n -> n != null && n.contains("인공지능과빅데이터"));
+
+        Map<String, Set<String>> namesByTerm = response.getTerms().stream()
+                .collect(Collectors.toMap(
+                        StudentRoadmapResponse.TermRoadmapDto::getTermKey,
+                        term -> term.getCourses().stream()
+                                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                                .filter(n -> n != null)
+                                .collect(Collectors.toSet())
+                ));
+        assertThat(namesByTerm.getOrDefault("1-1", Set.of()))
+                .anyMatch(n -> n.contains("미적분학1"))
+                .anyMatch(n -> n.contains("SW기초코딩"))
+                .noneMatch(n -> n.contains("미적분학2"))
+                .noneMatch(n -> n.contains("고급프로그래밍활용"));
+        assertThat(namesByTerm.getOrDefault("1-2", Set.of()))
+                .anyMatch(n -> n.contains("미적분학2"))
+                .anyMatch(n -> n.contains("고급프로그래밍활용"));
+    }
+
+    @Test
+    void cseGeneralRoadmapDoesNotUseAbeekBsm() {
+        StudentRoadmapResponse response = service.getByDepartment("컴퓨터공학과", null);
+        Set<String> names = response.getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+
+        assertThat(names).anyMatch(n -> n != null && n.contains("미적분학1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("고급프로그래밍활용"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("인공지능과빅데이터"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반물리"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("공업수학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반생물"));
     }
 }

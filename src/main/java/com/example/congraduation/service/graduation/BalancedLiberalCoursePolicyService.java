@@ -369,6 +369,24 @@ public class BalancedLiberalCoursePolicyService {
         return COMMON_LIBERAL_RECOMMENDED_TERM.getOrDefault(courseCode, "1-1");
     }
 
+    public String recommendedTermForRequiredName(Integer admissionYear, String courseName) {
+        String comparable = comparableCourseName(courseName);
+        if (comparable.isBlank()) {
+            return null;
+        }
+        for (CategoryCourseDto required : requiredCommonLiberalCourses(admissionYear)) {
+            if (comparableCourseName(required.courseName()).equals(comparable)) {
+                return recommendedTermForCommonLiberal(required.courseCode());
+            }
+            for (String alias : commonLiberalEquivalentNames(required.courseCode())) {
+                if (comparableCourseName(alias).equals(comparable)) {
+                    return recommendedTermForCommonLiberal(required.courseCode());
+                }
+            }
+        }
+        return null;
+    }
+
     public boolean hasCompletedEquivalent(
             CategoryCourseDto requiredCourse,
             List<CompletedCourseUploadRowDto> completedCourses
