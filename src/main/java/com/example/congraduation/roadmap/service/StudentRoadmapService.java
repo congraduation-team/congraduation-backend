@@ -41,9 +41,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * 강의시간표 기반 1~8학기 로드맵.
+ * 강의시간표 기반 일반 로드맵(1~8학기).
  * 이수 여부는 기이수성적 학수번호로 매칭한다.
- * 공학인증 대상 학과면 GENERAL/BSM/MAJOR로 나눠 반환한다.
+ * 학문기초는 수강편람(기초필수)만 쓴다. 공학인증 BSM/MSC는 ABEEK 전용 API에서 다룬다.
  */
 @Slf4j
 @Service
@@ -184,7 +184,6 @@ public class StudentRoadmapService {
                 if (!shouldIncludeOffering(
                         offering,
                         openingNames,
-                        abeekTarget,
                         departmentName,
                         foundationYear
                 )) {
@@ -226,20 +225,8 @@ public class StudentRoadmapService {
         if (studentDbId != null) {
             stripIncompleteGeneralCourses(byTermAndCode, completion, admissionYear);
         }
-        // 학문기초는 수강편람 학과별 필수만 남긴다.
-        // 공학인증 BSM 커리큘럼이 DB에 있을 때만 그 목록으로 거르고,
-        // 없으면(나노처럼 MSC가 GENERAL로 들어간 경우) 전교 기초필수가 통째로 남는 것을 막는다.
-        if (abeekTarget && abeekCode != null) {
-            int curriculumYear = admissionYear != null ? admissionYear : 2026;
-            AbeekBsmAllowlist allowlist = loadAbeekBsmAllowlist(abeekCode, curriculumYear);
-            if (!allowlist.isEmpty()) {
-                stripIncompleteNonCurriculumBsm(byTermAndCode, completion, allowlist);
-            } else {
-                stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
-            }
-        } else {
-            stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
-        }
+        // 일반 로드맵 학문기초는 수강편람만. 공학인증 BSM/인필은 쓰지 않는다.
+        stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
 
         // 시간표에 없거나 교양 미이수로 걸러진 공통교양·학문기초 필수 과목은 빈 칸으로 다시 넣는다.
         injectRequiredIncompleteSlots(
@@ -250,13 +237,16 @@ public class StudentRoadmapService {
                 sourceTerms
         );
 
-        // 동일 학수번호가 1·2학기 시간표에 모두 있으면, 커리큘럼 recommendedTerm이 있을 때만 한 칸으로 합친다.
-        // (선호 없을 때 이른 칸(*-1)을 강제하면 가을 전용 과목이 3-1/4-1로 밀리고 3-2/4-2가 비게 됨)
-        Map<String, String> preferredTermByCode = Map.of();
-        if (abeekTarget && abeekCode != null && admissionYear != null) {
-            preferredTermByCode = loadPreferredTermBySejongCode(abeekCode, admissionYear);
-        }
-        dedupeIncompleteCourseCodesAcrossTerms(byTermAndCode, completion, preferredTermByCode);
+        relocateIncompleteRequiredCourses(
+                byTermAndCode,
+                completion,
+                departmentName,
+                foundationYear
+        );
+
+        // 동일 학수번호가 1·2학기 시간표에 모두 있으면, 수강편람 권장학기가 있을 때만 한 칸으로 합친다.
+        // (ABEEK recommendedTerm은 공학인증 로드맵 전용)
+        dedupeIncompleteCourseCodesAcrossTerms(byTermAndCode, completion, Map.of());
 
         List<TermRoadmapDto> terms = new ArrayList<>();
         List<RoadmapCourseDto> allCourses = new ArrayList<>();
@@ -269,7 +259,6 @@ public class StudentRoadmapService {
                             agg,
                             completion,
                             termKey,
-                            abeekTarget,
                             departmentFoundationNames,
                             attachStudentCoreCompletion
                     ))
@@ -415,7 +404,6 @@ public class StudentRoadmapService {
     private boolean shouldIncludeOffering(
             TimetableOffering offering,
             Set<String> openingNames,
-            boolean abeekTarget,
             String departmentName,
             int foundationYear
     ) {
@@ -425,11 +413,8 @@ public class StudentRoadmapService {
         if (!isCommonRequiredOffering(offering)) {
             return false;
         }
-        // 공학인증: 전교 기초필수를 넣은 뒤 소속 BSM allowlist로 거른다.
-        if (abeekTarget) {
-            return true;
-        }
-        // 비공학인증: 수강편람 학과별 학문기초(음악과=코딩·AI빅데이터 등)만 넣는다.
+        // 전교 기초필수 시간표라도 수강편람 학문기초에 있는 과목만 넣는다.
+        // 공학인증 학과의 MSC/인필은 일반 로드맵에 넣지 않는다.
         return academicFoundationCoursePolicyService != null
                 && academicFoundationCoursePolicyService.matchesRequiredCourse(
                 offering.courseName(),
@@ -632,6 +617,63 @@ public class StudentRoadmapService {
             existingNames.add(normalizeCourseName(required.courseName()).toLowerCase(Locale.ROOT));
             for (String alias : aliases) {
                 existingNames.add(normalizeCourseName(alias).toLowerCase(Locale.ROOT));
+            }
+        }
+    }
+
+    /**
+     * 미이수 학문기초·공필을 시간표 개설학기가 아니라 수강편람 권장학기 칸으로 옮긴다.
+     * 예: 미적분학2·고급프로그래밍활용이 1학년 봄 시간표에 있어도 1-2에 둔다.
+     */
+    private void relocateIncompleteRequiredCourses(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion,
+            String departmentName,
+            int foundationYear
+    ) {
+        record Relocation(String fromTerm, String code, AggregatedCourse course, String toTerm) {
+        }
+        List<Relocation> moves = new ArrayList<>();
+        for (String fromTerm : TERM_KEYS) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(fromTerm);
+            if (termMap == null || termMap.isEmpty()) {
+                continue;
+            }
+            for (Map.Entry<String, AggregatedCourse> entry : termMap.entrySet()) {
+                if (completion.findByCourseCode(entry.getKey()) != null) {
+                    continue;
+                }
+                AggregatedCourse course = entry.getValue();
+                String displayCategory = normalizeDisplayCategory(course.category, course.courseName);
+                String recommended = null;
+                if ("기초필수".equals(displayCategory) || "BSM".equals(classifyAbeekBucket(displayCategory, course.courseName))) {
+                    recommended = academicFoundationCoursePolicyService == null
+                            ? null
+                            : academicFoundationCoursePolicyService.recommendedTermForCourse(
+                                    departmentName, foundationYear, course.courseName);
+                } else if ("교양필수".equals(displayCategory)) {
+                    recommended = balancedLiberalCoursePolicyService == null
+                            ? null
+                            : balancedLiberalCoursePolicyService.recommendedTermForRequiredName(
+                                    foundationYear, course.courseName);
+                }
+                if (recommended == null || recommended.isBlank() || recommended.equals(fromTerm)) {
+                    continue;
+                }
+                if (!TERM_KEYS.contains(recommended)) {
+                    continue;
+                }
+                moves.add(new Relocation(fromTerm, entry.getKey(), course, recommended));
+            }
+        }
+        for (Relocation move : moves) {
+            Map<String, AggregatedCourse> fromMap = byTermAndCode.get(move.fromTerm());
+            if (fromMap != null) {
+                fromMap.remove(move.code());
+            }
+            Map<String, AggregatedCourse> toMap = byTermAndCode.get(move.toTerm());
+            if (toMap != null) {
+                toMap.putIfAbsent(move.course().courseCode, move.course());
             }
         }
     }
@@ -993,7 +1035,6 @@ public class StudentRoadmapService {
             AggregatedCourse agg,
             CompletionIndex completion,
             String termKey,
-            boolean abeekTarget,
             Set<String> departmentFoundationNames,
             boolean attachStudentCoreCompletion
     ) {
@@ -1007,8 +1048,8 @@ public class StudentRoadmapService {
             displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
         }
         String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
-        // 선택한 학과의 학문기초가 아닌 기이수(예: 컴공 기초미적분학을 음악과 로드맵에서 볼 때)는 학문기초 행에 두지 않는다.
-        if (!abeekTarget && departmentFoundationNames != null && !departmentFoundationNames.isEmpty()) {
+        // 수강편람 학문기초가 아닌 기이수(ABEEK MSC·타학과 기초 등)는 학문기초 행에 두지 않는다.
+        if (departmentFoundationNames != null && !departmentFoundationNames.isEmpty()) {
             String normalizedName = agg.courseName == null
                     ? ""
                     : agg.courseName.replaceAll("\\s+", "").trim().toLowerCase(Locale.ROOT);

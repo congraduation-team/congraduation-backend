@@ -14,6 +14,10 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
+/**
+ * 수강편람 학문기초(기초필수) 정책.
+ * 공학인증 BSM/MSC·인증필수는 여기에 넣지 않는다.
+ */
 @Service
 public class AcademicFoundationCoursePolicyService {
 
@@ -223,6 +227,23 @@ public class AcademicFoundationCoursePolicyService {
             ));
         }
         return List.copyOf(remaining);
+    }
+
+    public String recommendedTermForCourse(String major, Integer admissionYear, String courseName) {
+        String normalized = normalizeCourseName(courseName);
+        if (normalized.isBlank()) {
+            return null;
+        }
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return null;
+        }
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            if (normalizeAliases(courseRequirement.equivalentNames()).contains(normalized)) {
+                return courseRequirement.recommendedTerm();
+            }
+        }
+        return null;
     }
 
     private AcademicFoundationRequirement resolveRequirement(String major, Integer admissionYear) {
@@ -530,18 +551,6 @@ public class AcademicFoundationCoursePolicyService {
                 "건축공학과", "건설환경공학과", "환경에너지공간융합학과", "환경융합공학과",
                 "지구자원시스템공학과", "기계공학과", "우주항공공학전공", "지능형드론융합전공",
                 "나노신소재공학과", "양자원자력공학과");
-        requirements.put("나노신소재공학과", requirement(
-                course("SW기초코딩", "3", "1-1"),
-                course("고급프로그래밍활용", "3", "1-2"),
-                course("미적분학1", "3", "1-1", "일반수미적분학"),
-                course("미적분학2", "3", "1-2", "다변수미적분학"),
-                course("공업수학1", "3", "2-1"),
-                course("공업수학2", "3", "2-2"),
-                course("일반물리학1", "3", "1-1", "일반물리학및실험1"),
-                course("일반물리학2", "3", "1-2", "일반물리학및실험2"),
-                course("일반화학1", "3", "1-1", "일반화학및실험1"),
-                course("일반화학2", "3", "1-2", "일반화학및실험2")
-        ));
 
         requirements.put("건축학과", requirement(
                 course("미적분학1", "3", "1-1", "일반수미적분학"),
