@@ -236,6 +236,7 @@ public class StudentRoadmapService {
                 attachStudentCoreCompletion ? completion : CompletionIndex.empty(),
                 sourceTerms
         );
+        collapseEquivalentCourseSlots(byTermAndCode, attachStudentCoreCompletion ? completion : CompletionIndex.empty());
 
         relocateIncompleteRequiredCourses(
                 byTermAndCode,
@@ -566,6 +567,9 @@ public class StudentRoadmapService {
                 if (code.isBlank() || existingCodes.contains(normalizeCourseCode(code))) {
                     continue;
                 }
+                if (completion.findByCourseCode(code) != null) {
+                    continue;
+                }
                 String termKey = resolveInjectedTermKey(slot.recommendedTerm());
                 putInjectedCourse(
                         byTermAndCode,
@@ -600,6 +604,9 @@ public class StudentRoadmapService {
             TimetableOffering hint = findOfferingHint(offeringByName, aliases, required.courseName());
             String code = resolveInjectedCourseCode(hint, required.courseCode());
             if (code == null || code.isBlank() || existingCodes.contains(normalizeCourseCode(code))) {
+                continue;
+            }
+            if (completion.findByCourseCode(code) != null) {
                 continue;
             }
             String termKey = resolveInjectedTermKey(
@@ -721,6 +728,91 @@ public class StudentRoadmapService {
             }
         }
         return codes;
+    }
+
+    private boolean alreadyPlacedEquivalent(
+            String norm,
+            Set<Integer> placedGroupIds,
+            Set<String> placedOrphanCodes
+    ) {
+        List<Integer> ids = RoadmapCourseCodeEquivalence.groupIds(norm);
+        if (ids.isEmpty()) {
+            return placedOrphanCodes.contains(norm);
+        }
+        for (Integer id : ids) {
+            if (placedGroupIds.contains(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void markPlacedEquivalent(
+            String norm,
+            Set<Integer> placedGroupIds,
+            Set<String> placedOrphanCodes
+    ) {
+        List<Integer> ids = RoadmapCourseCodeEquivalence.groupIds(norm);
+        if (ids.isEmpty()) {
+            placedOrphanCodes.add(norm);
+            return;
+        }
+        placedGroupIds.addAll(ids);
+    }
+
+    /**
+     * 동일과목 그룹이 여러 칸에 있으면 기이수·앞쪽 학기 하나만 남긴다.
+     */
+    private void collapseEquivalentCourseSlots(
+            Map<String, Map<String, AggregatedCourse>> byTermAndCode,
+            CompletionIndex completion
+    ) {
+        record Slot(String term, String code, boolean completed) {
+        }
+        List<Slot> slots = new ArrayList<>();
+        for (String term : TERM_KEYS) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(term);
+            if (termMap == null || termMap.isEmpty()) {
+                continue;
+            }
+            for (String code : termMap.keySet()) {
+                slots.add(new Slot(term, code, completion.findByCourseCode(code) != null));
+            }
+        }
+        slots.sort(Comparator
+                .comparing((Slot slot) -> !slot.completed())
+                .thenComparingInt(slot -> TERM_KEYS.indexOf(slot.term())));
+
+        List<Slot> duplicates = new ArrayList<>();
+        Map<String, String> claimedCodeByGroupAndTerm = new LinkedHashMap<>();
+        for (Slot slot : slots) {
+            String norm = normalizeCourseCode(slot.code());
+            List<Integer> ids = RoadmapCourseCodeEquivalence.groupIds(norm);
+            if (ids.isEmpty()) {
+                continue;
+            }
+            boolean duplicateDifferentCode = false;
+            for (Integer id : ids) {
+                String claimed = claimedCodeByGroupAndTerm.get(id + ":" + slot.term());
+                if (claimed != null && !claimed.equals(norm)) {
+                    duplicateDifferentCode = true;
+                    break;
+                }
+            }
+            if (duplicateDifferentCode) {
+                duplicates.add(slot);
+                continue;
+            }
+            for (Integer id : ids) {
+                claimedCodeByGroupAndTerm.putIfAbsent(id + ":" + slot.term(), norm);
+            }
+        }
+        for (Slot slot : duplicates) {
+            Map<String, AggregatedCourse> termMap = byTermAndCode.get(slot.term());
+            if (termMap != null) {
+                termMap.remove(slot.code());
+            }
+        }
     }
 
     private boolean roadmapAlreadyHasAliases(Set<String> existingNames, Set<String> aliases, String courseName) {
@@ -924,7 +1016,8 @@ public class StudentRoadmapService {
         }
 
         Map<String, String> targetTermByNorm = new LinkedHashMap<>();
-        Set<String> placedGroups = new HashSet<>();
+        Set<Integer> placedGroupIds = new HashSet<>();
+        Set<String> placedOrphanCodes = new HashSet<>();
         for (CompletionHit hit : completion.allHits()) {
             String termKey = standing.resolveTermKey(hit.year(), hit.semester());
             if (termKey == null || !byTermAndCode.containsKey(termKey)) {
@@ -934,10 +1027,10 @@ public class StudentRoadmapService {
             if (norm.isBlank()) {
                 continue;
             }
-            String group = RoadmapCourseCodeEquivalence.canonical(norm);
-            if (!placedGroups.add(group)) {
+            if (alreadyPlacedEquivalent(norm, placedGroupIds, placedOrphanCodes)) {
                 continue;
             }
+            markPlacedEquivalent(norm, placedGroupIds, placedOrphanCodes);
 
             String displayCategory = normalizeDisplayCategory(hit.category(), hit.courseName());
             if (!attachStudentCoreCompletion && isStudentCoreCompletedCategory(displayCategory, hit.courseName())) {
@@ -952,12 +1045,15 @@ public class StudentRoadmapService {
                     break;
                 }
             }
-            // 시간표(신 학수번호·과목명)가 있으면 그 칸에 이수 표시
+            // 시간표가 있어도 표시명은 이수 당시(성적표) 과목명
+            String takenName = hit.courseName() == null || hit.courseName().isBlank()
+                    ? (template == null ? hit.courseName() : template.courseName())
+                    : hit.courseName();
             AggregatedCourse course = template != null
-                    ? template.withCategory(displayCategory)
+                    ? template.withCategoryAndName(displayCategory, takenName)
                     : AggregatedCourse.fromCompleted(
                             hit.courseCode(),
-                            hit.courseName(),
+                            takenName,
                             displayCategory,
                             hit.credits()
                     );
@@ -1047,15 +1143,22 @@ public class StudentRoadmapService {
             hit = null;
             displayCategory = normalizeDisplayCategory(agg.category, agg.courseName);
         }
-        String bucket = classifyAbeekBucket(displayCategory, agg.courseName);
+        String displayName = hit != null && hit.courseName() != null && !hit.courseName().isBlank()
+                ? hit.courseName()
+                : agg.courseName;
+        String bucket = classifyAbeekBucket(displayCategory, displayName);
         // 수강편람 학문기초가 아닌 기이수(ABEEK MSC·타학과 기초 등)는 학문기초 행에 두지 않는다.
         if (departmentFoundationNames != null && !departmentFoundationNames.isEmpty()) {
-            String normalizedName = agg.courseName == null
+            String normalizedName = displayName == null
+                    ? ""
+                    : displayName.replaceAll("\\s+", "").trim().toLowerCase(Locale.ROOT);
+            String templateName = agg.courseName == null
                     ? ""
                     : agg.courseName.replaceAll("\\s+", "").trim().toLowerCase(Locale.ROOT);
             if (!normalizedName.isBlank()
                     && ("기초필수".equals(displayCategory) || "BSM".equals(bucket))
-                    && !departmentFoundationNames.contains(normalizedName)) {
+                    && !departmentFoundationNames.contains(normalizedName)
+                    && !departmentFoundationNames.contains(templateName)) {
                 displayCategory = "교양선택";
                 bucket = "GENERAL";
             }
@@ -1064,9 +1167,29 @@ public class StudentRoadmapService {
         if (hit != null && !"MAJOR".equals(bucket) && !"BSM".equals(bucket)) {
             bucket = "GENERAL";
         }
+        Set<String> equivalentCodes = new LinkedHashSet<>(
+                RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(agg.courseCode)
+        );
+        if (hit != null) {
+            equivalentCodes.addAll(RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(hit.courseCode()));
+        }
+        Set<String> equivalentNames = new LinkedHashSet<>(
+                RoadmapCourseCodeEquivalence.equivalentNames(agg.courseCode)
+        );
+        if (hit != null) {
+            equivalentNames.addAll(RoadmapCourseCodeEquivalence.equivalentNames(hit.courseCode()));
+            if (hit.courseName() != null && !hit.courseName().isBlank()) {
+                equivalentNames.add(hit.courseName().trim());
+            }
+        }
+        if (agg.courseName != null && !agg.courseName.isBlank()) {
+            equivalentNames.add(agg.courseName.trim());
+        }
         return RoadmapCourseDto.builder()
                 .courseCode(agg.courseCode)
-                .courseName(agg.courseName)
+                .courseName(displayName)
+                .equivalentCourseCodes(List.copyOf(equivalentCodes))
+                .equivalentCourseNames(List.copyOf(equivalentNames))
                 .category(displayCategory)
                 .abeekBucket(bucket)
                 .credits(agg.credits)
@@ -1357,7 +1480,12 @@ public class StudentRoadmapService {
         }
 
         AggregatedCourse withCategory(String newCategory) {
-            AggregatedCourse copy = new AggregatedCourse(courseCode, courseName, newCategory, credits);
+            return withCategoryAndName(newCategory, courseName);
+        }
+
+        AggregatedCourse withCategoryAndName(String newCategory, String newName) {
+            String name = newName == null || newName.isBlank() ? courseName : newName;
+            AggregatedCourse copy = new AggregatedCourse(courseCode, name, newCategory, credits);
             copy.sectionCount = Math.max(1, sectionCount);
             return copy;
         }
@@ -1477,15 +1605,16 @@ public class StudentRoadmapService {
         }
 
         CompletionHit findByCourseCode(String courseCode) {
-            String norm = normalizeCourseCode(courseCode);
+            String norm = StudentRoadmapService.normalizeCourseCode(courseCode);
             CompletionHit hit = byNormalizedCode.get(norm);
             if (hit != null) {
                 return hit;
             }
-            for (String equiv : RoadmapCourseCodeEquivalence.equivalentsIncludingSelf(norm)) {
-                hit = byNormalizedCode.get(equiv);
-                if (hit != null) {
-                    return hit;
+            // 쿼리 코드의 전체 동등집합을 따라가면 겹치는 그룹이 전이적으로 붙는다.
+            // 성적표 원 학수번호와 한 그룹을 공유할 때만 매칭한다.
+            for (CompletionHit candidate : new LinkedHashSet<>(byNormalizedCode.values())) {
+                if (RoadmapCourseCodeEquivalence.shareGroup(norm, candidate.courseCode())) {
+                    return candidate;
                 }
             }
             return null;
