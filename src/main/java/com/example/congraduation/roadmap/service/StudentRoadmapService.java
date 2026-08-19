@@ -1140,10 +1140,8 @@ public class StudentRoadmapService {
                 || (cat.contains("공통") && cat.contains("필수"))) {
             return "교양필수";
         }
-        if (isAcademicFoundationCourseName(name)) {
-            return "기초필수";
-        }
-        if (cat.contains("전필") || cat.contains("전선") || cat.contains("전기")
+        // 전선·전필은 성적표 이수구분을 따른다. 이산수학·선형대수처럼 이름만 학문기초처럼 보여도 전공이다.
+        if (cat.contains("전필") || cat.contains("전선") || cat.equals("전기")
                 || cat.contains("전공필수") || cat.contains("전공선택") || cat.contains("전공기초")
                 || cat.contains("전공") || name.contains("자기주도창의전공")) {
             if (cat.contains("전공기초") && isAcademicFoundationCourseName(name)) {
@@ -1156,6 +1154,9 @@ public class StudentRoadmapService {
                 return "전공선택";
             }
             return cat.isBlank() ? "전공선택" : category;
+        }
+        if (isAcademicFoundationCourseName(name)) {
+            return "기초필수";
         }
         if (cat.contains("교양") || cat.contains("중핵") || cat.contains("공통")) {
             if (cat.contains("선택") || cat.equals("교양")) {
@@ -1190,12 +1191,19 @@ public class StudentRoadmapService {
      */
     String classifyAbeekBucket(String category, String courseName) {
         String cat = category == null ? "" : category.replaceAll("\\s+", "");
+        boolean transcriptMajor = cat.contains("전선") || cat.contains("전필")
+                || cat.contains("전공필수") || cat.contains("전공선택")
+                || cat.equals("전기")
+                || (cat.contains("전공") && !cat.contains("전공기초") && !cat.contains("학문"));
+        if (transcriptMajor
+                || (courseName != null && courseName.replaceAll("\\s+", "").contains("자기주도창의전공"))) {
+            return "MAJOR";
+        }
         if ("기초필수".equals(cat) || cat.contains("학문기초") || cat.equals("기필")
                 || isAcademicFoundationCourseName(courseName)) {
             return "BSM";
         }
-        if (cat.contains("전공") || cat.contains("전필") || cat.contains("전선") || cat.contains("전기")
-                || (courseName != null && courseName.replaceAll("\\s+", "").contains("자기주도창의전공"))) {
+        if (cat.contains("전공")) {
             return "MAJOR";
         }
         if ("교양필수".equals(cat) || cat.contains("교필") || cat.contains("공필")

@@ -121,6 +121,24 @@ class AcademicFoundationCoursePolicyServiceTest {
     }
 
     @Test
+    void nano2026AcademicFoundationIsCalcPhysicsChemNotCoding() {
+        assertTrue(service.matchesRequiredCourse("미적분학1", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일변수미적분학", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("미적분학2", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("다변수미적분학", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("공업수학1", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("공업수학2", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일반물리학1", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일반물리학및실험1", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일반물리학2", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일반화학1", "나노신소재공학과", 2026));
+        assertTrue(service.matchesRequiredCourse("일반화학및실험2", "나노신소재공학과", 2026));
+        assertFalse(service.matchesRequiredCourse("SW기초코딩", "나노신소재공학과", 2026));
+        assertFalse(service.matchesRequiredCourse("고급프로그래밍활용", "나노신소재공학과", 2026));
+        assertFalse(service.matchesRequiredCourse("일반생물학", "나노신소재공학과", 2026));
+    }
+
+    @Test
     void remainingRequiredSlotsForMusic2026AreCodingAndAi() {
         List<AcademicFoundationCoursePolicyService.RequiredFoundationSlot> remaining =
                 service.remainingRequiredSlots("음악과", 2026, List.of());

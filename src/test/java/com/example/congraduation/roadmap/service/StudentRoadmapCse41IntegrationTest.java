@@ -343,12 +343,12 @@ class StudentRoadmapCse41IntegrationTest {
                 .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
                 .collect(Collectors.toSet());
 
-        assertThat(names).anyMatch(n -> n != null && n.contains("SW기초코딩"));
-        assertThat(names).anyMatch(n -> n != null && n.contains("고급프로그래밍활용"));
         assertThat(names).anyMatch(n -> n != null && n.contains("미적분학1"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("공업수학"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("일반물리"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("공업수학1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("일반물리"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("SW기초코딩"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("고급프로그래밍활용"));
         assertThat(names).noneMatch(n -> n != null && n.contains("사회과학수학"));
         assertThat(names).noneMatch(n -> n != null && n.contains("일반생물"));
         assertThat(names).noneMatch(n -> n != null && n.contains("컴퓨터사고기반기초코딩"));
@@ -367,28 +367,40 @@ class StudentRoadmapCse41IntegrationTest {
                 ));
         assertThat(namesByTerm.getOrDefault("1-1", Set.of()))
                 .anyMatch(n -> n.contains("미적분학1"))
-                .anyMatch(n -> n.contains("SW기초코딩"))
-                .noneMatch(n -> n.contains("미적분학2"))
-                .noneMatch(n -> n.contains("고급프로그래밍활용"));
+                .anyMatch(n -> n.contains("일반물리학1"))
+                .anyMatch(n -> n.contains("일반화학1"))
+                .noneMatch(n -> n.contains("미적분학2"));
         assertThat(namesByTerm.getOrDefault("1-2", Set.of()))
                 .anyMatch(n -> n.contains("미적분학2"))
-                .anyMatch(n -> n.contains("고급프로그래밍활용"));
+                .anyMatch(n -> n.contains("일반물리학2"))
+                .anyMatch(n -> n.contains("일반화학2"));
+        assertThat(namesByTerm.getOrDefault("2-1", Set.of())).anyMatch(n -> n.contains("공업수학1"));
+        assertThat(namesByTerm.getOrDefault("2-2", Set.of())).anyMatch(n -> n.contains("공업수학2"));
     }
 
     @Test
     void cseGeneralRoadmapDoesNotUseAbeekBsm() {
         StudentRoadmapResponse response = service.getByDepartment("컴퓨터공학과", null);
-        Set<String> names = response.getTerms().stream()
+        List<StudentRoadmapResponse.RoadmapCourseDto> courses = response.getTerms().stream()
                 .flatMap(t -> t.getCourses().stream())
+                .toList();
+        Set<String> names = courses.stream()
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+        Set<String> foundationNames = courses.stream()
+                .filter(c -> "기초필수".equals(c.getCategory()))
                 .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
                 .collect(Collectors.toSet());
 
         assertThat(names).anyMatch(n -> n != null && n.contains("미적분학1"));
         assertThat(names).anyMatch(n -> n != null && n.contains("고급프로그래밍활용"));
         assertThat(names).anyMatch(n -> n != null && n.contains("인공지능과빅데이터"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("일반물리"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("공업수학"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("일반화학"));
-        assertThat(names).noneMatch(n -> n != null && n.contains("일반생물"));
+        assertThat(foundationNames).noneMatch(n -> n != null && n.contains("일반물리"));
+        assertThat(foundationNames).noneMatch(n -> n != null && n.contains("공업수학"));
+        assertThat(foundationNames).noneMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(foundationNames).noneMatch(n -> n != null && n.contains("일반생물"));
+        assertThat(courses)
+                .filteredOn(c -> c.getCourseName() != null && c.getCourseName().contains("일반물리학1"))
+                .allMatch(c -> "전공선택".equals(c.getCategory()) || "MAJOR".equals(c.getAbeekBucket()));
     }
 }
