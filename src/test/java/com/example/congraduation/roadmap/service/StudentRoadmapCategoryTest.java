@@ -38,6 +38,10 @@ class StudentRoadmapCategoryTest {
         assertThat(service.classifyAbeekBucket("미분류", "특강")).isEqualTo("GENERAL");
         assertThat(service.classifyAbeekBucket("전공필수", "자료구조")).isEqualTo("MAJOR");
         assertThat(service.classifyAbeekBucket("전선", "운영체제")).isEqualTo("MAJOR");
+        assertThat(service.classifyAbeekBucket("전선", "이산수학및프로그래밍")).isEqualTo("MAJOR");
+        assertThat(service.classifyAbeekBucket("전선", "선형대수및프로그래밍")).isEqualTo("MAJOR");
+        assertThat(service.normalizeDisplayCategory("전선", "이산수학및프로그래밍")).isEqualTo("전공선택");
+        assertThat(service.normalizeDisplayCategory("전선", "선형대수및프로그래밍")).isEqualTo("전공선택");
         assertThat(service.classifyAbeekBucket("기초필수", "미적분학1")).isEqualTo("BSM");
         assertThat(service.classifyAbeekBucket("전공기초", "이산수학")).isEqualTo("BSM");
     }
