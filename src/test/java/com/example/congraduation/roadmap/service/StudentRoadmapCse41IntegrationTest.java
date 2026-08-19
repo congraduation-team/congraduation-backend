@@ -318,4 +318,42 @@ class StudentRoadmapCse41IntegrationTest {
         assertThat(names2022).anyMatch(n -> n != null && n.contains("세종인을위한전공탐색"));
         assertThat(names2022).noneMatch(n -> n != null && n.contains("신입생세미나"));
     }
+
+    @Test
+    void lawMajorRoadmapIncludesLawDepartmentMajorCourses() {
+        StudentRoadmapResponse response = service.getByDepartment("법학전공", null);
+        Set<String> names = response.getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+
+        assertThat(names).anyMatch(n -> n != null && n.contains("법학입문"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("민법총칙"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("헌법1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("행정법1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("LEET언어이해심화"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("졸업연구및진로1"));
+    }
+
+    @Test
+    void nanoRoadmapKeepsHandbookFoundationNotSchoolWideCatalog() {
+        StudentRoadmapResponse response = service.getByDepartment("나노신소재공학과", null);
+        Set<String> names = response.getTerms().stream()
+                .flatMap(t -> t.getCourses().stream())
+                .map(StudentRoadmapResponse.RoadmapCourseDto::getCourseName)
+                .collect(Collectors.toSet());
+
+        assertThat(names).anyMatch(n -> n != null && n.contains("SW기초코딩"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("고급프로그래밍활용"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("미적분학1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("공업수학1"));
+        assertThat(names).anyMatch(n -> n != null && n.contains("일반화학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("사회과학수학"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("일반생물"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("컴퓨터사고기반기초코딩"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("프로그래밍활용-P"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("프로그래밍활용-C"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("통계학개론"));
+        assertThat(names).noneMatch(n -> n != null && n.contains("인공지능과빅데이터"));
+    }
 }
