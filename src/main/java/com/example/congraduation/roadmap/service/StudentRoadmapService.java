@@ -226,15 +226,17 @@ public class StudentRoadmapService {
         if (studentDbId != null) {
             stripIncompleteGeneralCourses(byTermAndCode, completion, admissionYear);
         }
-        // 공학인증 학과: 전교 공통 기초필수 중 소속 BSM이 아닌 미이수 슬롯 제거
-        // (입학연도 없으면 최신 커리큘럼 기준으로 걸러 음악과 등이 아닌 컴공 학과 조회에도 화학·생물이 안 남게 한다)
+        // 학문기초는 수강편람 학과별 필수만 남긴다.
+        // 공학인증 BSM 커리큘럼이 DB에 있을 때만 그 목록으로 거르고,
+        // 없으면(나노처럼 MSC가 GENERAL로 들어간 경우) 전교 기초필수가 통째로 남는 것을 막는다.
         if (abeekTarget && abeekCode != null) {
             int curriculumYear = admissionYear != null ? admissionYear : 2026;
-            stripIncompleteNonCurriculumBsm(
-                    byTermAndCode,
-                    completion,
-                    loadAbeekBsmAllowlist(abeekCode, curriculumYear)
-            );
+            AbeekBsmAllowlist allowlist = loadAbeekBsmAllowlist(abeekCode, curriculumYear);
+            if (!allowlist.isEmpty()) {
+                stripIncompleteNonCurriculumBsm(byTermAndCode, completion, allowlist);
+            } else {
+                stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
+            }
         } else {
             stripIncompleteUnlistedFoundation(byTermAndCode, completion, departmentFoundationNames);
         }
@@ -369,6 +371,9 @@ public class StudentRoadmapService {
         Set<String> names = new HashSet<>();
         names.add(normalize(departmentName));
         for (String alias : shortNameAliases(departmentName)) {
+            names.add(normalize(alias));
+        }
+        for (String alias : departmentOpeningAliases(departmentName)) {
             names.add(normalize(alias));
         }
         // 시간표는 "창의소프트학부 디자인이노베이션전공"처럼 학부+전공인 경우가 많음
@@ -581,7 +586,7 @@ public class StudentRoadmapService {
                         byTermAndCode,
                         termKey,
                         code,
-                        slot.courseName(),
+                        resolveInjectedCourseName(hint, slot.courseName()),
                         "기초필수",
                         hint != null ? hint.credits() : parseCredits(slot.credit())
                 );
@@ -619,7 +624,7 @@ public class StudentRoadmapService {
                     byTermAndCode,
                     termKey,
                     code,
-                    required.courseName(),
+                    resolveInjectedCourseName(hint, required.courseName()),
                     "교양필수",
                     hint != null ? hint.credits() : parseCredits(required.credit())
             );
@@ -715,6 +720,13 @@ public class StudentRoadmapService {
     private String resolveInjectedCourseCode(TimetableOffering hint, String fallback) {
         if (hint != null && hint.courseCode() != null && !hint.courseCode().isBlank()) {
             return hint.courseCode().trim();
+        }
+        return fallback == null ? "" : fallback.trim();
+    }
+
+    private String resolveInjectedCourseName(TimetableOffering hint, String fallback) {
+        if (hint != null && hint.courseName() != null && !hint.courseName().isBlank()) {
+            return hint.courseName().trim();
         }
         return fallback == null ? "" : fallback.trim();
     }
@@ -945,6 +957,19 @@ public class StudentRoadmapService {
             return false;
         }
         return candidate.equals(query) || candidate.contains(query) || query.contains(candidate);
+    }
+
+    /**
+     * 시간표 개설학과명이 수강편람 전공명과 다른 경우.
+     * 예: 법학전공 ↔ 법학과, 4학년만 법학부 법학전공으로 개설.
+     */
+    private List<String> departmentOpeningAliases(String departmentName) {
+        String normalized = departmentName == null ? "" : departmentName.replaceAll("\\s+", "").trim();
+        return switch (normalized) {
+            case "법학전공", "법학과", "법학", "법학부법학전공" ->
+                    List.of("법학전공", "법학과", "법학부 법학전공");
+            default -> List.of();
+        };
     }
 
     /** "창의소프트학부 디자인이노베이션전공" → ["디자인이노베이션전공"] */
