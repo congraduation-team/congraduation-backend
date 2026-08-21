@@ -918,8 +918,10 @@ class GraduationProgressServiceTest {
                 new CompletedCourseUploadRowDto("2021", "1학기", "ENG102", "English Reading Practice 1", "교필", "2", "GRADE", "A0", "4.0"),
                 new CompletedCourseUploadRowDto("2021", "1학기", "GEN201", "문제해결을위한글쓰기와발표", "교필", "3", "GRADE", "A0", "4.0"),
                 new CompletedCourseUploadRowDto("2021", "2학기", "GEN202", "서양철학:쟁점과토론", "교필", "3", "GRADE", "A0", "4.0"),
-                new CompletedCourseUploadRowDto("2021", "2학기", "GEN203", "세계사:인간과문명", "교필", "3", "GRADE", "A0", "4.0"),
-                new CompletedCourseUploadRowDto("2021", "2학기", "GEN204", "대학생활과진로설계", "교필", "1", "GRADE", "A0", "4.0")
+                new CompletedCourseUploadRowDto("2021", "1학기", "GEN205", "신입생세미나", "교필", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN204", "대학생활과진로설계", "교필", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN206", "창업과기업가정신1", "교필", "1", "GRADE", "A0", "4.0"),
+                new CompletedCourseUploadRowDto("2021", "2학기", "GEN207", "취창업과진로설계", "교필", "1", "GRADE", "A0", "4.0")
         );
 
         @SuppressWarnings("unchecked")
@@ -929,13 +931,15 @@ class GraduationProgressServiceTest {
                 completedCourses
         );
 
-        assertEquals(6, result.size());
+        assertEquals(8, result.size());
         assertTrue(result.stream().anyMatch(course -> "English Listening Practice 1".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "English Reading Practice 1".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "문제해결을위한글쓰기와발표".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "서양철학:쟁점과토론".equals(course.courseName())));
-        assertTrue(result.stream().anyMatch(course -> "세계사:인간과문명".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "신입생세미나".equals(course.courseName())));
         assertTrue(result.stream().anyMatch(course -> "대학생활과진로설계".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "창업과기업가정신1".equals(course.courseName())));
+        assertTrue(result.stream().anyMatch(course -> "취창업과진로설계".equals(course.courseName())));
     }
 
     @Test

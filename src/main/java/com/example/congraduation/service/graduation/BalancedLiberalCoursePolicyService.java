@@ -36,8 +36,10 @@ public class BalancedLiberalCoursePolicyService {
             new CategoryCourseDto("GEN_UNI_ENG_READING_2021", "English Reading Practice 1", "2"),
             new CategoryCourseDto("GEN_WRITE", "문제해결을위한글쓰기와발표", "3"),
             new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
-            new CategoryCourseDto("GEN_WORLD_HISTORY_LEGACY", "세계사:인간과문명", "3"),
-            new CategoryCourseDto("GEN_CAREER_LEGACY", "대학생활과진로탐색", "1")
+            new CategoryCourseDto("GEN_SEMINAR_2021", "신입생세미나", "1"),
+            new CategoryCourseDto("GEN_CAREER_LEGACY", "대학생활과진로탐색", "1"),
+            new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신1", "1"),
+            new CategoryCourseDto("GEN_CAREER_JOB", "취창업과진로설계", "1")
     );
 
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2024_2025 = List.of(
@@ -237,6 +239,12 @@ public class BalancedLiberalCoursePolicyService {
             Map.entry("GEN_UNI_ENG_READING_2021", Set.of("English Reading Practice 1")),
             Map.entry("GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신")),
             Map.entry("GEN_WORLD_HISTORY_LEGACY", Set.of("세계사:인간과문명", "세계사")),
+            Map.entry("GEN_SEMINAR_2021", Set.of(
+                    "신입생세미나",
+                    "신입생세미나1",
+                    "신입생세미나A",
+                    "세종인을위한진로설계"
+            )),
             Map.entry("GEN_CAREER_LEGACY", Set.of(
                     "대학생활과진로탐색",
                     "대학생활과 진로탐색",
@@ -244,10 +252,7 @@ public class BalancedLiberalCoursePolicyService {
                     "대학생활과 진로설계",
                     "대학생활과진로설계1",
                     "대학생활과 진로설계1",
-                    "신입생세미나1",
-                    "신입생세미나",
-                    "세종인을위한전공탐색",
-                    "세종인을위한진로설계"
+                    "세종인을위한전공탐색"
             )),
             Map.entry("GEN_MAJOR_EXPLORATION", Set.of(
                     "세종인을위한전공탐색",
