@@ -36,8 +36,10 @@ public class BalancedLiberalCoursePolicyService {
             new CategoryCourseDto("GEN_UNI_ENG_READING_2021", "English Reading Practice 1", "2"),
             new CategoryCourseDto("GEN_WRITE", "문제해결을위한글쓰기와발표", "3"),
             new CategoryCourseDto("GEN_PHILOSOPHY", "서양철학:쟁점과토론", "3"),
-            new CategoryCourseDto("GEN_WORLD_HISTORY_LEGACY", "세계사:인간과문명", "3"),
-            new CategoryCourseDto("GEN_CAREER_LEGACY", "세종인을위한전공탐색", "1")
+            new CategoryCourseDto("GEN_SEMINAR_2021", "신입생세미나", "1"),
+            new CategoryCourseDto("GEN_CAREER_LEGACY", "대학생활과진로탐색", "1"),
+            new CategoryCourseDto("GEN_STARTUP1", "창업과기업가정신1", "1"),
+            new CategoryCourseDto("GEN_CAREER_JOB", "취창업과진로설계", "1")
     );
 
     private static final List<CategoryCourseDto> COMMON_LIBERAL_REQUIRED_2024_2025 = List.of(
@@ -64,6 +66,7 @@ public class BalancedLiberalCoursePolicyService {
     private static final Map<String, String> COMMON_LIBERAL_RECOMMENDED_TERM = Map.ofEntries(
             Map.entry("GEN_SEMINAR_A", "1-1"),
             Map.entry("GEN_SEMINAR_B", "1-2"),
+            Map.entry("GEN_SEMINAR_2021", "1-1"),
             Map.entry("GEN_CAREER_DESIGN", "1-1"),
             Map.entry("GEN_MAJOR_EXPLORATION", "1-2"),
             Map.entry("GEN_CAREER_LEGACY", "1-2"),
@@ -257,6 +260,7 @@ public class BalancedLiberalCoursePolicyService {
             Map.entry("GEN_UNI_ENG_READING_2021", Set.of("English Reading Practice 1")),
             Map.entry("GEN_STARTUP1", Set.of("창업과기업가정신1", "창업과기업가정신")),
             Map.entry("GEN_WORLD_HISTORY_LEGACY", Set.of("세계사:인간과문명", "세계사")),
+            Map.entry("GEN_SEMINAR_2021", LiberalCourseRenameEquivalence.careerDesignNames()),
             Map.entry("GEN_CAREER_LEGACY", LiberalCourseRenameEquivalence.majorExplorationNames()),
             Map.entry("GEN_MAJOR_EXPLORATION", LiberalCourseRenameEquivalence.majorExplorationNames()),
             Map.entry("GEN_CAREER_DESIGN", LiberalCourseRenameEquivalence.careerDesignNames()),
