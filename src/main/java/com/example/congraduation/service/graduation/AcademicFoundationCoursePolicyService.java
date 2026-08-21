@@ -14,6 +14,10 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
+/**
+ * 수강편람 학문기초(기초필수) 정책.
+ * 공학인증 BSM/MSC·인증필수는 여기에 넣지 않는다.
+ */
 @Service
 public class AcademicFoundationCoursePolicyService {
 
@@ -132,17 +136,128 @@ public class AcademicFoundationCoursePolicyService {
     }
 
     private AcademicFoundationRequirement resolveRequirement(Student student) {
-        if (student.getAdmissionYear() == null) {
+        if (student == null) {
+            return null;
+        }
+        return resolveRequirement(student.getMajor(), student.getAdmissionYear());
+    }
+
+    public Set<String> requiredCourseNames(String major, Integer admissionYear) {
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return Set.of();
+        }
+        Set<String> names = new LinkedHashSet<>();
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            names.addAll(normalizeAliases(courseRequirement.equivalentNames()));
+        }
+        for (AlternativeRequirement alternativeRequirement : requirement.alternativeRequirements()) {
+            for (List<String> option : alternativeRequirement.options()) {
+                names.addAll(normalizeAliases(Set.copyOf(option)));
+            }
+        }
+        return Set.copyOf(names);
+    }
+
+    public boolean matchesRequiredCourse(String courseName, String major, Integer admissionYear) {
+        String normalized = normalizeCourseName(courseName);
+        if (normalized.isBlank()) {
+            return false;
+        }
+        return requiredCourseNames(major, admissionYear).contains(normalized);
+    }
+
+    /**
+     * 아직 이수하지 않은 학과별 학문기초 필수 과목. 로드맵 빈 칸 주입에 사용한다.
+     */
+    public List<RequiredFoundationSlot> remainingRequiredSlots(
+            String major,
+            Integer admissionYear,
+            List<CompletedCourseUploadRowDto> completedCourses
+    ) {
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return List.of();
+        }
+
+        List<CompletedCourseUploadRowDto> completed =
+                completedCourses == null ? List.of() : completedCourses;
+        Set<String> consumedCourseKeys = new LinkedHashSet<>();
+        List<RequiredFoundationSlot> remaining = new ArrayList<>();
+
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            CompletedCourseUploadRowDto matched = findMatchedCourse(
+                    courseRequirement.equivalentNames(),
+                    completed,
+                    consumedCourseKeys
+            );
+            if (matched == null) {
+                remaining.add(new RequiredFoundationSlot(
+                        courseRequirement.courseName(),
+                        courseRequirement.credit(),
+                        courseRequirement.recommendedTerm(),
+                        Set.copyOf(courseRequirement.equivalentNames())
+                ));
+                continue;
+            }
+            consumedCourseKeys.add(uniqueCourseKey(matched));
+        }
+
+        for (AlternativeRequirement alternativeRequirement : requirement.alternativeRequirements()) {
+            List<CompletedCourseUploadRowDto> matchedOptions = findMatchedAlternativeCourses(
+                    alternativeRequirement,
+                    completed,
+                    consumedCourseKeys
+            );
+            matchedOptions.forEach(course -> consumedCourseKeys.add(uniqueCourseKey(course)));
+            int missingCount = Math.max(0, alternativeRequirement.requiredCount() - matchedOptions.size());
+            if (missingCount <= 0) {
+                continue;
+            }
+            Set<String> aliases = new LinkedHashSet<>();
+            aliases.add(alternativeRequirement.displayName());
+            for (List<String> option : alternativeRequirement.options()) {
+                aliases.addAll(option);
+            }
+            remaining.add(new RequiredFoundationSlot(
+                    alternativeRequirement.displayName(),
+                    alternativeRequirement.credit(),
+                    alternativeRequirement.recommendedTerm(),
+                    Set.copyOf(aliases)
+            ));
+        }
+        return List.copyOf(remaining);
+    }
+
+    public String recommendedTermForCourse(String major, Integer admissionYear, String courseName) {
+        String normalized = normalizeCourseName(courseName);
+        if (normalized.isBlank()) {
+            return null;
+        }
+        AcademicFoundationRequirement requirement = resolveRequirement(major, admissionYear);
+        if (requirement == null) {
+            return null;
+        }
+        for (CourseRequirement courseRequirement : requirement.requiredCourses()) {
+            if (normalizeAliases(courseRequirement.equivalentNames()).contains(normalized)) {
+                return courseRequirement.recommendedTerm();
+            }
+        }
+        return null;
+    }
+
+    private AcademicFoundationRequirement resolveRequirement(String major, Integer admissionYear) {
+        if (admissionYear == null || major == null || major.isBlank()) {
             return null;
         }
 
         Map<String, AcademicFoundationRequirement> requirements =
-                REQUIREMENTS_BY_YEAR.get(student.getAdmissionYear());
+                REQUIREMENTS_BY_YEAR.get(admissionYear);
         if (requirements == null) {
             return null;
         }
 
-        return requirements.get(normalizeMajor(student.getMajor()));
+        return requirements.get(normalizeMajor(major));
     }
 
     private static Map<Integer, Map<String, AcademicFoundationRequirement>> loadRequirements() {
@@ -436,6 +551,17 @@ public class AcademicFoundationCoursePolicyService {
                 "건축공학과", "건설환경공학과", "환경에너지공간융합학과", "환경융합공학과",
                 "지구자원시스템공학과", "기계공학과", "우주항공공학전공", "지능형드론융합전공",
                 "나노신소재공학과", "양자원자력공학과");
+        // 수강편람 학문기초교양: 일변수·다변수·공업수학·물리실험·화학실험 (SW코딩·고급프로그래밍은 여기 없음)
+        requirements.put("나노신소재공학과", requirement(
+                course("미적분학1", "3", "1-1", "일변수미적분학", "일반수미적분학"),
+                course("미적분학2", "3", "1-2", "다변수미적분학"),
+                course("공업수학1", "3", "2-1"),
+                course("공업수학2", "3", "2-2"),
+                course("일반물리학1", "3", "1-1", "일반물리학및실험1"),
+                course("일반물리학2", "3", "1-2", "일반물리학및실험2"),
+                course("일반화학1", "3", "1-1", "일반화학및실험1"),
+                course("일반화학2", "3", "1-2", "일반화학및실험2")
+        ));
 
         requirements.put("건축학과", requirement(
                 course("미적분학1", "3", "1-1", "일반수미적분학"),
@@ -1082,6 +1208,14 @@ public class AcademicFoundationCoursePolicyService {
         private static AcademicFoundationEvaluation empty() {
             return new AcademicFoundationEvaluation(false, BigDecimal.ZERO, null, List.of(), List.of());
         }
+    }
+
+    public record RequiredFoundationSlot(
+            String courseName,
+            String credit,
+            String recommendedTerm,
+            Set<String> equivalentNames
+    ) {
     }
 
     private record AcademicFoundationRequirement(

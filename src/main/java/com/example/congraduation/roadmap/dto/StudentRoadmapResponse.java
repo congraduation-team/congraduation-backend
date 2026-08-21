@@ -65,7 +65,12 @@ public class StudentRoadmapResponse {
     public static class RoadmapCourseDto {
         @Schema(description = "학수번호", example = "009960")
         private final String courseCode;
+        @Schema(description = "과목명. 기이수면 성적표(이수 당시) 이름")
         private final String courseName;
+        @Schema(description = "동일과목 학수번호(자기 자신 포함)")
+        private final List<String> equivalentCourseCodes;
+        @Schema(description = "동일과목 과목명(개편 전후 표기)")
+        private final List<String> equivalentCourseNames;
         @Schema(description = "표시 이수구분. 교양필수|기초필수|전공필수|전공선택 등", example = "기초필수")
         private final String category;
         @Schema(description = "GENERAL|BSM|MAJOR|OTHER. 기초필수→BSM, 교양필수→GENERAL")

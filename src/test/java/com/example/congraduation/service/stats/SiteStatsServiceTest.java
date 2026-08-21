@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -46,12 +45,12 @@ class SiteStatsServiceTest {
     }
 
     @Test
-    void summaryUsesSeoulCalendarBounds() {
+    void summaryUsesLoggedInVisitorsOnly() {
         LocalDate today = LocalDate.of(2026, 8, 5);
         LocalDate monthStart = LocalDate.of(2026, 8, 1);
-        when(siteVisitRepository.countByVisitDate(today)).thenReturn(12L);
-        when(siteVisitRepository.countDistinctVisitorKeyBetween(monthStart, today)).thenReturn(80L);
-        when(siteVisitRepository.countDistinctVisitorKey()).thenReturn(400L);
+        when(siteVisitRepository.countLoggedInByVisitDate(today)).thenReturn(12L);
+        when(siteVisitRepository.countDistinctLoggedInVisitorKeyBetween(monthStart, today)).thenReturn(80L);
+        when(siteVisitRepository.countDistinctLoggedInVisitorKey()).thenReturn(400L);
         when(transcriptUploadRepository.countDistinctStudents()).thenReturn(250L);
 
         SiteStatsResponseDto summary = service.getSummary();
@@ -66,8 +65,8 @@ class SiteStatsServiceTest {
     }
 
     @Test
-    void recordVisitCreatesOncePerDay() {
-        when(siteVisitRepository.findByVisitorKeyAndVisitDate("anon:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", LocalDate.of(2026, 8, 5)))
+    void recordVisitCreatesOncePerDayForLoggedInStudent() {
+        when(siteVisitRepository.findByVisitorKeyAndVisitDate("student:12", LocalDate.of(2026, 8, 5)))
                 .thenReturn(Optional.empty());
         when(siteVisitRepository.save(any(SiteVisit.class))).thenAnswer(invocation -> {
             SiteVisit visit = invocation.getArgument(0);
@@ -75,23 +74,32 @@ class SiteStatsServiceTest {
             return visit;
         });
 
-        RecordVisitResponseDto first = service.recordVisit("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", null);
+        RecordVisitResponseDto first = service.recordVisit(null, 12L);
         assertThat(first.newlyCountedToday()).isTrue();
-        assertThat(first.visitorKey()).isEqualTo("anon:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
+        assertThat(first.visitorKey()).isEqualTo("student:12");
 
         SiteVisit existing = SiteVisit.create(
-                "anon:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-                null,
+                "student:12",
+                12L,
                 LocalDate.of(2026, 8, 5),
                 LocalDate.of(2026, 8, 5).atTime(9, 0)
         );
         setId(existing, 9L);
-        when(siteVisitRepository.findByVisitorKeyAndVisitDate("anon:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", LocalDate.of(2026, 8, 5)))
+        when(siteVisitRepository.findByVisitorKeyAndVisitDate("student:12", LocalDate.of(2026, 8, 5)))
                 .thenReturn(Optional.of(existing));
 
-        RecordVisitResponseDto second = service.recordVisit("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", null);
+        RecordVisitResponseDto second = service.recordVisit(null, 12L);
         assertThat(second.newlyCountedToday()).isFalse();
         verify(siteVisitRepository).save(any(SiteVisit.class));
+    }
+
+    @Test
+    void skipsAnonymousVisitWithoutStudentId() {
+        RecordVisitResponseDto result = service.recordVisit("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", null);
+
+        assertThat(result.visitorKey()).isEmpty();
+        assertThat(result.newlyCountedToday()).isFalse();
+        verify(siteVisitRepository, never()).save(any());
     }
 
     @Test
@@ -106,14 +114,6 @@ class SiteStatsServiceTest {
         ArgumentCaptor<SiteVisit> captor = ArgumentCaptor.forClass(SiteVisit.class);
         verify(siteVisitRepository).save(captor.capture());
         assertThat(captor.getValue().getStudentId()).isEqualTo(12L);
-    }
-
-    @Test
-    void rejectsBlankVisitIdentity() {
-        assertThatThrownBy(() -> service.recordVisit("  ", null))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("visitorKey");
-        verify(siteVisitRepository, never()).save(any());
     }
 
     private static void setId(Object target, long id) {

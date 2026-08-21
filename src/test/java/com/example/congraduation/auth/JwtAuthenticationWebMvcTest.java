@@ -61,8 +61,13 @@ class JwtAuthenticationWebMvcTest {
     @TestConfiguration
     static class JwtTestConfig {
         @Bean
-        JwtService jwtService() {
-            return new JwtService("test-jwt-secret-key-with-at-least-32-chars", 3600);
+        JwtRevocationStore jwtRevocationStore() {
+            return new InMemoryJwtRevocationStore();
+        }
+
+        @Bean
+        JwtService jwtService(JwtRevocationStore jwtRevocationStore) {
+            return new JwtService("test-jwt-secret-key-with-at-least-32-chars", 3600, jwtRevocationStore);
         }
     }
 
@@ -259,6 +264,41 @@ class JwtAuthenticationWebMvcTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.count").value(0));
+    }
+
+    @Test
+    void rejectsLogoutWithoutToken() throws Exception {
+        mockMvc.perform(post("/api/auth/logout"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHORIZED"));
+    }
+
+    @Test
+    void logoutInvalidatesCurrentToken() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(post("/api/auth/logout")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/auth/me")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHORIZED"))
+                .andExpect(jsonPath("$.message").value("로그아웃된 JWT 토큰입니다."));
+    }
+
+    @Test
+    void logoutIsIdempotentForAlreadyRevokedToken() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(post("/api/auth/logout")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(post("/api/auth/logout")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
     }
 
     private static Student student(Long id, String studentNo, boolean admin) {

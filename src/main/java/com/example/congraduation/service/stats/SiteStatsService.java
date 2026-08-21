@@ -53,9 +53,9 @@ public class SiteStatsService {
         LocalDate today = LocalDate.now(clock);
         LocalDate monthStart = YearMonth.from(today).atDay(1);
         return new SiteStatsResponseDto(
-                siteVisitRepository.countByVisitDate(today),
-                siteVisitRepository.countDistinctVisitorKeyBetween(monthStart, today),
-                siteVisitRepository.countDistinctVisitorKey(),
+                siteVisitRepository.countLoggedInByVisitDate(today),
+                siteVisitRepository.countDistinctLoggedInVisitorKeyBetween(monthStart, today),
+                siteVisitRepository.countDistinctLoggedInVisitorKey(),
                 transcriptUploadRepository.countDistinctStudents(),
                 ZONE.getId(),
                 today.toString(),
@@ -65,6 +65,9 @@ public class SiteStatsService {
 
     @Transactional
     public RecordVisitResponseDto recordVisit(String rawVisitorKey, Long studentId) {
+        if (studentId == null) {
+            return new RecordVisitResponseDto("", false);
+        }
         String visitorKey = resolveVisitorKey(rawVisitorKey, studentId);
         LocalDateTime now = LocalDateTime.now(clock);
         LocalDate today = now.toLocalDate();
