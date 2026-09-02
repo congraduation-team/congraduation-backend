@@ -29,7 +29,7 @@ public class DesignCreditEvaluator {
     ) {
         List<StudentEnrollment> passed = enrollments.stream()
                 .filter(StudentEnrollment::isPassed)
-                .filter(e -> e.getCourseMaster().isDepartmentCourse())
+                .filter(e -> isDepartmentDesignCourse(e, entranceCurriculumByCode))
                 .filter(e -> effectiveDesignCredits(e, entranceCurriculumByCode) > 0)
                 .sorted(Comparator.comparingInt(StudentEnrollment::termKey)
                         .thenComparing(e -> e.getCourseMaster().getCourseCode()))
@@ -114,6 +114,17 @@ public class DesignCreditEvaluator {
                 .sequenceSatisfied(hasBasic && hasElement && hasComprehensive)
                 .courses(details)
                 .build();
+    }
+
+    private boolean isDepartmentDesignCourse(
+            StudentEnrollment e,
+            Map<String, CurriculumCourse> curriculum
+    ) {
+        if (e.getCourseMaster().isDepartmentCourse()) {
+            return true;
+        }
+        CurriculumCourse matched = findCurriculumCourse(e, curriculum);
+        return matched != null && matched.getDesignCredits() > 0;
     }
 
     private OptionalInt findFirstTerm(
@@ -210,6 +221,7 @@ public class DesignCreditEvaluator {
         if (n.contains("공학설계기초")
                 || n.contains("산학프로젝트입문")
                 || n.contains("sw설계기초")
+                || n.contains("창의sw기초설계")
                 || n.equals("기초설계")
                 || (n.contains("설계기초") && !n.contains("요소"))) {
             return DesignLevel.BASIC;
