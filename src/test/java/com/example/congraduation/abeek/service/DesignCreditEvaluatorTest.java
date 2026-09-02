@@ -190,6 +190,69 @@ class DesignCreditEvaluatorTest {
         assertThat(result.isSequenceSatisfied()).isTrue();
     }
 
+    @Test
+    @DisplayName("GENERAL 분류·departmentCourse=false여도 설계학점이 있으면 기초설계로 인정")
+    void generalCategoryWithDesignCreditsCountsAsBasic() {
+        curriculum.clear();
+        curriculum.put(
+                "AIROBOT_SW_BASIC",
+                generalDesignCourse("AIROBOT_SW_BASIC", "창의SW기초설계", DesignLevel.BASIC, 3)
+        );
+        curriculum.put("AIROBOT_EL", course("AIROBOT_EL", "인공지능", DesignLevel.ELEMENT, 1));
+        curriculum.put("AIROBOT_CAP", course("AIROBOT_CAP", "Capstone디자인(산학협력프로젝트)", DesignLevel.COMPREHENSIVE, 6));
+
+        List<StudentEnrollment> enrollments = List.of(
+                generalDesignEnrollment("AIROBOT_SW_BASIC", 3, 2023, 1),
+                enrollment("AIROBOT_EL", 1, 2023, 2),
+                enrollment("AIROBOT_CAP", 6, 2025, 1)
+        );
+
+        DesignEvaluationResult result = evaluator.evaluate(enrollments, curriculum);
+
+        assertThat(result.isHasBasicDesign()).isTrue();
+        assertThat(result.getRecognizedDesignCredits()).isEqualTo(10);
+        assertThat(result.getCourses()).anyMatch(c ->
+                c.getCourseCode().equals("AIROBOT_SW_BASIC") && c.isRecognized()
+                        && c.getDesignLevel() == DesignLevel.BASIC);
+    }
+
+    @Test
+    @DisplayName("창의SW기초설계 과목명만으로 기초설계 단계 인식")
+    void creativeSwBasicDesignNameInference() {
+        assertThat(evaluator.inferDesignLevelFromName("창의SW기초설계")).isEqualTo(DesignLevel.BASIC);
+    }
+
+    private CurriculumCourse generalDesignCourse(String code, String name, DesignLevel level, double design) {
+        CourseMaster master = CourseMaster.builder()
+                .courseCode(code)
+                .name(name)
+                .category(CourseCategory.GENERAL)
+                .equivalenceGroup(code)
+                .electiveArea(ElectiveArea.NONE)
+                .departmentCourse(false)
+                .build();
+        return CurriculumCourse.builder()
+                .curriculumYear(2022)
+                .courseMaster(master)
+                .credits(3)
+                .designCredits(design)
+                .designLevel(level)
+                .role(CourseRole.REQUIRED)
+                .build();
+    }
+
+    private StudentEnrollment generalDesignEnrollment(String code, double design, int year, int semester) {
+        CurriculumCourse cc = curriculum.get(code);
+        return StudentEnrollment.builder()
+                .courseMaster(cc.getCourseMaster())
+                .credits(cc.getCredits())
+                .designCredits(design)
+                .takenYear(year)
+                .takenSemester(semester)
+                .passed(true)
+                .build();
+    }
+
     private CurriculumCourse course(String code, String name, DesignLevel level, double design) {
         CourseMaster master = CourseMaster.builder()
                 .courseCode(code)
