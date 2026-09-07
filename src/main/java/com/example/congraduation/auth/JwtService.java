@@ -25,7 +25,7 @@ public class JwtService {
     private final JwtRevocationStore jwtRevocationStore;
 
     public JwtService(
-            @Value("${app.jwt.secret:change-this-jwt-secret-for-production-minimum-32-bytes}") String secret,
+            @Value("${app.jwt.secret:local-dev-only-change-me-to-a-long-random-secret}") String secret,
             @Value("${app.jwt.expiration-seconds:43200}") long expirationSeconds,
             JwtRevocationStore jwtRevocationStore
     ) {

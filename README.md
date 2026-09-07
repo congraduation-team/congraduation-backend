@@ -109,22 +109,29 @@
 - JDK 21
 - Docker (MySQL)
 
-### 1) DB 실행
+### 1) 환경변수 (선택)
+```bash
+cp .env.example .env
+# 운영/공유 환경에서는 APP_JWT_SECRET, DB_PASSWORD 등을 반드시 교체하세요.
+```
+
+### 2) DB 실행
 ```bash
 docker compose up -d
 ```
 
-### 2) 애플리케이션 실행
+### 3) 애플리케이션 실행
 ```bash
 ./gradlew bootRun
 ```
 
-### 3) 확인
+### 4) 확인
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - API Docs: `http://localhost:8080/api-docs`
 
-> 로컬 DB 기본값은 `docker-compose.yml` / `application.properties`를 참고하세요.  
-> 운영 JWT·GitHub 토큰 등은 환경변수로 주입합니다.
+> 로컬 기본값은 `.env.example` / `docker-compose.yml`을 참고하세요.  
+> Spring Boot는 OS 환경변수 또는 IDE env로 `DB_*`, `APP_JWT_SECRET` 등을 주입받습니다.  
+> 운영에서는 `APP_JWT_SECRET`, DB 비밀번호, (사용 시) `TIMETABLE_GITHUB_TOKEN`을 반드시 설정하세요.
 
 ### Test
 ```bash
@@ -190,7 +197,14 @@ src/main/java/com/example/congraduation
 
 ---
 
+## Privacy / Security notes
+
+- 세종 포털 **비밀번호는 DB에 저장하지 않습니다.** 로그인 요청 시 신원 확인·프로필/인증 조회에만 사용한 뒤 세션 쿠키를 폐기합니다.
+- 졸업 계산을 위해 학번·이름·학과·기이수 과목(성적 포함)·인증 정보 등은 서비스 DB에 저장됩니다.
+- 레포에는 실제 학생 성적·계정 덤프를 포함하지 않습니다. 시크릿은 `.env`로 관리하고 `.env.example`만 커밋합니다.
+- 운영 환경에서는 반드시 `APP_JWT_SECRET`, DB 비밀번호, (사용 시) `TIMETABLE_GITHUB_TOKEN`을 환경변수로 설정하세요.
+
 ## License
 
-Private / team project.  
-포트폴리오 열람용으로 공개하는 경우에도, 실제 학생 성적·계정 정보는 포함하지 않습니다.
+Team project.  
+포트폴리오/코드 리뷰용으로 공개할 수 있으며, 실제 학생 성적·계정 정보는 포함하지 않습니다.
