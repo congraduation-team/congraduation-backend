@@ -48,6 +48,14 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/transcripts/status/*",
                         "/api/transcripts/upload/*",
                         "/api/transcripts/*/major-credits",
+                        "/api/roadmap",
+                        "/api/roadmap/by-student",
+                        "/api/abeek/full-roadmap",
+                        "/api/abeek/full-roadmap/by-student",
+                        "/api/abeek/evaluate-from-stored-transcript",
+                        "/api/abeek/evaluate-from-transcript",
+                        "/api/abeek/students",
+                        "/api/abeek/students/**",
                         "/api/admin/**"
                 );
     }

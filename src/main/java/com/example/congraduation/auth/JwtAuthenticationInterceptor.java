@@ -20,10 +20,28 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (allowsAnonymous(request)) {
+            return true;
+        }
+
         AuthenticatedStudent authenticatedStudent = authenticate(request);
         authorize(request, authenticatedStudent);
         request.setAttribute(AuthRequestAttributes.AUTHENTICATED_STUDENT, authenticatedStudent);
         return true;
+    }
+
+    /**
+     * 학과 공용 로드맵처럼 개인 이수 정보가 붙지 않는 조회는 비로그인 허용.
+     */
+    private boolean allowsAnonymous(HttpServletRequest request) {
+        String path = normalizePath(request);
+        if ("/api/roadmap".equals(path) && isBlank(request.getParameter("studentDbId"))) {
+            return true;
+        }
+        if ("/api/abeek/full-roadmap".equals(path) && isBlank(request.getParameter("studentId"))) {
+            return true;
+        }
+        return false;
     }
 
     private AuthenticatedStudent authenticate(HttpServletRequest request) {
@@ -41,7 +59,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     }
 
     private void authorize(HttpServletRequest request, AuthenticatedStudent authenticatedStudent) {
-        String requestUri = request.getRequestURI();
+        String requestUri = normalizePath(request);
         if (requestUri.startsWith("/api/admin/") || "/api/admin".equals(requestUri)) {
             if (!authenticatedStudent.admin()) {
                 throw new JwtAuthorizationException("관리자 권한이 없습니다.");
@@ -52,26 +70,69 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
         Map<String, String> pathVariables = (Map<String, String>) request.getAttribute(
                 HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE
         );
-        if (pathVariables == null) {
-            return;
+
+        validateStudentDbId(request.getParameter("studentDbId"), authenticatedStudent);
+        validateStudentNo(request.getParameter("studentNo"), authenticatedStudent);
+
+        if (pathVariables != null) {
+            validateStudentDbId(pathVariables.get("studentDbId"), authenticatedStudent);
+
+            String pathStudentId = pathVariables.get("studentId");
+            if (requestUri.startsWith("/api/abeek/students")) {
+                // ABEEK path {studentId} = 학번(studentNo)
+                validateStudentNo(pathStudentId, authenticatedStudent);
+            } else {
+                // /api/students/{studentId}, transcripts 등 = DB PK
+                validateStudentDbId(pathStudentId, authenticatedStudent);
+            }
         }
 
-        validateStudentPathVariable(pathVariables.get("studentId"), authenticatedStudent);
-        validateStudentPathVariable(pathVariables.get("studentDbId"), authenticatedStudent);
+        // ABEEK query studentId 는 학번
+        if (requestUri.startsWith("/api/abeek/") && !isBlank(request.getParameter("studentId"))) {
+            validateStudentNo(request.getParameter("studentId"), authenticatedStudent);
+        }
     }
 
-    private void validateStudentPathVariable(String pathStudentId, AuthenticatedStudent authenticatedStudent) {
-        if (pathStudentId == null || pathStudentId.isBlank()) {
+    private void validateStudentDbId(String rawStudentDbId, AuthenticatedStudent authenticatedStudent) {
+        if (isBlank(rawStudentDbId)) {
             return;
         }
         long requestedStudentId;
         try {
-            requestedStudentId = Long.parseLong(pathStudentId);
+            requestedStudentId = Long.parseLong(rawStudentDbId.trim());
         } catch (NumberFormatException e) {
             throw new JwtAuthorizationException("학생 식별자가 올바르지 않습니다.");
         }
         if (requestedStudentId != authenticatedStudent.studentId()) {
             throw new JwtAuthorizationException("다른 학생의 데이터에 접근할 수 없습니다.");
         }
+    }
+
+    private void validateStudentNo(String rawStudentNo, AuthenticatedStudent authenticatedStudent) {
+        if (isBlank(rawStudentNo)) {
+            return;
+        }
+        String requested = rawStudentNo.trim();
+        String authenticatedNo = authenticatedStudent.studentNo() == null
+                ? ""
+                : authenticatedStudent.studentNo().trim();
+        if (!requested.equals(authenticatedNo)) {
+            throw new JwtAuthorizationException("다른 학생의 데이터에 접근할 수 없습니다.");
+        }
+    }
+
+    private String normalizePath(HttpServletRequest request) {
+        String path = request.getServletPath();
+        if (path == null || path.isBlank()) {
+            path = request.getRequestURI();
+        }
+        if (path != null && path.length() > 1 && path.endsWith("/")) {
+            return path.substring(0, path.length() - 1);
+        }
+        return path == null ? "" : path;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.isBlank();
     }
 }

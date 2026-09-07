@@ -1,6 +1,10 @@
 package com.example.congraduation.abeek;
 
 import com.example.congraduation.CongraduationApplication;
+import com.example.congraduation.auth.JwtService;
+import com.example.congraduation.domain.MajorType;
+import com.example.congraduation.domain.Student;
+import java.lang.reflect.Field;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,9 @@ class AbeekIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private JwtService jwtService;
+
     @Test
     @DisplayName("유효 요건 API: 2021 입학 + 2026 졸업ABEEK → 설계 10")
     void effectiveRequirement() throws Exception {
@@ -38,6 +45,7 @@ class AbeekIntegrationTest {
     @Test
     @DisplayName("2026 신설 SW-AI종합설계는 2021 입학자에게 면제")
     void swAiWaivedFor2021Entrant() throws Exception {
+        String token = jwtService.issueToken(student(1L, "21012345")).accessToken();
         String body = """
                 {
                   "studentId": "21012345",
@@ -53,11 +61,13 @@ class AbeekIntegrationTest {
                 """;
 
         mockMvc.perform(post("/api/abeek/students")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/api/abeek/students/21012345/abeek-evaluation"))
+        mockMvc.perform(get("/api/abeek/students/21012345/abeek-evaluation")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.design.requiredCredits").value(10))
                 .andExpect(jsonPath("$.design.earnedCredits").value(10))
@@ -71,5 +81,27 @@ class AbeekIntegrationTest {
         mockMvc.perform(get("/api/curriculum/2026/courses"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[?(@.courseCode=='MAJ_SW_AI')].newlyIntroducedRequired", hasItem(true)));
+    }
+
+    private static Student student(Long id, String studentNo) {
+        Student student = Student.create(
+                studentNo,
+                "홍길동",
+                "컴퓨터공학과",
+                MajorType.SINGLE,
+                null,
+                4,
+                2021,
+                "ACTIVE",
+                false
+        );
+        try {
+            Field field = Student.class.getDeclaredField("id");
+            field.setAccessible(true);
+            field.set(student, id);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
+        return student;
     }
 }
