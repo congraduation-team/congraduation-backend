@@ -903,7 +903,7 @@ class GraduationProgressServiceTest {
 
         Student student = Student.create(
                 "21000001",
-                "송대현",
+                "테스트학생",
                 "컴퓨터공학과",
                 MajorType.SINGLE,
                 null,

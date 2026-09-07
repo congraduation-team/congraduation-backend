@@ -36,6 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
+### Secrets / local env ###
+.env
+.env.*
+!.env.example
+
 ### Runtime timetable overrides (admin upload) ###
 /data/timetable-data/
 

@@ -5,10 +5,10 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: congraduation
-      MYSQL_USER: congraduation_user
-      MYSQL_PASSWORD: congraduation_password
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-congraduation}
+      MYSQL_USER: ${MYSQL_USER:-congraduation_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-congraduation_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
       TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4
