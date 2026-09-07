@@ -1,5 +1,6 @@
 package com.example.congraduation.abeek.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,9 @@ import com.example.congraduation.abeek.dto.AddEnrollmentRequest;
 import com.example.congraduation.abeek.dto.CreateStudentRequest;
 import com.example.congraduation.abeek.service.AbeekEvaluationService;
 import com.example.congraduation.abeek.service.AbeekStudentService;
+import com.example.congraduation.auth.AuthenticatedStudent;
+import com.example.congraduation.auth.AuthenticatedStudentResolver;
+import com.example.congraduation.auth.JwtAuthorizationException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,17 +28,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Tag(
         name = "ABEEK Students",
-        description = "ABEEK 학생/수강/판정 API. path의 {studentId}는 학번(studentNo)이며 앱 DB PK가 아닙니다."
+        description = "ABEEK 학생/수강/판정 API. path의 {studentId}는 학번(studentNo)이며 앱 DB PK가 아닙니다. JWT 필수."
 )
 public class AbeekStudentController {
 
     private final AbeekStudentService studentService;
     private final AbeekEvaluationService evaluationService;
+    private final AuthenticatedStudentResolver authenticatedStudentResolver;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "ABEEK 학생 생성", description = "request.studentId는 학번(studentNo)입니다.")
-    public Map<String, Object> create(@Valid @RequestBody CreateStudentRequest request) {
+    @Operation(summary = "ABEEK 학생 생성", description = "request.studentId는 학번(studentNo)이며 JWT 학번과 일치해야 합니다.")
+    public Map<String, Object> create(
+            @Valid @RequestBody CreateStudentRequest request,
+            HttpServletRequest httpServletRequest
+    ) {
+        AuthenticatedStudent authenticatedStudent = authenticatedStudentResolver.require(httpServletRequest);
+        if (!authenticatedStudent.admin()
+                && !authenticatedStudent.studentNo().equals(request.getStudentId())) {
+            throw new JwtAuthorizationException("다른 학생의 데이터에 접근할 수 없습니다.");
+        }
         AbeekStudent student = studentService.create(request);
         return toSummary(student);
     }
