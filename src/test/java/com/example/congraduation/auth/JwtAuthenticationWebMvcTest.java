@@ -6,6 +6,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.congraduation.abeek.controller.AbeekStudentController;
+import com.example.congraduation.abeek.controller.AbeekTranscriptController;
+import com.example.congraduation.abeek.controller.FullRoadmapController;
+import com.example.congraduation.abeek.service.AbeekEvaluationService;
+import com.example.congraduation.abeek.service.AbeekStudentService;
+import com.example.congraduation.abeek.service.AbeekTranscriptEvaluationService;
+import com.example.congraduation.abeek.service.FullRoadmapService;
 import com.example.congraduation.controller.FeedbackController;
 import com.example.congraduation.controller.PlannableCourseCatalogController;
 import com.example.congraduation.config.WebConfig;
@@ -19,6 +26,9 @@ import com.example.congraduation.domain.feedback.FeedbackType;
 import com.example.congraduation.dto.feedback.FeedbackResponseDto;
 import com.example.congraduation.dto.plan.PlannableCourseCatalogResponseDto;
 import com.example.congraduation.exception.GlobalExceptionHandler;
+import com.example.congraduation.roadmap.controller.StudentRoadmapController;
+import com.example.congraduation.roadmap.dto.StudentRoadmapResponse;
+import com.example.congraduation.roadmap.service.StudentRoadmapService;
 import com.example.congraduation.service.feedback.FeedbackService;
 import com.example.congraduation.service.plan.PlannableCourseCatalogService;
 import com.example.congraduation.service.sejong.SejongStudentLoginService;
@@ -42,7 +52,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
         AuthController.class,
         AdminFeedbackController.class,
         FeedbackController.class,
-        PlannableCourseCatalogController.class
+        PlannableCourseCatalogController.class,
+        StudentRoadmapController.class,
+        AbeekStudentController.class,
+        AbeekTranscriptController.class,
+        FullRoadmapController.class
 })
 @Import({
         WebConfig.class,
@@ -91,6 +105,21 @@ class JwtAuthenticationWebMvcTest {
 
     @MockBean
     private SejongStudentLoginService sejongStudentLoginService;
+
+    @MockBean
+    private StudentRoadmapService studentRoadmapService;
+
+    @MockBean
+    private AbeekStudentService abeekStudentService;
+
+    @MockBean
+    private AbeekEvaluationService abeekEvaluationService;
+
+    @MockBean
+    private AbeekTranscriptEvaluationService abeekTranscriptEvaluationService;
+
+    @MockBean
+    private FullRoadmapService fullRoadmapService;
 
     private Student student;
     private Student otherStudent;
@@ -141,6 +170,10 @@ class JwtAuthenticationWebMvcTest {
                 .thenReturn(new PlannableCourseCatalogResponseDto(0, List.of()));
         when(plannableCourseCatalogService.getCatalog(1L, null, null, null, null, null, null))
                 .thenReturn(new PlannableCourseCatalogResponseDto(0, List.of()));
+        when(studentRoadmapService.getByStudent(1L))
+                .thenReturn(StudentRoadmapResponse.builder().studentDbId(1L).studentNo("21012345").build());
+        when(studentRoadmapService.getByDepartment("컴퓨터공학과", null))
+                .thenReturn(StudentRoadmapResponse.builder().departmentName("컴퓨터공학과").build());
     }
 
     @Test
@@ -299,6 +332,70 @@ class JwtAuthenticationWebMvcTest {
         mockMvc.perform(post("/api/auth/logout")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void rejectsRoadmapByStudentWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/roadmap/by-student").param("studentDbId", "1"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHORIZED"));
+    }
+
+    @Test
+    void rejectsRoadmapByStudentForOtherStudent() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(get("/api/roadmap/by-student")
+                        .param("studentDbId", "2")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("FORBIDDEN"));
+    }
+
+    @Test
+    void allowsRoadmapByStudentForOwnStudent() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(get("/api/roadmap/by-student")
+                        .param("studentDbId", "1")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.studentDbId").value(1L));
+    }
+
+    @Test
+    void allowsPublicDepartmentRoadmapWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/roadmap").param("departmentName", "컴퓨터공학과"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.departmentName").value("컴퓨터공학과"));
+    }
+
+    @Test
+    void rejectsAbeekEvaluationWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/abeek/students/21012345/abeek-evaluation"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHORIZED"));
+    }
+
+    @Test
+    void rejectsAbeekEvaluationForOtherStudentNo() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(get("/api/abeek/students/21012346/abeek-evaluation")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("FORBIDDEN"));
+    }
+
+    @Test
+    void rejectsStoredTranscriptAbeekForOtherStudent() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(post("/api/abeek/evaluate-from-stored-transcript")
+                        .param("studentDbId", "2")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("FORBIDDEN"));
     }
 
     private static Student student(Long id, String studentNo, boolean admin) {
