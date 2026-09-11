@@ -1,5 +1,6 @@
 package com.example.congraduation.abeek.config;
 
+import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * ddl-auto=update 는 기존 VARCHAR(255) note 컬럼을 TEXT로 넓히지 않으므로
  * 데이터 로더 실행 전에 MySQL 컬럼 타입을 보정한다.
+ * H2 통합 테스트에서는 스키마를 Hibernate가 새로 만들므로 이 마이그레이션을 건너뛴다.
  */
 @Slf4j
 @Component
@@ -18,9 +20,15 @@ import org.springframework.stereotype.Component;
 public class AbeekSchemaMigrator implements CommandLineRunner {
 
     private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     @Override
     public void run(String... args) {
+        if (!isMysql()) {
+            log.debug("Skip ABEEK schema migration: not MySQL");
+            return;
+        }
+
         try {
             jdbcTemplate.execute("ALTER TABLE abeek_year_requirement MODIFY COLUMN note TEXT NULL");
             log.info("Ensured abeek_year_requirement.note is TEXT");
@@ -68,6 +76,16 @@ public class AbeekSchemaMigrator implements CommandLineRunner {
             }
         } catch (Exception ex) {
             log.debug("Skip common_major_prerequisite_names migration: {}", ex.getMessage());
+        }
+    }
+
+    private boolean isMysql() {
+        try (var connection = dataSource.getConnection()) {
+            String product = connection.getMetaData().getDatabaseProductName();
+            return product != null && product.toLowerCase().contains("mysql");
+        } catch (Exception ex) {
+            log.debug("Could not detect database product: {}", ex.getMessage());
+            return false;
         }
     }
 }
