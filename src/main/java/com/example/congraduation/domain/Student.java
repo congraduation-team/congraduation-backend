@@ -52,16 +52,16 @@ public class Student {
     @Column(length = 20)
     private String status;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    @Column(nullable = false)
     private boolean admin;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    @Column(nullable = false)
     private boolean englishCertificationSubmitted;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    @Column(nullable = false)
     private boolean englishCertificationCertified;
 
     @Column(length = 50)
@@ -79,7 +79,7 @@ public class Student {
     @Column
     private LocalDateTime englishCertificationCrawledAt;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0")
+    @Column(nullable = false)
     private boolean classicReadingCertified;
 
     @Column

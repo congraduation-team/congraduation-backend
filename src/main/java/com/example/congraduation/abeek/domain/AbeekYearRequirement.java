@@ -69,7 +69,7 @@ public class AbeekYearRequirement {
      * MySQL 기존 VARCHAR(255)로는 부족하므로 TEXT로 매핑한다.
      */
     @JdbcTypeCode(SqlTypes.LONGVARCHAR)
-    @Column(columnDefinition = "TEXT")
+    @Column
     private String note;
 
     /**
@@ -78,6 +78,6 @@ public class AbeekYearRequirement {
      * 검수된 abeek-data JSON의 commonMajorPrerequisiteCourseNames 에서 적재한다.
      */
     @JdbcTypeCode(SqlTypes.LONGVARCHAR)
-    @Column(name = "common_major_prerequisite_names", columnDefinition = "TEXT")
+    @Column(name = "common_major_prerequisite_names")
     private String commonMajorPrerequisiteNames;
 }
