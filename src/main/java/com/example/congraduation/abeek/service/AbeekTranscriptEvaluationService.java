@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -126,8 +127,9 @@ public class AbeekTranscriptEvaluationService {
 
         // 타 학과 OCR 마스터와 과목명이 겹치면 putIfAbsent로 잘못 매칭되므로
         // 소속 학과 커리큘럼(및 CSE GEN/BSM/MAJ 시드)만 인덱싱한다.
+        CurriculumYearCache curriculum = new CurriculumYearCache(department.abeekCode());
         Map<String, CourseMaster> mastersByNormalizedName = buildDepartmentMasterIndex(
-                department.abeekCode(), entranceYear, graduationAbeekYear);
+                curriculum, entranceYear, graduationAbeekYear);
         List<MatchedCourseDto> matches = new ArrayList<>();
         List<UnmatchedCourseDto> unmatched = new ArrayList<>();
         List<StudentEnrollment> enrollments = new ArrayList<>();
@@ -152,7 +154,7 @@ public class AbeekTranscriptEvaluationService {
             int credits = parseCredits(row.credit());
             boolean passed = isPassed(row.grade());
             double designCredits = resolveDesignCredits(
-                    department.abeekCode(),
+                    curriculum,
                     master.getCourseCode(),
                     takenYear,
                     entranceYear,
@@ -458,25 +460,13 @@ public class AbeekTranscriptEvaluationService {
      * 전역 CourseMaster(타 학과 OCR)는 제외해 동명 과목 오매칭을 막는다.
      */
     private Map<String, CourseMaster> buildDepartmentMasterIndex(
-            String departmentCode,
+            CurriculumYearCache curriculum,
             int entranceYear,
             int graduationAbeekYear
     ) {
         Map<String, CourseMaster> index = new LinkedHashMap<>();
-        List<Integer> years = new ArrayList<>();
-        years.add(entranceYear);
-        if (graduationAbeekYear != entranceYear) {
-            years.add(graduationAbeekYear);
-        }
-        for (int y = 2020; y <= 2026; y++) {
-            if (!years.contains(y)) {
-                years.add(y);
-            }
-        }
-
-        for (int year : years) {
-            for (CurriculumCourse cc : curriculumCourseRepository
-                    .findAllWithMasterByDepartmentCodeAndYear(departmentCode, year)) {
+        for (int year : candidateYears(entranceYear, graduationAbeekYear)) {
+            for (CurriculumCourse cc : curriculum.coursesOf(year)) {
                 putMasterAliases(index, cc.getCourseMaster());
             }
         }
@@ -745,30 +735,69 @@ public class AbeekTranscriptEvaluationService {
     }
 
     private double resolveDesignCredits(
-            String departmentCode,
+            CurriculumYearCache curriculum,
             String courseCode,
             int takenYear,
             int entranceYear,
             int graduationAbeekYear
     ) {
+        for (int year : candidateYears(takenYear, entranceYear, graduationAbeekYear)) {
+            Double designCredits = curriculum.designCreditsOf(year, courseCode);
+            if (designCredits != null) {
+                return designCredits;
+            }
+        }
+        return 0.0;
+    }
+
+    /** 커리큘럼을 찾을 때 살펴볼 연도 순서. 앞쪽이 우선이다. */
+    private List<Integer> candidateYears(Integer... preferredYears) {
         List<Integer> years = new ArrayList<>();
-        years.add(takenYear);
-        years.add(entranceYear);
-        years.add(graduationAbeekYear);
+        for (Integer year : preferredYears) {
+            if (year != null && !years.contains(year)) {
+                years.add(year);
+            }
+        }
         for (int y = 2020; y <= 2026; y++) {
             if (!years.contains(y)) {
                 years.add(y);
             }
         }
-        for (int year : years) {
-            Optional<CurriculumCourse> course = curriculumCourseRepository
-                    .findByCurriculumYearAndDepartmentCodeAndCourseMaster_CourseCode(
-                            year, departmentCode, courseCode);
-            if (course.isPresent()) {
-                return course.get().getDesignCredits();
-            }
+        return years;
+    }
+
+    /**
+     * 한 번의 평가에서 같은 학과·연도 커리큘럼을 다시 읽지 않는다.
+     * 성적표 과목 수에 비례해 커리큘럼 조회가 늘어나는 것을 막는다.
+     */
+    private final class CurriculumYearCache {
+
+        private final String departmentCode;
+        private final Map<Integer, List<CurriculumCourse>> coursesByYear = new HashMap<>();
+        private final Map<Integer, Map<String, Double>> designCreditsByYear = new HashMap<>();
+
+        private CurriculumYearCache(String departmentCode) {
+            this.departmentCode = departmentCode;
         }
-        return 0.0;
+
+        private List<CurriculumCourse> coursesOf(int year) {
+            return coursesByYear.computeIfAbsent(year, y ->
+                    curriculumCourseRepository.findAllWithMasterByDepartmentCodeAndYear(departmentCode, y));
+        }
+
+        /** 해당 연도 커리큘럼에 과목이 없으면 null. */
+        private Double designCreditsOf(int year, String courseCode) {
+            return designCreditsByYear.computeIfAbsent(year, y -> {
+                Map<String, Double> byCourseCode = new HashMap<>();
+                for (CurriculumCourse course : coursesOf(y)) {
+                    CourseMaster master = course.getCourseMaster();
+                    if (master != null && master.getCourseCode() != null) {
+                        byCourseCode.putIfAbsent(master.getCourseCode(), course.getDesignCredits());
+                    }
+                }
+                return byCourseCode;
+            }).get(courseCode);
+        }
     }
 
     private int parseSemester(String semester) {
