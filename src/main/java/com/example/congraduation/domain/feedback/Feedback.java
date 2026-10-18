@@ -14,10 +14,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "feedbacks")
 public class Feedback {
+
+    private static final ZoneId KST = ZoneId.of("Asia/Seoul");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,7 +107,7 @@ public class Feedback {
                 studentNo,
                 studentName,
                 major,
-                LocalDateTime.now()
+                LocalDateTime.now(KST)
         );
     }
 
@@ -115,12 +118,12 @@ public class Feedback {
         if (adminNote != null) {
             this.adminNote = adminNote.isBlank() ? null : adminNote.trim();
         }
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(KST);
     }
 
     @PreUpdate
     void touchUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(KST);
     }
 
     public Long getId() {

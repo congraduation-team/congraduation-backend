@@ -145,6 +145,8 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
             return;
         }
         CourseCategory category = enumValue(CourseCategory.class, text(node, "category"), CourseCategory.MAJOR);
+        double designCredits = node.path("designCredits").asDouble();
+        DesignLevel designLevel = enumValue(DesignLevel.class, text(node, "designLevel"), DesignLevel.NONE);
         String courseCode = courseCode(departmentCode, name);
         CourseMaster master = courseMasterRepository.findByCourseCode(courseCode)
                 .orElseGet(CourseMaster::new);
@@ -153,7 +155,10 @@ public class AbeekJsonDataLoader implements CommandLineRunner {
         master.setCategory(category);
         master.setEquivalenceGroup(courseCode);
         master.setElectiveArea(enumValue(ElectiveArea.class, text(node, "electiveArea"), ElectiveArea.NONE));
-        master.setDepartmentCourse(category != CourseCategory.GENERAL);
+        // 인필·설계 교과가 GENERAL로 분류된 경우(예: AIROBOT 창의SW기초설계)에도 설계 평가 대상에 포함
+        master.setDepartmentCourse(
+                category != CourseCategory.GENERAL || designCredits > 0 || designLevel != DesignLevel.NONE
+        );
         master = courseMasterRepository.save(master);
 
         CurriculumCourse course = curriculumCourseRepository
