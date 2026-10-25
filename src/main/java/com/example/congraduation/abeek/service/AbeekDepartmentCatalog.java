@@ -30,7 +30,14 @@ public class AbeekDepartmentCatalog {
         register("3220", "AI", "인공지능학과", List.of("인공지능학과"));
         register("3230", "DS", "데이터사이언스학과", List.of("데이터사이언스학과", "인공지능데이터사이언스학과"));
         register("3240", "SEC", "정보보호학과", List.of("정보보호학과"));
-        register("3250", "AIROBOT", "지능형로봇학과", List.of("AI로봇학과", "지능형로봇학과", "국방AI로봇융합공학과"));
+        register("3250", "AIROBOT", "지능형로봇학과", List.of(
+                "AI로봇학과",
+                "지능형로봇학과",
+                "국방AI로봇융합공학과",
+                "지능기전공학부",
+                "지능기전공학부 스마트기기공학전공",
+                "스마트기기공학전공"
+        ));
         register("3110", "ARCH", "건축공학과", List.of("건축공학과"));
         register("3120", "CIVIL", "건설환경공학과", List.of("건설환경공학과", "환경융합공학과"));
         register("3130", "ENV", "환경에너지공간융합학과", List.of("환경에너지공간융합학과"));
