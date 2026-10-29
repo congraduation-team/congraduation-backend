@@ -36,6 +36,11 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+// 로컬 실행은 local 프로필(Swagger on, localhost CORS). SPRING_PROFILES_ACTIVE를 주면 그 값을 따른다.
+tasks.named('bootRun') {
+	systemProperty 'spring.profiles.active', System.getenv('SPRING_PROFILES_ACTIVE') ?: 'local'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

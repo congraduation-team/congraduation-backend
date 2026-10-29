@@ -1,6 +1,7 @@
 package com.example.congraduation.service.sejong;
 
 import com.example.congraduation.dto.sejong.SejongLoginRequestDto;
+import com.example.congraduation.logging.LogMasking;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,14 +53,14 @@ public class SejongAuthService {
         Path cookieJarPath = null;
         try {
             cookieJarPath = Files.createTempFile("sejong-cookies-", ".txt");
-            log.info("Created Sejong cookie jar at {}", cookieJarPath);
+            log.debug("Created Sejong cookie jar at {}", cookieJarPath);
 
             sendPortalWarmup(cookieJarPath);
 
             String loginResponse = submitPortalLogin(cookieJarPath, loginRequestDto);
 
             if (!hasSsoToken(cookieJarPath) || !isLoginSuccess(loginResponse)) {
-                throw new IllegalArgumentException("학번 또는 비밀번호가 틀렸습니다.");
+                throw new SejongInvalidCredentialsException();
             }
 
             followSso(cookieJarPath);
@@ -101,10 +102,11 @@ public class SejongAuthService {
         command.add("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         command.add("--header");
         command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
-        command.add("--data-raw");
-        command.add(buildFormData(loginRequestDto));
+        // 비밀번호가 프로세스 인자(ps)로 노출되지 않도록 폼 데이터는 stdin으로 넘긴다.
+        command.add("--data-binary");
+        command.add("@-");
         command.add(PORTAL_LOGIN_URL);
-        return SejongCurlSupport.execute(command, "세종 포털 로그인");
+        return SejongCurlSupport.execute(command, "세종 포털 로그인", buildFormData(loginRequestDto));
     }
 
     private void followSso(Path cookieJarPath) {
@@ -128,7 +130,7 @@ public class SejongAuthService {
             command.add("Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
             command.add(currentUrl);
 
-            log.info("Sejong SSO step {} requesting {}", redirectCount + 1, currentUrl);
+            log.info("Sejong SSO step {} requesting {}", redirectCount + 1, LogMasking.redactUrl(currentUrl));
 
             SejongCurlSupport.CurlExchange exchange = SejongCurlSupport.executeWithHeaders(
                     command,
@@ -140,8 +142,8 @@ public class SejongAuthService {
             log.info(
                     "Sejong SSO step {} location header: {}, resolved next: {}",
                     redirectCount + 1,
-                    exchange.location(),
-                    nextLocation
+                    LogMasking.redactUrl(exchange.location()),
+                    LogMasking.redactUrl(nextLocation)
             );
             if (nextLocation == null || nextLocation.isBlank()) {
                 if (exchange.body() != null && exchange.body().contains("/classic/index.do")) {

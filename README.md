@@ -164,9 +164,13 @@ docker compose up -d
 ./gradlew bootRun
 ```
 
-### 4) 확인
+`bootRun`은 기본으로 `local` 프로필(`application-local.properties`)을 켭니다. 다른 프로필로 띄우려면 `SPRING_PROFILES_ACTIVE`를 지정하세요.
+
+### 4) 확인 (local 프로필)
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - API Docs: `http://localhost:8080/api-docs`
+
+> `application.properties`의 기본값은 **운영 기준**입니다. 프로필 없이 jar를 실행하면 Swagger가 꺼지고, CORS는 실제 프론트 주소(`https://congraduation-frontend.vercel.app`)만 허용합니다.
 
 > 로컬 기본값은 `.env.example` / `docker-compose.yml`을 참고하세요.  
 > Spring Boot는 OS 환경변수 또는 IDE env로 `DB_*`, `APP_JWT_SECRET` 등을 주입받습니다.  
@@ -252,8 +256,21 @@ src/main/java/com/example/congraduation
 ## Privacy / Security notes
 
 - 세종 포털 **비밀번호는 DB에 저장하지 않습니다.** 로그인 요청 시 신원 확인·프로필/인증 조회에만 사용한 뒤 세션 쿠키를 폐기합니다.
+- 포털 로그인용 curl에는 비밀번호를 **명령행 인자가 아닌 표준입력**으로 넘깁니다. 명령행 인자는 `ps`·`/proc/<pid>/cmdline`이나 감사 로그(auditd 등)에 원문이 남을 수 있기 때문입니다.
+- 로그인 API(`POST /api/auth/login`)는 시도 횟수를 제한합니다. 한도를 넘으면 `429 TOO_MANY_LOGIN_ATTEMPTS`와 `Retry-After`를 반환합니다.
+
+  | 규칙 | 기본값 | 환경변수 |
+  |---|---|---|
+  | IP별 전체 요청 | 1분 20회 | `LOGIN_RATE_LIMIT_IP_REQUESTS_MAX` / `_WINDOW` |
+  | IP별 실패 | 15분 20회 | `LOGIN_RATE_LIMIT_IP_FAILURES_MAX` / `_WINDOW` |
+  | 학번별 실패 | 15분 5회 | `LOGIN_RATE_LIMIT_USER_FAILURES_MAX` / `_WINDOW` |
+
+  카운터는 메모리에 있어 서버 재시작 시 초기화되며, 단일 인스턴스 운영을 전제로 합니다. 인스턴스를 늘리면 Redis 등 공유 저장소로 옮겨야 합니다.
+- 로그에는 비밀번호·성적을 남기지 않습니다. 학번은 `2101****`처럼 가리고, SSO 리다이렉트 URL은 쿼리스트링(토큰)을 지워 기록합니다. DB 오류 원문은 서버 로그에만 남기고 클라이언트에는 일반 메시지만 반환합니다.
+- 운영에서는 Swagger를 끄고(`SPRINGDOC_ENABLED` 미설정 또는 `false`), CORS를 실제 프론트 주소로만 제한합니다(`APP_CORS_ALLOWED_ORIGINS`, `*` 사용 불가).
 - 졸업 계산을 위해 학번·이름·학과·기이수 과목(성적 포함)·인증 정보 등은 서비스 DB에 저장됩니다.
 - 학생 API는 JWT의 학번과 요청 대상 학번이 일치할 때만 응답합니다.
+- 인증은 **기본 차단** 방식입니다. `/api/**` 전체에 JWT 인증·본인 확인이 걸리고, 학과·교육과정·시간표 같은 공용 데이터와 로그인만 `WebConfig.PUBLIC_API_PATHS`에 명시해 공개합니다. 새 API는 별도 설정 없이 보호됩니다.
 - 레포에는 실제 학생 성적·계정 덤프를 포함하지 않습니다. 시크릿은 `.env`로 관리하고 `.env.example`만 커밋합니다.
 - 운영 환경에서는 반드시 `APP_JWT_SECRET`, DB 비밀번호, (사용 시) `TIMETABLE_GITHUB_TOKEN`을 환경변수로 설정하세요.
 

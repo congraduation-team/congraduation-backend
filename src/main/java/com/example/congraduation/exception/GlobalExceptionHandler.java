@@ -2,7 +2,11 @@ package com.example.congraduation.exception;
 
 import com.example.congraduation.auth.JwtAuthenticationException;
 import com.example.congraduation.auth.JwtAuthorizationException;
+import com.example.congraduation.auth.LoginRateLimitExceededException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +16,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(TranscriptNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleTranscriptNotFound(TranscriptNotFoundException e) {
@@ -49,6 +55,13 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorResponse("FORBIDDEN", e.getMessage()));
     }
 
+    @ExceptionHandler(LoginRateLimitExceededException.class)
+    public ResponseEntity<ApiErrorResponse> handleLoginRateLimit(LoginRateLimitExceededException e) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .header(HttpHeaders.RETRY_AFTER, Long.toString(e.retryAfterSeconds()))
+                .body(new ApiErrorResponse("TOO_MANY_LOGIN_ATTEMPTS", e.getMessage()));
+    }
+
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<ApiErrorResponse> handleMissingPart(MissingServletRequestPartException e) {
         return ResponseEntity.badRequest()
@@ -70,14 +83,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ApiErrorResponse> handleDataAccess(DataAccessException e) {
-        Throwable root = e;
-        while (root.getCause() != null && root.getCause() != root) {
-            root = root.getCause();
-        }
+        // DB 원문 메시지에는 SQL·컬럼값(학번, 성적 등)이 섞일 수 있어 서버 로그에만 남긴다.
+        log.error("Data access error", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiErrorResponse(
                         "DATA_ACCESS_ERROR",
-                        "[DB] " + (root.getMessage() == null ? e.getMessage() : root.getMessage())
+                        "[DB] 데이터 처리 중 오류가 발생했습니다."
                 ));
     }
 }

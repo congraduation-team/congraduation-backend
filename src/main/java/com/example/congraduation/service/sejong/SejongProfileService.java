@@ -1,6 +1,7 @@
 package com.example.congraduation.service.sejong;
 
 import com.example.congraduation.dto.sejong.SejongProfileResponseDto;
+import com.example.congraduation.logging.LogMasking;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,7 +88,7 @@ public class SejongProfileService {
         log.info(
                 "Sejong profile response status={}, location={}, remainingAttempts={}",
                 exchange.statusCode(),
-                exchange.location(),
+                LogMasking.redactUrl(exchange.location()),
                 remainingAttempts
         );
 
@@ -114,7 +115,8 @@ public class SejongProfileService {
             return requestPageHtml(session, targetUrl, CLASSIC_INDEX_URL, remainingAttempts - 1, description);
         }
 
-        throw new IllegalStateException("예상하지 못한 세종 프로필 리다이렉트가 발생했습니다: " + redirectUrl);
+        throw new IllegalStateException("예상하지 못한 세종 프로필 리다이렉트가 발생했습니다: "
+                + LogMasking.redactUrl(redirectUrl));
     }
 
     private List<String> buildPageCommand(SejongSession session, String targetUrl, String referer) {

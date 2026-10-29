@@ -1,5 +1,7 @@
 package com.example.congraduation.dto.sejong;
 
+import com.example.congraduation.logging.LogMasking;
+
 public class SejongLoginRequestDto {
 
     private String userId;
@@ -27,5 +29,11 @@ public class SejongLoginRequestDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /** 실수로 로그에 찍혀도 비밀번호가 남지 않게 한다. */
+    @Override
+    public String toString() {
+        return "SejongLoginRequestDto{userId=" + LogMasking.maskStudentId(userId) + ", password=[protected]}";
     }
 }
