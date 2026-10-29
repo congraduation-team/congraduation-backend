@@ -42,11 +42,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "세종대학교 로그인", description = "학번과 비밀번호로 로그인한 뒤 학생 기본 정보를 반환합니다.")
+    @Operation(summary = "세종대학교 로그인", description = "학번과 비밀번호로 로그인한 뒤 학생 기본 정보를 반환합니다. "
+            + "짧은 시간에 반복 실패하면 학번·IP 기준으로 429(TOO_MANY_LOGIN_ATTEMPTS)와 Retry-After를 반환합니다.")
     public ResponseEntity<StudentLoginResponseDto> login(
-            @RequestBody SejongLoginRequestDto loginRequestDto
+            @RequestBody SejongLoginRequestDto loginRequestDto,
+            HttpServletRequest request
     ) {
-        SejongStudentLoginResult loginResult = sejongStudentLoginService.login(loginRequestDto);
+        SejongStudentLoginResult loginResult = sejongStudentLoginService.login(
+                loginRequestDto,
+                request.getRemoteAddr()
+        );
         Student student = loginResult.student();
         return ResponseEntity.ok(StudentLoginResponseDto.from(
                 student,

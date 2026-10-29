@@ -1,20 +1,27 @@
 package com.example.congraduation.auth;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.congraduation.abeek.controller.AbeekStudentController;
 import com.example.congraduation.abeek.controller.AbeekTranscriptController;
 import com.example.congraduation.abeek.controller.FullRoadmapController;
+import com.example.congraduation.abeek.controller.OfferedCurriculumController;
 import com.example.congraduation.abeek.service.AbeekEvaluationService;
 import com.example.congraduation.abeek.service.AbeekStudentService;
 import com.example.congraduation.abeek.service.AbeekTranscriptEvaluationService;
 import com.example.congraduation.abeek.service.FullRoadmapService;
+import com.example.congraduation.abeek.service.OfferedCurriculumService;
 import com.example.congraduation.controller.FeedbackController;
 import com.example.congraduation.controller.PlannableCourseCatalogController;
+import com.example.congraduation.controller.PlannedCourseController;
 import com.example.congraduation.config.WebConfig;
 import com.example.congraduation.controller.AdminFeedbackController;
 import com.example.congraduation.controller.AuthController;
@@ -31,6 +38,7 @@ import com.example.congraduation.roadmap.dto.StudentRoadmapResponse;
 import com.example.congraduation.roadmap.service.StudentRoadmapService;
 import com.example.congraduation.service.feedback.FeedbackService;
 import com.example.congraduation.service.plan.PlannableCourseCatalogService;
+import com.example.congraduation.service.plan.PlannedCourseService;
 import com.example.congraduation.service.sejong.SejongStudentLoginService;
 import com.example.congraduation.service.student.MajorCatalogService;
 import com.example.congraduation.service.student.StudentService;
@@ -56,7 +64,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
         StudentRoadmapController.class,
         AbeekStudentController.class,
         AbeekTranscriptController.class,
-        FullRoadmapController.class
+        FullRoadmapController.class,
+        PlannedCourseController.class,
+        OfferedCurriculumController.class
 })
 @Import({
         WebConfig.class,
@@ -120,6 +130,12 @@ class JwtAuthenticationWebMvcTest {
 
     @MockBean
     private FullRoadmapService fullRoadmapService;
+
+    @MockBean
+    private PlannedCourseService plannedCourseService;
+
+    @MockBean
+    private OfferedCurriculumService offeredCurriculumService;
 
     private Student student;
     private Student otherStudent;
@@ -396,6 +412,76 @@ class JwtAuthenticationWebMvcTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.code").value("FORBIDDEN"));
+    }
+
+    @Test
+    void rejectsPlannedCourseExpectedGradeUpdateWithoutToken() throws Exception {
+        mockMvc.perform(patch("/api/students/1/planned-courses/5/expected-grade")
+                        .contentType("application/json")
+                        .content("{\"expectedGrade\":\"A+\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHORIZED"));
+    }
+
+    @Test
+    void rejectsPlannedCourseDeleteWithoutToken() throws Exception {
+        mockMvc.perform(delete("/api/students/1/planned-courses/5"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void rejectsPlannedCourseDeleteForOtherStudent() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(delete("/api/students/2/planned-courses/5")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("FORBIDDEN"));
+    }
+
+    @Test
+    void allowsPlannedCourseDeleteForOwnStudent() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(delete("/api/students/1/planned-courses/5")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void rejectsOfferedCoursesByStudentWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/abeek/offered-courses/by-student").param("studentId", "21012345"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void rejectsOfferedCoursesByStudentForOtherStudentNo() throws Exception {
+        String token = jwtService.issueToken(student).accessToken();
+
+        mockMvc.perform(get("/api/abeek/offered-courses/by-student")
+                        .param("studentId", "21012346")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void allowsPublicReferenceDataWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/abeek/offered-courses")
+                        .param("departmentCode", "CSE")
+                        .param("curriculumYear", "2021"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/students/major-options"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void allowsCorsPreflightToProtectedEndpointWithoutToken() throws Exception {
+        mockMvc.perform(options("/api/students/1/planned-courses/5")
+                        .header("Origin", "http://localhost:3000")
+                        .header("Access-Control-Request-Method", "DELETE")
+                        .header("Access-Control-Request-Headers", "Authorization"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:3000"));
     }
 
     private static Student student(Long id, String studentNo, boolean admin) {

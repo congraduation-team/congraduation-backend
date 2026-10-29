@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -20,7 +21,8 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (allowsAnonymous(request)) {
+        // CORS preflight(OPTIONS)는 브라우저가 토큰 없이 보낸다. 허용 origin 검사는 CORS 설정이 담당한다.
+        if (CorsUtils.isPreFlightRequest(request) || allowsAnonymous(request)) {
             return true;
         }
 

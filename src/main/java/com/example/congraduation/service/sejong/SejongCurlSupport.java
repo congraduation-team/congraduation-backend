@@ -1,6 +1,7 @@
 package com.example.congraduation.service.sejong;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,6 +71,14 @@ final class SejongCurlSupport {
     }
 
     static String execute(List<String> command, String actionDescription) {
+        return execute(command, actionDescription, null);
+    }
+
+    /**
+     * stdinData가 있으면 curl 표준입력으로 넘긴다. 비밀번호 같은 값을 명령행 인자로 넘기면
+     * 같은 호스트의 다른 사용자/프로세스가 {@code ps}로 볼 수 있으므로 반드시 이 경로를 쓴다.
+     */
+    static String execute(List<String> command, String actionDescription, String stdinData) {
         Process process = null;
         Path bodyFilePath = null;
         try {
@@ -83,6 +92,12 @@ final class SejongCurlSupport {
             process = new ProcessBuilder(executableCommand)
                     .redirectErrorStream(true)
                     .start();
+
+            try (OutputStream stdin = process.getOutputStream()) {
+                if (stdinData != null) {
+                    stdin.write(stdinData.getBytes(StandardCharsets.UTF_8));
+                }
+            }
 
             boolean finished = process.waitFor(CURL_TIMEOUT.toSeconds() + 2, TimeUnit.SECONDS);
             if (!finished) {

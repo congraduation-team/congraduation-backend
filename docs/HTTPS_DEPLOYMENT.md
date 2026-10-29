@@ -10,7 +10,10 @@
 
 ## 현재 앱 반영 사항
 
-- `server.forward-headers-strategy=framework`
+- `server.forward-headers-strategy=native`
+  - Tomcat `RemoteIpValve`가 `X-Forwarded-For`를 오른쪽부터 읽고, 신뢰 프록시(사설망 `10.*`·`172.16-31.*`·`192.168.*`, loopback `127.*`/`::1` 등)만 건너뛴 첫 주소를 클라이언트 IP로 씁니다.
+  - 이전 `framework` 방식은 클라이언트가 보낸 맨 왼쪽 값을 그대로 믿어, 헤더 위조로 로그인 시도 제한(IP 기준)을 우회할 수 있었습니다.
+  - 프록시가 공인 IP를 가진 별도 서버라면 그 주소를 `server.tomcat.remoteip.internal-proxies`(정규식)에 추가해야 합니다. 그렇지 않으면 모든 요청이 프록시 IP 하나로 보여 IP 제한이 전체 사용자에게 걸립니다.
 - HTTPS 요청일 때만 `Strict-Transport-Security` 응답 헤더 추가
 - 기본 보안 헤더 추가
   - `X-Content-Type-Options: nosniff`
@@ -92,7 +95,9 @@ curl -i http://127.0.0.1:8081/api/students/major-options
 1. API 도메인에 인증서 발급
 2. `80 -> 443` 리다이렉트
 3. 프론트 API base URL을 `https://...`로 변경
-4. CORS 허용 origin에 프론트 HTTPS 도메인 반영
+4. CORS 허용 origin에 프론트 HTTPS 도메인 반영 (기본값: `https://congraduation-frontend.vercel.app`, 바뀌면 `APP_CORS_ALLOWED_ORIGINS`)
 5. 로그인, `/api/auth/me`, 성적 업로드, 파일 업로드 검증
 6. 브라우저 mixed content 에러 없는지 확인
+7. 운영 env에 `SPRINGDOC_ENABLED=true`나 localhost가 들어간 `APP_CORS_ALLOWED_ORIGINS`가 없는지 확인 (`/swagger-ui.html`이 404여야 함)
+8. 서로 다른 IP에서 접속한 로그가 실제 클라이언트 IP로 찍히는지 확인 (프록시 IP 하나로만 보이면 위 "현재 앱 반영 사항"의 `internal-proxies` 설정 필요)
 
